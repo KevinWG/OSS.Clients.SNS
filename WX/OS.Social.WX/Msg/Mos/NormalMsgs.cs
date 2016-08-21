@@ -2,10 +2,12 @@
 
 namespace OS.Social.WX.Msg.Mos
 {
+    //public class  En
+
     /// <summary>
     /// 文本消息
     /// </summary>
-    public class TextMsg : BaseNormalContext
+    public class TextMsg : BaseRecContext
     {
         protected override void FormatProperties()
         {
@@ -29,7 +31,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 图片消息
     /// </summary>
-    public class ImageMsg : BaseNormalContext
+    public class ImageMsg : BaseRecContext
     {
         protected override void FormatProperties()
         {
@@ -59,7 +61,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 语音消息
     /// </summary>
-    public class VoiceMsg : BaseNormalContext
+    public class VoiceMsg : BaseRecContext
     {
 
         protected override void FormatProperties()
@@ -96,7 +98,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 视频/小视频消息
     /// </summary>
-    public class VideoMsg : BaseNormalContext
+    public class VideoMsg : BaseRecContext
     {
         protected override void FormatProperties()
         {
@@ -126,7 +128,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 地理位置消息
     /// </summary>
-    public class LocationMsg : BaseNormalContext
+    public class LocationMsg : BaseRecContext
     {
         protected override void FormatProperties()
         {
@@ -168,7 +170,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 链接消息
     /// </summary>
-    public class LinkMsg : BaseNormalContext
+    public class LinkMsg : BaseRecContext
     {
         protected override void FormatProperties()
         {

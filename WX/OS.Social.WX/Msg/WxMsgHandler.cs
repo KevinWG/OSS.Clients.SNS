@@ -3,49 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using OS.Common.ComModels;
 using OS.Common.ComModels.Enums;
-using OS.Common.ComUtils;
 using OS.Common.Encrypt;
+using OS.Common.Extention;
 using OS.Social.WX.Msg.Mos;
 
 namespace OS.Social.WX.Msg
 {
     public class WxMsgHandler
     {
-        private readonly WxMsgServerConfig _config;
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public WxMsgHandler(WxMsgServerConfig config)
-        {
-            if (config == null)
-                throw new ArgumentNullException("config", "请配置服务端令牌等配置信息");
-            _config = config;
-        }
+        #region   事件列表
 
-        /// <summary>
-        /// 验证服务器地址的有效性
-        /// </summary>
-        /// <param name="signature">微信加密签名</param>
-        /// <param name="timestamp">时间戳</param>
-        /// <param name="nonce">随机数</param>
-        /// <returns></returns>
-        public ResultModel CheckSign(string signature, string timestamp, string nonce)
-        {
-            string token = _config.Token;
-
-            List<string> strList = new List<string>() { token, timestamp, nonce };
-            strList.Sort();
-
-            string waitEncropyStr = string.Join(string.Empty, strList);
-            if (signature == Sha1.Encrypt(waitEncropyStr, Encoding.ASCII))
-            {
-                return new ResultModel();
-            }
-            return new ResultModel(ResultTypes.NoRight,"加密验证失败！");
-        }
-
-        #region 普通消息
+        #region 事件列表  普通消息
 
         /// <summary>
         /// 处理文本消息
@@ -79,7 +48,8 @@ namespace OS.Social.WX.Msg
 
         #endregion
 
-        #region 事件推送 
+        #region 事件列表  动作事件消息
+
         /// <summary>
         /// 处理关注/取消关注事件
         /// </summary>
@@ -124,69 +94,159 @@ namespace OS.Social.WX.Msg
         /// <param name="res"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        private static BaseReplyContext ExecuteHandler<TRes>(TRes res, Func<TRes, BaseReplyContext> func)
+        private static BaseReplyContext ExecuteHandler<TRes>(TRes res, Func<TRes, BaseReplyContext> func) where TRes:BaseRecContext
         {
-            return func != null ? func(res) : new NoReplyMsg();
+            var baseRep = func?.Invoke(res) ?? new NoReplyMsg();
+            baseRep.ToUserName = res.FromUserName;
+            baseRep.FromUserName = res.ToUserName;
+            baseRep.CreateTime = DateTime.Now.ToLocalSeconds();
+            return baseRep;
         }
 
-        public MsgContext Processing(string xml)
+
+        #endregion
+
+
+
+        #region 消息处理入口，出口（分为开始，处理，结束部分）
+
+        /// <summary>
+        ///  服务器验证
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="signature"></param>
+        /// <param name="timestamp"></param>
+        /// <param name="nonce"></param>
+        /// <returns></returns>
+        public ResultModel ProcessServerCheck(string token, string signature, string timestamp,
+            string nonce)
         {
-            var context = new MsgContext();
-            if (!string.IsNullOrEmpty(xml))
-            {
-                context.ContextXml = xml;
-                var dirs = WxMsgHelper.ChangXmlToDir(xml);
-                if (dirs != null)
-                {
-                    var msgType = WxMsgHelper.GetMsgType(dirs);
-                    switch (msgType)
-                    {
-                        case MsgType.Event:
-                            var eventType = WxMsgHelper.GetEventType(dirs);
-                            ProcessingEvent(eventType, dirs, context);
-                            break;
-                        case MsgType.Text:
-                            var textRecMsg = WxMsgHelper.GetMsg<TextMsg>(dirs, MsgType.Text);
-                            context.ReplyContext = ExecuteHandler(textRecMsg, TextHandler);
-                            context.NormalContext = textRecMsg;
-                            break;
-                        case MsgType.Video:
-                        case MsgType.Shortvideo:
-                            var vedioRecMsg = WxMsgHelper.GetMsg<VideoMsg>(dirs, msgType);
-                            context.ReplyContext = ExecuteHandler(vedioRecMsg, VideoHandler);
-                            context.NormalContext = vedioRecMsg;
-                            break;
-                        case MsgType.Image:
-                            var imageRecMsg = WxMsgHelper.GetMsg<ImageMsg>(dirs, MsgType.Image);
-                            context.ReplyContext = ExecuteHandler(imageRecMsg, ImageHandler);
-                            context.NormalContext = imageRecMsg;
-                            break;
-                        case MsgType.Link:
-                            var linkRecMsg = WxMsgHelper.GetMsg<LinkMsg>(dirs, MsgType.Link);
-                            context.ReplyContext = ExecuteHandler(linkRecMsg, LinkHandler);
-                            context.NormalContext = linkRecMsg;
-                            break;
-                        case MsgType.Voice:
-                            var voiceRecMsg = WxMsgHelper.GetMsg<VoiceMsg>(dirs, MsgType.Voice);
-                            context.ReplyContext = ExecuteHandler(voiceRecMsg, VoiceHandler);
-                            context.NormalContext = voiceRecMsg;
-                            break;
-                        case MsgType.Location:
-                            var locationRecMsg = WxMsgHelper.GetMsg<LocationMsg>(dirs, MsgType.Location);
-                            context.ReplyContext = ExecuteHandler(locationRecMsg, LocationHandler);
-                            context.NormalContext = locationRecMsg;
-                            break;
-                    }
-                }
-            }
+            return WxMsgCrypt.CheckSignature(token, signature, timestamp, nonce);
+        }
+
+
+        /// <summary>
+        /// 核心执行方法
+        /// </summary>
+        /// <param name="config">配置信息</param>
+        /// <param name="contentXml">内容信息</param>
+        /// <param name="signature">签名信息</param>
+        /// <param name="timestamp">时间戳</param>
+        /// <returns></returns>
+        public ResultModel<string> Processing(WxMsgServerConfig config, string contentXml, string signature, string timestamp, string nonce)
+        {
+            var result = ProcessingBegin(config, contentXml, signature, timestamp, nonce);
+
+            MsgContext context = null;
+            if (result.Ret != ResultTypes.Success)
+                return result.ConvertToResultOnly<string>();
+
+            context = result.Data;
+            ProcessCore(context);
+
             if (context.ReplyContext == null)
                 context.ReplyContext = new NoReplyMsg();
 
             ProcessingEndHandler?.Invoke(context);
-            return context;
+
+            return new ResultModel<string>(context.ReplyContext.ToXml(config));
         }
 
-        private void ProcessingEvent(EventType msgEventType, Dictionary<string, string> dirValues, MsgContext context)
+        #region   开始方法
+
+
+        /// <summary>
+        /// 核心执行方法    ==    验证签名和消息体信息处理
+        /// </summary>
+        /// <param name="config">在微信端配置信息</param>
+        /// <param name="contentXml">消息内容</param>
+        /// <param name="signature">微信加密签名</param>
+        /// <param name="timestamp">时间戳</param>
+        /// <param name="nonce">随机数</param>
+        /// <returns>消息体对应的字典</returns>
+        private ResultModel<MsgContext> ProcessingBegin(WxMsgServerConfig config, string contentXml, string signature,
+            string timestamp, string nonce)
+        {
+            var msgContext = new MsgContext();
+
+            var resCheck = WxMsgCrypt.CheckSignature(config.Token, signature, timestamp, nonce);
+            if (resCheck.Ret == ResultTypes.Success)
+            {
+                if (config.SecurityType != WxSecurityType.None)
+                {
+                    var dirs = WxMsgHelper.ChangXmlToDir(contentXml);
+                    if (dirs == null || !dirs.ContainsKey("Encrypt"))
+                        return new ResultModel<MsgContext>(ResultTypes.ObjectNull, "加密消息为空");
+
+                    msgContext.ContextXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], config.EncodingAesKey);
+                    return new ResultModel<MsgContext>(msgContext);
+                }
+                msgContext.ContextXml = contentXml;
+                return new ResultModel<MsgContext>(msgContext);
+            }
+            return resCheck.ConvertToResultOnly<MsgContext>();
+        }
+
+        #endregion
+
+        #region   核心处理方法
+
+        /// <summary>
+        /// 核心执行方法   ==  执行方法
+        /// </summary>
+        /// <param name="context"></param>
+        private void ProcessCore(MsgContext context)
+        {
+            var dirs = WxMsgHelper.ChangXmlToDir(context.ContextXml);
+            var msgType = WxMsgHelper.GetMsgType(dirs);
+            switch (msgType)
+            {
+                case MsgType.Event:
+                    var eventType = WxMsgHelper.GetEventType(dirs);
+                    ProcessingCoreEvent(eventType, dirs, context);
+                    break;
+                case MsgType.Text:
+                    var textRecMsg = WxMsgHelper.GetMsg<TextMsg>(dirs, MsgType.Text);
+                    context.ReplyContext = ExecuteHandler(textRecMsg, TextHandler);
+                    context.RecContext = textRecMsg;
+                    break;
+                case MsgType.Video:
+                case MsgType.Shortvideo:
+                    var vedioRecMsg = WxMsgHelper.GetMsg<VideoMsg>(dirs, msgType);
+                    context.ReplyContext = ExecuteHandler(vedioRecMsg, VideoHandler);
+                    context.RecContext = vedioRecMsg;
+                    break;
+                case MsgType.Image:
+                    var imageRecMsg = WxMsgHelper.GetMsg<ImageMsg>(dirs, MsgType.Image);
+                    context.ReplyContext = ExecuteHandler(imageRecMsg, ImageHandler);
+                    context.RecContext = imageRecMsg;
+                    break;
+                case MsgType.Link:
+                    var linkRecMsg = WxMsgHelper.GetMsg<LinkMsg>(dirs, MsgType.Link);
+                    context.ReplyContext = ExecuteHandler(linkRecMsg, LinkHandler);
+                    context.RecContext = linkRecMsg;
+                    break;
+                case MsgType.Voice:
+                    var voiceRecMsg = WxMsgHelper.GetMsg<VoiceMsg>(dirs, MsgType.Voice);
+                    context.ReplyContext = ExecuteHandler(voiceRecMsg, VoiceHandler);
+                    context.RecContext = voiceRecMsg;
+                    break;
+                case MsgType.Location:
+                    var locationRecMsg = WxMsgHelper.GetMsg<LocationMsg>(dirs, MsgType.Location);
+                    context.ReplyContext = ExecuteHandler(locationRecMsg, LocationHandler);
+                    context.RecContext = locationRecMsg;
+                    break;
+            }
+        }
+
+        /// <summary>
+        ///  核心执行方法  ===   其中的事件部分
+        /// </summary>
+        /// <param name="msgEventType"></param>
+        /// <param name="dirValues"></param>
+        /// <param name="context"></param>
+        private void ProcessingCoreEvent(EventType msgEventType, Dictionary<string, string> dirValues,
+            MsgContext context)
         {
             switch (msgEventType)
             {
@@ -194,36 +254,87 @@ namespace OS.Social.WX.Msg
                 case EventType.UnSubscribe:
                     var subRecMsg = WxMsgHelper.GetEventMsg<SubscribeEvent>(dirValues, msgEventType);
                     context.ReplyContext = ExecuteHandler(subRecMsg, SubscribeEventHandler);
-                    context.NormalContext = subRecMsg;
+                    context.RecContext = subRecMsg;
                     break;
                 case EventType.Click:
                     var clickRecMsg = WxMsgHelper.GetEventMsg<ClickEvent>(dirValues, EventType.Click);
                     context.ReplyContext = ExecuteHandler(clickRecMsg, ClickEventHandler);
-                    context.NormalContext = clickRecMsg;
+                    context.RecContext = clickRecMsg;
                     break;
                 case EventType.Location:
                     var locationRecMsg = WxMsgHelper.GetEventMsg<LocationEvent>(dirValues, EventType.Location);
                     context.ReplyContext = ExecuteHandler(locationRecMsg, LocationEventHandler);
-                    context.NormalContext = locationRecMsg;
+                    context.RecContext = locationRecMsg;
                     break;
                 case EventType.Scan:
                     var scanRecMsg = WxMsgHelper.GetEventMsg<SubscribeEvent>(dirValues, EventType.Scan);
                     context.ReplyContext = ExecuteHandler(scanRecMsg, ScanEventHandler);
-                    context.NormalContext = scanRecMsg;
+                    context.RecContext = scanRecMsg;
                     break;
                 case EventType.View:
                     var viewRrecMsg = WxMsgHelper.GetEventMsg<ViewEvent>(dirValues, EventType.View);
                     context.ReplyContext = ExecuteHandler(viewRrecMsg, ViewEventHandler);
-                    context.NormalContext = viewRrecMsg;
+                    context.RecContext = viewRrecMsg;
                     break;
                 case EventType.Kefu:
                     var kfRrecMsg = WxMsgHelper.GetEventMsg<KFEvent>(dirValues, EventType.Kefu);
                     context.ReplyContext = ExecuteHandler(kfRrecMsg, KefuEventHandler);
-                    context.NormalContext = kfRrecMsg;
+                    context.RecContext = kfRrecMsg;
                     break;
             }
         }
 
-   
+        #endregion
+
+        #endregion
+        
+    
+    }
+
+
+
+    internal static class WxMsgCrypt
+    {
+        #region   私有辅助方法
+
+        /// <summary>
+        /// 验证签名方法
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="signature"></param>
+        /// <param name="timestamp"></param>
+        /// <param name="nonce"></param>
+        /// <returns></returns>
+        internal static ResultModel CheckSignature(string token, string signature,
+            string timestamp, string nonce)
+        {
+            if (signature == GenerateSignature(token, timestamp, nonce))
+            {
+                return new ResultModel();
+            }
+            return new ResultModel(ResultTypes.UnAuthorize, "签名验证失败！");
+        }
+
+
+        /// <summary>
+        /// 验证签名方法
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="timestamp"></param>
+        /// <param name="nonce"></param>
+        /// <param name="strEncryptMsg"></param>
+        /// <returns></returns>
+        internal static string GenerateSignature(string token, 
+            string timestamp, string nonce, string strEncryptMsg = "")
+        {
+            List<string> strList = new List<string>() { token, timestamp, nonce ,strEncryptMsg};
+            strList.Sort();
+
+            string waitEncropyStr = string.Join(string.Empty, strList);
+            return Sha1.Encrypt(waitEncropyStr, Encoding.ASCII);
+        }
+
+
+        #endregion
     }
 }

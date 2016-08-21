@@ -3,6 +3,11 @@
     public class WxMsgServerConfig
     {
         /// <summary>
+        /// 当前应用Id
+        /// </summary>
+        public string AppId { get; set; }
+
+        /// <summary>
         /// 令牌配置
         /// </summary>
         public string Token { get; set; }

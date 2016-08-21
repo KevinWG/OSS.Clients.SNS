@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using OS.Common.ComModels;
+using OS.Common.ComModels.Enums;
 using OS.Common.Extention;
 
 namespace OS.Social.WX.Msg.Mos
@@ -29,7 +31,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 普通消息
     /// </summary>
-    public class BaseNormalContext : BaseContext
+    public class BaseRecContext : BaseContext
     {
         private Dictionary<string, string> _propertyDirs;
 
@@ -70,7 +72,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 事件推送
     /// </summary>
-    public class BaseEventContext : BaseNormalContext
+    public class BaseRecEventContext : BaseRecContext
     {
         /// <summary>
         /// 事件类型
@@ -90,8 +92,6 @@ namespace OS.Social.WX.Msg.Mos
 
         protected virtual void FormatXml()
         {
-            CreateTime = DateTime.Now.ToLocalSeconds();
-
             SetXmlValue("ToUserName", ToUserName);
             SetXmlValue("FromUserName", FromUserName);
             SetXmlValue("CreateTime", CreateTime);
@@ -111,8 +111,9 @@ namespace OS.Social.WX.Msg.Mos
         /// <summary>
         /// 转化为XML
         /// </summary>
+        /// <param name="config">配置信息，处理消息是否加密</param>
         /// <returns></returns>
-        public string ToXml()
+        public string ToXml(WxMsgServerConfig config)
         {
             if (MsgType == ReplyMsgType.None)
             {
@@ -120,11 +121,16 @@ namespace OS.Social.WX.Msg.Mos
             }
             _propertyList = new List<Tuple<string, object>>();
             FormatXml();
-
             StringBuilder xml = new StringBuilder("<xml>");
             xml.Append(ProduceXml(_propertyList));
             xml.Append("</xml>");
-            return xml.ToString();
+
+            if (config.SecurityType != WxSecurityType.None)
+            {
+                var res = EncryptMsg(xml.ToString(),config);
+                return res.Ret == ResultTypes.Success ? res.Data : string.Empty;
+            }
+            return xml.ToString(); 
         }
 
         private string ProduceXml(List<Tuple<string, object>> list)
@@ -163,11 +169,58 @@ namespace OS.Social.WX.Msg.Mos
             }
             return xml.ToString();
         }
+
+
+        /// <summary>
+        ///  加密模式下，返回的消息体加密
+        /// </summary>
+        /// <param name="sReplyMsg"></param>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public ResultModel<string> EncryptMsg(string sReplyMsg, WxMsgServerConfig config)
+        {
+            string raw = "";
+            try
+            {
+                raw = Cryptography.AesEncrypt(sReplyMsg, config.EncodingAesKey, config.AppId);
+            }
+            catch (Exception)
+            {
+                return new ResultModel<string>(ResultTypes.InnerError, "加密响应消息体出错！");
+            }
+            var date = DateTime.Now;
+
+            var sTimeStamp = "1471772230";//    date.ToUtcSeconds().ToString();
+            var sNonce = "20160821171061";//    date.ToString("yyyyMMddHHssff");
+
+
+            string msgSigature = WxMsgCrypt.GenerateSignature(config.Token, sTimeStamp, sNonce, raw);
+            if (string.IsNullOrEmpty(msgSigature))
+            {
+                return new ResultModel<string>(ResultTypes.InnerError, "生成签名信息出错！");
+            }
+            StringBuilder sEncryptMsg = new StringBuilder();
+            string EncryptLabelHead = "<Encrypt><![CDATA[";
+            string EncryptLabelTail = "]]></Encrypt>";
+            string MsgSigLabelHead = "<MsgSignature><![CDATA[";
+            string MsgSigLabelTail = "]]></MsgSignature>";
+            string TimeStampLabelHead = "<TimeStamp><![CDATA[";
+            string TimeStampLabelTail = "]]></TimeStamp>";
+            string NonceLabelHead = "<Nonce><![CDATA[";
+            string NonceLabelTail = "]]></Nonce>";
+            sEncryptMsg.Append("<xml>").Append(EncryptLabelHead).Append(raw).Append(EncryptLabelTail);
+            sEncryptMsg.Append(MsgSigLabelHead).Append(msgSigature).Append(MsgSigLabelTail);
+            sEncryptMsg.Append(TimeStampLabelHead).Append(sTimeStamp).Append(TimeStampLabelTail);
+            sEncryptMsg.Append(NonceLabelHead).Append(sNonce).Append(NonceLabelTail);
+            sEncryptMsg.Append("</xml>");
+            return new ResultModel<string>(sEncryptMsg.ToString());
+        }
+
+
     }
 
     public class MsgContext
     {
-
         /// <summary>
         /// 当前请求消息内容
         /// </summary>
@@ -176,7 +229,7 @@ namespace OS.Social.WX.Msg.Mos
         /// <summary>
         /// 接收内容
         /// </summary>
-        public BaseNormalContext NormalContext { get; set; }
+        public BaseRecContext RecContext { get; set; }
 
         /// <summary>
         /// 被动回复内容

@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OS.Common, Version=1.2.39.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OS.Common.1.3.1.0\lib\net45\OS.Common.dll</HintPath>
+      <HintPath>..\..\packages\OS.Common.1.3.2.1\lib\net40\OS.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -46,16 +46,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cryptography.cs" />
     <Compile Include="Msg\Mos\BaseContext.cs" />
     <Compile Include="Msg\Mos\Enums.cs" />
     <Compile Include="Msg\Mos\EventMsgs.cs" />
     <Compile Include="Msg\Mos\NormalMsgs.cs" />
     <Compile Include="Msg\Mos\ReplyMsgs.cs" />
-    <Compile Include="Msg\WeChatMsgHandler.cs" />
-    <Compile Include="Msg\WeChatMsgHelper.cs" />
+    <Compile Include="Msg\Mos\WxMsgServerConfig.cs" />
+    <Compile Include="Msg\WxMsgHandler.cs" />
+    <Compile Include="Msg\WxMsgHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Account\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

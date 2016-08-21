@@ -5,7 +5,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 关注/取消关注/扫描带参数二维码事件
     /// </summary>
-    public class SubscribeEvent : BaseEventContext
+    public class SubscribeEvent : BaseRecEventContext
     {
         protected override void FormatProperties()
         {
@@ -29,7 +29,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 上报地理位置事件
     /// </summary>
-    public class LocationEvent : BaseEventContext
+    public class LocationEvent : BaseRecEventContext
     {
         protected override void FormatProperties()
         {
@@ -59,7 +59,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 点击菜单拉取消息时的事件推送
     /// </summary>
-    public class ClickEvent : BaseEventContext
+    public class ClickEvent : BaseRecEventContext
     {
         protected override void FormatProperties()
         {
@@ -76,7 +76,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 点击菜单跳转链接时的事件推送 
     /// </summary>
-    public class ViewEvent : BaseEventContext
+    public class ViewEvent : BaseRecEventContext
     {
         protected override void FormatProperties()
         {
@@ -93,7 +93,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 客服事件
     /// </summary>
-    public class KFEvent : BaseEventContext
+    public class KFEvent : BaseRecEventContext
     {
         protected override void FormatProperties()
         {
