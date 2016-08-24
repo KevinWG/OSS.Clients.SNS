@@ -190,8 +190,8 @@ namespace OS.Social.WX.Msg.Mos
             }
             var date = DateTime.Now;
 
-            var sTimeStamp = "1471772230";//    date.ToUtcSeconds().ToString();
-            var sNonce = "20160821171061";//    date.ToString("yyyyMMddHHssff");
+            var sTimeStamp =    date.ToUtcSeconds().ToString();
+            var sNonce =    date.ToString("yyyyMMddHHssff");
 
 
             string msgSigature = WxMsgCrypt.GenerateSignature(config.Token, sTimeStamp, sNonce, raw);
