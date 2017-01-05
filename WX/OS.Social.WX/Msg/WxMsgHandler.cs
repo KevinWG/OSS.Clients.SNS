@@ -118,7 +118,7 @@ namespace OS.Social.WX.Msg
         /// <param name="timestamp"></param>
         /// <param name="nonce"></param>
         /// <returns></returns>
-        public ResultModel ProcessServerCheck(string token, string signature, string timestamp,
+        public ResultMo ProcessServerCheck(string token, string signature, string timestamp,
             string nonce)
         {
             return WxMsgCrypt.CheckSignature(token, signature, timestamp, nonce);
@@ -133,12 +133,12 @@ namespace OS.Social.WX.Msg
         /// <param name="signature">签名信息</param>
         /// <param name="timestamp">时间戳</param>
         /// <returns></returns>
-        public ResultModel<string> Processing(WxMsgServerConfig config, string contentXml, string signature, string timestamp, string nonce)
+        public ResultMo<string> Processing(WxMsgServerConfig config, string contentXml, string signature, string timestamp, string nonce)
         {
             var result = ProcessingBegin(config, contentXml, signature, timestamp, nonce);
 
             MsgContext context = null;
-            if (result.Ret != ResultTypes.Success)
+            if (!result.IsSuccess)
                 return result.ConvertToResultOnly<string>();
 
             context = result.Data;
@@ -149,7 +149,7 @@ namespace OS.Social.WX.Msg
 
             ProcessingEndHandler?.Invoke(context);
 
-            return new ResultModel<string>(context.ReplyContext.ToXml(config));
+            return new ResultMo<string>(context.ReplyContext.ToXml(config));
         }
 
         #region   开始方法
@@ -164,25 +164,25 @@ namespace OS.Social.WX.Msg
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
         /// <returns>消息体对应的字典</returns>
-        private ResultModel<MsgContext> ProcessingBegin(WxMsgServerConfig config, string contentXml, string signature,
+        private ResultMo<MsgContext> ProcessingBegin(WxMsgServerConfig config, string contentXml, string signature,
             string timestamp, string nonce)
         {
             var msgContext = new MsgContext();
 
             var resCheck = WxMsgCrypt.CheckSignature(config.Token, signature, timestamp, nonce);
-            if (resCheck.Ret == ResultTypes.Success)
+            if (resCheck.IsSuccess)
             {
                 if (config.SecurityType != WxSecurityType.None)
                 {
                     var dirs = WxMsgHelper.ChangXmlToDir(contentXml);
                     if (dirs == null || !dirs.ContainsKey("Encrypt"))
-                        return new ResultModel<MsgContext>(ResultTypes.ObjectNull, "加密消息为空");
+                        return new ResultMo<MsgContext>(ResultTypes.ObjectNull, "加密消息为空");
 
                     msgContext.ContextXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], config.EncodingAesKey);
-                    return new ResultModel<MsgContext>(msgContext);
+                    return new ResultMo<MsgContext>(msgContext);
                 }
                 msgContext.ContextXml = contentXml;
-                return new ResultModel<MsgContext>(msgContext);
+                return new ResultMo<MsgContext>(msgContext);
             }
             return resCheck.ConvertToResultOnly<MsgContext>();
         }
@@ -305,14 +305,14 @@ namespace OS.Social.WX.Msg
         /// <param name="timestamp"></param>
         /// <param name="nonce"></param>
         /// <returns></returns>
-        internal static ResultModel CheckSignature(string token, string signature,
+        internal static ResultMo CheckSignature(string token, string signature,
             string timestamp, string nonce)
         {
             if (signature == GenerateSignature(token, timestamp, nonce))
             {
-                return new ResultModel();
+                return new ResultMo();
             }
-            return new ResultModel(ResultTypes.UnAuthorize, "签名验证失败！");
+            return new ResultMo(ResultTypes.UnAuthorize, "签名验证失败！");
         }
 
 

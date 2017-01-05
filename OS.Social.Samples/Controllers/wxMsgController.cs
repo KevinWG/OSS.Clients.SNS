@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Web.Mvc;
-using OS.Common.ComModels.Enums;
 using OS.Common.Modules.LogModule;
 using OS.Social.WX.Msg.Mos;
 
@@ -36,7 +35,7 @@ namespace OS.Social.Samples.Controllers
             LogUtil.Info($"signature:{signature},timestamp:{timestamp},nonce:{nonce},echostr:{echostr}");
             var res = msgService.ProcessServerCheck(config.Token, signature, timestamp, nonce);
 
-            if (res.Ret == ResultTypes.Success)
+            if (res.IsSuccess)
             {
                 return Content(echostr);
             }
@@ -63,7 +62,7 @@ namespace OS.Social.Samples.Controllers
             try
             {
                 var res = msgService.Processing(config, requestXml, signature, timestamp, nonce);
-                if (res.Ret==ResultTypes.Success)
+                if (res.IsSuccess)
                 {
                     LogUtil.Info(res.Data);
                     return Content(res.Data);

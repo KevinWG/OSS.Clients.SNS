@@ -128,7 +128,7 @@ namespace OS.Social.WX.Msg.Mos
             if (config.SecurityType != WxSecurityType.None)
             {
                 var res = EncryptMsg(xml.ToString(),config);
-                return res.Ret == ResultTypes.Success ? res.Data : string.Empty;
+                return res.IsSuccess ? res.Data : string.Empty;
             }
             return xml.ToString(); 
         }
@@ -177,7 +177,7 @@ namespace OS.Social.WX.Msg.Mos
         /// <param name="sReplyMsg"></param>
         /// <param name="config"></param>
         /// <returns></returns>
-        public ResultModel<string> EncryptMsg(string sReplyMsg, WxMsgServerConfig config)
+        public ResultMo<string> EncryptMsg(string sReplyMsg, WxMsgServerConfig config)
         {
             string raw = "";
             try
@@ -186,7 +186,7 @@ namespace OS.Social.WX.Msg.Mos
             }
             catch (Exception)
             {
-                return new ResultModel<string>(ResultTypes.InnerError, "加密响应消息体出错！");
+                return new ResultMo<string>(ResultTypes.InnerError, "加密响应消息体出错！");
             }
             var date = DateTime.Now;
 
@@ -197,7 +197,7 @@ namespace OS.Social.WX.Msg.Mos
             string msgSigature = WxMsgCrypt.GenerateSignature(config.Token, sTimeStamp, sNonce, raw);
             if (string.IsNullOrEmpty(msgSigature))
             {
-                return new ResultModel<string>(ResultTypes.InnerError, "生成签名信息出错！");
+                return new ResultMo<string>(ResultTypes.InnerError, "生成签名信息出错！");
             }
             StringBuilder sEncryptMsg = new StringBuilder();
             string EncryptLabelHead = "<Encrypt><![CDATA[";
@@ -213,7 +213,7 @@ namespace OS.Social.WX.Msg.Mos
             sEncryptMsg.Append(TimeStampLabelHead).Append(sTimeStamp).Append(TimeStampLabelTail);
             sEncryptMsg.Append(NonceLabelHead).Append(sNonce).Append(NonceLabelTail);
             sEncryptMsg.Append("</xml>");
-            return new ResultModel<string>(sEncryptMsg.ToString());
+            return new ResultMo<string>(sEncryptMsg.ToString());
         }
 
 
