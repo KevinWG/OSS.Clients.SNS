@@ -6,6 +6,10 @@ using OS.Common.Encrypt;
 
 namespace OS.Social.WX
 {
+
+   /// <summary>
+   /// 微信加密模式下使用的
+   /// </summary>
     internal class Cryptography
     {
         public static UInt32 HostToNetworkOrder(UInt32 inval)

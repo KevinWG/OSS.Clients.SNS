@@ -7,15 +7,14 @@ using OS.Social.WX.Msg.Mos;
 
 namespace OS.Social.Samples.Controllers
 {
-    public class wxController : Controller
+    public class wxMsgController : Controller
     {
         private static readonly WxMsgServerConfig config = new WxMsgServerConfig()
         {
             Token = "你的token",
             EncodingAesKey = "你的加密key",
-            SecurityType = WxSecurityType.Safe,
-            AppId = "appid"
-
+            SecurityType = WxSecurityType.Safe,//  在微信段设置的安全模式
+            AppId = "你的appid"   //  
         };
 
 
@@ -55,19 +54,18 @@ namespace OS.Social.Samples.Controllers
         public ContentResult msg(string signature, string timestamp, string nonce)
         {
             string requestXml;
-            LogUtil.Info($"进入接口：signature:{signature}   ,timestamp:{timestamp}         ,nonce:{nonce}");
-            
+           
             using (StreamReader reader = new StreamReader(Request.InputStream))
             {
                 requestXml = reader.ReadToEnd();
                 LogUtil.Info($"内容 requestXml:{requestXml}");
             }
-            //return Content(String.Empty);
             try
             {
                 var res = msgService.Processing(config, requestXml, signature, timestamp, nonce);
                 if (res.Ret==ResultTypes.Success)
                 {
+                    LogUtil.Info(res.Data);
                     return Content(res.Data);
                 }
                 LogUtil.Error(res.Message);

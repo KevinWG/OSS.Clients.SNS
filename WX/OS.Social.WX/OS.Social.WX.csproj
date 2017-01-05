@@ -30,8 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="OS.Common, Version=1.2.39.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OS.Common.1.3.2.1\lib\net40\OS.Common.dll</HintPath>
+      <HintPath>..\..\packages\OS.Common.1.3.2.3\lib\net40\OS.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OS.Http, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OS.Http.1.2.0\lib\net45\OS.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -46,7 +54,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cryptography.cs" />
+    <Compile Include="Offcial\Mos\WxoffcialAccessTokenMo.cs" />
+    <Compile Include="Offcial\WxOffcialApi.cs" />
+    <Compile Include="Sns\Mos\WxAuthMos.cs" />
+    <Compile Include="WxBaseApi.cs" />
+    <Compile Include="Sns\WxOauthApi.cs" />
+    <Compile Include="BaseMos.cs" />
+    <Compile Include="Msg\Cryptography.cs" />
     <Compile Include="Msg\Mos\BaseContext.cs" />
     <Compile Include="Msg\Mos\Enums.cs" />
     <Compile Include="Msg\Mos\EventMsgs.cs" />
@@ -57,9 +71,7 @@
     <Compile Include="Msg\WxMsgHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Account\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

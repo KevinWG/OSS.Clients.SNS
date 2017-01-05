@@ -1,0 +1,96 @@
+﻿using OS.Http;
+using OS.Http.Models;
+using OS.Social.WX.Sns.Mos;
+
+namespace OS.Social.WX.Sns
+{
+    public class WxOauthApi:WxBaseApi
+    {
+        public WxOauthApi(WxAppCoinfig config) : base(config)
+        {
+        }
+
+        /// <summary>
+        /// 获取授权地址
+        /// </summary>
+        /// <param name="redirectUri">授权后重定向的回调链接地址，请使用urlencode对链接进行处理</param>
+        /// <param name="type">授权客户端类型</param>
+        /// <returns></returns>
+        public string GetAuthorizeUrl(string redirectUri, AuthClientType type)
+        {
+            if (type == AuthClientType.WxGonghao)
+            {
+                return
+                    $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={m_Config.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_userinfo&state={m_Config.AppSource}#wechat_redirect";
+            }
+            return
+                $"https://open.weixin.qq.com/connect/qrconnect?appid={m_Config.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_login&state={m_Config.AppSource}#wechat_redirect";
+        }
+
+        /// <summary>
+        /// 获取授权access_token   (每个用户都是单独唯一)
+        /// </summary>
+        /// <param name="code">填写第一步获取的code参数</param>
+        /// <returns></returns>
+        public GetWxAccessTokenResp GetAuthAccessToken(string code)
+        {
+            var req=new OsHttpRequest();
+
+            req.AddressUrl = $"{m_ApuUrl}/sns/oauth2/access_token?appid={m_Config.AppId}&secret={m_Config.AppSecret}&code={code}&grant_type=authorization_code";
+            req.HttpMothed=HttpMothed.GET;
+
+            return RestCommon<GetWxAccessTokenResp>(req);
+        }
+
+        /// <summary>
+        ///   刷新当前用户授权Token
+        /// </summary>
+        /// <param name="accessToken">授权接口调用凭证</param>
+        /// <returns></returns>
+        public GetWxAccessTokenResp RefreshAuthAccessToken(string accessToken)
+        {
+            var request = new OsHttpRequest();
+
+            request.AddressUrl = $"{m_ApuUrl}/sns/oauth2/refresh_token?appid={m_Config.AppId}&grant_type=refresh_token&refresh_token={accessToken}";
+            request.HttpMothed = HttpMothed.GET;
+
+            return RestCommon<GetWxAccessTokenResp>(request);
+        }
+
+
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="accessToken">授权接口调用凭证</param>
+        /// <param name="openId">用户的唯一标识</param>
+        /// <returns></returns>
+        public GetWxAuthUserResp GetWxAuthUserInfo(string accessToken, string openId)
+        {
+            var request = new OsHttpRequest();
+            request.AddressUrl = $"{m_ApuUrl}/sns/userinfo?access_token={accessToken}&openid={openId}";
+            request.HttpMothed = HttpMothed.GET;
+
+            return RestCommon<GetWxAuthUserResp>(request);
+        }
+
+
+
+        /// <summary>
+        /// 检验授权凭证（access_token）是否有效
+        /// </summary>
+        /// <param name="accessToken">授权接口调用凭证</param>
+        /// <param name="openId">用户的唯一标识</param>
+        /// <returns></returns>
+        public WxBaseResp CheckAccessToken(string accessToken, string openId)
+        {
+            string url = $"{m_ApuUrl}/sns/auth?access_token={accessToken}&openid={openId}";
+
+            var request = new OsHttpRequest();
+            request.AddressUrl = url;
+            request.HttpMothed = HttpMothed.GET;
+
+            return RestCommon<WxBaseResp>(request);
+        }
+
+    }
+}

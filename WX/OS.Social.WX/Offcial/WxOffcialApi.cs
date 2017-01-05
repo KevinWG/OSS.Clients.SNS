@@ -1,0 +1,110 @@
+﻿using System;
+using Newtonsoft.Json;
+using OS.Common.ComModels;
+using OS.Common.Modules;
+using OS.Common.Modules.CacheModule;
+using OS.Http;
+using OS.Http.Models;
+using OS.Social.WX.Offcial.Mos;
+
+namespace OS.Social.WX.Offcial
+{
+    public class WxOffcialApi:WxBaseApi
+    {
+
+        private readonly string m_OffcialAccessTokenKey;
+        public WxOffcialApi(WxAppCoinfig config) : base(config)
+        {
+            m_OffcialAccessTokenKey = string.Concat("wx_offical_access_token_", config.AppId);
+        }
+
+
+        /// <summary>
+        /// 发送模板消息
+        /// </summary>
+        /// <param name="openId">普通用户的标识，对当前公众号唯一</param>
+        /// <param name="templateId">模板Id</param>
+        /// <param name="url">消息详情链接地址</param>
+        /// <param name="data">消息数据</param>
+        /// <returns></returns>
+        public WxBaseResp SendTemplate(string openId, string templateId, string url, object data)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApuUrl, "/cgi-bin/message/template/send");
+            var param = new
+            {
+                touser = openId,
+                template_id = templateId,
+                url = url,
+                data = data
+            };
+            req.CustomBody = JsonConvert.SerializeObject(param);
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        ///   获取公众号的AccessToken
+        /// </summary>
+        /// <returns></returns>
+        public WxOffcialAccessTokenResp GetOffcialAccessToken()
+        {
+            var tokenResp = CacheUtil.Get<WxOffcialAccessTokenResp>(m_OffcialAccessTokenKey, ModuleNames.SnsCenter);
+
+            if (tokenResp == null || tokenResp.expires_date < DateTime.Now)
+            {
+                OsHttpRequest req = new OsHttpRequest();
+
+                req.AddressUrl = $"{m_ApuUrl}/cgi-bin/token?grant_type=client_credential&appid={m_Config.AppId}&secret={m_Config.AppSecret}";
+                req.HttpMothed = HttpMothed.GET;
+
+                tokenResp = RestCommon<WxOffcialAccessTokenResp>(req);
+
+                if (!tokenResp.IsSuccess)
+                    return tokenResp;
+
+                tokenResp.expires_date = DateTime.Now.AddSeconds(tokenResp.expires_in - 600);
+
+                CacheUtil.AddOrUpdate(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in), null, ModuleNames.SnsCenter);
+            }
+
+            return tokenResp;
+        }
+
+        /// <summary>
+        ///   公众号主要Rest请求接口封装
+        ///      主要是预处理accesstoken赋值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="req"></param>
+        /// <param name="funcFormat"></param>
+        /// <returns></returns>
+        private T RestCommonOffcial<T>(OsHttpRequest req, Func<OsHttpResponse, T> funcFormat = null)
+            where T : WxBaseResp, new()
+        {
+            var tokenRes = GetOffcialAccessToken();
+            if (!tokenRes.IsSuccess)
+                return tokenRes.ConvertToResult<T>();
+
+            req.AddressUrl = string.Concat(req.AddressUrl, req.AddressUrl.IndexOf('?') > 0 ? "&" : "?", "access_token=",
+                tokenRes.access_token);
+
+            req.Parameters.Add(new Parameter("content-type", "application/json", ParameterType.Header));
+
+            return RestCommon<T>(req, funcFormat);
+        }
+
+
+    }
+}
