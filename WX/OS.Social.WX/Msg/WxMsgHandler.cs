@@ -9,8 +9,22 @@ using OS.Social.WX.Msg.Mos;
 
 namespace OS.Social.WX.Msg
 {
+    /// <summary>
+    ///  消息对话事件句柄
+    /// </summary>
     public class WxMsgHandler
     {
+
+        private readonly WxMsgServerConfig m_Config;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="config"></param>
+        public WxMsgHandler(WxMsgServerConfig config)
+        {
+            m_Config = config;
+        }
 
         #region   事件列表
 
@@ -106,8 +120,7 @@ namespace OS.Social.WX.Msg
 
         #endregion
 
-
-
+        
         #region 消息处理入口，出口（分为开始，处理，结束部分）
 
         /// <summary>
@@ -133,9 +146,9 @@ namespace OS.Social.WX.Msg
         /// <param name="signature">签名信息</param>
         /// <param name="timestamp">时间戳</param>
         /// <returns></returns>
-        public ResultMo<string> Processing(WxMsgServerConfig config, string contentXml, string signature, string timestamp, string nonce)
+        public ResultMo<string> Processing(string contentXml, string signature, string timestamp, string nonce)
         {
-            var result = ProcessingBegin(config, contentXml, signature, timestamp, nonce);
+            var result = ProcessingBegin( contentXml, signature, timestamp, nonce);
 
             MsgContext context = null;
             if (!result.IsSuccess)
@@ -149,7 +162,7 @@ namespace OS.Social.WX.Msg
 
             ProcessingEndHandler?.Invoke(context);
 
-            return new ResultMo<string>(context.ReplyContext.ToXml(config));
+            return new ResultMo<string>(context.ReplyContext.ToXml(m_Config));
         }
 
         #region   开始方法
@@ -164,21 +177,21 @@ namespace OS.Social.WX.Msg
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
         /// <returns>消息体对应的字典</returns>
-        private ResultMo<MsgContext> ProcessingBegin(WxMsgServerConfig config, string contentXml, string signature,
+        private ResultMo<MsgContext> ProcessingBegin( string contentXml, string signature,
             string timestamp, string nonce)
         {
             var msgContext = new MsgContext();
 
-            var resCheck = WxMsgCrypt.CheckSignature(config.Token, signature, timestamp, nonce);
+            var resCheck = WxMsgCrypt.CheckSignature(m_Config.Token, signature, timestamp, nonce);
             if (resCheck.IsSuccess)
             {
-                if (config.SecurityType != WxSecurityType.None)
+                if (m_Config.SecurityType != WxSecurityType.None)
                 {
                     var dirs = WxMsgHelper.ChangXmlToDir(contentXml);
                     if (dirs == null || !dirs.ContainsKey("Encrypt"))
                         return new ResultMo<MsgContext>(ResultTypes.ObjectNull, "加密消息为空");
 
-                    msgContext.ContextXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], config.EncodingAesKey);
+                    msgContext.ContextXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], m_Config.EncodingAesKey);
                     return new ResultMo<MsgContext>(msgContext);
                 }
                 msgContext.ContextXml = contentXml;

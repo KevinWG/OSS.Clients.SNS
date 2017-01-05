@@ -5,11 +5,15 @@ namespace OS.Social.Samples
 {
     public class WxMsgService : WxMsgHandler
     {
-        public WxMsgService()
+        public WxMsgService(WxMsgServerConfig config) :base(config)
         {
             TextHandler += WxMsgService_TextHandler;
         }
-
+        /// <summary>
+        ///   文本消息处理事件
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private BaseReplyContext WxMsgService_TextHandler(TextMsg arg)
         {
             return new TextReplyMsg()

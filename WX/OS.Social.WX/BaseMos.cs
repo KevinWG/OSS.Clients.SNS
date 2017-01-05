@@ -15,9 +15,12 @@ namespace OS.Social.WX
         /// <summary>
         /// 微信公众号
         /// </summary>
-        WxGonghao=2
+        WxOffcial=2
     }
 
+    /// <summary>
+    /// 接口返回基础实例
+    /// </summary>
     public class WxBaseResp : ResultMo
     {
         private int m_errcode = 0;

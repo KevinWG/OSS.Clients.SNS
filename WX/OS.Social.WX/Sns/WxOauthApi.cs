@@ -14,11 +14,11 @@ namespace OS.Social.WX.Sns
         /// 获取授权地址
         /// </summary>
         /// <param name="redirectUri">授权后重定向的回调链接地址，请使用urlencode对链接进行处理</param>
-        /// <param name="type">授权客户端类型</param>
+        /// <param name="type">授权客户端类型，如果是pc，则生成的是微信页面二维码授权页</param>
         /// <returns></returns>
         public string GetAuthorizeUrl(string redirectUri, AuthClientType type)
         {
-            if (type == AuthClientType.WxGonghao)
+            if (type == AuthClientType.WxOffcial)
             {
                 return
                     $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={m_Config.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_userinfo&state={m_Config.AppSource}#wechat_redirect";

@@ -3,6 +3,7 @@ using System.IO;
 using System.Web.Mvc;
 using OS.Common.Modules.LogModule;
 using OS.Social.WX.Msg.Mos;
+using OS.Social.WX.Offcial;
 
 namespace OS.Social.Samples.Controllers
 {
@@ -19,7 +20,8 @@ namespace OS.Social.Samples.Controllers
 
         #region   微信消息接口模块
 
-        private static readonly WxMsgService msgService = new WxMsgService();
+        private static readonly WxMsgService msgService = new WxMsgService(config);
+
 
         /// <summary>
         ///   验证使用
@@ -61,7 +63,7 @@ namespace OS.Social.Samples.Controllers
             }
             try
             {
-                var res = msgService.Processing(config, requestXml, signature, timestamp, nonce);
+                var res = msgService.Processing( requestXml, signature, timestamp, nonce);
                 if (res.IsSuccess)
                 {
                     LogUtil.Info(res.Data);
