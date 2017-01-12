@@ -34,7 +34,7 @@ namespace OS.Social.WX
             set
             {
                 m_errcode = value;
-                if (m_errcode > 0)
+                if (m_errcode != 0)
                 {
                     Ret = m_errcode;
                 }

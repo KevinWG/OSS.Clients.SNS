@@ -40,10 +40,11 @@ namespace OS.Social.WX.Offcial
             m_DicErrMsg.Add(45056, "创建的标签数过多，请注意不能超过100个");
 
             #endregion
-
         }
 
         #region  标签管理
+
+
         /// <summary>
         /// 添加标签   最多添加一百个
         /// </summary>
@@ -54,7 +55,7 @@ namespace OS.Social.WX.Offcial
             var req=new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApuUrl, "/cgi-bin/tags/create");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/create");
             var param = new
             {
                 tag=new { name = name }
@@ -63,6 +64,67 @@ namespace OS.Social.WX.Offcial
 
             return RestCommonOffcial<AddTagResp>(req);
         }
+
+        /// <summary>
+        ///  修改标签
+        /// </summary>
+        /// <param name="id">标签id</param>
+        /// <param name="name">标签名称</param>
+        /// <returns></returns>
+        public WxBaseResp UpdateTag(int id,string name)
+        {
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/update")
+            };
+
+            var param = new
+            {
+                tag = new { id=id, name = name }
+            };
+            req.CustomBody = JsonConvert.SerializeObject(param);
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
+        /// <summary>
+        ///  删除标签
+        /// </summary>
+        /// <param name="id">标签id</param>
+        /// <returns></returns>
+        public WxBaseResp DeleteTag(int id)
+        {
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/delete")
+            };
+
+            var param = new
+            {
+                tag = new { id = id }
+            };
+            req.CustomBody = JsonConvert.SerializeObject(param);
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
+        /// <summary>
+        ///   获取公众号已创建的标签
+        /// </summary>
+        /// <returns></returns>
+        public GetTagListResp GetTagList()
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/get");
+           
+            return RestCommonOffcial<GetTagListResp>(req);
+        }
+
+
 
         #endregion
 

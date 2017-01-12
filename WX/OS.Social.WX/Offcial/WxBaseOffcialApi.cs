@@ -48,7 +48,7 @@ namespace OS.Social.WX.Offcial
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.GET;
-            req.AddressUrl = string.Concat(m_ApuUrl, "/cgi-bin/getcallbackip");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/getcallbackip");
 
             return RestCommonOffcial(req, resp =>
             {
@@ -72,7 +72,7 @@ namespace OS.Social.WX.Offcial
             {
                 OsHttpRequest req = new OsHttpRequest();
 
-                req.AddressUrl = $"{m_ApuUrl}/cgi-bin/token?grant_type=client_credential&appid={m_Config.AppId}&secret={m_Config.AppSecret}";
+                req.AddressUrl = $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={m_Config.AppId}&secret={m_Config.AppSecret}";
                 req.HttpMothed = HttpMothed.GET;
 
                 tokenResp = RestCommon<WxOffcialAccessTokenResp>(req);

@@ -50,7 +50,7 @@ namespace OS.Social.WX.Sns
         {
             var req=new OsHttpRequest();
 
-            req.AddressUrl = $"{m_ApuUrl}/sns/oauth2/access_token?appid={m_Config.AppId}&secret={m_Config.AppSecret}&code={code}&grant_type=authorization_code";
+            req.AddressUrl = $"{m_ApiUrl}/sns/oauth2/access_token?appid={m_Config.AppId}&secret={m_Config.AppSecret}&code={code}&grant_type=authorization_code";
             req.HttpMothed=HttpMothed.GET;
 
             return RestCommon<GetWxAccessTokenResp>(req);
@@ -65,7 +65,7 @@ namespace OS.Social.WX.Sns
         {
             var request = new OsHttpRequest();
 
-            request.AddressUrl = $"{m_ApuUrl}/sns/oauth2/refresh_token?appid={m_Config.AppId}&grant_type=refresh_token&refresh_token={accessToken}";
+            request.AddressUrl = $"{m_ApiUrl}/sns/oauth2/refresh_token?appid={m_Config.AppId}&grant_type=refresh_token&refresh_token={accessToken}";
             request.HttpMothed = HttpMothed.GET;
 
             return RestCommon<GetWxAccessTokenResp>(request);
@@ -81,7 +81,7 @@ namespace OS.Social.WX.Sns
         public GetWxAuthUserResp GetWxAuthUserInfo(string accessToken, string openId)
         {
             var request = new OsHttpRequest();
-            request.AddressUrl = $"{m_ApuUrl}/sns/userinfo?access_token={accessToken}&openid={openId}";
+            request.AddressUrl = $"{m_ApiUrl}/sns/userinfo?access_token={accessToken}&openid={openId}";
             request.HttpMothed = HttpMothed.GET;
 
             return RestCommon<GetWxAuthUserResp>(request);
@@ -97,7 +97,7 @@ namespace OS.Social.WX.Sns
         /// <returns></returns>
         public WxBaseResp CheckAccessToken(string accessToken, string openId)
         {
-            string url = $"{m_ApuUrl}/sns/auth?access_token={accessToken}&openid={openId}";
+            string url = $"{m_ApiUrl}/sns/auth?access_token={accessToken}&openid={openId}";
 
             var request = new OsHttpRequest();
             request.AddressUrl = url;

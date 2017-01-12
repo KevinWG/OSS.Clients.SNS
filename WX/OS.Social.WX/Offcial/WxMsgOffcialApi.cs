@@ -45,7 +45,7 @@ namespace OS.Social.WX.Offcial
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApuUrl, "/cgi-bin/message/template/send");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/template/send");
             var param = new
             {
                 touser = openId,

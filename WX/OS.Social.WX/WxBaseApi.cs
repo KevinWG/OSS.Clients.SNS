@@ -27,8 +27,14 @@ namespace OS.Social.WX
     /// </summary>
     public class WxBaseApi
     {
-        protected WxAppCoinfig m_Config;
-        protected const string m_ApuUrl = "https://api.weixin.qq.com";
+        /// <summary>
+        /// 微信接口配置
+        /// </summary>
+        public WxAppCoinfig m_Config;
+        /// <summary>
+        /// 微信api接口地址
+        /// </summary>
+        protected const string m_ApiUrl = "https://api.weixin.qq.com";
 
         /// <summary>
         /// 构造函数

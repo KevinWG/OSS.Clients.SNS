@@ -17,5 +17,19 @@ namespace OS.Social.Wx.Tests
             var res = m_Api.AddTag("我就是试一试！");
             Assert.IsTrue(res.IsSuccess||res.Ret==45157);
         }
+
+        [TestMethod]
+        public void UpdateTagTest()
+        {
+            var res = m_Api.UpdateTag(2, "我就是试一试！");
+            Assert.IsTrue(res.IsSuccess || res.Ret == 45058);
+        }
+
+        [TestMethod]
+        public void GetTagListTest()
+        {
+            var res = m_Api.GetTagList();
+            Assert.IsTrue(res.IsSuccess);
+        }
     }
 }
