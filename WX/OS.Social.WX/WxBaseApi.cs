@@ -15,6 +15,8 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using OS.Common.Modules;
+using OS.Common.Modules.LogModule;
 using OS.Http;
 using OS.Http.Models;
 
@@ -61,17 +63,17 @@ namespace OS.Social.WX
                     else
                     {
                         t = JsonConvert.DeserializeObject<T>(response.Content);
-                        if (!t.IsSuccess)
-                        {
-                            t.Message = GetErrMsg(t.Ret);
-                        }
+                    }
+                    if (!t.IsSuccess)
+                    {
+                        t.Message = GetErrMsg(t.Ret);
                     }
                 }
             }
             catch (Exception ex)
             {
                 // ignored
-                t = new T() {Ret = 0, Message = ex.Message};
+                LogUtil.Error(string.Concat("基类请求出错，错误信息：", ex.Message), "RestCommon", ModuleNames.SnsCenter);
             }
             return t ?? new T() {Ret = 0};
         }
@@ -82,7 +84,7 @@ namespace OS.Social.WX
         /// <summary>
         /// 基本错误信息字典，基类中继续完善
         /// </summary>
-        public static Dictionary<int, string> m_DicErrMsg = new Dictionary<int, string>()
+        protected static Dictionary<int, string> m_DicErrMsg = new Dictionary<int, string>()
         {
             {-1, " 系统繁忙，此时请开发者稍候再试"},
             {0, " 请求成功"},

@@ -11,6 +11,10 @@
 
 #endregion
 
+using Newtonsoft.Json;
+using OS.Http;
+using OS.Http.Models;
+using OS.Social.WX.Offcial.Mos;
 
 namespace OS.Social.WX.Offcial
 {
@@ -40,8 +44,25 @@ namespace OS.Social.WX.Offcial
         }
 
         #region  标签管理
+        /// <summary>
+        /// 添加标签   最多添加一百个
+        /// </summary>
+        /// <param name="name">标签名称</param>
+        /// <returns></returns>
+        public AddTagResp AddTag(string name)
+        {
+            var req=new OsHttpRequest();
 
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApuUrl, "/cgi-bin/tags/create");
+            var param = new
+            {
+                tag=new { name = name }
+            };
+            req.CustomBody = JsonConvert.SerializeObject(param);
 
+            return RestCommonOffcial<AddTagResp>(req);
+        }
 
         #endregion
 

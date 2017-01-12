@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Offcial\Mos\WxoffcialAccessTokenMo.cs" />
+    <Compile Include="Offcial\Mos\WxUserOffcialMos.cs" />
     <Compile Include="Offcial\WxBaseOffcialApi.cs" />
     <Compile Include="Offcial\WxMsgOffcialApi.cs" />
     <Compile Include="Offcial\WxUserOffcialApi.cs" />

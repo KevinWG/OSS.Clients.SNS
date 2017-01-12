@@ -2,6 +2,9 @@
 
 namespace OS.Social.WX.Offcial.Mos
 {
+    /// <summary>
+    ///   公众号功能接口accesstoken信息
+    /// </summary>
     public class WxOffcialAccessTokenResp:WxBaseResp
     {
         /// <summary>
