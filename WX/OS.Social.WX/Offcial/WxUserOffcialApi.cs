@@ -27,7 +27,23 @@ namespace OS.Social.WX.Offcial
         {
         }
 
+        static WxUserOffcialApi()
+        {
+            #region  增加用户管理特殊 错误码(https://mp.weixin.qq.com/wiki)
 
+            m_DicErrMsg.Add(45157, "标签名非法，请注意不能和其他标签重名");
+            m_DicErrMsg.Add(45158, "标签名长度超过30个字节");
+            m_DicErrMsg.Add(45056, "创建的标签数过多，请注意不能超过100个");
+
+            #endregion
+
+        }
+
+        #region  标签管理
+
+
+
+        #endregion
 
     }
 }

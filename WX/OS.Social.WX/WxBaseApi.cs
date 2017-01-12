@@ -79,7 +79,10 @@ namespace OS.Social.WX
 
         #region 错误基本信息
 
-        private static Dictionary<int, string> m_DicErrMsg = new Dictionary<int, string>()
+        /// <summary>
+        /// 基本错误信息字典，基类中继续完善
+        /// </summary>
+        public static Dictionary<int, string> m_DicErrMsg = new Dictionary<int, string>()
         {
             {-1, " 系统繁忙，此时请开发者稍候再试"},
             {0, " 请求成功"},
