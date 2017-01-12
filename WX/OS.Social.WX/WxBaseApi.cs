@@ -8,7 +8,7 @@ namespace OS.Social.WX
 {
     public class WxBaseApi
     {
-        protected WxAppCoinfig m_Config = null;
+        protected WxAppCoinfig m_Config;
 
         protected const string m_ApuUrl = "https://api.weixin.qq.com";
 
@@ -53,7 +53,7 @@ namespace OS.Social.WX
                 // ignored
                 t = new T() {Ret = 0, Message = ex.Message};
             }
-            return t;
+            return t ?? new T() {Ret = 0};
         }
 
 

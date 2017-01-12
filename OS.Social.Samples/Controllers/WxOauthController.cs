@@ -1,11 +1,10 @@
 ﻿using System.Web.Mvc;
 using OS.Social.WX;
-using OS.Social.WX.Offcial;
 using OS.Social.WX.Sns;
 
 namespace OS.Social.Samples.Controllers
 {
-    public class WxOauthController : Controller
+    public class wxOauthController : Controller
     {
         private static WxAppCoinfig m_Config = new WxAppCoinfig()
         {

@@ -102,7 +102,7 @@
     <Compile Include="App_Start\WxMsgService.cs" />
     <Compile Include="Controllers\homeController.cs" />
     <Compile Include="Controllers\wxMsgController.cs" />
-    <Compile Include="Controllers\WxOauthController.cs" />
+    <Compile Include="Controllers\wxOauthController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

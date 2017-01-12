@@ -48,6 +48,20 @@ namespace OS.Social.WX
     }
 
     /// <summary>
+    ///  泛型的返回实体
+    /// </summary>
+    /// <typeparam name="Type"></typeparam>
+    public class WxBaseResp<Type> : WxBaseResp
+    {
+
+
+        /// <summary>
+        /// 数据实体
+        /// </summary>
+        public Type Data { get; set; }
+    }
+
+    /// <summary>
     /// 微信公众平台配置
     /// </summary>
     public class WxAppCoinfig

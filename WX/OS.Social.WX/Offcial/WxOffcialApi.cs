@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OS.Common.ComModels;
 using OS.Common.Modules;
 using OS.Common.Modules.CacheModule;
@@ -13,12 +16,19 @@ namespace OS.Social.WX.Offcial
     {
 
         private readonly string m_OffcialAccessTokenKey;
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="config"></param>
         public WxOffcialApi(WxAppCoinfig config) : base(config)
         {
             m_OffcialAccessTokenKey = string.Concat("wx_offical_access_token_", config.AppId);
         }
 
 
+
+
+        #region  模板功能
         /// <summary>
         /// 发送模板消息
         /// </summary>
@@ -45,14 +55,31 @@ namespace OS.Social.WX.Offcial
             return RestCommonOffcial<WxBaseResp>(req);
         }
 
+        #endregion
+
+        /// <summary>
+        /// 获取微信服务器列表
+        /// </summary>
+        /// <returns></returns>
+        public WxBaseResp<List<string>> GetWxIpList()
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApuUrl, "/cgi-bin/getcallbackip");
+
+            return RestCommonOffcial(req, resp =>
+            {
+                JObject obj=JObject.Parse(resp.Content);
+                var ipList = obj["ip_list"].Values<string>().ToList();
+                 return new WxBaseResp<List<string>>() {Data = ipList };
+            });
+        }
 
 
 
 
-
-
-
-
+        #region  基础方法
 
         /// <summary>
         ///   获取公众号的AccessToken
@@ -105,6 +132,7 @@ namespace OS.Social.WX.Offcial
             return RestCommon<T>(req, funcFormat);
         }
 
+        #endregion
 
     }
 }

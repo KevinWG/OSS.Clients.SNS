@@ -14,7 +14,6 @@ namespace OS.Social.WX.Msg
     /// </summary>
     public class WxMsgHandler
     {
-
         private readonly WxMsgServerConfig m_Config;
 
         /// <summary>
@@ -300,8 +299,9 @@ namespace OS.Social.WX.Msg
         #endregion
 
         #endregion
-        
-    
+
+
+
     }
 
 
