@@ -1,4 +1,18 @@
-﻿using System;
+﻿#region Copyright (C) 2016 OS系列开源项目
+
+/***************************************************************************
+*　　	文件功能描述：消息对话事件句柄，被动消息处理类
+*
+*　　	创建人： 王超
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2016
+*       
+*****************************************************************************/
+
+#endregion
+
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using OS.Common.ComModels;
@@ -10,7 +24,7 @@ using OS.Social.WX.Msg.Mos;
 namespace OS.Social.WX.Msg
 {
     /// <summary>
-    ///  消息对话事件句柄
+    ///  消息对话事件句柄，被动消息处理
     /// </summary>
     public class WxMsgHandler
     {
@@ -118,7 +132,6 @@ namespace OS.Social.WX.Msg
 
 
         #endregion
-
         
         #region 消息处理入口，出口（分为开始，处理，结束部分）
 
@@ -299,9 +312,7 @@ namespace OS.Social.WX.Msg
         #endregion
 
         #endregion
-
-
-
+        
     }
 
 

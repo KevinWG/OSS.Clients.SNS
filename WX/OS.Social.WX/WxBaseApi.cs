@@ -1,4 +1,18 @@
-﻿using System;
+﻿#region Copyright (C) 2016 OS系列开源项目
+
+/***************************************************************************
+*　　	文件功能描述：微信接口SDK基类
+*
+*　　	创建人： 王超
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2016
+*       
+*****************************************************************************/
+
+#endregion
+
+
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using OS.Http;
@@ -6,12 +20,18 @@ using OS.Http.Models;
 
 namespace OS.Social.WX
 {
+    /// <summary>
+    /// 微信接口SDK基类
+    /// </summary>
     public class WxBaseApi
     {
         protected WxAppCoinfig m_Config;
-
         protected const string m_ApuUrl = "https://api.weixin.qq.com";
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="config"></param>
         public WxBaseApi(WxAppCoinfig config)
         {
             m_Config = config;

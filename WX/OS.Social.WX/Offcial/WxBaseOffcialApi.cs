@@ -1,7 +1,19 @@
-﻿using System;
+﻿#region Copyright (C) 2016 OS系列开源项目
+
+/***************************************************************************
+*　　	文件功能描述：公号的功能接口基类，获取AccessToken ，获取微信服务器Ip列表
+*
+*　　	创建人： 王超
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2016   忘记哪一天
+*       
+*****************************************************************************/
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OS.Common.ComModels;
 using OS.Common.Modules;
@@ -12,51 +24,21 @@ using OS.Social.WX.Offcial.Mos;
 
 namespace OS.Social.WX.Offcial
 {
-    public class WxOffcialApi:WxBaseApi
+    /// <summary>
+    /// 微信公号接口基类
+    /// </summary>
+    public class WxBaseOffcialApi:WxBaseApi
     {
-
         private readonly string m_OffcialAccessTokenKey;
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxOffcialApi(WxAppCoinfig config) : base(config)
+        public WxBaseOffcialApi(WxAppCoinfig config) : base(config)
         {
             m_OffcialAccessTokenKey = string.Concat("wx_offical_access_token_", config.AppId);
         }
-
-
-
-
-        #region  模板功能
-        /// <summary>
-        /// 发送模板消息
-        /// </summary>
-        /// <param name="openId">普通用户的标识，对当前公众号唯一</param>
-        /// <param name="templateId">模板Id</param>
-        /// <param name="url">消息详情链接地址</param>
-        /// <param name="data">消息数据</param>
-        /// <returns></returns>
-        public WxBaseResp SendTemplate(string openId, string templateId, string url, object data)
-        {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApuUrl, "/cgi-bin/message/template/send");
-            var param = new
-            {
-                touser = openId,
-                template_id = templateId,
-                url = url,
-                data = data
-            };
-            req.CustomBody = JsonConvert.SerializeObject(param);
-
-            return RestCommonOffcial<WxBaseResp>(req);
-        }
-
-        #endregion
-
+       
         /// <summary>
         /// 获取微信服务器列表
         /// </summary>
@@ -75,9 +57,6 @@ namespace OS.Social.WX.Offcial
                  return new WxBaseResp<List<string>>() {Data = ipList };
             });
         }
-
-
-
 
         #region  基础方法
 
@@ -117,7 +96,7 @@ namespace OS.Social.WX.Offcial
         /// <param name="req"></param>
         /// <param name="funcFormat"></param>
         /// <returns></returns>
-        private T RestCommonOffcial<T>(OsHttpRequest req, Func<OsHttpResponse, T> funcFormat = null)
+        protected T RestCommonOffcial<T>(OsHttpRequest req, Func<OsHttpResponse, T> funcFormat = null)
             where T : WxBaseResp, new()
         {
             var tokenRes = GetOffcialAccessToken();

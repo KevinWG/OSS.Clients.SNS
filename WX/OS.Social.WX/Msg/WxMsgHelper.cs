@@ -1,9 +1,25 @@
-﻿using System.Collections.Generic;
+﻿#region Copyright (C) 2016 OS系列开源项目
+
+/***************************************************************************
+*　　	文件功能描述：微信传送消息解析帮助类
+*
+*　　	创建人： 王超
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2016
+*       
+*****************************************************************************/
+
+#endregion
+
+using System.Collections.Generic;
 using System.Xml;
 using OS.Social.WX.Msg.Mos;
 
 namespace OS.Social.WX.Msg
 {
+    /// <summary>
+    /// 微信传送消息解析帮助类
+    /// </summary>
     internal class WxMsgHelper
     {
         /// <summary>

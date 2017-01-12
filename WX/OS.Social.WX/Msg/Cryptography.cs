@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using OS.Common.Encrypt;
 
-namespace OS.Social.WX
+namespace OS.Social.WX.Msg
 {
 
    /// <summary>
