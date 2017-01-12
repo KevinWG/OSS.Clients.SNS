@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OS.Social.WX.Offcial.Mos
 {
@@ -24,4 +25,17 @@ namespace OS.Social.WX.Offcial.Mos
 
 
     }
+
+
+    /// <summary>
+    /// 获取微信服务器ip列表响应实体
+    /// </summary>
+    public class WxIpListResp : WxBaseResp
+    {
+        /// <summary>
+        ///   ip列表
+        /// </summary>
+        public List<string> ip_list { get; set; }
+    }
+
 }

@@ -45,7 +45,7 @@ namespace OS.Social.Wx.Tests
         public void GetWxIpListTest()
         {
             var iplist = m_Api.GetWxIpList();
-            Assert.IsTrue(iplist.IsSuccess && iplist.Data.Count > 0);
+            Assert.IsTrue(iplist.IsSuccess && iplist.ip_list.Count > 0);
         }
 
 

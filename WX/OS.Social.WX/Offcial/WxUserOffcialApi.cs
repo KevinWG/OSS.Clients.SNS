@@ -11,7 +11,10 @@
 
 #endregion
 
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OS.Http;
 using OS.Http.Models;
 using OS.Social.WX.Offcial.Mos;
@@ -39,6 +42,14 @@ namespace OS.Social.WX.Offcial
             m_DicErrMsg.Add(45158, "标签名长度超过30个字节");
             m_DicErrMsg.Add(45056, "创建的标签数过多，请注意不能超过100个");
 
+            m_DicErrMsg.Add(40003, "传入非法的openid");
+            m_DicErrMsg.Add(45159, "非法的tag_id");
+
+            m_DicErrMsg.Add(40032, "每次传入的openid列表个数不能超过50个");
+            m_DicErrMsg.Add(45159, "非法的标签");
+            m_DicErrMsg.Add(45059, "有粉丝身上的标签数已经超过限制");
+            m_DicErrMsg.Add(40003, "传入非法的openid");
+            m_DicErrMsg.Add(49003, "传入的openid不属于此AppID");
             #endregion
         }
 
@@ -124,7 +135,62 @@ namespace OS.Social.WX.Offcial
             return RestCommonOffcial<GetTagListResp>(req);
         }
 
+        /// <summary>
+        ///  获取标签下粉丝列表
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <param name="next_openid">第一个拉取的OPENID，不填默认从头开始拉取</param>
+        /// <returns></returns>
+        public WxTagOpenIdsResp GetOpenIdListByTag(int tagId, string next_openid = "")
+        {
+            var req = new OsHttpRequest();
 
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/tag/get");
+            req.CustomBody = JsonConvert.SerializeObject(new {tagid = tagId, next_openid = next_openid});
+
+            var  idRes= RestCommonOffcial<WxTagOpenIdsResp>(req);
+            if (idRes.IsSuccess)
+            {
+                idRes.openid_list = idRes.data!=null?((JToken)idRes.data)["openid"].Values<string>().ToList():new List<string>();
+            }
+            return idRes;
+        }
+
+
+        /// <summary>
+        ///   给多个用户同时设置或者取消标签
+        /// </summary>
+        /// <param name="openIdList">要设置的用户列表，数量不能超过50个</param>
+        /// <param name="tagId">标签Id</param>
+        /// <param name="flag">标识  0. 增加标签     1.  取消标签</param>
+        /// <returns></returns>
+        public WxBaseResp SetOrCancleUsersTag(List<string> openIdList,int tagId,int flag)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;       
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/",flag==0? "batchtagging" : "batchuntagging");
+            req.CustomBody = JsonConvert.SerializeObject(new { tagid = tagId, openid_list = openIdList });
+
+            return RestCommonOffcial<WxBaseResp>(req);
+         
+        }
+        /// <summary>
+        ///  获取用户身上的标签列表
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <returns></returns>
+        public GetUserTagsResp GetUserTagsByOpenId(string openid)
+        {
+            var req=new OsHttpRequest();
+
+            req.HttpMothed=HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/getidlist");
+            req.CustomBody = JsonConvert.SerializeObject(new { openid= openid });
+
+            return RestCommonOffcial<GetUserTagsResp>(req);
+        }
 
         #endregion
 

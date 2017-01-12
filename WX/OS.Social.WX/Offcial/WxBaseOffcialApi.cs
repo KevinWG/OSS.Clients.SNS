@@ -43,19 +43,14 @@ namespace OS.Social.WX.Offcial
         /// 获取微信服务器列表
         /// </summary>
         /// <returns></returns>
-        public WxBaseResp<List<string>> GetWxIpList()
+        public WxIpListResp GetWxIpList()
         {
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/getcallbackip");
 
-            return RestCommonOffcial(req, resp =>
-            {
-                JObject obj=JObject.Parse(resp.Content);
-                var ipList = obj["ip_list"].Values<string>().ToList();
-                 return new WxBaseResp<List<string>>() {Data = ipList };
-            });
+            return RestCommonOffcial<WxIpListResp>(req);
         }
 
         #region  基础方法

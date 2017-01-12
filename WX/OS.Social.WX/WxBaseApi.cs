@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using OS.Common.ComModels.Enums;
 using OS.Common.Modules;
 using OS.Common.Modules.LogModule;
 using OS.Http;
@@ -79,6 +80,7 @@ namespace OS.Social.WX
             catch (Exception ex)
             {
                 // ignored
+                t = new T() {Ret = (int) ResultTypes.InnerError, Message = ex.Message};
                 LogUtil.Error(string.Concat("基类请求出错，错误信息：", ex.Message), "RestCommon", ModuleNames.SnsCenter);
             }
             return t ?? new T() {Ret = 0};

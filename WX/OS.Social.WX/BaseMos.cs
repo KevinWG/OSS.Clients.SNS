@@ -47,19 +47,6 @@ namespace OS.Social.WX
         public string errmsg { get; set; }
     }
 
-    /// <summary>
-    ///  泛型的返回实体
-    /// </summary>
-    /// <typeparam name="Type"></typeparam>
-    public class WxBaseResp<Type> : WxBaseResp
-    {
-
-
-        /// <summary>
-        /// 数据实体
-        /// </summary>
-        public Type Data { get; set; }
-    }
 
     /// <summary>
     /// 微信公众平台配置

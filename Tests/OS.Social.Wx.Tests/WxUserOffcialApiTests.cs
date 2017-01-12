@@ -31,5 +31,14 @@ namespace OS.Social.Wx.Tests
             var res = m_Api.GetTagList();
             Assert.IsTrue(res.IsSuccess);
         }
+
+
+        [TestMethod]
+        public void GetOpenIdListTest()
+        {
+            var res = m_Api.GetOpenIdListByTag(2);
+            Assert.IsTrue(res.IsSuccess);
+        }
+
     }
 }

@@ -48,5 +48,43 @@ namespace OS.Social.WX.Offcial.Mos
         public int count { get; set; }
     }
 
+    /// <summary>
+    ///  标签下粉丝列表响应实体
+    /// </summary>
+    public class WxTagOpenIdsResp:WxBaseResp
+    {
+        /// <summary>
+        /// 这次获取的粉丝数量
+        /// </summary>
+        public int count { get; set; }
+
+        /// <summary>
+        /// 拉取列表最后一个用户的openid
+        /// </summary>
+        public string next_openid { get;private set; }
+
+        /// <summary>
+        /// openid 列表
+        /// </summary>
+        public List<string> openid_list { get; internal set; }
+
+        /// <summary>
+        /// 微信返回的包含openid的对象，解析出openid_list之后就不用了
+        /// </summary>
+        public object data { get; set; }
+    }
+
+
+    /// <summary>
+    /// 用户对应的标签列表
+    /// </summary>
+    public class GetUserTagsResp:WxBaseResp
+    {
+        /// <summary>
+        /// 被置上的标签列表
+        /// </summary>
+        public List<int> tagid_list { get; set; }
+    }
+
     #endregion
 }
