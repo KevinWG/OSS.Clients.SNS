@@ -18,12 +18,13 @@ namespace OS.Social.WX.Offcial.Mos
     /// <summary>
     /// 添加标签返回请求
     /// </summary>
-    public class WxAddTagResp:WxBaseResp
+    public class WxAddTagResp : WxBaseResp
     {
         /// <summary>
         /// 返回标签实体
         /// </summary>
         public WxTagInfo tag { get; set; }
+
     }
 
     /// <summary>

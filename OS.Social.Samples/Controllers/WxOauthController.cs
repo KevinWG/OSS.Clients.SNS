@@ -27,7 +27,7 @@ namespace OS.Social.Samples.Controllers
             var tokecRes = m_AuthApi.GetAuthAccessToken(code);
             if (tokecRes.IsSuccess)
             {
-                var userInfoRes = m_AuthApi.GetWxAuthUserInfo(tokecRes.AccessToken, tokecRes.OpenId);
+                var userInfoRes = m_AuthApi.GetWxAuthUserInfo(tokecRes.access_token, tokecRes.openid);
                 return Content("你已成功获取用户信息!");
             }
             return Content("获取用户授权信息失败!");

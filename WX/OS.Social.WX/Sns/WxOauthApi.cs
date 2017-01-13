@@ -46,14 +46,14 @@ namespace OS.Social.WX.Sns
         /// </summary>
         /// <param name="code">填写第一步获取的code参数</param>
         /// <returns></returns>
-        public GetWxAccessTokenResp GetAuthAccessToken(string code)
+        public WxGetAccessTokenResp GetAuthAccessToken(string code)
         {
             var req=new OsHttpRequest();
 
             req.AddressUrl = $"{m_ApiUrl}/sns/oauth2/access_token?appid={m_Config.AppId}&secret={m_Config.AppSecret}&code={code}&grant_type=authorization_code";
             req.HttpMothed=HttpMothed.GET;
 
-            return RestCommon<GetWxAccessTokenResp>(req);
+            return RestCommon<WxGetAccessTokenResp>(req);
         }
 
         /// <summary>
@@ -61,14 +61,14 @@ namespace OS.Social.WX.Sns
         /// </summary>
         /// <param name="accessToken">授权接口调用凭证</param>
         /// <returns></returns>
-        public GetWxAccessTokenResp RefreshAuthAccessToken(string accessToken)
+        public WxGetAccessTokenResp RefreshAuthAccessToken(string accessToken)
         {
             var request = new OsHttpRequest();
 
             request.AddressUrl = $"{m_ApiUrl}/sns/oauth2/refresh_token?appid={m_Config.AppId}&grant_type=refresh_token&refresh_token={accessToken}";
             request.HttpMothed = HttpMothed.GET;
 
-            return RestCommon<GetWxAccessTokenResp>(request);
+            return RestCommon<WxGetAccessTokenResp>(request);
         }
 
 
@@ -78,13 +78,13 @@ namespace OS.Social.WX.Sns
         /// <param name="accessToken">授权接口调用凭证</param>
         /// <param name="openId">用户的唯一标识</param>
         /// <returns></returns>
-        public GetWxAuthUserResp GetWxAuthUserInfo(string accessToken, string openId)
+        public WxGetAuthUserResp GetWxAuthUserInfo(string accessToken, string openId)
         {
             var request = new OsHttpRequest();
             request.AddressUrl = $"{m_ApiUrl}/sns/userinfo?access_token={accessToken}&openid={openId}";
             request.HttpMothed = HttpMothed.GET;
 
-            return RestCommon<GetWxAuthUserResp>(request);
+            return RestCommon<WxGetAuthUserResp>(request);
         }
 
 

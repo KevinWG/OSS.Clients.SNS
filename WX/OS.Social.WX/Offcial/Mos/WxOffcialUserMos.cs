@@ -51,4 +51,12 @@ namespace OS.Social.WX.Offcial.Mos
             }
         }
     }
+
+
+
+
+    public class WxUserInfo
+    {
+
+    }
 }

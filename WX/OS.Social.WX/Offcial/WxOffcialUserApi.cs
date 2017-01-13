@@ -69,6 +69,27 @@ namespace OS.Social.WX.Offcial
 
         }
 
+        /// <summary>
+        ///   设置用户备注名
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <param name="remark">备注名称</param>
+        /// <returns></returns>
+        public WxBaseResp SetUserRemark(string openid,string remark)
+        {
+            var req=new OsHttpRequest();
+
+            req.HttpMothed=HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/info/updateremark");
+            req.CustomBody = JsonConvert.SerializeObject(new {openid = openid, remark = remark});
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
+
+
+
+
         #endregion
 
         #region  用户标签管理
