@@ -85,10 +85,38 @@ namespace OS.Social.WX.Offcial
 
             return RestCommonOffcial<WxBaseResp>(req);
         }
+        /// <summary>
+        /// 获取用户基本信息(UnionID机制)
+        /// </summary>
+        /// <param name="userReq">请求参数</param>
+        /// <returns></returns>
+        public WxOffcialUserInfoResp GetUserInfo(WxOffcialUserInfoReq userReq)
+        {
 
+            var req = new OsHttpRequest();
 
+            req.HttpMothed = HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, $"/cgi-bin/user/info?openid={userReq.openid}&lang={userReq.lang}");
 
+            return RestCommonOffcial<WxOffcialUserInfoResp>(req);
+        }
 
+        /// <summary>
+        /// 获取用户基本信息(UnionID机制)
+        /// </summary>
+        /// <param name="userReq">请求参数</param>
+        /// <returns></returns>
+        public WxOffcialUserListResp GetUserInfoList(IList<WxOffcialUserInfoReq> userReq)
+        {
+
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/info/batchget");
+            req.CustomBody = JsonConvert.SerializeObject(userReq);
+
+            return RestCommonOffcial<WxOffcialUserListResp>(req);
+        }
 
         #endregion
 
@@ -210,6 +238,7 @@ namespace OS.Social.WX.Offcial
             return RestCommonOffcial<WxBaseResp>(req);
          
         }
+
         /// <summary>
         ///  获取用户身上的标签列表
         /// </summary>
