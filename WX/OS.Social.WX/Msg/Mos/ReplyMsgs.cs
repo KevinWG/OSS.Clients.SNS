@@ -19,9 +19,8 @@ namespace OS.Social.WX.Msg.Mos
         /// <summary>
         ///  缺省情况下直接回复 success
         /// </summary>
-        /// <param name="config"></param>
         /// <returns></returns>
-        public override string ToReplyXml(WxMsgServerConfig config) => "success";
+        public override string ToReplyXml() => "success";
     }
     /// <summary>
     /// 回复文本消息

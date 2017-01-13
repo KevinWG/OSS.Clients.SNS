@@ -3,7 +3,6 @@ using System.IO;
 using System.Web.Mvc;
 using OS.Common.Modules.LogModule;
 using OS.Social.WX.Msg.Mos;
-using OS.Social.WX.Offcial;
 
 namespace OS.Social.Samples.Controllers
 {

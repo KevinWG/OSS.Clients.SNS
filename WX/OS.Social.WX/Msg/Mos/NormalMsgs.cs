@@ -2,8 +2,6 @@
 
 namespace OS.Social.WX.Msg.Mos
 {
-    //public class  En
-
     /// <summary>
     /// 文本消息
     /// </summary>
