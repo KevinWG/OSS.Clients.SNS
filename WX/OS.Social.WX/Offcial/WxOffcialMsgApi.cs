@@ -1,7 +1,7 @@
-﻿#region Copyright (C) 2017 OS系列开源项目
+﻿#region Copyright (C) 2017    Kevin    （OS系列开源项目）
 
 /***************************************************************************
-*　　	文件功能描述：会话，客服，模板消息等管理
+*　　	文件功能描述：会话，客服，模板消息等消息Api
 *
 *　　	创建人： 王超
 *       创建人Email：1985088337@qq.com
@@ -21,16 +21,17 @@ namespace OS.Social.WX.Offcial
     /// <summary>
     /// 会话，客服，模板消息等管理
     /// </summary>
-    public class WxMsgOffcialApi:WxBaseOffcialApi
+    public class WxOffcialMsgApi:WxOffcialBaseApi
     {
-
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxMsgOffcialApi(WxAppCoinfig config) : base(config)
+        public WxOffcialMsgApi(WxAppCoinfig config) : base(config)
         {
         }
+
+
         #region  模板功能
         /// <summary>
         /// 发送模板消息

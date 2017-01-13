@@ -1,9 +1,9 @@
-﻿#region Copyright (C) 2017 OS系列开源项目
+﻿#region Copyright (C) 2017   kevin   （OS系列开源项目）
 
 /***************************************************************************
 *　　	文件功能描述：公号用户管理接口类
 *
-*　　	创建人： 王超
+*　　	创建人： kevin
 *       创建人Email：1985088337@qq.com
 *    	创建日期：2017
 *       
@@ -24,17 +24,17 @@ namespace OS.Social.WX.Offcial
     /// <summary>
     ///  公号用户管理接口类
     /// </summary>
-    public class WxUserOffcialApi:WxBaseOffcialApi
+    public class WxOffcialUserApi:WxOffcialBaseApi
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxUserOffcialApi(WxAppCoinfig config) : base(config)
+        public WxOffcialUserApi(WxAppCoinfig config) : base(config)
         {
         }
 
-        static WxUserOffcialApi()
+        static WxOffcialUserApi()
         {
             #region  增加用户管理特殊 错误码(https://mp.weixin.qq.com/wiki)
 
@@ -53,7 +53,13 @@ namespace OS.Social.WX.Offcial
             #endregion
         }
 
-        #region  标签管理
+        #region  用户管理
+
+
+
+        #endregion
+
+        #region  用户标签管理
 
 
         /// <summary>
@@ -61,7 +67,7 @@ namespace OS.Social.WX.Offcial
         /// </summary>
         /// <param name="name">标签名称</param>
         /// <returns></returns>
-        public AddTagResp AddTag(string name)
+        public WxAddTagResp AddTag(string name)
         {
             var req=new OsHttpRequest();
 
@@ -73,7 +79,7 @@ namespace OS.Social.WX.Offcial
             };
             req.CustomBody = JsonConvert.SerializeObject(param);
 
-            return RestCommonOffcial<AddTagResp>(req);
+            return RestCommonOffcial<WxAddTagResp>(req);
         }
 
         /// <summary>
@@ -125,14 +131,14 @@ namespace OS.Social.WX.Offcial
         ///   获取公众号已创建的标签
         /// </summary>
         /// <returns></returns>
-        public GetTagListResp GetTagList()
+        public WxGetTagListResp GetTagList()
         {
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/get");
            
-            return RestCommonOffcial<GetTagListResp>(req);
+            return RestCommonOffcial<WxGetTagListResp>(req);
         }
 
         /// <summary>
@@ -141,7 +147,7 @@ namespace OS.Social.WX.Offcial
         /// <param name="tagId"></param>
         /// <param name="next_openid">第一个拉取的OPENID，不填默认从头开始拉取</param>
         /// <returns></returns>
-        public WxTagOpenIdsResp GetOpenIdListByTag(int tagId, string next_openid = "")
+        public WxOpenIdsResp GetOpenIdListByTag(int tagId, string next_openid = "")
         {
             var req = new OsHttpRequest();
 
@@ -149,11 +155,7 @@ namespace OS.Social.WX.Offcial
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/tag/get");
             req.CustomBody = JsonConvert.SerializeObject(new {tagid = tagId, next_openid = next_openid});
 
-            var  idRes= RestCommonOffcial<WxTagOpenIdsResp>(req);
-            if (idRes.IsSuccess)
-            {
-                idRes.openid_list = idRes.data!=null?((JToken)idRes.data)["openid"].Values<string>().ToList():new List<string>();
-            }
+            var  idRes= RestCommonOffcial<WxOpenIdsResp>(req);
             return idRes;
         }
 
@@ -181,7 +183,7 @@ namespace OS.Social.WX.Offcial
         /// </summary>
         /// <param name="openid"></param>
         /// <returns></returns>
-        public GetUserTagsResp GetUserTagsByOpenId(string openid)
+        public WxGetUserTagsResp GetUserTagsByOpenId(string openid)
         {
             var req=new OsHttpRequest();
 
@@ -189,10 +191,12 @@ namespace OS.Social.WX.Offcial
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/getidlist");
             req.CustomBody = JsonConvert.SerializeObject(new { openid= openid });
 
-            return RestCommonOffcial<GetUserTagsResp>(req);
+            return RestCommonOffcial<WxGetUserTagsResp>(req);
         }
 
         #endregion
+
+ 
 
     }
 }

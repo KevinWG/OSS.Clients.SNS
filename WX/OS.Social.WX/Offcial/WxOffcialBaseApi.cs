@@ -1,9 +1,9 @@
-﻿#region Copyright (C) 2016 OS系列开源项目
+﻿#region Copyright (C) 2016 Kevin (OS系列开源项目)
 
 /***************************************************************************
 *　　	文件功能描述：公号的功能接口基类，获取AccessToken ，获取微信服务器Ip列表
 *
-*　　	创建人： 王超
+*　　	创建人： Kevin
 *       创建人Email：1985088337@qq.com
 *    	创建日期：2016   忘记哪一天
 *       
@@ -12,9 +12,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
 using OS.Common.ComModels;
 using OS.Common.Modules;
 using OS.Common.Modules.CacheModule;
@@ -27,14 +24,14 @@ namespace OS.Social.WX.Offcial
     /// <summary>
     /// 微信公号接口基类
     /// </summary>
-    public class WxBaseOffcialApi:WxBaseApi
+    public class WxOffcialBaseApi:WxBaseApi
     {
         private readonly string m_OffcialAccessTokenKey;
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxBaseOffcialApi(WxAppCoinfig config) : base(config)
+        public WxOffcialBaseApi(WxAppCoinfig config) : base(config)
         {
             m_OffcialAccessTokenKey = string.Concat("wx_offical_access_token_", config.AppId);
         }

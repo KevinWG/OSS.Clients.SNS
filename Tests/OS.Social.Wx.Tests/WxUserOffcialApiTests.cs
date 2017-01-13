@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OS.Social.WX.Offcial;
 
 namespace OS.Social.Wx.Tests
@@ -12,7 +13,7 @@ namespace OS.Social.Wx.Tests
         private static WxUserOffcialApi  m_Api=new WxUserOffcialApi(m_Config);
 
         [TestMethod]
-        public void AddTagTest()
+        public void TagTests()
         {
             var res = m_Api.AddTag("我就是试一试！");
             Assert.IsTrue(res.IsSuccess||res.Ret==45157);
@@ -31,7 +32,7 @@ namespace OS.Social.Wx.Tests
             var res = m_Api.GetTagList();
             Assert.IsTrue(res.IsSuccess);
         }
-
+        //  todo  test
 
         [TestMethod]
         public void GetOpenIdListTest()
@@ -39,6 +40,25 @@ namespace OS.Social.Wx.Tests
             var res = m_Api.GetOpenIdListByTag(2);
             Assert.IsTrue(res.IsSuccess);
         }
+
+
+
+        [TestMethod]
+        public void GetOpenIdListByTagTest()
+        {
+            var res = m_Api.GetOpenIdListByTag(2);
+            Assert.IsTrue(res.IsSuccess);
+        }
+
+
+        [TestMethod]
+        public void SetOrCancleUsersTagTest()
+        {
+            var res = m_Api.SetOrCancleUsersTag(new List<string>() {""}, 2,0);
+            Assert.IsTrue(res.IsSuccess);
+
+        }
+        //GetUserTagsByOpenId
 
     }
 }

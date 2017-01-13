@@ -17,7 +17,7 @@
 ### 一. 安装使用
    &nbsp;&nbsp;&nbsp;nuget下安装命令：**Install-Package OS.Social.WX**	
 ### 二. 调用示例
- 1. 基础授权调用
+1. 基础授权调用
 
 ``` cs
 	    //声明配置信息
@@ -51,7 +51,7 @@
 
 
  	
- 2. 会话调用
+2. 会话调用
     a.  首先声明配置信息
 ``` protobuf
 // 声明配置
@@ -109,7 +109,7 @@ private static WxAppCoinfig m_Config = new WxAppCoinfig()
    
    b. 声明一个实例：
 ``` vbnet
-    private static readonly WxOffcialApi m_OffcialApi = new WxOffcialApi(m_Config);
+    private static readonly WxOffcialApi m_OffcialMsgApi = new WxOffcialMsgApi(m_Config);
 ```
 
    c.  具体使用
