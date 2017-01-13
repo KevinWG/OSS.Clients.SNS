@@ -89,8 +89,9 @@ namespace OS.Social.WX.Msg
 
         /// <summary>
         /// 处理上报地理位置事件
+        /// 不需要回复任何消息
         /// </summary>
-        protected event Func<LocationEvent, BaseReplyContext> LocationEventHandler;
+        protected event Func<LocationEvent, NoReplyMsg> LocationEventHandler;
 
         /// <summary>
         /// 处理点击菜单拉取消息时的事件推送
@@ -153,7 +154,6 @@ namespace OS.Social.WX.Msg
         /// <summary>
         /// 核心执行方法
         /// </summary>
-        /// <param name="config">配置信息</param>
         /// <param name="contentXml">内容信息</param>
         /// <param name="signature">签名信息</param>
         /// <param name="timestamp">时间戳</param>
@@ -174,16 +174,14 @@ namespace OS.Social.WX.Msg
 
             ProcessingEndHandler?.Invoke(context);
 
-            return new ResultMo<string>(context.ReplyContext.ToXml(m_Config));
+            return new ResultMo<string>(context.ReplyContext.ToReplyXml(m_Config));
         }
 
         #region   开始方法
 
-
         /// <summary>
         /// 核心执行方法    ==    验证签名和消息体信息处理
         /// </summary>
-        /// <param name="config">在微信端配置信息</param>
         /// <param name="contentXml">消息内容</param>
         /// <param name="signature">微信加密签名</param>
         /// <param name="timestamp">时间戳</param>

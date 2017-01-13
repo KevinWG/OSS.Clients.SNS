@@ -85,16 +85,21 @@ namespace OS.Social.WX.Msg.Mos
     /// </summary>
     public class BaseReplyContext : BaseContext
     {
+        /// <summary>
+        /// 消息类型
+        /// </summary>
         public ReplyMsgType MsgType { get; set; }
-
-
+        
         private List<Tuple<string, object>> _propertyList;
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected virtual void FormatXml()
         {
-            SetXmlValue("ToUserName", ToUserName);
-            SetXmlValue("FromUserName", FromUserName);
-            SetXmlValue("CreateTime", CreateTime);
+            SetReplyXmlValue("ToUserName", ToUserName);
+            SetReplyXmlValue("FromUserName", FromUserName);
+            SetReplyXmlValue("CreateTime", CreateTime);
         }
 
         /// <summary>
@@ -103,7 +108,7 @@ namespace OS.Social.WX.Msg.Mos
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected void SetXmlValue(string key, object value)
+        protected void SetReplyXmlValue(string key, object value)
         {
             _propertyList.Add(Tuple.Create(key, value));
         }
@@ -113,7 +118,7 @@ namespace OS.Social.WX.Msg.Mos
         /// </summary>
         /// <param name="config">配置信息，处理消息是否加密</param>
         /// <returns></returns>
-        public string ToXml(WxMsgServerConfig config)
+        public virtual string ToReplyXml(WxMsgServerConfig config)
         {
             if (MsgType == ReplyMsgType.None)
             {
@@ -169,8 +174,7 @@ namespace OS.Social.WX.Msg.Mos
             }
             return xml.ToString();
         }
-
-
+        
         /// <summary>
         ///  加密模式下，返回的消息体加密
         /// </summary>
@@ -215,10 +219,11 @@ namespace OS.Social.WX.Msg.Mos
             sEncryptMsg.Append("</xml>");
             return new ResultMo<string>(sEncryptMsg.ToString());
         }
-
-
     }
 
+    /// <summary>
+    /// 当前请求的上下文
+    /// </summary>
     public class MsgContext
     {
         /// <summary>

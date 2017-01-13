@@ -73,10 +73,9 @@ namespace OS.Social.Samples.Controllers
             }
             catch (Exception ex)
             {
-
             }
             
-            return Content(new NoReplyMsg().ToXml(config));
+            return Content("success");
 
         }
 
