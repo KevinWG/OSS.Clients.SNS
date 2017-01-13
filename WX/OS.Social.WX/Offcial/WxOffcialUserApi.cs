@@ -40,20 +40,34 @@ namespace OS.Social.WX.Offcial
             m_DicErrMsg.Add(45158, "标签名长度超过30个字节");
             m_DicErrMsg.Add(45056, "创建的标签数过多，请注意不能超过100个");
 
-            m_DicErrMsg.Add(40003, "传入非法的openid");
-            m_DicErrMsg.Add(45159, "非法的tag_id");
+            //  基类中已经包含
+            //m_DicErrMsg.Add(40003, "传入非法的openid");
+            //m_DicErrMsg.Add(45159, "非法的tag_id");
+            //m_DicErrMsg.Add(40032, "每次传入的openid列表个数不能超过50个");
 
-            m_DicErrMsg.Add(40032, "每次传入的openid列表个数不能超过50个");
             m_DicErrMsg.Add(45159, "非法的标签");
             m_DicErrMsg.Add(45059, "有粉丝身上的标签数已经超过限制");
-            m_DicErrMsg.Add(40003, "传入非法的openid");
             m_DicErrMsg.Add(49003, "传入的openid不属于此AppID");
             #endregion
         }
 
         #region  用户管理
 
+        /// <summary>
+        /// 获取用户openid列表
+        /// </summary>
+        /// <param name="next_openid">第一个拉取的OPENID，不填默认从头开始拉取</param>
+        /// <returns></returns>
+        public WxOpenIdsResp GetOpenIdList(string next_openid = "")
+        {
+            var req=new OsHttpRequest();
 
+            req.HttpMothed=HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/get?next_openid=", next_openid);
+
+            return RestCommonOffcial<WxOpenIdsResp>(req);
+
+        }
 
         #endregion
 
@@ -153,8 +167,7 @@ namespace OS.Social.WX.Offcial
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/tag/get");
             req.CustomBody = JsonConvert.SerializeObject(new {tagid = tagId, next_openid = next_openid});
 
-            var  idRes= RestCommonOffcial<WxOpenIdsResp>(req);
-            return idRes;
+            return RestCommonOffcial<WxOpenIdsResp>(req);
         }
 
 

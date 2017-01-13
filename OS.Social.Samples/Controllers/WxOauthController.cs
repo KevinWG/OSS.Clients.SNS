@@ -9,8 +9,8 @@ namespace OS.Social.Samples.Controllers
         private static WxAppCoinfig m_Config = new WxAppCoinfig()
         {
             AppSource = "11",
-            AppId = "你的appId",
-            AppSecret = "你的secretkey"
+            AppId = "wxaa9e6cb3f03afa97",
+            AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
         };
         
         private static WxOauthApi m_AuthApi = new WxOauthApi(m_Config);

@@ -34,14 +34,6 @@ namespace OS.Social.Wx.Tests
         }
         //  todo  test
 
-        [TestMethod]
-        public void GetOpenIdListTest()
-        {
-            var res = m_Api.GetOpenIdListByTag(2);
-            Assert.IsTrue(res.IsSuccess);
-        }
-
-
 
         [TestMethod]
         public void GetOpenIdListByTagTest()
@@ -57,6 +49,15 @@ namespace OS.Social.Wx.Tests
             var res = m_Api.SetOrCancleUsersTag(new List<string>() {""}, 2,0);
             Assert.IsTrue(res.IsSuccess);
 
+        }
+
+
+
+        [TestMethod]
+        public void GetOpenIdListTest()
+        {
+            var res = m_Api.GetOpenIdList();
+            Assert.IsTrue(res.IsSuccess);
         }
         //GetUserTagsByOpenId
 
