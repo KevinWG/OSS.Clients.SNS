@@ -12,7 +12,7 @@ namespace OS.Social.Samples.Controllers
         {
             Token = "你的token",
             EncodingAesKey = "你的加密key",
-            SecurityType = WxSecurityType.Safe,//  在微信段设置的安全模式
+            SecurityType = WxSecurityType.None,//  在微信段设置的安全模式
             AppId = "你的appid"   //  
         };
 
@@ -20,28 +20,6 @@ namespace OS.Social.Samples.Controllers
         #region   微信消息接口模块
 
         private static readonly WxMsgService msgService = new WxMsgService(config);
-
-
-        ///// <summary>
-        /////   验证使用
-        ///// </summary>
-        ///// <param name="signature"></param>
-        ///// <param name="timestamp"></param>
-        ///// <param name="nonce"></param> 
-        ///// <param name="echostr"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public ContentResult msg(string signature, string timestamp, string nonce, string echostr)
-        //{
-        //    LogUtil.Info($"signature:{signature},timestamp:{timestamp},nonce:{nonce},echostr:{echostr}");
-        //    var res = msgService.ProcessServerCheck(config.Token, signature, timestamp, nonce);
-
-        //    if (res.IsSuccess)
-        //    {
-        //        return Content(echostr);
-        //    }
-        //    return Content(string.Empty);
-        //}
 
         /// <summary>
         /// 正常消息使用
