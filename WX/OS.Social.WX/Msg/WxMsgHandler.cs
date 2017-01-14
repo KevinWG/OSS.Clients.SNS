@@ -28,24 +28,9 @@ namespace OS.Social.WX.Msg
         public WxMsgHandler(WxMsgServerConfig config):base(config)
         {
         }
-
-      
+        
         
         #region 消息处理入口，出口（分为开始，处理，结束部分）
-
-        /// <summary>
-        ///  服务器验证
-        /// </summary>
-        /// <param name="token"></param>
-        /// <param name="signature"></param>
-        /// <param name="timestamp"></param>
-        /// <param name="nonce"></param>
-        /// <returns></returns>
-        public ResultMo ProcessServerCheck(string token, string signature, string timestamp,
-            string nonce)
-        {
-            return WxMsgCrypt.CheckSignature(token, signature, timestamp, nonce);
-        }
 
         /// <summary>
         /// 核心执行方法
