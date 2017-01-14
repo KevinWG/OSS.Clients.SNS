@@ -53,8 +53,8 @@
 
 2. 会话调用
 
-    a.  首先声明配置信息
-``` protobuf
+a.  首先声明配置信息
+``` cs
 // 声明配置
 	private static readonly WxMsgServerConfig config = new WxMsgServerConfig()
         {
@@ -65,26 +65,26 @@
         };
 ```
 b. 定义一个处理句柄（可以实现一个自己的Handler，继承自WxMsgHandler 即可）
-``` vbnet
+``` cs
      private static readonly WxMsgHandler msgService = new WxMsgHandler(config);
 ```
-c. 调用时将当前请求的内容传入程序入口即可：
-   
 
-``` lasso
-           string requestXml;
+c. 调用时将当前请求的内容传入程序入口即可：  
+``` cs
             using (StreamReader reader = new StreamReader(Request.InputStream))
             {
                 requestXml = reader.ReadToEnd();
-                LogUtil.Info($"内容 requestXml:{requestXml}");
             }
-     var res = msgService.Processing( requestXml, signature, timestamp, nonce);
-                if (res.IsSuccess)
-                {
-                    LogUtil.Info(res.Data);
+            try
+            {
+                var res = msgService.Processing( requestXml, signature, timestamp, nonce,echostr);
+                if (res.IsSuccess)        
                     return Content(res.Data);
-                }
-                LogUtil.Error(res.Message);
+            }
+            catch (Exception ex)
+            {
+            }            
+            return Content("success");
 ```
 
 
@@ -97,26 +97,23 @@ c. 调用时将当前请求的内容传入程序入口即可：
      
      a.  声明配置信息：
 
-``` d
-//声明配置信息
-private static WxAppCoinfig m_Config = new WxAppCoinfig()
-        {
-            AppSource = "11",
-            AppId = "你的appId",
-            AppSecret = "你的secretkey"
-        };
+``` cs
+	//声明配置信息
+	private static WxAppCoinfig m_Config = new WxAppCoinfig()
+    {
+          AppSource = "11",
+          AppId = "你的appId",
+          AppSecret = "你的secretkey"
+    };
 ```
-
-
    
-   b. 声明一个实例：
-``` vbnet
+b. 声明一个实例：
+``` cs
     private static readonly WxOffcialMsgApi m_OffcialApi = new WxOffcialMsgApi(m_Config);
 ```
 
-   c.  具体使用
-
-``` stylus
+c.  具体使用
+``` cs
   m_OffcialApi.SendTemplate("openid","templateId","url",new {})
 ```
 
