@@ -3,7 +3,7 @@
 /***************************************************************************
 *　　	文件功能描述：消息对话事件句柄，被动消息处理类
 *
-*　　	创建人： kevin
+*　　	创建人： Kevin
 *       创建人Email：1985088337@qq.com
 *    	创建日期：2016
 *       
@@ -12,7 +12,6 @@
 #endregion
 
 using OS.Common.ComModels;
-using OS.Common.ComModels.Enums;
 using OS.Social.WX.Msg.Mos;
 
 namespace OS.Social.WX.Msg
@@ -47,11 +46,6 @@ namespace OS.Social.WX.Msg
         {
             return WxMsgCrypt.CheckSignature(token, signature, timestamp, nonce);
         }
-        
-        #region   开始方法
-
-
-        #endregion
 
         /// <summary>
         /// 核心执行方法
@@ -59,32 +53,55 @@ namespace OS.Social.WX.Msg
         /// <param name="contentXml">内容信息</param>
         /// <param name="signature">签名信息</param>
         /// <param name="timestamp">时间戳</param>
-        /// <returns></returns>
-        public ResultMo<string> Processing(string contentXml, string signature, string timestamp, string nonce)
+        /// <param name="nonce">随机字符创</param>
+        /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果Data中返回</param>
+        /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
+        public ResultMo<string> Processing(string contentXml, string signature, string timestamp, string nonce,string echostr)
         {
-            var result = CheckAndDecryptMsg(contentXml, signature, timestamp, nonce);
-
-       
-            if (!result.IsSuccess)
-                return result.ConvertToResultOnly<string>();
-
-            var contextRes = ProcessCore(result.Data);
-            if (!contextRes.IsSuccess)
-                return contextRes.ConvertToResultOnly<string>();
-            
-            if (contextRes.Data.ReplyMsg == null)
-                contextRes.Data.ReplyMsg = new NoneReplyMsg();
-            
-            ProcessEnd(contextRes.Data);
-
-            var resultString = contextRes.Data.ReplyMsg.ToReplyXml();
-            if (m_Config.SecurityType != WxSecurityType.None && contextRes.Data.ReplyMsg.MsgType != ReplyMsgType.None)
+            // 一.  检查是否是服务器验证
+            if (!string.IsNullOrEmpty(echostr))
             {
-                return EncryptMsg(resultString, m_Config);
+                return CheckServerValid(signature, timestamp, nonce, echostr);
             }
-            return new ResultMo<string>(resultString);
+
+            // 二.  正常消息处理
+            {
+                var checkRes = CheckAndDecryptMsg(contentXml, signature, timestamp, nonce);
+                if (!checkRes.IsSuccess)
+                    return checkRes.ConvertToResultOnly<string>();
+
+                var contextRes = ProcessCore(checkRes.Data);
+                if (!contextRes.IsSuccess)
+                    return contextRes.ConvertToResultOnly<string>();
+
+                ProcessEnd(contextRes.Data);
+
+                var resultString = contextRes.Data.ReplyMsg.ToReplyXml();
+                if (m_Config.SecurityType != WxSecurityType.None &&
+                    contextRes.Data.ReplyMsg.MsgType != ReplyMsgType.None)
+                {
+                    return EncryptMsg(resultString, m_Config);
+                }
+                return new ResultMo<string>(resultString);
+            }
         }
-  
+
+       /// <summary>
+       ///  服务器验证
+       /// </summary>
+       /// <param name="signature"></param>
+       /// <param name="timestamp"></param>
+       /// <param name="nonce"></param>
+       /// <param name="echostr"></param>
+       /// <returns></returns>
+        public ResultMo<string> CheckServerValid(string signature, string timestamp, string nonce, string echostr)
+        {
+            var checkSignRes = WxMsgCrypt.CheckSignature(m_Config.Token, signature, timestamp, nonce);
+            var resultRes = checkSignRes.ConvertToResultOnly<string>();
+            resultRes.Data = resultRes.IsSuccess ? echostr : string.Empty;
+            return resultRes;
+        }
+
         #endregion
 
     }

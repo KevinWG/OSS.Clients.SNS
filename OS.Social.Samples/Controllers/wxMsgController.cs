@@ -22,26 +22,26 @@ namespace OS.Social.Samples.Controllers
         private static readonly WxMsgService msgService = new WxMsgService(config);
 
 
-        /// <summary>
-        ///   验证使用
-        /// </summary>
-        /// <param name="signature"></param>
-        /// <param name="timestamp"></param>
-        /// <param name="nonce"></param> 
-        /// <param name="echostr"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public ContentResult msg(string signature, string timestamp, string nonce, string echostr)
-        {
-            LogUtil.Info($"signature:{signature},timestamp:{timestamp},nonce:{nonce},echostr:{echostr}");
-            var res = msgService.ProcessServerCheck(config.Token, signature, timestamp, nonce);
+        ///// <summary>
+        /////   验证使用
+        ///// </summary>
+        ///// <param name="signature"></param>
+        ///// <param name="timestamp"></param>
+        ///// <param name="nonce"></param> 
+        ///// <param name="echostr"></param>
+        ///// <returns></returns>
+        //[HttpGet]
+        //public ContentResult msg(string signature, string timestamp, string nonce, string echostr)
+        //{
+        //    LogUtil.Info($"signature:{signature},timestamp:{timestamp},nonce:{nonce},echostr:{echostr}");
+        //    var res = msgService.ProcessServerCheck(config.Token, signature, timestamp, nonce);
 
-            if (res.IsSuccess)
-            {
-                return Content(echostr);
-            }
-            return Content(string.Empty);
-        }
+        //    if (res.IsSuccess)
+        //    {
+        //        return Content(echostr);
+        //    }
+        //    return Content(string.Empty);
+        //}
 
         /// <summary>
         /// 正常消息使用
@@ -49,10 +49,11 @@ namespace OS.Social.Samples.Controllers
         /// <param name="signature"></param>
         /// <param name="timestamp"></param>
         /// <param name="nonce"></param>
+        /// <param name="echostr"></param>
         /// <returns></returns>
-        [HttpPost]
-        public ContentResult msg(string signature, string timestamp, string nonce)
+        public ContentResult msg(string signature, string timestamp, string nonce, string echostr)
         {
+            LogUtil.Info($"signature:{signature}, timestamp:{timestamp}  , nonce:{nonce} , echostr:{echostr} ");
             string requestXml;
            
             using (StreamReader reader = new StreamReader(Request.InputStream))
@@ -62,7 +63,7 @@ namespace OS.Social.Samples.Controllers
             }
             try
             {
-                var res = msgService.Processing( requestXml, signature, timestamp, nonce);
+                var res = msgService.Processing( requestXml, signature, timestamp, nonce,echostr);
                 if (res.IsSuccess)
                 {
                     LogUtil.Info(res.Data);

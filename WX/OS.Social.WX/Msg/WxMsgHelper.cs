@@ -3,7 +3,7 @@
 /***************************************************************************
 *　　	文件功能描述：微信传送消息解析帮助类
 *
-*　　	创建人： 王超
+*　　	创建人： Kevin
 *       创建人Email：1985088337@qq.com
 *    	创建日期：2016
 *       
@@ -33,6 +33,7 @@ namespace OS.Social.WX.Msg
         {
             var msg = GetMsg<T>(dirs, MsgType.Event);
             msg.EventType = eventType;
+            msg.SetMsgDirs(dirs);
             return msg;
         }
 
