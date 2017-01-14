@@ -45,32 +45,32 @@ namespace OS.Social.WX.Msg
         /// <summary>
         /// 处理文本消息
         /// </summary>
-        protected event Func<TextMsg, BaseReplyContext> TextHandler;
+        protected event Func<TextRecMsg, BaseReplyContext> TextHandler;
 
         /// <summary>
         /// 处理图像消息
         /// </summary>
-        protected event Func<ImageMsg, BaseReplyContext> ImageHandler;
+        protected event Func<ImageRecMsg, BaseReplyContext> ImageHandler;
 
         /// <summary>
         /// 处理语音消息
         /// </summary>
-        protected event Func<VoiceMsg, BaseReplyContext> VoiceHandler;
+        protected event Func<VoiceRecMsg, BaseReplyContext> VoiceHandler;
 
         /// <summary>
         /// 处理视频/小视频消息
         /// </summary>
-        protected event Func<VideoMsg, BaseReplyContext> VideoHandler;
+        protected event Func<VideoRecMsg, BaseReplyContext> VideoHandler;
 
         /// <summary>
         /// 处理地理位置消息
         /// </summary>
-        protected event Func<LocationMsg, BaseReplyContext> LocationHandler;
+        protected event Func<LocationRecMsg, BaseReplyContext> LocationHandler;
 
         /// <summary>
         /// 处理链接消息
         /// </summary>
-        protected event Func<LinkMsg, BaseReplyContext> LinkHandler;
+        protected event Func<LinkRecMsg, BaseReplyContext> LinkHandler;
 
         #endregion
 
@@ -79,33 +79,33 @@ namespace OS.Social.WX.Msg
         /// <summary>
         /// 处理关注/取消关注事件
         /// </summary>
-        protected event Func<SubscribeEvent, BaseReplyContext> SubscribeEventHandler;
+        protected event Func<SubscribeRecEventMsg, BaseReplyContext> SubscribeEventHandler;
 
         /// <summary>
         /// 处理扫描带参数二维码事件
         /// </summary>
-        protected event Func<SubscribeEvent, BaseReplyContext> ScanEventHandler;
+        protected event Func<SubscribeRecEventMsg, BaseReplyContext> ScanEventHandler;
 
         /// <summary>
         /// 处理上报地理位置事件
         /// 不需要回复任何消息
         /// </summary>
-        protected event Func<LocationEvent, NoReplyMsg> LocationEventHandler;
+        protected event Func<LocationRecEventMsg, NoReplyMsg> LocationEventHandler;
 
         /// <summary>
         /// 处理点击菜单拉取消息时的事件推送
         /// </summary>
-        protected event Func<ClickEvent, BaseReplyContext> ClickEventHandler;
+        protected event Func<ClickRecEventMsg, BaseReplyContext> ClickEventHandler;
 
         /// <summary>
         /// 处理点击菜单跳转链接时的事件推送 
         /// </summary>
-        protected event Func<ViewEvent, BaseReplyContext> ViewEventHandler;
+        protected event Func<ViewRecEventMsg, BaseReplyContext> ViewEventHandler;
 
         /// <summary>
         /// 客服事件推送 
         /// </summary>
-        protected event Func<KFEvent, BaseReplyContext> KefuEventHandler;
+        protected event Func<KFRecEventMsg, BaseReplyContext> KefuEventHandler;
 
         #endregion
 
@@ -116,7 +116,7 @@ namespace OS.Social.WX.Msg
         /// <param name="res"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        protected static BaseReplyContext ExecuteHandler<TRes>(TRes res, Func<TRes, BaseReplyContext> func) where TRes : BaseRecContext
+        protected static BaseReplyContext ExecuteHandler<TRecMsg>(TRecMsg res, Func<TRecMsg, BaseReplyContext> func) where TRecMsg : BaseRecMsg
         {
             var baseRep = func?.Invoke(res) ?? new NoReplyMsg();
             baseRep.ToUserName = res.FromUserName;
@@ -144,33 +144,33 @@ namespace OS.Social.WX.Msg
                     ProcessingCoreEvent(eventType, dirs, context);
                     break;
                 case MsgType.Text:
-                    var textRecMsg = WxMsgHelper.GetMsg<TextMsg>(dirs, MsgType.Text);
+                    var textRecMsg = WxMsgHelper.GetMsg<TextRecMsg>(dirs, MsgType.Text);
                     context.ReplyContext = ExecuteHandler(textRecMsg, TextHandler);
                     context.RecContext = textRecMsg;
                     break;
                 case MsgType.Video:
                 case MsgType.Shortvideo:
-                    var vedioRecMsg = WxMsgHelper.GetMsg<VideoMsg>(dirs, msgType);
+                    var vedioRecMsg = WxMsgHelper.GetMsg<VideoRecMsg>(dirs, msgType);
                     context.ReplyContext = ExecuteHandler(vedioRecMsg, VideoHandler);
                     context.RecContext = vedioRecMsg;
                     break;
                 case MsgType.Image:
-                    var imageRecMsg = WxMsgHelper.GetMsg<ImageMsg>(dirs, MsgType.Image);
+                    var imageRecMsg = WxMsgHelper.GetMsg<ImageRecMsg>(dirs, MsgType.Image);
                     context.ReplyContext = ExecuteHandler(imageRecMsg, ImageHandler);
                     context.RecContext = imageRecMsg;
                     break;
                 case MsgType.Link:
-                    var linkRecMsg = WxMsgHelper.GetMsg<LinkMsg>(dirs, MsgType.Link);
+                    var linkRecMsg = WxMsgHelper.GetMsg<LinkRecMsg>(dirs, MsgType.Link);
                     context.ReplyContext = ExecuteHandler(linkRecMsg, LinkHandler);
                     context.RecContext = linkRecMsg;
                     break;
                 case MsgType.Voice:
-                    var voiceRecMsg = WxMsgHelper.GetMsg<VoiceMsg>(dirs, MsgType.Voice);
+                    var voiceRecMsg = WxMsgHelper.GetMsg<VoiceRecMsg>(dirs, MsgType.Voice);
                     context.ReplyContext = ExecuteHandler(voiceRecMsg, VoiceHandler);
                     context.RecContext = voiceRecMsg;
                     break;
                 case MsgType.Location:
-                    var locationRecMsg = WxMsgHelper.GetMsg<LocationMsg>(dirs, MsgType.Location);
+                    var locationRecMsg = WxMsgHelper.GetMsg<LocationRecMsg>(dirs, MsgType.Location);
                     context.ReplyContext = ExecuteHandler(locationRecMsg, LocationHandler);
                     context.RecContext = locationRecMsg;
                     break;
@@ -191,32 +191,32 @@ namespace OS.Social.WX.Msg
             {
                 case EventType.Subscribe:
                 case EventType.UnSubscribe:
-                    var subRecMsg = WxMsgHelper.GetEventMsg<SubscribeEvent>(dirValues, msgEventType);
+                    var subRecMsg = WxMsgHelper.GetEventMsg<SubscribeRecEventMsg>(dirValues, msgEventType);
                     context.ReplyContext = ExecuteHandler(subRecMsg, SubscribeEventHandler);
                     context.RecContext = subRecMsg;
                     break;
                 case EventType.Click:
-                    var clickRecMsg = WxMsgHelper.GetEventMsg<ClickEvent>(dirValues, EventType.Click);
+                    var clickRecMsg = WxMsgHelper.GetEventMsg<ClickRecEventMsg>(dirValues, EventType.Click);
                     context.ReplyContext = ExecuteHandler(clickRecMsg, ClickEventHandler);
                     context.RecContext = clickRecMsg;
                     break;
                 case EventType.Location:
-                    var locationRecMsg = WxMsgHelper.GetEventMsg<LocationEvent>(dirValues, EventType.Location);
+                    var locationRecMsg = WxMsgHelper.GetEventMsg<LocationRecEventMsg>(dirValues, EventType.Location);
                     context.ReplyContext = ExecuteHandler(locationRecMsg, LocationEventHandler);
                     context.RecContext = locationRecMsg;
                     break;
                 case EventType.Scan:
-                    var scanRecMsg = WxMsgHelper.GetEventMsg<SubscribeEvent>(dirValues, EventType.Scan);
+                    var scanRecMsg = WxMsgHelper.GetEventMsg<SubscribeRecEventMsg>(dirValues, EventType.Scan);
                     context.ReplyContext = ExecuteHandler(scanRecMsg, ScanEventHandler);
                     context.RecContext = scanRecMsg;
                     break;
                 case EventType.View:
-                    var viewRrecMsg = WxMsgHelper.GetEventMsg<ViewEvent>(dirValues, EventType.View);
+                    var viewRrecMsg = WxMsgHelper.GetEventMsg<ViewRecEventMsg>(dirValues, EventType.View);
                     context.ReplyContext = ExecuteHandler(viewRrecMsg, ViewEventHandler);
                     context.RecContext = viewRrecMsg;
                     break;
                 case EventType.Kefu:
-                    var kfRrecMsg = WxMsgHelper.GetEventMsg<KFEvent>(dirValues, EventType.Kefu);
+                    var kfRrecMsg = WxMsgHelper.GetEventMsg<KFRecEventMsg>(dirValues, EventType.Kefu);
                     context.ReplyContext = ExecuteHandler(kfRrecMsg, KefuEventHandler);
                     context.RecContext = kfRrecMsg;
                     break;
@@ -245,7 +245,7 @@ namespace OS.Social.WX.Msg
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
         /// <returns>消息体对应的字典</returns>
-        private ResultMo<MsgContext> CheckAndDecryptMsg(string contentXml, string signature,
+        protected ResultMo<MsgContext> CheckAndDecryptMsg(string contentXml, string signature,
             string timestamp, string nonce)
         {
             var msgContext = new MsgContext();

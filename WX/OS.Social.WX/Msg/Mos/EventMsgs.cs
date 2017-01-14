@@ -1,18 +1,18 @@
-﻿using System;
+﻿using OS.Common.Extention;
 
 namespace OS.Social.WX.Msg.Mos
 {
     /// <summary>
     /// 关注/取消关注/扫描带参数二维码事件
     /// </summary>
-    public class SubscribeEvent : BaseRecEventContext
+    public class SubscribeRecEventMsg : BaseRecEventMsg
     {
-        protected override void FormatProperties()
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
+            base.FormatPropertiesFromMsg();
 
-            EventKey = GetValue("EventKey");
-            Ticket = GetValue("Ticket");
+            EventKey = this["EventKey"];
+            Ticket = this["Ticket"];
         }
 
         /// <summary>
@@ -24,20 +24,22 @@ namespace OS.Social.WX.Msg.Mos
         /// 二维码的ticket，可用来换取二维码图片
         /// </summary>
         public string Ticket { get; set; }
+
+
     }
 
     /// <summary>
     /// 上报地理位置事件
     /// </summary>
-    public class LocationEvent : BaseRecEventContext
+    public class LocationRecEventMsg : BaseRecEventMsg
     {
-        protected override void FormatProperties()
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
+            base.FormatPropertiesFromMsg();
 
-            Latitude = Convert.ToDouble(GetValue("Latitude"));
-            Longitude = Convert.ToDouble(GetValue("Longitude"));
-            Precision = Convert.ToDouble(GetValue("Precision"));
+            Latitude = this["Latitude"].ToDouble();
+            Longitude = this["Longitude"].ToDouble();
+            Precision = this["Precision"].ToDouble();
         }
 
         /// <summary>
@@ -54,56 +56,70 @@ namespace OS.Social.WX.Msg.Mos
         /// 地理位置精度
         /// </summary>
         public double Precision { get; set; }
+
     }
 
     /// <summary>
     /// 点击菜单拉取消息时的事件推送
     /// </summary>
-    public class ClickEvent : BaseRecEventContext
+    public class ClickRecEventMsg : BaseRecEventMsg
     {
-        protected override void FormatProperties()
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
-            EventKey = GetValue("EventKey");
+            base.FormatPropertiesFromMsg();
+            EventKey = this["EventKey"];
         }
 
         /// <summary>
         /// 事件KEY值
         /// </summary>
         public string EventKey { get; set; }
+
     }
 
     /// <summary>
     /// 点击菜单跳转链接时的事件推送 
     /// </summary>
-    public class ViewEvent : BaseRecEventContext
+    public class ViewRecEventMsg : BaseRecEventMsg
     {
-        protected override void FormatProperties()
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
-            EventKey = GetValue("EventKey");
+            base.FormatPropertiesFromMsg();
+            EventKey = this["EventKey"];
         }
 
         /// <summary>
         /// 事件KEY值
         /// </summary>
         public string EventKey { get; set; }
+
     }
 
     /// <summary>
     /// 客服事件
     /// </summary>
-    public class KFEvent : BaseRecEventContext
+    public class KFRecEventMsg : BaseRecEventMsg
     {
-        protected override void FormatProperties()
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
-            KfAccount = GetValue("KfAccount");
+            base.FormatPropertiesFromMsg();
+            KfAccount = this["KfAccount"];
         }
 
         /// <summary>
         /// 事件KEY值
         /// </summary>
         public string KfAccount { get; set; }
+
+    
     }
 }

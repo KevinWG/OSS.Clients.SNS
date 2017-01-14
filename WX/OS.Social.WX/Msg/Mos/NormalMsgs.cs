@@ -1,18 +1,21 @@
-﻿using System;
+﻿using OS.Common.Extention;
 
 namespace OS.Social.WX.Msg.Mos
 {
     /// <summary>
     /// 文本消息
     /// </summary>
-    public class TextMsg : BaseRecContext
+    public class TextRecMsg : BaseRecMsg
     {
-        protected override void FormatProperties()
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
+            base.FormatPropertiesFromMsg();
 
-            Content = GetValue("Content");
-            MsgId = Convert.ToInt64(GetValue("MsgId"));
+            Content = this["Content"];
+            MsgId = this["MsgId"].ToInt64();
         }
 
         /// <summary>
@@ -24,20 +27,24 @@ namespace OS.Social.WX.Msg.Mos
         /// 消息id，64位整型
         /// </summary>
         public long MsgId { get; set; }
+
     }
 
     /// <summary>
     /// 图片消息
     /// </summary>
-    public class ImageMsg : BaseRecContext
+    public class ImageRecMsg : BaseRecMsg
     {
-        protected override void FormatProperties()
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
+            base.FormatPropertiesFromMsg();
 
-            PicUrl = GetValue("PicUrl");
-            MediaId = GetValue("MediaId");
-            MsgId = Convert.ToInt64(GetValue("MsgId"));
+            PicUrl = this["PicUrl"];
+            MediaId = this["MediaId"];
+            MsgId = this["MsgId"].ToInt64();
         }
 
         /// <summary>
@@ -54,22 +61,25 @@ namespace OS.Social.WX.Msg.Mos
         /// 消息id，64位整型
         /// </summary>
         public long MsgId { get; set; }
+
     }
 
     /// <summary>
     /// 语音消息
     /// </summary>
-    public class VoiceMsg : BaseRecContext
+    public class VoiceRecMsg : BaseRecMsg
     {
-
-        protected override void FormatProperties()
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
+            base.FormatPropertiesFromMsg();
 
-            Format = GetValue("Format");
-            Recognition = GetValue("Recognition");
-            MediaId = GetValue("MediaId");
-            MsgId = Convert.ToInt64(GetValue("MsgId"));
+            Format = this["Format"];
+            Recognition = this["Recognition"];
+            MediaId = this["MediaId"];
+            MsgId = this["MsgId"].ToInt64();
         }
 
         /// <summary>
@@ -91,20 +101,24 @@ namespace OS.Social.WX.Msg.Mos
         /// 消息id，64位整型
         /// </summary>
         public long MsgId { get; set; }
+
     }
 
     /// <summary>
     /// 视频/小视频消息
     /// </summary>
-    public class VideoMsg : BaseRecContext
+    public class VideoRecMsg : BaseRecMsg
     {
-        protected override void FormatProperties()
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
+            base.FormatPropertiesFromMsg();
 
-            ThumbMediaId = GetValue("ThumbMediaId");
-            MediaId = GetValue("MediaId");
-            MsgId = Convert.ToInt64(GetValue("MsgId"));
+            ThumbMediaId = this["ThumbMediaId"];
+            MediaId = this["MediaId"];
+            MsgId = this["MsgId"].ToInt64();
         }
 
         /// <summary>
@@ -121,22 +135,26 @@ namespace OS.Social.WX.Msg.Mos
         /// 消息id，64位整型
         /// </summary>
         public long MsgId { get; set; }
+
     }
 
     /// <summary>
     /// 地理位置消息
     /// </summary>
-    public class LocationMsg : BaseRecContext
+    public class LocationRecMsg : BaseRecMsg
     {
-        protected override void FormatProperties()
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
+            base.FormatPropertiesFromMsg();
 
-            Latitude = Convert.ToDouble(GetValue("Location_X"));
-            Longitude = Convert.ToDouble(GetValue("Location_Y"));
-            Scale = Convert.ToInt32(GetValue("Scale"));
-            Label = GetValue("Label");
-            MsgId = Convert.ToInt64(GetValue("MsgId"));
+            Latitude = this["Location_X"].ToDouble();
+            Longitude =this["Location_Y"].ToDouble();
+            Scale = this["Scale"].ToInt32();
+            Label = this["Label"];
+            MsgId = this["MsgId"].ToInt64();
         }
 
         /// <summary>
@@ -163,21 +181,25 @@ namespace OS.Social.WX.Msg.Mos
         /// 消息id，64位整型
         /// </summary>
         public long MsgId { get; set; }
+
     }
 
     /// <summary>
     /// 链接消息
     /// </summary>
-    public class LinkMsg : BaseRecContext
+    public class LinkRecMsg : BaseRecMsg
     {
-        protected override void FormatProperties()
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
+        protected override void FormatPropertiesFromMsg()
         {
-            base.FormatProperties();
+            base.FormatPropertiesFromMsg();
 
-            Title = GetValue("Title");
-            Description = GetValue("Description");
-            Url = GetValue("Url");
-            MsgId = Convert.ToInt64( GetValue("MsgId"));
+            Title = this["Title"];
+            Description = this["Description"];
+            Url = this["Url"];
+            MsgId = this["MsgId"].ToInt64();
         }
 
         /// <summary>
@@ -199,6 +221,7 @@ namespace OS.Social.WX.Msg.Mos
         /// 消息id，64位整型
         /// </summary>
         public long MsgId { get; set; }
+
     }
 
 }

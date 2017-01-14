@@ -14,7 +14,7 @@ namespace OS.Social.Samples
         /// </summary>
         /// <param name="arg"></param>
         /// <returns></returns>
-        private BaseReplyContext WxMsgService_TextHandler(TextMsg arg)
+        private BaseReplyContext WxMsgService_TextHandler(TextRecMsg arg)
         {
             return new TextReplyMsg()
             {

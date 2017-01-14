@@ -29,7 +29,7 @@ namespace OS.Social.WX.Msg
         /// <param name="dirs"></param>
         /// <param name="eventType">事件类型</param>
         /// <returns></returns>
-        public static T GetEventMsg<T>(Dictionary<string, string> dirs, EventType eventType) where T : BaseRecEventContext, new()
+        public static T GetEventMsg<T>(Dictionary<string, string> dirs, EventType eventType) where T : BaseRecEventMsg, new()
         {
             var msg = GetMsg<T>(dirs, MsgType.Event);
             msg.EventType = eventType;
@@ -43,11 +43,11 @@ namespace OS.Social.WX.Msg
         /// <param name="dirs"></param>
         /// <param name="msgType">消息类型</param>
         /// <returns></returns>
-        public static T GetMsg<T>(Dictionary<string, string> dirs, MsgType msgType) where T : BaseRecContext, new()
+        public static T GetMsg<T>(Dictionary<string, string> dirs, MsgType msgType) where T : BaseRecMsg, new()
         {
             T t = new T();
-            t.FromDirs(dirs);
             t.MsgType = msgType;
+            t.SetMsgDirs(dirs);
             return t;
         }
         /// <summary>

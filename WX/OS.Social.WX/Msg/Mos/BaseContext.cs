@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using OS.Common.ComModels;
-using OS.Common.ComModels.Enums;
 using OS.Common.Extention;
 
 namespace OS.Social.WX.Msg.Mos
 {
     /// <summary>
-    /// 
+    ///  基础消息实体
     /// </summary>
-    public class BaseContext
+    public abstract class BaseMsg
     {
         /// <summary>
         /// 接收方帐号
@@ -29,52 +27,71 @@ namespace OS.Social.WX.Msg.Mos
     }
 
     /// <summary>
-    /// 普通消息
+    /// 基础接收消息实体
     /// </summary>
-    public class BaseRecContext : BaseContext
+    public class BaseRecMsg : BaseMsg
     {
+        private Dictionary<string, string> m_PropertyDirs;
 
 
-        private Dictionary<string, string> _propertyDirs;
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public BaseRecMsg()
+        {
+     
+        }
 
+        /// <summary>
+        ///  把消息的
+        /// </summary>
+        /// <param name="contentDirs"></param>
+        public void SetMsgDirs(Dictionary<string, string> contentDirs)
+        {
+            m_PropertyDirs = contentDirs;
+            FormatPropertiesFromMsg();
+        }
+
+        /// <summary>
+        /// 消息类型
+        /// </summary>
         public MsgType MsgType { get; internal set; }
 
-        protected virtual void FormatProperties()
-        {
-            ToUserName = GetValue("ToUserName");
-            FromUserName = GetValue("FromUserName");
-            CreateTime = Convert.ToInt64(GetValue("CreateTime"));
-        }
-
         /// <summary>
-        /// 获取属性值
+        /// 格式化自身属性部分
+        /// </summary>
+        protected virtual void FormatPropertiesFromMsg()
+        {
+            ToUserName = this["ToUserName"];
+            FromUserName = this["FromUserName"];
+            CreateTime = this["CreateTime"].ToInt64();
+        }
+        
+        /// <summary>
+        /// 获取指定字段的值
         /// </summary>
         /// <param name="key"></param>
-        /// <returns></returns>
-        protected string GetValue(string key)
+        public string this[string key]
         {
-            string value;
-            _propertyDirs.TryGetValue(key, out value);
-            return value ?? string.Empty;
+            get
+            {
+                string value;
+                m_PropertyDirs.TryGetValue(key, out value);
+                return value ?? string.Empty;
+            }
         }
-
+        
         /// <summary>
-        /// 从字典中获取属性信息
+        /// 消息实体
         /// </summary>
-        /// <param name="dirs"></param>
-        /// <returns></returns>
-        public Dictionary<string, string> FromDirs(Dictionary<string, string> dirs)
-        {
-            _propertyDirs = dirs;
-            FormatProperties();
-            return _propertyDirs;
-        }
+        public string RecMsgXml { get;internal set; }
+
     }
 
     /// <summary>
-    /// 事件推送
+    /// 基础事件接收消息实体
     /// </summary>
-    public class BaseRecEventContext : BaseRecContext
+    public class BaseRecEventMsg : BaseRecMsg
     {
         /// <summary>
         /// 事件类型
@@ -85,7 +102,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 被动回复
     /// </summary>
-    public class BaseReplyContext : BaseContext
+    public class BaseReplyContext : BaseMsg
     {
         /// <summary>
         /// 消息类型
@@ -188,7 +205,7 @@ namespace OS.Social.WX.Msg.Mos
         /// <summary>
         /// 接收内容
         /// </summary>
-        public BaseRecContext RecContext { get; set; }
+        public BaseRecMsg RecContext { get; set; }
 
         /// <summary>
         /// 被动回复内容

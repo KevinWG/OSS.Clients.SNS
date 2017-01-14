@@ -6,7 +6,7 @@
     public enum ReplyMsgType
     {
         /// <summary>
-        /// 无返回信息
+        /// 不在以列事件类型枚举中，开发者自己从   recMsg["columnname"]  中获取指定字段的值
         /// </summary>
         None = 0,
 
@@ -52,7 +52,7 @@
     public enum MsgType
     {
         /// <summary>
-        /// 未知类型
+        ///  不在以列消息类型枚举中，开发者自己从   recMsg["columnname"]  中获取指定字段的值
         /// </summary>
         None = 0,
 
