@@ -29,7 +29,7 @@ namespace OS.Social.WX.Msg
         /// <param name="dirs"></param>
         /// <param name="eventType">事件类型</param>
         /// <returns></returns>
-        public static T GetEventMsg<T>(Dictionary<string, string> dirs, EventType eventType) where T : BaseRecEventMsg, new()
+        public static T GetEventMsg<T>(IDictionary<string, string> dirs, EventType eventType) where T : BaseRecEventMsg, new()
         {
             var msg = GetMsg<T>(dirs, MsgType.Event);
             msg.EventType = eventType;
@@ -43,7 +43,7 @@ namespace OS.Social.WX.Msg
         /// <param name="dirs"></param>
         /// <param name="msgType">消息类型</param>
         /// <returns></returns>
-        public static T GetMsg<T>(Dictionary<string, string> dirs, MsgType msgType) where T : BaseRecMsg, new()
+        public static T GetMsg<T>(IDictionary<string, string> dirs, MsgType msgType) where T : BaseRecMsg, new()
         {
             T t = new T();
             t.MsgType = msgType;
@@ -75,100 +75,5 @@ namespace OS.Social.WX.Msg
             }
             return dirs;
         }
-
-        /// <summary>
-        /// 字符串类型转化成具体消息类型
-        /// </summary>
-        /// <param name="dirValues"></param>
-        /// <returns></returns>
-        public static MsgType GetMsgType(Dictionary<string, string> dirValues)
-        {
-            string msgType ;
-            if (dirValues.TryGetValue("MsgType", out msgType))
-            {
-                MsgType ty;
-                switch (msgType.ToLower())
-                {
-                    case "text":
-                        ty = MsgType.Text;
-                        break;
-                    case "image":
-                        ty = MsgType.Image;
-                        break;
-                    case "voice":
-                        ty = MsgType.Voice;
-                        break;
-                    case "video":
-                        ty = MsgType.Video;
-                        break;
-                    case "shortvideo":
-                        ty = MsgType.Shortvideo;
-                        break;
-                    case "location":
-                        ty = MsgType.Location;
-                        break;
-                    case "link":
-                        ty = MsgType.Link;
-                        break;
-                    case "event":
-                        ty = MsgType.Event;
-                        break;
-                    default:
-                        ty = MsgType.None;
-                        break;
-                }
-                return ty;
-            }
-            return MsgType.None;
-        }
-
-        /// <summary>
-        /// 字符串类型转化成具体事件类型
-        /// </summary>
-        /// <param name="dirValues">当前请求</param>
-        /// <returns></returns>
-        public static EventType GetEventType(Dictionary<string, string> dirValues)
-        {
-         
-            string msgEventType;
-            if (dirValues.TryGetValue("Event",out msgEventType))
-            {
-                EventType ty;
-                switch (msgEventType.ToLower())
-                {
-                    case "subscribe":
-                        ty = EventType.Subscribe;
-                        break;
-                    case "unsubscribe":
-                        ty = EventType.UnSubscribe;
-                        break;
-                    case "scan":
-                        ty = EventType.Scan;
-                        break;
-                    case "location":
-                        ty = EventType.Location;
-                        break;
-                    case "click":
-                        ty = EventType.Click;
-                        break;
-                    case "view":
-                        ty = EventType.Click;
-                        break;
-                    case "kf_create_session":
-                        ty = EventType.Kefu;
-                        break;
-                    default:
-                        ty = EventType.None;
-                        break;
-                }
-                return ty;
-            }
-            return EventType.None; 
-
-        }
-
-
- 
-
     }
 }

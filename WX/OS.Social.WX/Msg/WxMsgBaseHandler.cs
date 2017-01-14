@@ -45,32 +45,32 @@ namespace OS.Social.WX.Msg
         /// <summary>
         /// 处理文本消息
         /// </summary>
-        protected event Func<TextRecMsg, BaseReplyContext> TextHandler;
+        protected event Func<TextRecMsg, BaseReplyMsg> TextHandler;
 
         /// <summary>
         /// 处理图像消息
         /// </summary>
-        protected event Func<ImageRecMsg, BaseReplyContext> ImageHandler;
+        protected event Func<ImageRecMsg, BaseReplyMsg> ImageHandler;
 
         /// <summary>
         /// 处理语音消息
         /// </summary>
-        protected event Func<VoiceRecMsg, BaseReplyContext> VoiceHandler;
+        protected event Func<VoiceRecMsg, BaseReplyMsg> VoiceHandler;
 
         /// <summary>
         /// 处理视频/小视频消息
         /// </summary>
-        protected event Func<VideoRecMsg, BaseReplyContext> VideoHandler;
+        protected event Func<VideoRecMsg, BaseReplyMsg> VideoHandler;
 
         /// <summary>
         /// 处理地理位置消息
         /// </summary>
-        protected event Func<LocationRecMsg, BaseReplyContext> LocationHandler;
+        protected event Func<LocationRecMsg, BaseReplyMsg> LocationHandler;
 
         /// <summary>
         /// 处理链接消息
         /// </summary>
-        protected event Func<LinkRecMsg, BaseReplyContext> LinkHandler;
+        protected event Func<LinkRecMsg, BaseReplyMsg> LinkHandler;
 
         #endregion
 
@@ -79,12 +79,12 @@ namespace OS.Social.WX.Msg
         /// <summary>
         /// 处理关注/取消关注事件
         /// </summary>
-        protected event Func<SubscribeRecEventMsg, BaseReplyContext> SubscribeEventHandler;
+        protected event Func<SubscribeRecEventMsg, BaseReplyMsg> SubscribeEventHandler;
 
         /// <summary>
         /// 处理扫描带参数二维码事件
         /// </summary>
-        protected event Func<SubscribeRecEventMsg, BaseReplyContext> ScanEventHandler;
+        protected event Func<SubscribeRecEventMsg, BaseReplyMsg> ScanEventHandler;
 
         /// <summary>
         /// 处理上报地理位置事件
@@ -95,28 +95,28 @@ namespace OS.Social.WX.Msg
         /// <summary>
         /// 处理点击菜单拉取消息时的事件推送
         /// </summary>
-        protected event Func<ClickRecEventMsg, BaseReplyContext> ClickEventHandler;
+        protected event Func<ClickRecEventMsg, BaseReplyMsg> ClickEventHandler;
 
         /// <summary>
         /// 处理点击菜单跳转链接时的事件推送 
         /// </summary>
-        protected event Func<ViewRecEventMsg, BaseReplyContext> ViewEventHandler;
+        protected event Func<ViewRecEventMsg, BaseReplyMsg> ViewEventHandler;
 
         /// <summary>
         /// 客服事件推送 
         /// </summary>
-        protected event Func<KFRecEventMsg, BaseReplyContext> KefuEventHandler;
+        protected event Func<KFRecEventMsg, BaseReplyMsg> KefuEventHandler;
 
         #endregion
 
         /// <summary>
         /// 执行事件对应委托方法，如果对应的方法存在则执行
         /// </summary>
-        /// <typeparam name="TRes"></typeparam>
+        /// <typeparam name="TRecMsg"></typeparam>
         /// <param name="res"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        protected static BaseReplyContext ExecuteHandler<TRecMsg>(TRecMsg res, Func<TRecMsg, BaseReplyContext> func) where TRecMsg : BaseRecMsg
+        protected static BaseReplyMsg ExecuteHandler<TRecMsg>(TRecMsg res, Func<TRecMsg, BaseReplyMsg> func) where TRecMsg : BaseRecMsg,new ()
         {
             var baseRep = func?.Invoke(res) ?? new NoReplyMsg();
             baseRep.ToUserName = res.FromUserName;
@@ -128,103 +128,154 @@ namespace OS.Social.WX.Msg
         #endregion
         
         #region   核心处理方法
-        
+
         /// <summary>
         /// 核心执行方法   ==  执行方法
         /// </summary>
-        /// <param name="context"></param>
-        protected void ProcessCore(MsgContext context)
+        /// <param name="recMsgXml">传入消息的xml</param>
+        protected ResultMo<MsgContext> ProcessCore(string recMsgXml)
         {
-            var dirs = WxMsgHelper.ChangXmlToDir(context.ContextXml);
-            var msgType = WxMsgHelper.GetMsgType(dirs);
-            switch (msgType)
+            var dirs = WxMsgHelper.ChangXmlToDir(recMsgXml);
+
+            string msgType;
+            if (dirs.TryGetValue("MsgType", out msgType))
             {
-                case MsgType.Event:
-                    var eventType = WxMsgHelper.GetEventType(dirs);
-                    ProcessingCoreEvent(eventType, dirs, context);
-                    break;
-                case MsgType.Text:
-                    var textRecMsg = WxMsgHelper.GetMsg<TextRecMsg>(dirs, MsgType.Text);
-                    context.ReplyContext = ExecuteHandler(textRecMsg, TextHandler);
-                    context.RecContext = textRecMsg;
-                    break;
-                case MsgType.Video:
-                case MsgType.Shortvideo:
-                    var vedioRecMsg = WxMsgHelper.GetMsg<VideoRecMsg>(dirs, msgType);
-                    context.ReplyContext = ExecuteHandler(vedioRecMsg, VideoHandler);
-                    context.RecContext = vedioRecMsg;
-                    break;
-                case MsgType.Image:
-                    var imageRecMsg = WxMsgHelper.GetMsg<ImageRecMsg>(dirs, MsgType.Image);
-                    context.ReplyContext = ExecuteHandler(imageRecMsg, ImageHandler);
-                    context.RecContext = imageRecMsg;
-                    break;
-                case MsgType.Link:
-                    var linkRecMsg = WxMsgHelper.GetMsg<LinkRecMsg>(dirs, MsgType.Link);
-                    context.ReplyContext = ExecuteHandler(linkRecMsg, LinkHandler);
-                    context.RecContext = linkRecMsg;
-                    break;
-                case MsgType.Voice:
-                    var voiceRecMsg = WxMsgHelper.GetMsg<VoiceRecMsg>(dirs, MsgType.Voice);
-                    context.ReplyContext = ExecuteHandler(voiceRecMsg, VoiceHandler);
-                    context.RecContext = voiceRecMsg;
-                    break;
-                case MsgType.Location:
-                    var locationRecMsg = WxMsgHelper.GetMsg<LocationRecMsg>(dirs, MsgType.Location);
-                    context.ReplyContext = ExecuteHandler(locationRecMsg, LocationHandler);
-                    context.RecContext = locationRecMsg;
-                    break;
-            
+                MsgContext context = null;
+                switch (msgType.ToLower())
+                {
+                    case "event":  //   如果是事件直接执行事件处理程序
+                        return ProcessingEventCore(recMsgXml, dirs);
+                    case "text":
+                        context= ProcessMsgCoreExe(recMsgXml, dirs, MsgType.Text, TextHandler);
+                        break;
+                    case "image":
+                        context = ProcessMsgCoreExe(recMsgXml, dirs, MsgType.Image, ImageHandler);
+                        break;
+                    case "voice":
+                        context = ProcessMsgCoreExe(recMsgXml, dirs, MsgType.Voice, VoiceHandler);
+                        break;
+                    case "video":
+                        context = ProcessMsgCoreExe(recMsgXml, dirs, MsgType.Video, VideoHandler);
+                        break;
+                    case "shortvideo":
+                        context = ProcessMsgCoreExe(recMsgXml, dirs, MsgType.Shortvideo, VideoHandler);
+                        break;
+                    case "location":
+                        context = ProcessMsgCoreExe(recMsgXml, dirs, MsgType.Location, LocationHandler);
+                        break;
+                    case "link":
+                        context = ProcessMsgCoreExe(recMsgXml, dirs, MsgType.Link, LinkHandler);
+                        break;
+                    //default:
+                    //    ty = MsgType.None;
+                    //    context = ProcessMsgCore(recMsgXml, dirs, MsgType.None, TextHandler);
+                    //    break;
+                }
+
+                return new ResultMo<MsgContext>(context);
             }
+
+            return new ResultMo<MsgContext>(ResultTypes.ObjectNull,"不正确的消息数据格式！");
+      
         }
+
+        /// <summary>
+        ///  根据具体的消息类型执行相关的消息委托方法
+        /// </summary>
+        /// <typeparam name="TRecMsg"></typeparam>
+        /// <param name="recMsgXml"></param>
+        /// <param name="recMsgDirs"></param>
+        /// <param name="msgType"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        private MsgContext ProcessMsgCoreExe<TRecMsg>(string recMsgXml, IDictionary<string, string> recMsgDirs, MsgType msgType, Func<TRecMsg, BaseReplyMsg> func)
+            where TRecMsg : BaseRecMsg,new ()
+        {
+            var msgContext = new MsgContext();
+
+            var recMsg= WxMsgHelper.GetMsg<TRecMsg>(recMsgDirs, msgType);
+            recMsg.RecMsgXml = recMsgXml;
+
+            msgContext.ReplyMsg = ExecuteHandler(recMsg, func);
+            msgContext.RecMsg = recMsg;
+
+            return msgContext;
+        }
+
 
         /// <summary>
         ///  核心执行方法  ===   其中的事件部分
         /// </summary>
-        /// <param name="msgEventType"></param>
-        /// <param name="dirValues"></param>
-        /// <param name="context"></param>
-        private void ProcessingCoreEvent(EventType msgEventType, Dictionary<string, string> dirValues,
-            MsgContext context)
+        /// <param name="recEventMsg"></param>
+        /// <param name="recEventDirs"></param>
+        private ResultMo<MsgContext> ProcessingEventCore(string recEventMsg, Dictionary<string, string> recEventDirs)
         {
-            switch (msgEventType)
+            string msgEventType;
+            if (recEventDirs.TryGetValue("Event", out msgEventType))
             {
-                case EventType.Subscribe:
-                case EventType.UnSubscribe:
-                    var subRecMsg = WxMsgHelper.GetEventMsg<SubscribeRecEventMsg>(dirValues, msgEventType);
-                    context.ReplyContext = ExecuteHandler(subRecMsg, SubscribeEventHandler);
-                    context.RecContext = subRecMsg;
-                    break;
-                case EventType.Click:
-                    var clickRecMsg = WxMsgHelper.GetEventMsg<ClickRecEventMsg>(dirValues, EventType.Click);
-                    context.ReplyContext = ExecuteHandler(clickRecMsg, ClickEventHandler);
-                    context.RecContext = clickRecMsg;
-                    break;
-                case EventType.Location:
-                    var locationRecMsg = WxMsgHelper.GetEventMsg<LocationRecEventMsg>(dirValues, EventType.Location);
-                    context.ReplyContext = ExecuteHandler(locationRecMsg, LocationEventHandler);
-                    context.RecContext = locationRecMsg;
-                    break;
-                case EventType.Scan:
-                    var scanRecMsg = WxMsgHelper.GetEventMsg<SubscribeRecEventMsg>(dirValues, EventType.Scan);
-                    context.ReplyContext = ExecuteHandler(scanRecMsg, ScanEventHandler);
-                    context.RecContext = scanRecMsg;
-                    break;
-                case EventType.View:
-                    var viewRrecMsg = WxMsgHelper.GetEventMsg<ViewRecEventMsg>(dirValues, EventType.View);
-                    context.ReplyContext = ExecuteHandler(viewRrecMsg, ViewEventHandler);
-                    context.RecContext = viewRrecMsg;
-                    break;
-                case EventType.Kefu:
-                    var kfRrecMsg = WxMsgHelper.GetEventMsg<KFRecEventMsg>(dirValues, EventType.Kefu);
-                    context.ReplyContext = ExecuteHandler(kfRrecMsg, KefuEventHandler);
-                    context.RecContext = kfRrecMsg;
-                    break;
+                MsgContext context = null;
+                switch (msgEventType.ToLower())
+                {
+                    case "subscribe":
+                        context = ProcessEventCoreExe(recEventMsg, recEventDirs, EventType.Subscribe,
+                            SubscribeEventHandler);
+                        break;
+                    case "unsubscribe":
+                        context = ProcessEventCoreExe(recEventMsg, recEventDirs, EventType.UnSubscribe,
+                            SubscribeEventHandler);
+                        break;
+                    case "scan":
+                        context = ProcessEventCoreExe(recEventMsg, recEventDirs, EventType.Scan,
+                            ScanEventHandler);
+                        break;
+                    case "location":
+                        context = ProcessEventCoreExe(recEventMsg, recEventDirs, EventType.Location,
+                            LocationEventHandler);
+                        break;
+                    case "click":
+                        context = ProcessEventCoreExe(recEventMsg, recEventDirs, EventType.Click,
+                            ClickEventHandler);
+                        break;
+                    case "view":
+                        context = ProcessEventCoreExe(recEventMsg, recEventDirs, EventType.View,
+                            ViewEventHandler);
+                        break;
+                    case "kf_create_session":
+                        context = ProcessEventCoreExe(recEventMsg, recEventDirs, EventType.Kefu,
+                            KefuEventHandler);
+                        break;
+                }
+                return new ResultMo<MsgContext>(context);
             }
+            return new ResultMo<MsgContext>(ResultTypes.ObjectNull, "不正确的事件消息数据格式！");
+
+        }
+
+        /// <summary>
+        ///  根据具体的事件消息类型执行相关的事件消息委托方法
+        /// </summary>
+        /// <typeparam name="TRecEventMsg"></typeparam>
+        /// <param name="recEventMsgXml"></param>
+        /// <param name="recEventMsgDirs"></param>
+        /// <param name="eventType"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        private MsgContext ProcessEventCoreExe<TRecEventMsg>(string recEventMsgXml, IDictionary<string, string> recEventMsgDirs, EventType eventType, Func<TRecEventMsg, BaseReplyMsg> func)
+            where TRecEventMsg : BaseRecEventMsg, new()
+        {
+            var msgContext = new MsgContext();
+
+            var recEventMsg = WxMsgHelper.GetEventMsg<TRecEventMsg>(recEventMsgDirs, eventType);
+            recEventMsg.RecMsgXml = recEventMsgXml;
+
+            msgContext.ReplyMsg = ExecuteHandler(recEventMsg, func);
+            msgContext.RecMsg = recEventMsg;
+
+            return msgContext;
         }
 
         #endregion
-        
+
         /// <summary>
         ///  执行结束方法
         /// </summary>
@@ -240,32 +291,29 @@ namespace OS.Social.WX.Msg
         /// <summary>
         /// 核心执行方法    ==    验证签名和消息体信息解密处理部分
         /// </summary>
-        /// <param name="contentXml">消息内容</param>
+        /// <param name="recXml">消息内容</param>
         /// <param name="signature">微信加密签名</param>
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
-        /// <returns>消息体对应的字典</returns>
-        protected ResultMo<MsgContext> CheckAndDecryptMsg(string contentXml, string signature,
+        /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
+        protected ResultMo<string> CheckAndDecryptMsg(string recXml, string signature,
             string timestamp, string nonce)
         {
-            var msgContext = new MsgContext();
-
             var resCheck = WxMsgCrypt.CheckSignature(m_Config.Token, signature, timestamp, nonce);
             if (resCheck.IsSuccess)
             {
                 if (m_Config.SecurityType != WxSecurityType.None)
                 {
-                    var dirs = WxMsgHelper.ChangXmlToDir(contentXml);
+                    var dirs = WxMsgHelper.ChangXmlToDir(recXml);
                     if (dirs == null || !dirs.ContainsKey("Encrypt"))
-                        return new ResultMo<MsgContext>(ResultTypes.ObjectNull, "加密消息为空");
+                        return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
 
-                    msgContext.ContextXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], m_Config.EncodingAesKey);
-                    return new ResultMo<MsgContext>(msgContext);
+                    var recMsgXml= Cryptography.WxAesDecrypt(dirs["Encrypt"], m_Config.EncodingAesKey);
+                    return new ResultMo<string>(recMsgXml);
                 }
-                msgContext.ContextXml = contentXml;
-                return new ResultMo<MsgContext>(msgContext);
+                return new ResultMo<string>(recXml);
             }
-            return resCheck.ConvertToResultOnly<MsgContext>();
+            return resCheck.ConvertToResultOnly<string>();
         }
 
         /// <summary>

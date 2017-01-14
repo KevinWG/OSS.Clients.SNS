@@ -31,7 +31,7 @@ namespace OS.Social.WX.Msg.Mos
     /// </summary>
     public class BaseRecMsg : BaseMsg
     {
-        private Dictionary<string, string> m_PropertyDirs;
+        private IDictionary<string, string> m_PropertyDirs;
 
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace OS.Social.WX.Msg.Mos
         ///  把消息的
         /// </summary>
         /// <param name="contentDirs"></param>
-        public void SetMsgDirs(Dictionary<string, string> contentDirs)
+        public void SetMsgDirs(IDictionary<string, string> contentDirs)
         {
             m_PropertyDirs = contentDirs;
             FormatPropertiesFromMsg();
@@ -102,7 +102,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 被动回复
     /// </summary>
-    public class BaseReplyContext : BaseMsg
+    public class BaseReplyMsg : BaseMsg
     {
         /// <summary>
         /// 消息类型
@@ -205,12 +205,12 @@ namespace OS.Social.WX.Msg.Mos
         /// <summary>
         /// 接收内容
         /// </summary>
-        public BaseRecMsg RecContext { get; set; }
+        public BaseRecMsg RecMsg { get; set; }
 
         /// <summary>
         /// 被动回复内容
         /// </summary>
-        public BaseReplyContext ReplyContext { get; internal set; }
+        public BaseReplyMsg ReplyMsg { get; internal set; }
 
     }
 }

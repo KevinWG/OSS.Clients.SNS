@@ -18,7 +18,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 无回复信息
     /// </summary>
-    public class NoReplyMsg : BaseReplyContext
+    public class NoReplyMsg : BaseReplyMsg
     {
         /// <summary>
         /// 构造函数
@@ -37,7 +37,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 回复文本消息
     /// </summary>
-    public class TextReplyMsg : BaseReplyContext
+    public class TextReplyMsg : BaseReplyMsg
     {
         public TextReplyMsg()
         {
@@ -60,7 +60,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 回复图片消息
     /// </summary>
-    public class ImageReplyMsg : BaseReplyContext
+    public class ImageReplyMsg : BaseReplyMsg
     {
         public ImageReplyMsg()
         {
@@ -87,7 +87,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 回复语音消息
     /// </summary>
-    public class VoiceReplyMsg : BaseReplyContext
+    public class VoiceReplyMsg : BaseReplyMsg
     {
         public VoiceReplyMsg()
         {
@@ -114,7 +114,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 回复视频消息
     /// </summary>
-    public class VideoReplyMsg : BaseReplyContext
+    public class VideoReplyMsg : BaseReplyMsg
     {
         public VideoReplyMsg()
         {
@@ -153,7 +153,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 回复音乐消息
     /// </summary>
-    public class MusicReplyMsg : BaseReplyContext
+    public class MusicReplyMsg : BaseReplyMsg
     {
         public MusicReplyMsg()
         {
@@ -204,7 +204,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 回复图文消息
     /// </summary>
-    public class NewsReplyMsg : BaseReplyContext
+    public class NewsReplyMsg : BaseReplyMsg
     {
         public NewsReplyMsg()
         {
@@ -266,7 +266,7 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 转客服
     /// </summary>
-    public class KeFuMsg : BaseReplyContext
+    public class KeFuMsg : BaseReplyMsg
     {
         public KeFuMsg()
         {

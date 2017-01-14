@@ -47,10 +47,7 @@ namespace OS.Social.WX.Msg
         {
             return WxMsgCrypt.CheckSignature(token, signature, timestamp, nonce);
         }
-
-
-
-
+        
         #region   开始方法
 
 
@@ -67,20 +64,21 @@ namespace OS.Social.WX.Msg
         {
             var result = CheckAndDecryptMsg(contentXml, signature, timestamp, nonce);
 
-            MsgContext context = null;
+       
             if (!result.IsSuccess)
                 return result.ConvertToResultOnly<string>();
 
-            context = result.Data;
-            ProcessCore(context);
-
-            if (context.ReplyContext == null)
-                context.ReplyContext = new NoReplyMsg();
+            var contextRes = ProcessCore(result.Data);
+            if (!contextRes.IsSuccess)
+                return contextRes.ConvertToResultOnly<string>();
             
-            ProcessEnd(context);
+            if (contextRes.Data.ReplyMsg == null)
+                contextRes.Data.ReplyMsg = new NoReplyMsg();
+            
+            ProcessEnd(contextRes.Data);
 
-            var resultString = context.ReplyContext.ToReplyXml();
-            if (m_Config.SecurityType != WxSecurityType.None)
+            var resultString = contextRes.Data.ReplyMsg.ToReplyXml();
+            if (m_Config.SecurityType != WxSecurityType.None && contextRes.Data.ReplyMsg.MsgType != ReplyMsgType.None)
             {
                 return EncryptMsg(resultString, m_Config);
             }
