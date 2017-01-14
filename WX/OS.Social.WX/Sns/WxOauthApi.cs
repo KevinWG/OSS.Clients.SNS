@@ -18,8 +18,15 @@ using OS.Social.WX.Sns.Mos;
 
 namespace OS.Social.WX.Sns
 {
+    /// <summary>
+    /// oauth 授权接口
+    /// </summary>
     public class WxOauthApi:WxBaseApi
     {
+        /// <summary>
+        /// default constructor
+        /// </summary>
+        /// <param name="config"></param>
         public WxOauthApi(WxAppCoinfig config) : base(config)
         {
         }
