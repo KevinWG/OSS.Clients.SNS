@@ -37,10 +37,14 @@ namespace OS.Social.WX.Msg
         {
             m_Config = mConfig;
         }
-        
+
         #region   事件列表
 
         #region 事件列表  普通消息
+        /// <summary>
+        /// 处理未知类型消息
+        /// </summary>
+        protected event Func<BaseRecMsg, BaseReplyMsg> NoneHandler;
 
         /// <summary>
         /// 处理文本消息
@@ -75,6 +79,10 @@ namespace OS.Social.WX.Msg
         #endregion
 
         #region 事件列表  动作事件消息
+        /// <summary>
+        ///  处理未知事件消息
+        /// </summary>
+        protected event Func<BaseRecEventMsg, BaseReplyMsg> NoneEventHandler;
 
         /// <summary>
         /// 处理关注/取消关注事件
@@ -90,7 +98,7 @@ namespace OS.Social.WX.Msg
         /// 处理上报地理位置事件
         /// 不需要回复任何消息
         /// </summary>
-        protected event Func<LocationRecEventMsg, NoReplyMsg> LocationEventHandler;
+        protected event Func<LocationRecEventMsg, NoneReplyMsg> LocationEventHandler;
 
         /// <summary>
         /// 处理点击菜单拉取消息时的事件推送
@@ -118,7 +126,7 @@ namespace OS.Social.WX.Msg
         /// <returns></returns>
         protected static BaseReplyMsg ExecuteHandler<TRecMsg>(TRecMsg res, Func<TRecMsg, BaseReplyMsg> func) where TRecMsg : BaseRecMsg,new ()
         {
-            var baseRep = func?.Invoke(res) ?? new NoReplyMsg();
+            var baseRep = func?.Invoke(res) ?? new NoneReplyMsg();
             baseRep.ToUserName = res.FromUserName;
             baseRep.FromUserName = res.ToUserName;
             baseRep.CreateTime = DateTime.Now.ToLocalSeconds();
@@ -166,10 +174,9 @@ namespace OS.Social.WX.Msg
                     case "link":
                         context = ProcessMsgCoreExe(recMsgXml, dirs, MsgType.Link, LinkHandler);
                         break;
-                    //default:
-                    //    ty = MsgType.None;
-                    //    context = ProcessMsgCore(recMsgXml, dirs, MsgType.None, TextHandler);
-                    //    break;
+                    default:
+                        context = ProcessMsgCoreExe(recMsgXml, dirs, MsgType.None, NoneHandler);
+                        break;
                 }
 
                 return new ResultMo<MsgContext>(context);
@@ -243,6 +250,10 @@ namespace OS.Social.WX.Msg
                     case "kf_create_session":
                         context = ProcessEventCoreExe(recEventMsg, recEventDirs, EventType.Kefu,
                             KefuEventHandler);
+                        break;
+                    default:
+                        context = ProcessEventCoreExe(recEventMsg, recEventDirs, EventType.None,
+                           NoneEventHandler);
                         break;
                 }
                 return new ResultMo<MsgContext>(context);

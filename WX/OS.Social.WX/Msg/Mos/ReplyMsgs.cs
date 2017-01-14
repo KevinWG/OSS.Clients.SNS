@@ -18,12 +18,12 @@ namespace OS.Social.WX.Msg.Mos
     /// <summary>
     /// 无回复信息
     /// </summary>
-    public class NoReplyMsg : BaseReplyMsg
+    public class NoneReplyMsg : BaseReplyMsg
     {
         /// <summary>
         /// 构造函数
         /// </summary>
-        public NoReplyMsg()
+        public NoneReplyMsg()
         {
             MsgType = ReplyMsgType.None;
         }

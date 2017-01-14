@@ -73,7 +73,7 @@ namespace OS.Social.WX.Msg
                 return contextRes.ConvertToResultOnly<string>();
             
             if (contextRes.Data.ReplyMsg == null)
-                contextRes.Data.ReplyMsg = new NoReplyMsg();
+                contextRes.Data.ReplyMsg = new NoneReplyMsg();
             
             ProcessEnd(contextRes.Data);
 
