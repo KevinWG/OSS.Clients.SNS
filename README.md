@@ -34,7 +34,8 @@
         // 获取微信授权地址
         public ActionResult auth()
         {
-            var res = m_AuthApi.GetAuthorizeUrl("http://www.social.com/wxoauth/callback", AuthClientType.WxOffcial);
+            var res = m_AuthApi.GetAuthorizeUrl("http://www.social.com/wxoauth/callback",
+						 AuthClientType.WxOffcial);
             return Redirect(res);
         }
         //  微信回调页，此页面获取accesstoken 获取用户基础信息
