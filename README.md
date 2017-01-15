@@ -115,7 +115,7 @@ c.  具体使用
 当前这部分接口框架逻辑部分已经处理完毕，主要差公号（Offcial）部分的接口完善，后续将很快更新，如果有需要的也可以自己实现或贡献过来，添加一个新接口只需要几行代码即可，详见贡献代码。
 
 ###  三.  贡献代码
-这个项目当前主要集中在微信sdk处理，微信部分主体框架部分已经完成，需要对接口进行补充，根据已经封装完毕的框架完成一个接口将非常简单（优雅？^_^!）,以获取用户基本信息为例，简单分为以下两部步：
+这个项目当前主要集中在微信sdk处理，微信部分主体框架部分已经完成，需要对接口进行补充，根据已经封装完毕的框架完成一个接口将非常简单（优雅？!）,以获取用户基本信息为例，简单分为以下两部步：
 
 1.声明对象实体
 ```csharp
@@ -154,7 +154,8 @@ c.  具体使用
         [TestMethod]
         public void GetUserInfoTest()
         {
-            var res = m_Api.GetUserInfo(new WxOffcialUserInfoReq() {openid = "o7gE1s6mygEKgopVWp7BBtEAqT-w" });
+            var res = m_Api.GetUserInfo(new WxOffcialUserInfoReq() 
+											{openid = "o7gE1s6mygEKgopVWp7BBtEAqT-w" });
             Assert.IsTrue(res.IsSuccess);
         }
 ```
