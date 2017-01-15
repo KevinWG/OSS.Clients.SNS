@@ -41,6 +41,7 @@ namespace OS.Social.WX.Msg
         #region   事件列表
 
         #region 事件列表  普通消息
+
         /// <summary>
         /// 处理未知类型消息
         /// </summary>

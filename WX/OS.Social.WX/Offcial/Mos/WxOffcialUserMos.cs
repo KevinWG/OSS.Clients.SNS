@@ -54,7 +54,7 @@ namespace OS.Social.WX.Offcial.Mos
 
 
     /// <summary>
-    /// 批量获取用户基本信息请求实体
+    /// 获取用户基本信息请求实体
     /// </summary>
     public class WxOffcialUserInfoReq
     {

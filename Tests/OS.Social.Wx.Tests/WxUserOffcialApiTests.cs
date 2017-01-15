@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OS.Social.WX.Offcial;
+using OS.Social.WX.Offcial.Mos;
 
 namespace OS.Social.Wx.Tests
 {
@@ -57,6 +58,13 @@ namespace OS.Social.Wx.Tests
         public void GetOpenIdListTest()
         {
             var res = m_Api.GetOpenIdList();
+            Assert.IsTrue(res.IsSuccess);
+        }
+
+        [TestMethod]
+        public void GetUserInfoTest()
+        {
+            var res = m_Api.GetUserInfo(new WxOffcialUserInfoReq() {openid = "o7gE1s6mygEKgopVWp7BBtEAqT-w" });
             Assert.IsTrue(res.IsSuccess);
         }
         //GetUserTagsByOpenId
