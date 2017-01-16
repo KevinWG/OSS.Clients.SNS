@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace OS.Social.WX.Offcial.Mos
+namespace OS.Social.WX.Offcial.Basic.Mos
 {
     /// <summary>
     ///  获取openid列表的响应实体

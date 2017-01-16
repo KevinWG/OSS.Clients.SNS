@@ -10,10 +10,11 @@
 *****************************************************************************/
 
 #endregion
+
 using System;
 using System.Collections.Generic;
 
-namespace OS.Social.WX.Offcial.Mos
+namespace OS.Social.WX.Offcial.Basic.Mos
 {
     /// <summary>
     ///   公众号功能接口accesstoken信息

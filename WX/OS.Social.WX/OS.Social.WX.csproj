@@ -57,12 +57,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Msg\WxMsgBaseHandler.cs" />
-    <Compile Include="Offcial\Mos\WxOffcialBasicMos.cs" />
-    <Compile Include="Offcial\Mos\WxOffcialTagMos.cs" />
-    <Compile Include="Offcial\Mos\WxOffcialUserMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxOffcialBasicMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxOffcialTagMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxOffcialUserMos.cs" />
     <Compile Include="Offcial\WxOffcialBaseApi.cs" />
-    <Compile Include="Offcial\WxOffcialMsgApi.cs" />
-    <Compile Include="Offcial\WxOffcialUserApi.cs" />
+    <Compile Include="Offcial\Basic\WxOffcialMsgApi.cs" />
+    <Compile Include="Offcial\Basic\WxOffcialQrApi.cs" />
+    <Compile Include="Offcial\Basic\WxOffcialUserApi.cs" />
     <Compile Include="Sns\Mos\WxAuthMos.cs" />
     <Compile Include="WxBaseApi.cs" />
     <Compile Include="Sns\WxOauthApi.cs" />

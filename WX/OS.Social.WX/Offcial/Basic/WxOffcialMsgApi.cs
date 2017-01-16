@@ -11,11 +11,11 @@
 
 #endregion
 
+using Newtonsoft.Json;
 using OS.Http;
 using OS.Http.Models;
-using Newtonsoft.Json;
 
-namespace OS.Social.WX.Offcial
+namespace OS.Social.WX.Offcial.Basic
 {
     /// <summary>
     /// 会话，客服，模板消息等管理

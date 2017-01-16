@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OS.Social.WX.Offcial;
-using OS.Social.WX.Offcial.Mos;
+using OS.Social.WX.Offcial.Basic;
+using OS.Social.WX.Offcial.Basic.Mos;
 using OS.Social.WX.Sns;
 
 namespace OS.Social.Wx.Tests

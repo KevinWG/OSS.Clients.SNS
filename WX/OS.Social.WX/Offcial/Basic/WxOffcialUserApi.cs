@@ -15,10 +15,27 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using OS.Http;
 using OS.Http.Models;
-using OS.Social.WX.Offcial.Mos;
+using OS.Social.WX.Offcial.Basic.Mos;
 
-namespace OS.Social.WX.Offcial
+namespace OS.Social.WX.Offcial.Basic
 {
+    /// <summary>
+    ///   用户管理，消息管理
+    /// </summary>
+    public partial class WxOffcialApi : WxOffcialBaseApi
+    {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="config"></param>
+        public WxOffcialApi(WxAppCoinfig config = null) : base(config)
+        {
+        }
+
+    }
+
+
+
     /// <summary>
     ///  公号用户管理接口类
     /// </summary>

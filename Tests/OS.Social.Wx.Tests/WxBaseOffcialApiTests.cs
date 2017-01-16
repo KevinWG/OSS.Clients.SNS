@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OS.Social.WX;
 using OS.Social.WX.Offcial;
+using OS.Social.WX.Offcial.Basic;
 
 namespace OS.Social.Wx.Tests
 {

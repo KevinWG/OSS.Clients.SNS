@@ -10,9 +10,10 @@
 *****************************************************************************/
 
 #endregion
+
 using System.Collections.Generic;
 
-namespace OS.Social.WX.Offcial.Mos
+namespace OS.Social.WX.Offcial.Basic.Mos
 {
     #region  标签实体
     /// <summary>
