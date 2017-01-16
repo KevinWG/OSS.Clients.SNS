@@ -42,7 +42,17 @@
         ///   二维码图片解析后的地址，开发者可根据该地址自行生成需要的二维码图片
         /// </summary>  
         public string url { get; set; }
+    }
 
+    /// <summary>
+    /// 微信短链生成接口
+    /// </summary>
+    public class WxShortUrlResp:WxBaseResp
+    {
+        /// <summary>   
+        ///   短链接。
+        /// </summary>  
+        public string short_url { get; set; }
 
     }
 

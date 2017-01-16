@@ -64,5 +64,21 @@ namespace OS.Social.WX.Offcial.Basic
         {
             return string.Concat("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=",ticket);
         }
+
+        /// <summary>
+        /// 生成短链
+        /// </summary>
+        /// <param name="longUrl">需要转换的长链接，支持http://、https://、weixin://wxpay 格式的url</param>
+        /// <returns></returns>
+        public WxShortUrlResp GetShortUrl(string longUrl)
+        {
+            var req=new OsHttpRequest();
+            req.HttpMothed=HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/shorturl");
+            req.CustomBody = $"{{\"action\":\"long2short\",\"long_url\":\"{longUrl}\"}}";
+
+            return RestCommonOffcial<WxShortUrlResp>(req);
+        }
+
     }
 }
