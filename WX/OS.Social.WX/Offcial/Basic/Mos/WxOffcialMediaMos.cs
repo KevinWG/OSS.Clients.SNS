@@ -15,22 +15,11 @@ using System.IO;
 
 namespace OS.Social.WX.Offcial.Basic.Mos
 {
-
     /// <summary>
-    /// 上传素材请求参数
+    /// 素材上传请求基础实体
     /// </summary>
-    public class WxMediaUploadReq
+    public class WxMediaFileReq
     {
-        /// <summary>
-        /// 素材类型
-        /// </summary>
-        public MediaType type { get; set; }
-
-        /// <summary>
-        /// 上传文件的formdata中name，如：file
-        /// </summary>
-        public string name { get; set; }
-
         /// <summary>
         /// formdata中的文件名称  如：my_photo_20170116.jpg
         /// </summary>
@@ -48,11 +37,32 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         public Stream file_stream { get; set; }
     }
 
+    /// <summary>
+    ///  微信素材添加基础响应实体
+    /// </summary>
+    public class WxMediaResp : WxBaseResp
+    {
+        /// <summary>   
+        ///   媒体文件上传后，获取标识
+        /// </summary>  
+        public string media_id { get; set; }
+    }
+
+    /// <summary>
+    /// 上传素材请求参数
+    /// </summary>
+    public class WxMediaUploadReq:WxMediaFileReq
+    {
+        /// <summary>
+        /// 素材类型
+        /// </summary>
+        public MediaType type { get; set; }
+    }
 
     /// <summary>
     /// 上传素材响应接口
     /// </summary>
-    public class WxMediaUploadResp:WxBaseResp
+    public class WxMediaUploadResp: WxMediaResp
     {
         /// <summary>   
         ///   媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb，主要用于视频与音乐格式的缩略图）
@@ -60,16 +70,12 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         public string type { get; set; }
 
         /// <summary>   
-        ///   媒体文件上传后，获取标识
-        /// </summary>  
-        public string media_id { get; set; }
-
-        /// <summary>   
         ///   媒体文件上传时间戳
         /// </summary>  
         public string created_at { get; set; }
     }
 
+  
 
     /// <summary>
     /// 如果是视频素材响应信息
@@ -80,6 +86,49 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// 视频下载地址
         /// </summary>
         public string video_url { get; set; }
+    }
+
+
+    /// <summary>
+    ///  微信图文素材
+    /// </summary>
+    public class WxArticleInfo
+    {
+        /// <summary>   
+        ///   必填    标题
+        /// </summary>  
+        public string title { get; set; }
+
+        /// <summary>   
+        ///   必填    图文消息的封面图片素材id（必须是永久mediaID）
+        /// </summary>  
+        public string thumb_media_id { get; set; }
+
+        /// <summary>   
+        ///   必填    作者
+        /// </summary>  
+        public string author { get; set; }
+
+        /// <summary>   
+        ///   必填    图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空
+        /// </summary>  
+        public string digest { get; set; }
+
+        /// <summary>   
+        ///   必填    是否显示封面，0为false，即不显示，1为true，即显示
+        /// </summary>  
+        public string show_cover_pic { get; set; }
+
+        /// <summary>   
+        ///   必填    图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS,涉及图片url必须来源"上传图文消息内的图片获取URL"接口获取。外部图片url将被过滤。
+        /// </summary>  
+        public string content { get; set; }
+
+        /// <summary>   
+        ///   必填    图文消息的原文地址，即点击“阅读原文”后的URL
+        /// </summary>  
+        public string content_source_url { get; set; }
+
     }
 
     /// <summary>

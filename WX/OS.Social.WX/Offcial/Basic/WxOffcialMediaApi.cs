@@ -11,6 +11,8 @@
 
 #endregion
 
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using OS.Common.ComModels;
 using OS.Http;
 using OS.Http.Models;
@@ -21,7 +23,7 @@ namespace OS.Social.WX.Offcial.Basic
      public partial class WxOffcialApi
     {
         /// <summary>
-        /// 上传素材接口
+        /// 上传素材接口【临时素材】
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -30,13 +32,13 @@ namespace OS.Social.WX.Offcial.Basic
             var req=new OsHttpRequest();
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/upload?type=", request.type.ToString());
-            req.FileParameterList.Add(new FileParameter(request.name, request.file_stream,request.file_name,request.content_type));
+            req.FileParameterList.Add(new FileParameter("media", request.file_stream,request.file_name,request.content_type));
 
             return RestCommonOffcial<WxMediaUploadResp>(req);
          }
 
          /// <summary>
-         ///  获取素材下载地址，请及时将素材存储下来
+         ///  获取素材【临时素材】下载地址，请及时将素材存储下来
          ///     此地址请不要对外公开，图片等包含AccessToken信息，同样2个小时候地址过期
          /// </summary>
          /// <param name="mediaId"></param>
@@ -63,6 +65,23 @@ namespace OS.Social.WX.Offcial.Basic
                  return new ResultMo<string>(vedioRes.video_url);
              }
              return new ResultMo<string>(addressUrl);
+         }
+
+
+
+         /// <summary>
+         /// 添加永久微信图文素材列表（文章）
+         /// </summary>
+         /// <param name="list"></param>
+         /// <returns></returns>
+         public WxMediaResp AddArticles(IList<WxArticleInfo> list)
+         {
+             var req = new OsHttpRequest();
+             req.HttpMothed = HttpMothed.POST;
+             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_news");
+             req.CustomBody = JsonConvert.SerializeObject(new {articles = list});
+
+             return RestCommonOffcial<WxMediaResp>(req);
          }
     }
 }
