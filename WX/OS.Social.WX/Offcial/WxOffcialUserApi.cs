@@ -120,10 +120,27 @@ namespace OS.Social.WX.Offcial
             return RestCommonOffcial<WxOffcialUserListResp>(req);
         }
 
+
         #endregion
 
         #region  用户标签管理
 
+        /// <summary>
+        ///  获取标签下用户Openid列表
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <param name="next_openid">第一个拉取的OPENID，不填默认从头开始拉取</param>
+        /// <returns></returns>
+        public WxOpenIdsResp GetOpenIdListByTag(int tagId, string next_openid = "")
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/tag/get");
+            req.CustomBody = JsonConvert.SerializeObject(new { tagid = tagId, next_openid = next_openid });
+
+            return RestCommonOffcial<WxOpenIdsResp>(req);
+        }
 
         /// <summary>
         /// 添加标签   最多添加一百个
@@ -204,22 +221,6 @@ namespace OS.Social.WX.Offcial
             return RestCommonOffcial<WxGetTagListResp>(req);
         }
 
-        /// <summary>
-        ///  获取标签下粉丝列表
-        /// </summary>
-        /// <param name="tagId"></param>
-        /// <param name="next_openid">第一个拉取的OPENID，不填默认从头开始拉取</param>
-        /// <returns></returns>
-        public WxOpenIdsResp GetOpenIdListByTag(int tagId, string next_openid = "")
-        {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/tag/get");
-            req.CustomBody = JsonConvert.SerializeObject(new {tagid = tagId, next_openid = next_openid});
-
-            return RestCommonOffcial<WxOpenIdsResp>(req);
-        }
 
 
         /// <summary>
@@ -259,7 +260,60 @@ namespace OS.Social.WX.Offcial
 
         #endregion
 
- 
+
+
+        #region  黑名单管理
+        /// <summary>
+        ///   获取黑名单用户Openid列表
+        /// </summary>
+        /// <param name="next_openid"></param>
+        /// <returns></returns>
+        public WxOpenIdsResp GetBlackOpenIdList( string next_openid)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/getblacklist");
+            req.CustomBody = JsonConvert.SerializeObject(new { begin_openid = next_openid });
+
+            return RestCommonOffcial<WxOpenIdsResp>(req);
+        }
+
+
+        /// <summary>
+        ///   批量拉黑用户
+        /// </summary>
+        /// <param name="openids">openid列表</param>
+        /// <returns></returns>
+        public WxBaseResp  BatchBlackOpenIds(IList<string> openids)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/batchblacklist");
+            req.CustomBody = JsonConvert.SerializeObject(new { opened_list = openids });
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
+
+        /// <summary>
+        ///   批量取消拉黑用户
+        /// </summary>
+        /// <param name="openids">openid列表</param>
+        /// <returns></returns>
+        public WxBaseResp BatchUnBlackOpenIds(IList<string> openids)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/batchunblacklist");
+            req.CustomBody = JsonConvert.SerializeObject(new { opened_list = openids });
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+        #endregion
+
 
     }
 }
