@@ -11,6 +11,7 @@
 
 #endregion
 
+using OS.Common.ComModels;
 using OS.Http;
 using OS.Http.Models;
 using OS.Social.WX.Offcial.Basic.Mos;
@@ -32,6 +33,36 @@ namespace OS.Social.WX.Offcial.Basic
             req.FileParameterList.Add(new FileParameter(request.name, request.file_stream,request.file_name,request.content_type));
 
             return RestCommonOffcial<WxMediaUploadResp>(req);
+         }
+
+         /// <summary>
+         ///  获取素材下载地址，请及时将素材存储下来
+         ///     此地址请不要对外公开，图片等包含AccessToken信息，同样2个小时候地址过期
+         /// </summary>
+         /// <param name="mediaId"></param>
+         /// <param name="type">主要用来判断是否是视频类型，如果是需要发起请求</param>
+         /// <returns></returns>
+         public ResultMo<string> GetMediaUrlById(string mediaId, MediaType type)
+         {
+             var accessToken = GetOffcialAccessToken();
+             if (!accessToken.IsSuccess)
+                 return accessToken.ConvertToResultOnly<string>();
+
+             string addressUrl = string.Concat(m_ApiUrl,
+                 $"/cgi-bin/media/get?access_token={accessToken.access_token}&media_id={mediaId}");
+             if (type == MediaType.video)
+             {
+                 var req = new OsHttpRequest();
+                 req.HttpMothed = HttpMothed.GET;
+                 req.AddressUrl = addressUrl;
+
+                 var vedioRes = RestCommonOffcial<WxMediaVideoUrlResp>(req);
+                 if (!vedioRes.IsSuccess)
+                     return vedioRes.ConvertToResultOnly<string>();
+
+                 return new ResultMo<string>(vedioRes.video_url);
+             }
+             return new ResultMo<string>(addressUrl);
          }
     }
 }

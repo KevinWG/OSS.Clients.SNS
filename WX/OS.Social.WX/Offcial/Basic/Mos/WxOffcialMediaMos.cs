@@ -70,6 +70,18 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         public string created_at { get; set; }
     }
 
+
+    /// <summary>
+    /// 如果是视频素材响应信息
+    /// </summary>
+    public class WxMediaVideoUrlResp:WxBaseResp
+    {
+        /// <summary>
+        /// 视频下载地址
+        /// </summary>
+        public string video_url { get; set; }
+    }
+
     /// <summary>
     /// 素材类型
     /// </summary>

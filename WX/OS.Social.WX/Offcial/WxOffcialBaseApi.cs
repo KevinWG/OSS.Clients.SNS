@@ -96,8 +96,11 @@ namespace OS.Social.WX.Offcial
             if (!tokenRes.IsSuccess)
                 return tokenRes.ConvertToResult<T>();
 
-            req.AddressUrl = string.Concat(req.AddressUrl, req.AddressUrl.IndexOf('?') > 0 ? "&" : "?", "access_token=",
-                tokenRes.access_token);
+            if (req.AddressUrl.IndexOf("access_token", StringComparison.Ordinal) < 0)
+            {
+                req.AddressUrl = string.Concat(req.AddressUrl, req.AddressUrl.IndexOf('?') > 0 ? "&" : "?",
+                    "access_token=",tokenRes.access_token);
+            }
 
             req.Parameters.Add(new Parameter("content-type", "application/json", ParameterType.Header));
 
