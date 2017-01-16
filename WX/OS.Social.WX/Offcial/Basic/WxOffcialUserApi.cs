@@ -41,8 +41,7 @@ namespace OS.Social.WX.Offcial.Basic
     /// </summary>
     public partial class WxOffcialApi
     {
-
-
+    
         #region  用户管理
 
         /// <summary>
@@ -73,7 +72,7 @@ namespace OS.Social.WX.Offcial.Basic
 
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/info/updateremark");
-            req.CustomBody = JsonConvert.SerializeObject(new {openid = openid, remark = remark});
+            req.CustomBody = $"{{\"openid\":{openid},\"remark\":{remark}}}"; //JsonConvert.SerializeObject(new {openid = openid, remark = remark});
 
             return RestCommonOffcial<WxBaseResp>(req);
         }
@@ -145,11 +144,7 @@ namespace OS.Social.WX.Offcial.Basic
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/create");
-            var param = new
-            {
-                tag=new { name = name }
-            };
-            req.CustomBody = JsonConvert.SerializeObject(param);
+            req.CustomBody = $"{{\"tag\":{{\"name\":{name}}}}}";// JsonConvert.SerializeObject(param);
 
             return RestCommonOffcial<WxAddTagResp>(req);
         }
@@ -167,12 +162,8 @@ namespace OS.Social.WX.Offcial.Basic
                 HttpMothed = HttpMothed.POST,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/update")
             };
-
-            var param = new
-            {
-                tag = new { id=id, name = name }
-            };
-            req.CustomBody = JsonConvert.SerializeObject(param);
+            
+            req.CustomBody = $"{{\"tag\":{{\"id\":{id},\"name\":{name}}}}}";// JsonConvert.SerializeObject(param);
 
             return RestCommonOffcial<WxBaseResp>(req);
         }
@@ -190,11 +181,7 @@ namespace OS.Social.WX.Offcial.Basic
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/delete")
             };
 
-            var param = new
-            {
-                tag = new { id = id }
-            };
-            req.CustomBody = JsonConvert.SerializeObject(param);
+            req.CustomBody = $"{{\"tag\":{{\"id\":{id}}}}}";// JsonConvert.SerializeObject(param);
 
             return RestCommonOffcial<WxBaseResp>(req);
         }
@@ -245,7 +232,7 @@ namespace OS.Social.WX.Offcial.Basic
 
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/getidlist");
-            req.CustomBody = JsonConvert.SerializeObject(new { openid= openid });
+            req.CustomBody = $"{{\"openid\":{openid}}}";// JsonConvert.SerializeObject(new { openid= openid });
 
             return RestCommonOffcial<WxGetUserTagsResp>(req);
         }
@@ -260,13 +247,13 @@ namespace OS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="next_openid"></param>
         /// <returns></returns>
-        public WxOpenIdsResp GetBlackOpenIdList( string next_openid)
+        public WxOpenIdsResp GetBlackOpenIdList(string next_openid)
         {
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/getblacklist");
-            req.CustomBody = JsonConvert.SerializeObject(new { begin_openid = next_openid });
+            req.CustomBody = $"{{\"begin_openid\":{next_openid}}}";// JsonConvert.SerializeObject(new { begin_openid = next_openid });
 
             return RestCommonOffcial<WxOpenIdsResp>(req);
         }

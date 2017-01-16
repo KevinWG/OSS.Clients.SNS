@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Msg\WxMsgBaseHandler.cs" />
     <Compile Include="Offcial\Basic\Mos\WxOffcialBasicMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxOffcialQrMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxOffcialTagMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxOffcialUserMos.cs" />
     <Compile Include="Offcial\WxOffcialBaseApi.cs" />
