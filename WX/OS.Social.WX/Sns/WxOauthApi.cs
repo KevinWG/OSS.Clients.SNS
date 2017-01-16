@@ -27,9 +27,10 @@ namespace OS.Social.WX.Sns
         /// default constructor
         /// </summary>
         /// <param name="config"></param>
-        public WxOauthApi(WxAppCoinfig config) : base(config)
+        public WxOauthApi(WxAppCoinfig config=null) : base(config)
         {
         }
+
 
         /// <summary>
         /// 获取授权地址
@@ -42,10 +43,10 @@ namespace OS.Social.WX.Sns
             if (type == AuthClientType.WxOffcial)
             {
                 return
-                    $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={m_Config.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_userinfo&state={m_Config.AppSource}#wechat_redirect";
+                    $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_userinfo&state={ApiConfig.AppSource}#wechat_redirect";
             }
             return
-                $"https://open.weixin.qq.com/connect/qrconnect?appid={m_Config.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_login&state={m_Config.AppSource}#wechat_redirect";
+                $"https://open.weixin.qq.com/connect/qrconnect?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_login&state={ApiConfig.AppSource}#wechat_redirect";
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace OS.Social.WX.Sns
         {
             var req=new OsHttpRequest();
 
-            req.AddressUrl = $"{m_ApiUrl}/sns/oauth2/access_token?appid={m_Config.AppId}&secret={m_Config.AppSecret}&code={code}&grant_type=authorization_code";
+            req.AddressUrl = $"{m_ApiUrl}/sns/oauth2/access_token?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&code={code}&grant_type=authorization_code";
             req.HttpMothed=HttpMothed.GET;
 
             return RestCommon<WxGetAccessTokenResp>(req);
@@ -72,7 +73,7 @@ namespace OS.Social.WX.Sns
         {
             var request = new OsHttpRequest();
 
-            request.AddressUrl = $"{m_ApiUrl}/sns/oauth2/refresh_token?appid={m_Config.AppId}&grant_type=refresh_token&refresh_token={accessToken}";
+            request.AddressUrl = $"{m_ApiUrl}/sns/oauth2/refresh_token?appid={ApiConfig.AppId}&grant_type=refresh_token&refresh_token={accessToken}";
             request.HttpMothed = HttpMothed.GET;
 
             return RestCommon<WxGetAccessTokenResp>(request);

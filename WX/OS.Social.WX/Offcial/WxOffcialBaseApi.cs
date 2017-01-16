@@ -30,9 +30,11 @@ namespace OS.Social.WX.Offcial
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxOffcialApi(WxAppCoinfig config) : base(config)
+        public WxOffcialApi(WxAppCoinfig config=null) : base(config)
         {
         }
+
+   
         static WxOffcialApi()
         {
             #region  增加用户管理特殊 错误码(https://mp.weixin.qq.com/wiki)
@@ -51,8 +53,6 @@ namespace OS.Social.WX.Offcial
             m_DicErrMsg.Add(49003, "传入的openid不属于此AppID");
             #endregion
         }
-
-
     }
 
 
@@ -62,13 +62,14 @@ namespace OS.Social.WX.Offcial
     public class WxOffcialBaseApi:WxBaseApi
     {
         private readonly string m_OffcialAccessTokenKey;
+   
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
         public WxOffcialBaseApi(WxAppCoinfig config) : base(config)
         {
-            m_OffcialAccessTokenKey = string.Concat("wx_offical_access_token_", config.AppId);
+            m_OffcialAccessTokenKey = string.Concat(m_OffcialAccessTokenKey, ApiConfig.AppId);
         }
        
         /// <summary>
@@ -99,7 +100,7 @@ namespace OS.Social.WX.Offcial
             {
                 OsHttpRequest req = new OsHttpRequest();
 
-                req.AddressUrl = $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={m_Config.AppId}&secret={m_Config.AppSecret}";
+                req.AddressUrl = $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}";
                 req.HttpMothed = HttpMothed.GET;
 
                 tokenResp = RestCommon<WxOffcialAccessTokenResp>(req);

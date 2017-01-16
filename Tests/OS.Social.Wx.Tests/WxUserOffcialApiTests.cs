@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OS.Social.WX.Offcial;
 using OS.Social.WX.Offcial.Mos;
+using OS.Social.WX.Sns;
 
 namespace OS.Social.Wx.Tests
 {
@@ -11,7 +13,7 @@ namespace OS.Social.Wx.Tests
     [TestClass]
     public class WxUserOffcialApiTests:WxBaseOffcialApiTests
     {
-        private static WxOffcialUserApi  m_Api=new WxOffcialUserApi(m_Config);
+        private static WxOffcialApi  m_Api=new WxOffcialApi(m_Config);
 
         [TestMethod]
         public void TagTests()
@@ -73,7 +75,17 @@ namespace OS.Social.Wx.Tests
             var res = m_Api.GetUserInfoList(new List<WxOffcialUserInfoReq>() { new WxOffcialUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" } });
             Assert.IsTrue(res.IsSuccess);
         }
+
+
+        [TestMethod]
+        public void Test()
+        {
+            WxOauthApi a = new WxOauthApi();
+        }
         //GetUserTagsByOpenId
 
     }
+
+
+  
 }

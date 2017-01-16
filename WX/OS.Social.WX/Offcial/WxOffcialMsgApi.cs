@@ -22,7 +22,6 @@ namespace OS.Social.WX.Offcial
     /// </summary>
     public partial class WxOffcialApi
     {
-
         #region  模板功能
 
         /// <summary>

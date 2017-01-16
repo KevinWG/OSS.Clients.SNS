@@ -29,9 +29,27 @@ namespace OS.Social.WX
     public class WxBaseApi
     {
         /// <summary>
+        ///   默认配置信息，如果实例中的配置为空会使用当前配置信息
+        /// </summary>
+        public static WxAppCoinfig DefaultConfig { get; set; }
+
+
+        private readonly WxAppCoinfig m_Config;
+        /// <summary>
         /// 微信接口配置
         /// </summary>
-        public WxAppCoinfig m_Config;
+        public WxAppCoinfig ApiConfig
+        {
+            get
+            {
+                if (m_Config != null)
+                {
+                    return m_Config;
+                }
+                return DefaultConfig;
+            }
+        }
+        
         /// <summary>
         /// 微信api接口地址
         /// </summary>
@@ -43,10 +61,14 @@ namespace OS.Social.WX
         /// <param name="config"></param>
         public WxBaseApi(WxAppCoinfig config)
         {
+            if (config == null && DefaultConfig == null)
+            {
+                throw new ArgumentNullException("config",
+                    "构造函数中的config 和 全局DefaultConfig 配置信息同时为空，请通过构造函数赋值，或者在程序入口处给 DefaultConfig 赋值！");
+            }
             m_Config = config;
         }
-
-
+        
         /// <summary>
         /// 处理远程请求方法，并返回需要的实体
         /// </summary>

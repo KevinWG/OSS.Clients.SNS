@@ -24,7 +24,8 @@ namespace OS.Social.WX.Offcial
     /// </summary>
     public partial class WxOffcialApi
     {
-        
+
+
         #region  用户管理
 
         /// <summary>
