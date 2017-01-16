@@ -64,7 +64,13 @@ namespace OS.Social.Wx.Tests
         [TestMethod]
         public void GetUserInfoTest()
         {
-            var res = m_Api.GetUserInfo(new WxOffcialUserInfoReq() {openid = "o7gE1s6mygEKgopVWp7BBtEAqT-w" });
+            var res = m_Api.GetUserInfo(new WxOffcialUserInfoReq() {openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" });
+            Assert.IsTrue(res.IsSuccess);
+        }
+        [TestMethod]
+        public void GetUserInfoListTest()
+        {
+            var res = m_Api.GetUserInfoList(new List<WxOffcialUserInfoReq>() { new WxOffcialUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" } });
             Assert.IsTrue(res.IsSuccess);
         }
         //GetUserTagsByOpenId

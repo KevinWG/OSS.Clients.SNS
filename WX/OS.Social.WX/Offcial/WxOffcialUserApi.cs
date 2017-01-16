@@ -113,8 +113,10 @@ namespace OS.Social.WX.Offcial
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/info/batchget");
-            req.CustomBody = JsonConvert.SerializeObject(userReq);
-
+            req.CustomBody = JsonConvert.SerializeObject(new
+            {
+                user_list = userReq
+            });
             return RestCommonOffcial<WxOffcialUserListResp>(req);
         }
 
