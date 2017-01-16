@@ -49,8 +49,7 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         ///    标签Id
         /// </summary>
         public int id { get; set; }
-
-
+        
         /// <summary>
         /// 标签名称
         /// </summary>

@@ -11,11 +11,27 @@
 
 #endregion
 
+using OS.Http;
+using OS.Http.Models;
+using OS.Social.WX.Offcial.Basic.Mos;
 
 namespace OS.Social.WX.Offcial.Basic
 {
      public partial class WxOffcialApi
     {
+        /// <summary>
+        /// 上传素材接口
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+         public WxMediaUploadResp UploadMedia(WxMediaUploadReq request )
+         {
+            var req=new OsHttpRequest();
+            req.HttpMothed=HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/upload?type=", request.type.ToString());
+            req.FileParameterList.Add(new FileParameter(request.name, request.file_stream,request.file_name,request.content_type));
 
+            return RestCommonOffcial<WxMediaUploadResp>(req);
+         }
     }
 }
