@@ -22,35 +22,9 @@ namespace OS.Social.WX.Offcial
     /// <summary>
     ///  公号用户管理接口类
     /// </summary>
-    public class WxOffcialUserApi:WxOffcialBaseApi
+    public partial class WxOffcialApi
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="config"></param>
-        public WxOffcialUserApi(WxAppCoinfig config) : base(config)
-        {
-        }
-
-        static WxOffcialUserApi()
-        {
-            #region  增加用户管理特殊 错误码(https://mp.weixin.qq.com/wiki)
-
-            m_DicErrMsg.Add(45157, "标签名非法，请注意不能和其他标签重名");
-            m_DicErrMsg.Add(45158, "标签名长度超过30个字节");
-            m_DicErrMsg.Add(45056, "创建的标签数过多，请注意不能超过100个");
-
-            //  基类中已经包含
-            //m_DicErrMsg.Add(40003, "传入非法的openid");
-            //m_DicErrMsg.Add(45159, "非法的tag_id");
-            //m_DicErrMsg.Add(40032, "每次传入的openid列表个数不能超过50个");
-
-            m_DicErrMsg.Add(45159, "非法的标签");
-            m_DicErrMsg.Add(45059, "有粉丝身上的标签数已经超过限制");
-            m_DicErrMsg.Add(49003, "传入的openid不属于此AppID");
-            #endregion
-        }
-
+        
         #region  用户管理
 
         /// <summary>

@@ -17,22 +17,14 @@ using Newtonsoft.Json;
 
 namespace OS.Social.WX.Offcial
 {
-
     /// <summary>
     /// 会话，客服，模板消息等管理
     /// </summary>
-    public class WxOffcialMsgApi:WxOffcialBaseApi
+    public partial class WxOffcialApi
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="config"></param>
-        public WxOffcialMsgApi(WxAppCoinfig config) : base(config)
-        {
-        }
-
 
         #region  模板功能
+
         /// <summary>
         /// 发送模板消息
         /// </summary>
