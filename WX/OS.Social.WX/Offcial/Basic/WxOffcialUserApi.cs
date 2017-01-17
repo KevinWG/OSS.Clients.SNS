@@ -93,7 +93,7 @@ namespace OS.Social.WX.Offcial.Basic
         }
 
         /// <summary>
-        /// 获取用户基本信息(UnionID机制)
+        /// 获取用户基本信息(UnionID机制)列表
         /// </summary>
         /// <param name="userReq">请求参数</param>
         /// <returns></returns>

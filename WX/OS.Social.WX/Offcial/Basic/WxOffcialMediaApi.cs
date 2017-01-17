@@ -27,7 +27,7 @@ namespace OS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-         public WxMediaUploadResp UploadMedia(WxMediaUploadReq request )
+         public WxMediaUploadResp UploadTempMedia(WxMediaUploadReq request )
          {
             var req=new OsHttpRequest();
             req.HttpMothed=HttpMothed.POST;
@@ -44,7 +44,7 @@ namespace OS.Social.WX.Offcial.Basic
          /// <param name="mediaId"></param>
          /// <param name="type">主要用来判断是否是视频类型，如果是需要发起请求</param>
          /// <returns></returns>
-         public ResultMo<string> GetMediaUrlById(string mediaId, MediaType type)
+         public ResultMo<string> GetTempMediaUrlById(string mediaId, MediaType type)
          {
              var accessToken = GetOffcialAccessToken();
              if (!accessToken.IsSuccess)
@@ -83,5 +83,23 @@ namespace OS.Social.WX.Offcial.Basic
 
              return RestCommonOffcial<WxMediaResp>(req);
          }
+
+        /// <summary>
+        ///  上传文章中图片并获取地址
+        /// </summary>
+        /// <param name="imgReq"></param>
+        /// <returns></returns>
+         public WxArticleImgResp UploadArticleImg(WxMediaFileReq imgReq)
+         {
+            var req=new OsHttpRequest();
+
+            req.HttpMothed=HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/uploadimg");
+            req.FileParameterList.Add(new FileParameter("media",imgReq.file_stream,imgReq.file_name,imgReq.content_type));
+
+            return RestCommonOffcial<WxArticleImgResp>(req);
+         }
+
+
     }
 }

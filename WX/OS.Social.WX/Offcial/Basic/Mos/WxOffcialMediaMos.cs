@@ -15,8 +15,10 @@ using System.IO;
 
 namespace OS.Social.WX.Offcial.Basic.Mos
 {
+#region  正常素材文件上传的基础实体
     /// <summary>
     /// 素材上传请求基础实体
+    ///    文章中的图片上传请求也使用这个实体
     /// </summary>
     public class WxMediaFileReq
     {
@@ -47,9 +49,11 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// </summary>  
         public string media_id { get; set; }
     }
+    #endregion
 
+    #region  上传【临时】【永久】 请求及响应参数
     /// <summary>
-    /// 上传素材请求参数
+    /// 上传【临时】【永久】素材请求参数
     /// </summary>
     public class WxMediaUploadReq:WxMediaFileReq
     {
@@ -60,7 +64,7 @@ namespace OS.Social.WX.Offcial.Basic.Mos
     }
 
     /// <summary>
-    /// 上传素材响应接口
+    /// 上传【临时】素材响应接口
     /// </summary>
     public class WxMediaUploadResp: WxMediaResp
     {
@@ -75,10 +79,8 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         public string created_at { get; set; }
     }
 
-  
-
     /// <summary>
-    /// 如果是视频素材响应信息
+    /// 获取【临时素材】视频类型 下载地址 响应实体
     /// </summary>
     public class WxMediaVideoUrlResp:WxBaseResp
     {
@@ -88,7 +90,9 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         public string video_url { get; set; }
     }
 
+    #endregion
 
+    #region  文章素材，以及文章中图片上传响应实体
     /// <summary>
     ///  微信图文素材
     /// </summary>
@@ -130,6 +134,22 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         public string content_source_url { get; set; }
 
     }
+
+    /// <summary>
+    /// 微信中文章图片上传响应实体
+    /// </summary>
+    public class WxArticleImgResp:WxBaseResp
+    { 
+        /// <summary>
+        ///   图片地址，直接在文章中使用
+        /// </summary>
+        public string url { get; set; }
+    }
+
+    #endregion
+
+
+
 
     /// <summary>
     /// 素材类型
