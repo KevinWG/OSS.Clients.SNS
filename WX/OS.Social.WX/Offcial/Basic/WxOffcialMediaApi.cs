@@ -255,17 +255,17 @@ namespace OS.Social.WX.Offcial.Basic
 
 
         /// <summary>
-        ///   获取素材总数
+        ///   获取素材列表
         /// </summary>
         /// <returns></returns>
-        public WxMediaCountResp GetMediaCount(WxGetMediaListReq request)
+        public WxGetMediaListResp GetMediaList(WxGetMediaListReq request)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/batchget_material");
             req.CustomBody = JsonConvert.SerializeObject(request);
 
-            return RestCommonOffcial<WxMediaCountResp>(req);
+            return RestCommonOffcial<WxGetMediaListResp>(req);
         }
 
     }
