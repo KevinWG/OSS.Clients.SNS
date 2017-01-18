@@ -138,6 +138,17 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// menuid为菜单id
         /// </summary>
         public long menuid { get; set; }
+    }
+
+    /// <summary>
+    /// 添加定制菜单响应实体
+    /// </summary>
+    public class WxUserMenuResp : WxBaseResp
+    {
+        /// <summary>
+        /// 按钮列表
+        /// </summary>
+        public List<WxMenuButtonInfo> button { get; set; }
 
     }
 

@@ -108,6 +108,23 @@ namespace OS.Social.WX.Offcial.Basic
             return RestCommonOffcial<WxBaseResp>(req);
         }
 
+        /// <summary>
+        /// 获取某个用户下的菜单信息
+        /// </summary>
+        /// <param name="userId">用户openid，或者微信号</param>
+        /// <returns></returns>
+        public WxUserMenuResp GetUserMenu(string userId)
+        {
+            var req=new OsHttpRequest();
+
+            req.HttpMothed= HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/trymatch");
+            req.CustomBody = $"{{\"user_id\":\"{userId}\"}}";
+
+            return RestCommonOffcial<WxUserMenuResp>(req);
+        }
+
+
         #endregion
     }
 }
