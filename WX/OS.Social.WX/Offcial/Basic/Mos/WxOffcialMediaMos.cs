@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Collections.Generic;
 using System.IO;
 
 namespace OS.Social.WX.Offcial.Basic.Mos
@@ -49,11 +50,13 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// </summary>  
         public string media_id { get; set; }
     }
+
     #endregion
 
-    #region  上传【临时】【永久】 请求及响应参数
+    #region  上传 【永久】 请求及响应参数
+
     /// <summary>
-    /// 上传【临时】【永久】素材请求参数
+    /// 上传【永久】素材请求参数
     /// </summary>
     public class WxMediaUploadReq:WxMediaFileReq
     {
@@ -61,12 +64,70 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// 素材类型
         /// </summary>
         public MediaType type { get; set; }
+        
+        /// <summary>
+        /// 视频素材的标题    可空  【视频】类型素材需要 
+        /// </summary>
+        public string title { get; set; }
+
+
+        /// <summary>
+        /// 视频素材的描述    可空  【视频】类型素材需要 
+        /// </summary>
+        public string introduction { get; set; }
     }
 
     /// <summary>
+    /// 上传【永久】素材响应接口
+    /// </summary>
+    public class WxMediaUploadResp : WxMediaResp
+    {
+        /// <summary>
+        ///   新增的图片素材的图片URL（仅新增图片素材时会返回该字段）
+        /// </summary>
+        public string url { get; set; }
+    }
+
+    /// <summary>
+    /// 获取【永久】视频素材的地址
+    /// </summary>
+    public class WxMediaVedioUrlResp:WxBaseResp
+    {
+        /// <summary>
+        ///  视频标题
+        /// </summary>
+        public string title { get; set; }
+
+
+        /// <summary>
+        /// 视频描述
+        /// </summary>
+        public string description { get; set; }
+
+        /// <summary>
+        /// 视频地址
+        /// </summary>
+        public string down_url { get; set; }
+    }
+
+    #endregion
+
+    #region  上传【临时】 请求及响应参数
+    /// <summary>
+    /// 上传【临时】素材请求参数
+    /// </summary>
+    public class WxMediaTempUploadReq : WxMediaFileReq
+    {
+        /// <summary>
+        /// 素材类型
+        /// </summary>
+        public MediaType type { get; set; }
+    }
+    
+    /// <summary>
     /// 上传【临时】素材响应接口
     /// </summary>
-    public class WxMediaUploadResp: WxMediaResp
+    public class WxMediaTempUploadResp: WxMediaResp
     {
         /// <summary>   
         ///   媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb，主要用于视频与音乐格式的缩略图）
@@ -82,14 +143,14 @@ namespace OS.Social.WX.Offcial.Basic.Mos
     /// <summary>
     /// 获取【临时素材】视频类型 下载地址 响应实体
     /// </summary>
-    public class WxMediaVideoUrlResp:WxBaseResp
+    public class WxMediaTempVideoUrlResp:WxBaseResp
     {
         /// <summary>
         /// 视频下载地址
         /// </summary>
         public string video_url { get; set; }
     }
-
+    
     #endregion
 
     #region  文章素材，以及文章中图片上传响应实体
@@ -132,13 +193,12 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         ///   必填    图文消息的原文地址，即点击“阅读原文”后的URL
         /// </summary>  
         public string content_source_url { get; set; }
-
     }
 
     /// <summary>
     /// 微信中文章图片上传响应实体
     /// </summary>
-    public class WxArticleImgResp:WxBaseResp
+    public class WxArticleUploadImgResp:WxBaseResp
     { 
         /// <summary>
         ///   图片地址，直接在文章中使用
@@ -146,11 +206,20 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         public string url { get; set; }
     }
 
+
+    /// <summary>
+    ///   获取文章组合响应实体
+    /// </summary>
+    public class WxGetArticleGroupResp : WxBaseResp
+    {
+        /// <summary>
+        ///   文章组合列表
+        /// </summary>
+        public List<WxArticleInfo> news_item { get; set; }
+    }
+
     #endregion
-
-
-
-
+    
     /// <summary>
     /// 素材类型
     /// </summary>

@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OS.Social.Samples", "OS.Soc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C554E9E-D16E-4015-B2A7-DF8E95E33273}"
 	ProjectSection(SolutionItems) = preProject
+		DoneList.txt = DoneList.txt
 		README.md = README.md
+		TodoList.txt = TodoList.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A5E61538-E1B8-44C9-B494-D664B28CA32D}"

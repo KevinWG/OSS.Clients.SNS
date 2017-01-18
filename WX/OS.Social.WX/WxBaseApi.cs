@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using OS.Common.ComModels;
 using OS.Common.ComModels.Enums;
 using OS.Common.Modules;
 using OS.Common.Modules.LogModule;
@@ -77,7 +78,7 @@ namespace OS.Social.WX
         /// <param name="funcFormat">获取实体格式化方法</param>
         /// <returns>实体类型</returns>
         public static T RestCommon<T>(OsHttpRequest request, Func<OsHttpResponse, T> funcFormat = null)
-            where T : WxBaseResp, new()
+            where T : ResultMo, new()
         {
             T t = default(T);
             try
