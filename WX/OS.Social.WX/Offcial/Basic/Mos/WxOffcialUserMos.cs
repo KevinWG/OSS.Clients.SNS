@@ -36,18 +36,15 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// openid 列表
         /// </summary>
         public List<string> openid_list { get; private set; }
-
-
-        private object _data = null;
+      
         /// <summary>
         /// 微信返回的包含openid的对象，解析出openid_list之后就不用了
         /// </summary>
         public object data {
-            get { return _data; }
             set
             {
-                _data = value;
-                openid_list= _data != null ? ((JToken)data)["openid"].Values<string>().ToList() : new List<string>();
+                object _data = value;
+                openid_list= _data != null ? ((JToken)_data)["openid"].Values<string>().ToList() : new List<string>();
             }
         }
     }

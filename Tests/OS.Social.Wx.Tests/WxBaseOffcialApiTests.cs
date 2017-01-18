@@ -1,7 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 using OS.Social.WX;
 using OS.Social.WX.Offcial;
 using OS.Social.WX.Offcial.Basic;
+using OS.Social.WX.Offcial.Basic.Mos;
 
 namespace OS.Social.Wx.Tests
 {
@@ -50,6 +54,17 @@ namespace OS.Social.Wx.Tests
         }
 
 
+
+        [TestMethod]
+        public void SerTest()
+        {
+            var str =
+                "{\"content\": {\"news_item\": [{\"title\": \"mmmmmmm\"},]},\"update_time\": 887766}";
+
+            JObject googleSearch = JObject.Parse(str);
+
+            var sss = googleSearch["content"]["news_item"].ToObject<List<WxArticleInfo>>();
+        }
 
 
         //public void SendTemplateTest()

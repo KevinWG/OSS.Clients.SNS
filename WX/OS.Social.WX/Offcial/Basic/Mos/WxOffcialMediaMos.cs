@@ -13,6 +13,8 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace OS.Social.WX.Offcial.Basic.Mos
 {
@@ -245,9 +247,98 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         ///   图文总数量
         /// </summary>  
         public string news_count { get; set; }
+    }
 
+    /// <summary>
+    ///   获取素材列表请求实体
+    /// </summary>
+    public class WxGetMediaListReq
+    {
+        /// <summary>   
+        ///   必填    素材的类型，图片（image）、视频（video）、语音（voice）、图文（news）
+        /// </summary>  
+        public MediaType type { get; set; }
+
+        /// <summary>   
+        ///   必填    从全部素材的该偏移位置开始返回，0表示从第一个素材返回
+        /// </summary>  
+        public int offset { get; set; }
+
+        /// <summary>   
+        ///   必填    返回素材的数量，取值在1到20之间
+        /// </summary>  
+        public int count { get; set; }
+    }
+
+
+    /// <summary>
+    /// 获取素材列表
+    /// </summary>
+    public class WxGetMediaListResp : WxBaseResp
+    {
+        /// <summary>   
+        ///   该类型的素材的总数
+        /// </summary>  
+        public int total_count { get; set; }
+
+        /// <summary>   
+        ///   本次调用获取的素材的数量
+        /// </summary>  
+        public int item_count { get; set; }
+
+        /// <summary>
+        ///   素材列表
+        /// </summary>
+        public List<MediaListItem> item { get; set; }
 
     }
+
+    /// <summary>
+    ///    素材列表Item
+    /// </summary>
+    public class MediaListItem
+    {
+        /// <summary>
+        ///   素材Id
+        /// </summary>
+        public string media_id { get; set; }
+
+        /// <summary>   
+        ///   这篇图文消息素材的最后更新时间
+        /// </summary>  
+        public long update_time { get; set; }
+
+        /// <summary>   
+        ///   文件名称
+        /// </summary>  
+        public string name { get; set; }
+
+        /// <summary>
+        ///   地址
+        /// </summary>
+        public string url { get; set; }
+
+
+        /// <summary>
+        /// 图文内容
+        /// </summary>
+        public object content {
+            set
+            {
+                object _content = value;
+                news_lsit = _content != null ? ((JToken) _content)["news_item"].ToObject<List<WxArticleInfo>>():new List<WxArticleInfo>();
+            }
+        }
+
+        /// <summary>
+        ///  图文列表
+        /// </summary>
+        public List<WxArticleInfo> news_lsit { get;private set; }
+
+    }
+
+
+   
 
     /// <summary>
     /// 素材类型
