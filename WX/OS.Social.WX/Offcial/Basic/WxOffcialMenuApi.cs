@@ -56,7 +56,18 @@ namespace OS.Social.WX.Offcial.Basic
             return RestCommonOffcial<WxGetMenuResp>(req);
         }
 
+        /// <summary>
+        /// 删除菜单
+        /// </summary>
+        /// <returns></returns>
+        public WxBaseResp DeleteMenu()
+        {
+            var  req=new OsHttpRequest();
+            req.HttpMothed=HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/delete");
 
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
 
     }
 }
