@@ -201,7 +201,29 @@ namespace OS.Social.WX.Offcial.Basic
                 return new ResultMo<byte[]>(ResultTypes.ObjectNull, "没有发现文件信息");
             });
         }
+
+
+
+        /// <summary>
+        ///  删除【永久】素材
+        /// </summary>
+        /// <param name="mediaId">素材Id</param>
+        /// <returns></returns>
+        public WxBaseResp DeleteMedia(string mediaId)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/del_material");
+            req.CustomBody = $"{{\"media_id\":\"{mediaId}\"}}";
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
         #endregion
+
+
+
 
     }
 }
