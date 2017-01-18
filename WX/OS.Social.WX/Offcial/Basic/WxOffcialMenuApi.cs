@@ -76,7 +76,7 @@ namespace OS.Social.WX.Offcial.Basic
 
         #region 个性化菜单
         /// <summary>
-        ///   添加定制菜单
+        ///   添加定制个性化菜单
         /// </summary>
         /// <param name="buttons"></param>
         /// <param name="rule"></param>
@@ -91,6 +91,21 @@ namespace OS.Social.WX.Offcial.Basic
 
 
             return RestCommonOffcial<WxAddCustomMenuResp>(req);
+        }
+
+        /// <summary>
+        /// 删除个性化菜单
+        /// </summary>
+        /// <param name="menuid">菜单Id</param>
+        /// <returns></returns>
+        public WxBaseResp DeleteCustomMenu(long menuid)
+        {
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/delconditional");
+            req.CustomBody = $"{{\"menuid\":\"{menuid}\"}}";
+
+            return RestCommonOffcial<WxBaseResp>(req);
         }
 
         #endregion
