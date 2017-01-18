@@ -40,5 +40,23 @@ namespace OS.Social.WX.Offcial.Basic
 
             return RestCommonOffcial<WxBaseResp>(req);
         }
+
+
+        /// <summary>
+        /// 获取菜单设置
+        /// </summary>
+        /// <returns></returns>
+        public WxGetMenuResp GetMenu()
+        {
+            var req=new OsHttpRequest();
+
+            req.HttpMothed=HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/get");
+
+            return RestCommonOffcial<WxGetMenuResp>(req);
+        }
+
+
+
     }
 }

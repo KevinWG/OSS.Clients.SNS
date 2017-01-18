@@ -1,22 +1,22 @@
-﻿using OS.Common.ComModels;
+﻿#region Copyright (C) 2016 Kevin (OS系列开源项目)
+
+/***************************************************************************
+*　　	文件功能描述：基础实体类
+*
+*　　	创建人： Kevin
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2016   忘记哪一天
+*       
+*****************************************************************************/
+
+#endregion
+
+
+using OS.Common.ComModels;
 
 namespace OS.Social.WX
 {
-    /// <summary>
-    ///  授权客户端类型
-    /// </summary>
-    public enum AuthClientType
-    {
-        /// <summary>
-        /// PC网页版
-        /// </summary>
-        PC=1,
-
-        /// <summary>
-        /// 微信公众号
-        /// </summary>
-        WxOffcial=2
-    }
+ 
 
     /// <summary>
     /// 接口返回基础实例

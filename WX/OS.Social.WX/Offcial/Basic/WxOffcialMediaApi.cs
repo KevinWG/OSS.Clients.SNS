@@ -104,6 +104,7 @@ namespace OS.Social.WX.Offcial.Basic
 
         /// <summary>
         ///  上传文章中图片并获取地址
+        ///   此图片还可以用在  微店logo中
         /// </summary>
         /// <param name="imgReq"></param>
         /// <returns></returns>
