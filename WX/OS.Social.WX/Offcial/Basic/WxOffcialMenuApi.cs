@@ -24,6 +24,9 @@ namespace OS.Social.WX.Offcial.Basic
     /// </summary>
     public partial class WxOffcialApi
     {
+
+
+        #region 正常菜单管理
         /// <summary>
         ///    添加或更新公号菜单
         /// </summary>
@@ -34,7 +37,7 @@ namespace OS.Social.WX.Offcial.Basic
             var req=new OsHttpRequest();
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/create");
-            req.CustomBody = JsonConvert.SerializeObject(buttons, Formatting.Indented,
+            req.CustomBody = JsonConvert.SerializeObject(new {button= buttons } , Formatting.Indented,
                 new JsonSerializerSettings() {NullValueHandling = NullValueHandling.Ignore});
 
 
@@ -68,6 +71,28 @@ namespace OS.Social.WX.Offcial.Basic
 
             return RestCommonOffcial<WxBaseResp>(req);
         }
+        #endregion
 
+
+        #region 个性化菜单
+        /// <summary>
+        ///   添加定制菜单
+        /// </summary>
+        /// <param name="buttons"></param>
+        /// <param name="rule"></param>
+        /// <returns></returns>
+        public WxAddCustomMenuResp AddCustomMenu(List<WxMenuButtonInfo> buttons,WxMenuMatchRule rule )
+        {
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/addconditional");
+            req.CustomBody = JsonConvert.SerializeObject(new { button = buttons, matchrule=rule }, 
+                Formatting.Indented,new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+
+
+            return RestCommonOffcial<WxAddCustomMenuResp>(req);
+        }
+
+        #endregion
     }
 }
