@@ -240,8 +240,18 @@ namespace OS.Social.WX.Offcial.Basic
         }
 
         #endregion
+        /// <summary>
+        ///   获取素材总数
+        /// </summary>
+        /// <returns></returns>
+         public WxMediaCountResp GetMediaCount()
+         {
+            var req=new OsHttpRequest();
+            req.HttpMothed=HttpMothed.GET;
+             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_materialcount");
 
-
+             return RestCommonOffcial<WxMediaCountResp>(req);
+         }
 
 
     }

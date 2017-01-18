@@ -219,7 +219,36 @@ namespace OS.Social.WX.Offcial.Basic.Mos
     }
 
     #endregion
-    
+
+
+    /// <summary>
+    ///    获取素材总数响应实体
+    /// </summary>
+    public class WxMediaCountResp:WxBaseResp
+    {
+        /// <summary>   
+        ///   语音总数量
+        /// </summary>  
+        public string voice_count { get; set; }
+
+        /// <summary>   
+        ///   视频总数量
+        /// </summary>  
+        public string video_count { get; set; }
+
+        /// <summary>   
+        ///   图片总数量
+        /// </summary>  
+        public string image_count { get; set; }
+
+        /// <summary>   
+        ///   图文总数量
+        /// </summary>  
+        public string news_count { get; set; }
+
+
+    }
+
     /// <summary>
     /// 素材类型
     /// </summary>
