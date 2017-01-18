@@ -134,6 +134,25 @@ namespace OS.Social.WX.Offcial.Basic
              return RestCommonOffcial<WxGetArticleGroupResp>(req);
          }
 
+
+        /// <summary>
+        ///   修改图文素材列表中的文章接口
+        /// </summary>
+        /// <param name="mediaId"></param>
+        /// <param name="index"></param>
+        /// <param name="article"></param>
+        /// <returns></returns>
+         public WxBaseResp UpdateArticle(string mediaId,int index,WxArticleInfo article)
+         {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/update_news");
+            req.CustomBody =JsonConvert.SerializeObject(new { media_id =mediaId,index=index, articles = article });
+
+            return RestCommonOffcial<WxGetArticleGroupResp>(req);
+        }
+
          #endregion
 
 
