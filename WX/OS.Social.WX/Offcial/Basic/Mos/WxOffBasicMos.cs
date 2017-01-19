@@ -19,7 +19,7 @@ namespace OS.Social.WX.Offcial.Basic.Mos
     /// <summary>
     ///   公众号功能接口accesstoken信息
     /// </summary>
-    public class WxOffcialAccessTokenResp:WxBaseResp
+    public class WxOffAccessTokenResp:WxBaseResp
     {
         /// <summary>
         ///   token

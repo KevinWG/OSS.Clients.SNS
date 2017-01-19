@@ -22,13 +22,13 @@ namespace OS.Social.WX.Offcial.Basic
     /// <summary>
     ///   用户管理，消息管理
     /// </summary>
-    public partial class WxOffcialApi : WxOffcialBaseApi
+    public partial class WxOffBasicApi : WxOffBaseApi
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxOffcialApi(WxAppCoinfig config = null) : base(config)
+        public WxOffBasicApi(WxAppCoinfig config = null) : base(config)
         {
         }
 
@@ -39,7 +39,7 @@ namespace OS.Social.WX.Offcial.Basic
     /// <summary>
     ///  公号用户管理接口类
     /// </summary>
-    public partial class WxOffcialApi
+    public partial class WxOffBasicApi
     {
     
         #region  用户管理

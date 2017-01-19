@@ -14,7 +14,7 @@ namespace OS.Social.Wx.Tests
     [TestClass]
     public class WxUserOffcialApiTests:WxBaseOffcialApiTests
     {
-        private static WxOffcialApi  m_Api=new WxOffcialApi(m_Config);
+        private static WxOffBasicApi  m_Api=new WxOffBasicApi(m_Config);
 
         [TestMethod]
         public void TagTests()

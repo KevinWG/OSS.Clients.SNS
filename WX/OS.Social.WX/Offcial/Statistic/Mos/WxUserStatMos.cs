@@ -19,7 +19,7 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     /// <summary>
     ///   用户统计请求实体
     /// </summary>
-    public class WxStatisticReq
+    public class WxStatReq
     {
         /// <summary>   
         ///   必填    获取数据的起始日期，begin_date和end_date的差值需小于 接口最大时间跨度，否则会报错
@@ -37,19 +37,19 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     /// <summary>
     ///  用户
     /// </summary>
-    public class WxUserStatisticResp : WxBaseResp
+    public class WxUserStatResp : WxBaseResp
     {
         /// <summary>
         ///   统计信息列表
         /// </summary>
-        public List<WxUserStatisticMo> list { get; set; }
+        public List<WxUserStatMo> list { get; set; }
     }
 
 
     /// <summary>
     /// 用户统计数据实体
     /// </summary>
-    public class WxUserStatisticMo
+    public class WxUserStatMo
     {
         /// <summary>   
         ///   数据的日期

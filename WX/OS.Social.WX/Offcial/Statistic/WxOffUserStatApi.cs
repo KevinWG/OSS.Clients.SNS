@@ -22,13 +22,13 @@ namespace OS.Social.WX.Offcial.Statistic
     /// <summary>
     /// 微信统计接口
     /// </summary>
-   public partial class WxOffcialStatisticApi:WxOffcialBaseApi
+   public partial class WxOffStatApi:WxOffBaseApi
     {
        /// <summary>
        /// 构造函数
        /// </summary>
        /// <param name="config"></param>
-       public WxOffcialStatisticApi(WxAppCoinfig config) : base(config)
+       public WxOffStatApi(WxAppCoinfig config) : base(config)
        {
        }
     }
@@ -38,7 +38,7 @@ namespace OS.Social.WX.Offcial.Statistic
     /// <summary>
     /// 微信用户统计接口
     /// </summary>
-    public partial class WxOffcialStatisticApi 
+    public partial class WxOffStatApi 
     {
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace OS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statisticReq"></param>
         /// <returns></returns>
-        public WxUserStatisticResp GetUserSummary(WxStatisticReq statisticReq)
+        public WxUserStatResp GetUserSummary(WxStatReq statisticReq)
         {
             var req = new OsHttpRequest();
 
@@ -55,7 +55,7 @@ namespace OS.Social.WX.Offcial.Statistic
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusersummary");
             req.CustomBody = GetRequestBody(statisticReq);
 
-            return RestCommonOffcial<WxUserStatisticResp>(req);
+            return RestCommonOffcial<WxUserStatResp>(req);
         }
 
 
@@ -66,7 +66,7 @@ namespace OS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statisticReq"></param>
         /// <returns></returns>
-        public WxUserStatisticResp GetUserCumulate(WxStatisticReq statisticReq)
+        public WxUserStatResp GetUserCumulate(WxStatReq statisticReq)
         {
             var req = new OsHttpRequest();
 
@@ -74,7 +74,7 @@ namespace OS.Social.WX.Offcial.Statistic
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusercumulate");
             req.CustomBody = GetRequestBody(statisticReq);
 
-            return RestCommonOffcial<WxUserStatisticResp>(req);
+            return RestCommonOffcial<WxUserStatResp>(req);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace OS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statisticReq"></param>
         /// <returns></returns>
-        private string GetRequestBody(WxStatisticReq statisticReq)
+        private string GetRequestBody(WxStatReq statisticReq)
         {
             return $"{{\"begin_date\": \"{statisticReq.begin_date.ToString("yyyy-MM-dd")}\", \"end_date\": \"{statisticReq.end_date.ToString("yyyy-MM-dd")}\"}}";
         }

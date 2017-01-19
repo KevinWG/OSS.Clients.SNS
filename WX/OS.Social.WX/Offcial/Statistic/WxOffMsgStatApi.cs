@@ -20,7 +20,7 @@ using OS.Social.WX.Offcial.Statistic.Mos;
 
 namespace OS.Social.WX.Offcial.Statistic
 {
-   public partial class WxOffcialStatisticApi
+   public partial class WxOffStatApi
    {
        /// <summary>
        /// 获取消息统计概览
@@ -28,7 +28,7 @@ namespace OS.Social.WX.Offcial.Statistic
        /// </summary>
        /// <param name="statisticReq">时间跨度最多【七天】</param>
        /// <returns></returns>
-       public WxMsgUpStatResp<WxMsgUpStatMo> GetUpMsgStatistic(WxStatisticReq statisticReq)
+       public WxMsgUpStatResp<WxMsgUpStatMo> GetUpMsgStatistic(WxStatReq statisticReq)
        {
             var req=new OsHttpRequest();
             req.HttpMothed=HttpMothed.POST;
@@ -49,7 +49,7 @@ namespace OS.Social.WX.Offcial.Statistic
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsghour");
-            req.CustomBody = GetRequestBody(new WxStatisticReq() {begin_date = date, end_date = date});
+            req.CustomBody = GetRequestBody(new WxStatReq() {begin_date = date, end_date = date});
 
             return RestCommonOffcial<WxMsgUpStatResp<WxMsgUpStatHourMo>>(req);
         }
@@ -61,7 +61,7 @@ namespace OS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statisticReq">时间跨度最多【三十天】</param>
         /// <returns></returns>
-        public WxMsgUpStatResp<WxMsgUpStatMo> GetUpMsgWeekStatistic(WxStatisticReq statisticReq)
+        public WxMsgUpStatResp<WxMsgUpStatMo> GetUpMsgWeekStatistic(WxStatReq statisticReq)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
@@ -78,7 +78,7 @@ namespace OS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statisticReq">时间跨度最多【三十天】</param>
         /// <returns></returns>
-        public WxMsgUpStatResp<WxMsgUpStatMo> GetUpMsgMonthStatistic(WxStatisticReq statisticReq)
+        public WxMsgUpStatResp<WxMsgUpStatMo> GetUpMsgMonthStatistic(WxStatReq statisticReq)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
@@ -96,7 +96,7 @@ namespace OS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statisticReq">时间跨度最多【十五天】</param>
         /// <returns></returns>
-        public WxMsgUpStatResp<WxMsgUpStatDistMo> GetUpMsgDistStatistic(WxStatisticReq statisticReq)
+        public WxMsgUpStatResp<WxMsgUpStatDistMo> GetUpMsgDistStatistic(WxStatReq statisticReq)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
@@ -112,7 +112,7 @@ namespace OS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statisticReq">时间跨度最多【三十天】</param>
         /// <returns></returns>
-        public WxMsgUpStatResp<WxMsgUpStatDistMo> GetUpMsgDistWeekStatistic(WxStatisticReq statisticReq)
+        public WxMsgUpStatResp<WxMsgUpStatDistMo> GetUpMsgDistWeekStatistic(WxStatReq statisticReq)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
@@ -129,7 +129,7 @@ namespace OS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statisticReq">时间跨度最多【三十天】</param>
         /// <returns></returns>
-        public WxMsgUpStatResp<WxMsgUpStatDistMo> GetUpMsgDistMonthStatistic(WxStatisticReq statisticReq)
+        public WxMsgUpStatResp<WxMsgUpStatDistMo> GetUpMsgDistMonthStatistic(WxStatReq statisticReq)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;

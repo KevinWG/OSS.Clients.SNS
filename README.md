@@ -115,7 +115,7 @@ private static WxAppCoinfig m_Config = new WxAppCoinfig()
    
 b. 声明一个实例：
 ```csharp
-    private static readonly WxOffcialApi m_OffcialApi = new WxOffcialApi(m_Config);
+    private static readonly WxOffBasicApi m_OffcialApi = new WxOffBasicApi(m_Config);
 ```
 
 c.  具体使用

@@ -21,7 +21,7 @@ using OS.Social.WX.Offcial.Basic.Mos;
 
 namespace OS.Social.WX.Offcial.Basic
 {
-     public partial class WxOffcialApi
+     public partial class WxOffBasicApi
     {
 
         #region  临时素材

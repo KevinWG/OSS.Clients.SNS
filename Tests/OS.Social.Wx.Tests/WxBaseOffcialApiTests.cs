@@ -19,7 +19,7 @@ namespace OS.Social.Wx.Tests
         };
 
 
-        private static WxOffcialBaseApi m_Api = new WxOffcialBaseApi(m_Config);
+        private static WxOffBaseApi m_Api = new WxOffBaseApi(m_Config);
         public WxBaseOffcialApiTests()
         {
 

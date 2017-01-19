@@ -24,7 +24,7 @@ namespace OS.Social.WX.Offcial
     /// <summary>
     /// 微信公号接口基类
     /// </summary>
-    public class WxOffcialBaseApi:WxBaseApi
+    public class WxOffBaseApi:WxBaseApi
     {
         private readonly string m_OffcialAccessTokenKey;
    
@@ -32,7 +32,7 @@ namespace OS.Social.WX.Offcial
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxOffcialBaseApi(WxAppCoinfig config) : base(config)
+        public WxOffBaseApi(WxAppCoinfig config) : base(config)
         {
             m_OffcialAccessTokenKey = string.Concat(m_OffcialAccessTokenKey, ApiConfig.AppId);
         }
@@ -57,9 +57,9 @@ namespace OS.Social.WX.Offcial
         ///   获取公众号的AccessToken
         /// </summary>
         /// <returns></returns>
-        public WxOffcialAccessTokenResp GetOffcialAccessToken()
+        public WxOffAccessTokenResp GetOffcialAccessToken()
         {
-            var tokenResp = CacheUtil.Get<WxOffcialAccessTokenResp>(m_OffcialAccessTokenKey, ModuleNames.SnsCenter);
+            var tokenResp = CacheUtil.Get<WxOffAccessTokenResp>(m_OffcialAccessTokenKey, ModuleNames.SnsCenter);
 
             if (tokenResp == null || tokenResp.expires_date < DateTime.Now)
             {
@@ -68,7 +68,7 @@ namespace OS.Social.WX.Offcial
                 req.AddressUrl = $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}";
                 req.HttpMothed = HttpMothed.GET;
 
-                tokenResp = RestCommon<WxOffcialAccessTokenResp>(req);
+                tokenResp = RestCommon<WxOffAccessTokenResp>(req);
 
                 if (!tokenResp.IsSuccess)
                     return tokenResp;

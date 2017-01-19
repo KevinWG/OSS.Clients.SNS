@@ -22,7 +22,7 @@ namespace OS.Social.WX.Offcial.Basic
     /// <summary>
     /// 公号管理
     /// </summary>
-    public partial class WxOffcialApi
+    public partial class WxOffBasicApi
     {
 
 

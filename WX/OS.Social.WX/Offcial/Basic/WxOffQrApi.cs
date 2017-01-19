@@ -24,7 +24,7 @@ namespace OS.Social.WX.Offcial.Basic
     /// <summary>
     ///   二维码处理
     /// </summary>
-    public partial class WxOffcialApi
+    public partial class WxOffBasicApi
     {
         /// <summary>
         /// 获取二维码ticket

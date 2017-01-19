@@ -20,7 +20,7 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     /// <summary>
     ///   文章分享统计实体基类
     /// </summary>
-    public class WxArticleStatisticBaseMo
+    public class WxArticleStatBaseMo
     {
         /// <summary>   
         ///   分享的人数
@@ -36,7 +36,7 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     /// <summary>
     ///   文章分享统计 每篇文章每个子项实体基类
     /// </summary>
-    public class WxArticleStatisticItemBaseMo : WxArticleStatisticBaseMo
+    public class WxArticleStatItemBaseMo : WxArticleStatBaseMo
     {
         /// <summary>   
         ///   图文页（点击群发图文卡片进入的页面）的阅读人数
@@ -73,7 +73,7 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     /// <summary>
     /// 每日 群发图文（文章组合）统计  单篇文章的数据
     /// </summary>
-    public class WxArticleStatisticSendMo : WxArticleStatisticItemBaseMo
+    public class WxArticleStatSendMo : WxArticleStatItemBaseMo
     {
         /// <summary>   
         ///   数据的日期，需在begin_date和end_date之间
@@ -94,7 +94,7 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     /// <summary>
     /// 总统计中 每日群发的文章组合中 单篇文章连续多日的统计信息
     /// </summary>
-    public class WxArticleStatisticSendTotalMo 
+    public class WxArticleStatSendTotalMo 
     {
         /// <summary>   
         ///   数据的日期，需在begin_date和end_date之间
@@ -114,13 +114,13 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
         /// <summary>
         /// 当前文章最多七天的统计信息
         /// </summary>
-        public List<WxArticleStatisticSendTotalItemMo> details { get; set; }
+        public List<WxArticleStatSendTotalItemMo> details { get; set; }
     }
 
     /// <summary>
     /// 总统计中 每日群发的文章组合中 单篇文章下的 单天的统计数据细节
     /// </summary>
-    public class WxArticleStatisticSendTotalItemMo : WxArticleStatisticItemBaseMo
+    public class WxArticleStatSendTotalItemMo : WxArticleStatItemBaseMo
     {
         /// <summary>   
         ///   统计的日期，在getarticletotal接口中，ref_date指的是文章群发出日期，而stat_date是数据统计日期
@@ -217,7 +217,7 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     /// <summary>
     ///  每天的统计
     /// </summary>
-    public class WxArticleStatisticDaliyMo : WxArticleStatisticItemBaseMo
+    public class WxArticleStatDaliyMo : WxArticleStatItemBaseMo
     {
         /// <summary>   
         ///   数据的日期，需在begin_date和end_date之间
@@ -228,7 +228,7 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     /// <summary>
     ///  每天的统计
     /// </summary>
-    public class WxArticleStatisticHourMo : WxArticleStatisticDaliyMo
+    public class WxArticleStatHourMo : WxArticleStatDaliyMo
     {
         /// <summary>   
         ///   数据的小时，包括从000到2300，分别代表的是[000,100)到[2300,2400)，即每日的第1小时和最后1小时
@@ -247,7 +247,7 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     ///   文章分享统计实体
     ///    不同share_scene（分享场景）的数据，以及ref_date在begin_date和end_date之间的数据
     /// </summary>
-    public class WxArticleStatisticShareMo:WxArticleStatisticBaseMo
+    public class WxArticleStatShareMo:WxArticleStatBaseMo
     {  
         /// <summary>   
         ///   数据的日期，需在begin_date和end_date之间
@@ -264,7 +264,7 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     /// <summary>
     ///   文章分享每日统计实体
     /// </summary>
-    public class WxArticleStatisticShareHourMo: WxArticleStatisticShareMo
+    public class WxArticleStatShareHourMo: WxArticleStatShareMo
     {
         /// <summary>   
         ///   数据的小时，包括从000到2300，分别代表的是[000,100)到[2300,2400)，即每日的第1小时和最后1小时
@@ -280,7 +280,7 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
     /// 微信文章统计响应实体
     /// </summary>
     /// <typeparam name="TType"></typeparam>
-    public class WxArticleStatisResp<TType>:WxBaseResp 
+    public class WxArticleStatResp<TType>:WxBaseResp 
         where TType:class,new()
     {
         /// <summary>
