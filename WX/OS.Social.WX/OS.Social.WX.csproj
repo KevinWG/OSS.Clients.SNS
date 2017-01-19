@@ -66,9 +66,11 @@
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxArticleStatMos.cs" />
+    <Compile Include="Offcial\Statistic\Mos\WxInterfaceStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxMsgStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxUserStatMos.cs" />
     <Compile Include="Offcial\Statistic\WxOffArticleStatApi.cs" />
+    <Compile Include="Offcial\Statistic\WxOffInterfaceStatApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffMsgStatApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffUserStatApi.cs" />
     <Compile Include="Offcial\WxOffBaseApi.cs" />

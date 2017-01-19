@@ -61,8 +61,6 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
         public int ref_hour { get; set; }
     }
 
-
-
     /// <summary>
     ///  消息分布统计实体
     /// </summary>
@@ -72,18 +70,6 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
         ///   当日发送消息量分布的区间，0代表“0”，1代表“1-5”，2代表“6-10”，3代表“10次以上”
         /// </summary>  
         public int count_interval { get; set; }
-
-    }
-
-    /// <summary>
-    ///  消息分布统计实体
-    /// </summary>
-    public class WxMsgUpStatResp<TType>:WxBaseResp
-    {
-        /// <summary>
-        ///   统计列表
-        /// </summary>
-        public List<TType> list { get; set; }
     }
 
 

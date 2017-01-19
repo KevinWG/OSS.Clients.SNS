@@ -271,21 +271,4 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
         /// </summary>  
         public int ref_hour { get; set; }
     }
-
-
-
-
-
-    /// <summary>
-    /// 微信文章统计响应实体
-    /// </summary>
-    /// <typeparam name="TType"></typeparam>
-    public class WxArticleStatResp<TType>:WxBaseResp 
-        where TType:class,new()
-    {
-        /// <summary>
-        /// 统计列表
-        /// </summary>
-        public List<TType> list { get; set; }
-    }
 }

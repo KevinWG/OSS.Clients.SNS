@@ -30,9 +30,19 @@ namespace OS.Social.WX.Offcial.Statistic.Mos
         ///   必填    获取数据的结束日期，end_date允许设置的最大值为昨日
         /// </summary>  
         public DateTime end_date { get; set; }
-
     }
-
+    /// <summary>
+    /// 微信统计响应实体
+    /// </summary>
+    /// <typeparam name="TType"></typeparam>
+    public class WxStatResp<TType> : WxBaseResp
+        where TType : class, new()
+    {
+        /// <summary>
+        /// 统计列表
+        /// </summary>
+        public List<TType> list { get; set; }
+    }
 
     /// <summary>
     ///  用户
