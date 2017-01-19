@@ -65,7 +65,9 @@
     <Compile Include="Offcial\Basic\Mos\WxOffcialUserMos.cs" />
     <Compile Include="Offcial\Basic\WxOffcialMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffcialMenuApi.cs" />
+    <Compile Include="Offcial\Statistic\Mos\WxArticleStatisticMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxUserStatisticMos.cs" />
+    <Compile Include="Offcial\Statistic\WxOffcialArticleStatisticApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffcialUserStatisticApi.cs" />
     <Compile Include="Offcial\WxOffcialBaseApi.cs" />
     <Compile Include="Offcial\Basic\WxOffcialQrApi.cs" />

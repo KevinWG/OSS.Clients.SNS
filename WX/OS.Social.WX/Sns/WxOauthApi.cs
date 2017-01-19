@@ -15,6 +15,7 @@
 using OS.Http;
 using OS.Http.Models;
 using OS.Social.WX.Sns.Mos;
+using OS.Social.WX.SysUtils.Mos;
 
 namespace OS.Social.WX.Sns
 {

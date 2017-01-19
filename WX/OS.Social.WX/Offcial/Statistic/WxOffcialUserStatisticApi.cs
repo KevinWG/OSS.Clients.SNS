@@ -11,6 +11,7 @@
 
 #endregion
 
+using System;
 using OS.Http;
 using OS.Http.Models;
 using OS.Social.WX.Offcial.Statistic.Mos;
@@ -48,12 +49,11 @@ namespace OS.Social.WX.Offcial.Statistic
         /// <returns></returns>
         public WxUserStatisticResp GetUserSummary(WxStatisticReq statisticReq)
         {
-            var req=new OsHttpRequest();
+            var req = new OsHttpRequest();
 
-            req.HttpMothed=HttpMothed.POST;
+            req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusersummary");
-            req.CustomBody =
-                $"{{\"begin_date\": \"{statisticReq.begin_date.ToString("yyyy-MM-dd")}\", \"end_date\": \"{statisticReq.end_date.ToString("yyyy-MM-dd")}\"}}";
+            req.CustomBody = GetRequestBody(statisticReq);
 
             return RestCommonOffcial<WxUserStatisticResp>(req);
         }
@@ -72,10 +72,19 @@ namespace OS.Social.WX.Offcial.Statistic
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusercumulate");
-            req.CustomBody =
-                $"{{\"begin_date\": \"{statisticReq.begin_date.ToString("yyyy-MM-dd")}\", \"end_date\": \"{statisticReq.end_date.ToString("yyyy-MM-dd")}\"}}";
+            req.CustomBody = GetRequestBody(statisticReq);
 
             return RestCommonOffcial<WxUserStatisticResp>(req);
+        }
+
+        /// <summary>
+        ///   返回请求参数json串
+        /// </summary>
+        /// <param name="statisticReq"></param>
+        /// <returns></returns>
+        private string GetRequestBody(WxStatisticReq statisticReq)
+        {
+            return $"{{\"begin_date\": \"{statisticReq.begin_date.ToString("yyyy-MM-dd")}\", \"end_date\": \"{statisticReq.end_date.ToString("yyyy-MM-dd")}\"}}";
         }
 
     }
