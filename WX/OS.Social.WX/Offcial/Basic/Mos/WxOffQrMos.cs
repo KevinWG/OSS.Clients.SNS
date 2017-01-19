@@ -22,7 +22,11 @@
         /// </summary>
         public string scene_str { get; set; }
 
-
+        /// <summary>
+        /// 生成二维码性质   
+        /// QR_SCENE 临时二维码   QR_LIMIT_STR_SCENE  永久二维码    QR_CARD  卡券二维码
+        /// </summary>
+        public string action_name { get; set; }
 
     }
 

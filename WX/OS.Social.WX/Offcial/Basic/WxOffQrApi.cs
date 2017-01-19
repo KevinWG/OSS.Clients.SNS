@@ -42,8 +42,7 @@ namespace OS.Social.WX.Offcial.Basic
             if (req.expire_seconds > 0)
                 strParas.Append("\"expire_seconds\":").Append(req.expire_seconds).Append(",");
 
-            strParas.Append("\"action_name\":\"");
-            strParas.Append(req.expire_seconds > 0 ? "QR_SCENE" : "QR_LIMIT_STR_SCENE").Append("\",");
+            strParas.Append("\"action_name\":\"").Append(req.action_name).Append("\",");
             strParas.Append("\"action_info\":{\"scene\": {");
 
             if (req.scene_id > 0)
