@@ -10,7 +10,7 @@ using OS.Social.WX.Offcial.Basic.Mos;
 namespace OS.Social.Wx.Tests
 {
     [TestClass]
-    public class WxBaseOffcialApiTests
+    public class WxBaseOffApiTests
     {
         protected static WxAppCoinfig m_Config = new WxAppCoinfig()
         {
@@ -20,7 +20,7 @@ namespace OS.Social.Wx.Tests
 
 
         private static WxOffBaseApi m_Api = new WxOffBaseApi(m_Config);
-        public WxBaseOffcialApiTests()
+        public WxBaseOffApiTests()
         {
 
         }

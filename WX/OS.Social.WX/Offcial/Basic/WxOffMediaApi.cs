@@ -58,11 +58,11 @@ namespace OS.Social.WX.Offcial.Basic
 
             return RestCommon(req, resp =>
              {
-                 if (resp.RawBytes!=null)
-                 {
+                 if (!resp.ContentType.Contains("application/json"))
                      return new ResultMo<byte[]>(resp.RawBytes);
-                 }
-                 return new ResultMo<byte[]>(ResultTypes.ObjectNull,"没有发现文件信息");
+                 var res = JsonConvert.DeserializeObject<WxBaseResp>(resp.Content);
+
+                 return res.ConvertToResultOnly<byte[]>();
              });
          }
 
@@ -103,12 +103,12 @@ namespace OS.Social.WX.Offcial.Basic
          }
 
         /// <summary>
-        ///  上传文章中图片并获取地址
-        ///   此图片还可以用在  微店logo中
+        ///  上传图片并获取地址
+        ///      没有mediaId【图文】【微店】
         /// </summary>
         /// <param name="imgReq"></param>
         /// <returns></returns>
-         public WxArticleUploadImgResp UploadArticleImg(WxMediaFileReq imgReq)
+         public WxArticleUploadImgResp UploadFreeImage(WxMediaFileReq imgReq)
          {
             var req=new OsHttpRequest();
 
@@ -171,9 +171,10 @@ namespace OS.Social.WX.Offcial.Basic
 
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_material?type=", mediaReq.type.ToString());
-
-            req.Parameters.Add(new Parameter("description",$"",ParameterType.Form));
             req.FileParameterList.Add(new FileParameter("media",mediaReq.file_stream,mediaReq.file_name,mediaReq.content_type));
+
+            if (mediaReq.type == MediaType.video)
+                req.Parameters.Add(new Parameter("description", $"{{\"title\":\"{mediaReq.title}\", \"introduction\":\"{mediaReq.introduction}\"}}", ParameterType.Form));
 
             return RestCommonOffcial<WxMediaUploadResp>(req);
          }
@@ -209,16 +210,18 @@ namespace OS.Social.WX.Offcial.Basic
                 return accessToken.ConvertToResultOnly<byte[]>();
 
             var req = new OsHttpRequest();
+
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl,
                 $"/cgi-bin/material/get_material?access_token=", accessToken.access_token);
 
             return RestCommon(req, resp =>
             {
-                if (resp.RawBytes != null)
+                if (!resp.ContentType.Contains("application/json"))
                     return new ResultMo<byte[]>(resp.RawBytes);
-                
-                return new ResultMo<byte[]>(ResultTypes.ObjectNull, "没有发现文件信息");
+
+                var resJson = JsonConvert.DeserializeObject<WxBaseResp>(resp.Content);
+                return resJson.ConvertToResultOnly<byte[]>();
             });
         }
 

@@ -72,7 +72,7 @@ namespace OS.Social.WX.Offcial.Basic
 
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/info/updateremark");
-            req.CustomBody = $"{{\"openid\":{openid},\"remark\":{remark}}}"; //JsonConvert.SerializeObject(new {openid = openid, remark = remark});
+            req.CustomBody = $"{{\"openid\":\"{openid}\",\"remark\":\"{remark}\"}}"; //JsonConvert.SerializeObject(new {openid = openid, remark = remark});
 
             return RestCommonOffcial<WxBaseResp>(req);
         }
@@ -144,7 +144,7 @@ namespace OS.Social.WX.Offcial.Basic
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/create");
-            req.CustomBody = $"{{\"tag\":{{\"name\":{name}}}}}";// JsonConvert.SerializeObject(param);
+            req.CustomBody = $"{{\"tag\":{{\"name\":\"{name}\"}}}}";// JsonConvert.SerializeObject(param);
 
             return RestCommonOffcial<WxAddTagResp>(req);
         }
@@ -163,7 +163,7 @@ namespace OS.Social.WX.Offcial.Basic
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/update")
             };
             
-            req.CustomBody = $"{{\"tag\":{{\"id\":{id},\"name\":{name}}}}}";// JsonConvert.SerializeObject(param);
+            req.CustomBody = $"{{\"tag\":{{\"id\":{id},\"name\":\"{name}\"}}}}";// JsonConvert.SerializeObject(param);
 
             return RestCommonOffcial<WxBaseResp>(req);
         }
@@ -232,7 +232,7 @@ namespace OS.Social.WX.Offcial.Basic
 
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/getidlist");
-            req.CustomBody = $"{{\"openid\":{openid}}}";// JsonConvert.SerializeObject(new { openid= openid });
+            req.CustomBody = $"{{\"openid\":\"{openid}\"}}";// JsonConvert.SerializeObject(new { openid= openid });
 
             return RestCommonOffcial<WxGetUserTagsResp>(req);
         }
@@ -253,7 +253,7 @@ namespace OS.Social.WX.Offcial.Basic
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/getblacklist");
-            req.CustomBody = $"{{\"begin_openid\":{next_openid}}}";// JsonConvert.SerializeObject(new { begin_openid = next_openid });
+            req.CustomBody = $"{{\"begin_openid\":\"{next_openid}\"}}";// JsonConvert.SerializeObject(new { begin_openid = next_openid });
 
             return RestCommonOffcial<WxOpenIdsResp>(req);
         }

@@ -24,7 +24,6 @@ namespace OS.Social.WX
     public class WxBaseResp : ResultMo
     {
         private int m_errcode = 0;
-
         /// <summary>
         ///  错误代码
         /// </summary>

@@ -64,9 +64,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="WxBaseOffcialApiTests.cs" />
+    <Compile Include="WxBaseOffApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WxUserOffcialApiTests.cs" />
+    <Compile Include="WxOffBasicApiTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
