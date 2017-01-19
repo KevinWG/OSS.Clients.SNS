@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		DoneList.txt = DoneList.txt
 		README.md = README.md
 		TodoList.txt = TodoList.txt
+		WX\地区信息_中国地区_CN_EN.txt = WX\地区信息_中国地区_CN_EN.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A5E61538-E1B8-44C9-B494-D664B28CA32D}"
