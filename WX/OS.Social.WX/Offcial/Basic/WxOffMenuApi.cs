@@ -27,6 +27,7 @@ namespace OS.Social.WX.Offcial.Basic
 
 
         #region 正常菜单管理
+
         /// <summary>
         ///    添加或更新公号菜单
         /// </summary>
@@ -35,6 +36,7 @@ namespace OS.Social.WX.Offcial.Basic
         public WxBaseResp AddOrUpdateMenu(List<WxMenuButtonInfo>  buttons)
         {
             var req=new OsHttpRequest();
+
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/create");
             req.CustomBody = JsonConvert.SerializeObject(new {button= buttons } , Formatting.Indented,
@@ -84,6 +86,7 @@ namespace OS.Social.WX.Offcial.Basic
         public WxAddCustomMenuResp AddCustomMenu(List<WxMenuButtonInfo> buttons,WxMenuMatchRule rule )
         {
             var req = new OsHttpRequest();
+
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/addconditional");
             req.CustomBody = JsonConvert.SerializeObject(new { button = buttons, matchrule=rule }, 

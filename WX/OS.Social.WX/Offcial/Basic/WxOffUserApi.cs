@@ -238,10 +238,9 @@ namespace OS.Social.WX.Offcial.Basic
         }
 
         #endregion
-
-
-
+        
         #region  黑名单管理
+
         /// <summary>
         ///   获取黑名单用户Openid列表
         /// </summary>
@@ -291,8 +290,8 @@ namespace OS.Social.WX.Offcial.Basic
 
             return RestCommonOffcial<WxBaseResp>(req);
         }
+
         #endregion
-
-
+        
     }
 }

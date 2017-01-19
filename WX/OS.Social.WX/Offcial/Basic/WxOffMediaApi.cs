@@ -25,6 +25,7 @@ namespace OS.Social.WX.Offcial.Basic
     {
 
         #region  临时素材
+
         /// <summary>
         /// 上传素材接口【临时素材】
         /// </summary>
@@ -33,6 +34,7 @@ namespace OS.Social.WX.Offcial.Basic
         public WxMediaTempUploadResp UploadTempMedia(WxMediaTempUploadReq request )
          {
             var req=new OsHttpRequest();
+
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/upload?type=", request.type.ToString());
             req.FileParameterList.Add(new FileParameter("media", request.file_stream,request.file_name,request.content_type));
@@ -81,9 +83,8 @@ namespace OS.Social.WX.Offcial.Basic
 
             return RestCommonOffcial<WxMediaTempVideoUrlResp>(req);
         }
+
         #endregion
-
-
 
         #region  文章素材    属于永久素材
 
@@ -134,8 +135,7 @@ namespace OS.Social.WX.Offcial.Basic
 
              return RestCommonOffcial<WxGetArticleGroupResp>(req);
          }
-
-
+        
         /// <summary>
         ///   修改图文素材列表中的文章接口
         /// </summary>
@@ -155,9 +155,7 @@ namespace OS.Social.WX.Offcial.Basic
         }
 
          #endregion
-
-
-
+        
         #region    非文章类的其他永久素材
 
         /// <summary>
@@ -225,8 +223,6 @@ namespace OS.Social.WX.Offcial.Basic
             });
         }
 
-
-
         /// <summary>
         ///  删除【永久】素材
         /// </summary>
@@ -244,6 +240,8 @@ namespace OS.Social.WX.Offcial.Basic
         }
 
         #endregion
+
+
         /// <summary>
         ///   获取素材总数
         /// </summary>

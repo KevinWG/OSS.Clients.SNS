@@ -117,6 +117,7 @@ namespace OS.Social.Wx.Tests
 
             var res = m_Api.UploadFreeImage(req);
             Assert.IsTrue(res.IsSuccess);
+            //http://mmbiz.qpic.cn/mmbiz_jpg/N3louEAebXzhBzgsstFNBicyF1j1ZFIGgV55uQHPXLGDwIIDkvxrcnhEVGsEphEicICPLQ7Fh5kubPJg59u0rtFA/0
         }
 
 
