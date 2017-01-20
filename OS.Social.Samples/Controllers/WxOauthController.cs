@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using OS.Social.WX;
 using OS.Social.WX.Sns;
+using OS.Social.WX.SysUtils.Mos;
 
 namespace OS.Social.Samples.Controllers
 {
