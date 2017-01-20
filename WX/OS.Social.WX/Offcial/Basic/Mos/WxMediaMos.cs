@@ -18,7 +18,7 @@ using Newtonsoft.Json.Linq;
 
 namespace OS.Social.WX.Offcial.Basic.Mos
 {
-#region  正常素材文件上传的基础实体
+    #region  正常素材文件上传的基础实体
     /// <summary>
     /// 素材上传请求基础实体
     ///    文章中的图片上传请求也使用这个实体

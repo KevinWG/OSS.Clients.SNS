@@ -6,7 +6,7 @@ namespace OS.Social.WX.Offcial.Basic.Mos
     /// <summary>
     /// 微信菜单按钮实体
     /// </summary>
-    public class WxMenuButtonInfo
+    public class WxMenuButtonMo
     {
         /// <summary>   
         ///   必填    一级菜单数组，个数应为1~3个
@@ -16,7 +16,7 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// <summary>   
         ///   可空    二级菜单数组，个数应为1~5个
         /// </summary>  
-        public List<WxMenuButtonInfo> sub_button { get; set; }
+        public List<WxMenuButtonMo> sub_button { get; set; }
 
         /// <summary>   
         ///   必填    菜单的响应动作类型
@@ -54,23 +54,23 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// <summary>
         /// 默认按钮信息
         /// </summary>
-        public WxMenuButtonItems menu { get; set; }
+        public WxMenuButtonItemsMo menu { get; set; }
 
         /// <summary>
         ///  个性化菜单分组
         /// </summary>
-        public List<WxMenuButtonItems> conditionalmenu { get; set; }
+        public List<WxMenuButtonItemsMo> conditionalmenu { get; set; }
     }
 
     /// <summary>
     ///   菜单中的按钮数组
     /// </summary>
-    public class WxMenuButtonItems
+    public class WxMenuButtonItemsMo
     {
        /// <summary>
        /// 按钮列表
        /// </summary>
-        public List<WxMenuButtonInfo> button { get; set; }
+        public List<WxMenuButtonMo> button { get; set; }
 
 
         /// <summary>
@@ -82,13 +82,13 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// <summary>
         ///  菜单组的匹配规则
         /// </summary>
-        public WxMenuMatchRule matchrule { get; set; }
+        public WxMenuMatchRuleMo matchrule { get; set; }
     }
 
     /// <summary>
     /// 个性化菜单匹配规则
     /// </summary>
-    public class WxMenuMatchRule
+    public class WxMenuMatchRuleMo
     {
         /// <summary>   
         ///   可空    用户标签的id，可通过用户标签管理接口获取
@@ -147,7 +147,7 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// <summary>
         /// 按钮列表
         /// </summary>
-        public List<WxMenuButtonInfo> button { get; set; }
+        public List<WxMenuButtonMo> button { get; set; }
 
     }
 

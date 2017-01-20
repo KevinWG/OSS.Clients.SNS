@@ -33,7 +33,7 @@ namespace OS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="buttons"></param>
         /// <returns></returns>
-        public WxBaseResp AddOrUpdateMenu(List<WxMenuButtonInfo>  buttons)
+        public WxBaseResp AddOrUpdateMenu(List<WxMenuButtonMo>  buttons)
         {
             var req=new OsHttpRequest();
 
@@ -83,7 +83,7 @@ namespace OS.Social.WX.Offcial.Basic
         /// <param name="buttons"></param>
         /// <param name="rule"></param>
         /// <returns></returns>
-        public WxAddCustomMenuResp AddCustomMenu(List<WxMenuButtonInfo> buttons,WxMenuMatchRule rule )
+        public WxAddCustomMenuResp AddCustomMenu(List<WxMenuButtonMo> buttons,WxMenuMatchRuleMo rule )
         {
             var req = new OsHttpRequest();
 

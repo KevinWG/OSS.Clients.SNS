@@ -24,7 +24,7 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// <summary>
         /// 返回标签实体
         /// </summary>
-        public WxTagInfo tag { get; set; }
+        public WxTagInfoMo tag { get; set; }
 
     }
 
@@ -36,14 +36,14 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// <summary>
         ///   标签列表
         /// </summary>
-        public List<WxTagInfo> tags { get; set; }
+        public List<WxTagInfoMo> tags { get; set; }
     }
 
 
     /// <summary>
     /// 标签实体
     /// </summary>
-    public class WxTagInfo
+    public class WxTagInfoMo
     {
         /// <summary>
         ///    标签Id

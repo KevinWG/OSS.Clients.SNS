@@ -57,12 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Msg\WxMsgBaseHandler.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxOffBasicMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxOffMediaMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxOffMenuMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxOffQrMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxOffTagMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxOffUserMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxBasicMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxMediaMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxMenuMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxQrMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxTagMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxUserMos.cs" />
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxArticleStatMos.cs" />
@@ -73,6 +73,8 @@
     <Compile Include="Offcial\Statistic\WxOffInterfaceStatApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffMsgStatApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffUserStatApi.cs" />
+    <Compile Include="Offcial\Store\Mos\WxStoreMos.cs" />
+    <Compile Include="Offcial\Store\WxOffStoreApi.cs" />
     <Compile Include="Offcial\WxOffBaseApi.cs" />
     <Compile Include="Offcial\Basic\WxOffQrApi.cs" />
     <Compile Include="Offcial\Basic\WxOffUserApi.cs" />
