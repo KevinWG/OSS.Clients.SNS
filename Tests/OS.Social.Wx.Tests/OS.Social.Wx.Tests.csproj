@@ -67,6 +67,7 @@
     <Compile Include="WxBaseOffApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WxOffBasicApiTests.cs" />
+    <Compile Include="WxOffStoreTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

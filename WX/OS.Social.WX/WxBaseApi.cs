@@ -272,9 +272,21 @@ namespace OS.Social.WX
             {49003, "传入的openid不属于此AppID"}
             #endregion
         };
-  
 
-        
+        /// <summary>
+        /// 添加错误码
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="message"></param>
+        protected static void AddErrorCode(int code,string message)
+        {
+            if (!m_DicErrMsg.ContainsKey(code))
+            {
+                m_DicErrMsg.Add(code,message);
+            }
+        }
+
+
         #endregion
 
         /// <summary>
