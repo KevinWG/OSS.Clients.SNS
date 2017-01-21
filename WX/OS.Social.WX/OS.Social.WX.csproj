@@ -79,7 +79,9 @@
     <Compile Include="Offcial\Basic\WxOffQrApi.cs" />
     <Compile Include="Offcial\Basic\WxOffUserApi.cs" />
     <Compile Include="Sns\Mos\WxAuthMos.cs" />
-    <Compile Include="SysUtils\Mos\Enums.cs" />
+    <Compile Include="SysUtils\Mos\CommonEnums.cs" />
+    <Compile Include="SysUtils\Mos\StoreEnums.cs" />
+    <Compile Include="SysUtils\WxDictionaryUtil.cs" />
     <Compile Include="WxBaseApi.cs" />
     <Compile Include="Sns\WxOauthApi.cs" />
     <Compile Include="BaseMos.cs" />

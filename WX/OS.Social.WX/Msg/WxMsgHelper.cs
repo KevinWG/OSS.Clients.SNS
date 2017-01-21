@@ -23,31 +23,14 @@ namespace OS.Social.WX.Msg
     internal class WxMsgHelper
     {
         /// <summary>
-        /// 获取事件实体
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dirs"></param>
-        /// <param name="eventType">事件类型</param>
-        /// <returns></returns>
-        public static T GetEventMsg<T>(IDictionary<string, string> dirs, EventType eventType) where T : BaseRecEventMsg, new()
-        {
-            var msg = GetMsg<T>(dirs, MsgType.Event);
-            msg.EventType = eventType;
-            msg.SetMsgDirs(dirs);
-            return msg;
-        }
-
-        /// <summary>
         /// 获取消息实体
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dirs"></param>
-        /// <param name="msgType">消息类型</param>
         /// <returns></returns>
-        public static T GetMsg<T>(IDictionary<string, string> dirs, MsgType msgType) where T : BaseRecMsg, new()
+        public static T GetMsg<T>(IDictionary<string, string> dirs) where T : BaseRecMsg, new()
         {
             T t = new T();
-            t.MsgType = msgType;
             t.SetMsgDirs(dirs);
             return t;
         }
@@ -74,6 +57,7 @@ namespace OS.Social.WX.Msg
                 XmlElement xe = (XmlElement)xn;
                 dirs[xe.Name] = xe.InnerText; 
             }
+            
             return dirs;
         }
     }

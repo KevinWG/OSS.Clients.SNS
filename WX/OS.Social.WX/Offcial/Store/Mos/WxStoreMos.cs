@@ -104,12 +104,12 @@ namespace OS.Social.WX.Offcial.Store.Mos
         /// <summary>   
         ///   门店是否可用状态。1表示系统错误、2表示审核中、3审核通过、4审核驳回。当该字段为1、2、4状态时，poi_id为空
         /// </summary>  
-        public StoreAvailableStatus available_state { get; set; }
+        public WxStoreAvailableStatus available_state { get; set; }
 
         /// <summary>   
         ///   扩展字段是否正在更新中。1表示扩展字段正在更新中，尚未生效，不允许再次更新；0表示扩展字段没有在更新中或更新已生效，可以再次更新
         /// </summary>  
-        public StoreUpdateStatus update_status { get; set; }
+        public WxStoreUpdateStatus update_status { get; set; }
     }
 
     /// <summary>

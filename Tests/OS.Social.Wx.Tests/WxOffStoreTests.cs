@@ -1,7 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OS.Social.WX.Msg.Mos;
 using OS.Social.WX.Offcial.Store;
 using OS.Social.WX.Offcial.Store.Mos;
 
@@ -11,7 +12,7 @@ namespace OS.Social.Wx.Tests
     /// WxOffStoreTests 的摘要说明
     /// </summary>
     [TestClass]
-    public class WxOffStoreTests: WxBaseOffApiTests
+    public class WxOffStoreTests : WxBaseOffApiTests
     {
         public WxOffStoreTests()
         {
@@ -20,24 +21,29 @@ namespace OS.Social.Wx.Tests
             //
         }
 
-    private static WxOffStoreApi m_Api=new WxOffStoreApi(m_Config);
+        private static WxOffStoreApi m_Api = new WxOffStoreApi(m_Config);
 
         [TestMethod]
         public void AddStoreTest()
         {
-            var req=new WxStoreBasicSmallMo();
+            var req = new WxStoreBasicSmallMo();
 
             req.address = "英特国际公寓";
             req.avg_price = 80;
             req.branch_name = "西坝河店";
             req.business_name = "绝味鸭脖";
 
-            req.categories =new List<string>() { "美食"}; ;
+            req.categories = new List<string>() {"美食"};
             req.city = "北京";
             req.district = "朝阳区";
-            
 
-            var res= m_Api.AddStore(req);
+
+            var res = m_Api.AddStore(req);
         }
+
+
     }
+
+    
 }
+  

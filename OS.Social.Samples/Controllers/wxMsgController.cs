@@ -10,10 +10,10 @@ namespace OS.Social.Samples.Controllers
     {
         private static readonly WxMsgServerConfig config = new WxMsgServerConfig()
         {
-            Token = "你的token",
+            Token = "90ae131cfda74ae9906bcfc574e2a84a",
             EncodingAesKey = "你的加密key",
             SecurityType = WxSecurityType.None,//  在微信段设置的安全模式
-            AppId = "你的appid"   //  
+            AppId = "wxc6544368e4c92a16"   //  
         };
 
 
@@ -41,7 +41,7 @@ namespace OS.Social.Samples.Controllers
             }
             try
             {
-                var res = msgService.Processing( requestXml, signature, timestamp, nonce,echostr);
+                var res = msgService.Process( requestXml, signature, timestamp, nonce,echostr);
                 if (res.IsSuccess)
                 {
                     LogUtil.Info(res.Data);

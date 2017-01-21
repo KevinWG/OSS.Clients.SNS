@@ -11,7 +11,11 @@
 
 #endregion
 
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using OS.Common.ComModels;
+using OS.Common.ComModels.Enums;
 using OS.Social.WX.Msg.Mos;
 
 namespace OS.Social.WX.Msg
@@ -28,66 +32,76 @@ namespace OS.Social.WX.Msg
         public WxMsgHandler(WxMsgServerConfig config):base(config)
         {
         }
+
         
-        
-        #region 消息处理入口，出口（分为开始，处理，结束部分）
+        static WxMsgHandler()
+        {
+          
+        }
+
+
+        private static readonly ConcurrentDictionary<string,Tuple<Type, Func<BaseRecMsg, BaseReplyMsg>> > m_MsgHandlerDir 
+            = new ConcurrentDictionary<string, Tuple<Type, Func<BaseRecMsg, BaseReplyMsg>>>();
 
         /// <summary>
-        /// 核心执行方法
+        /// 
         /// </summary>
-        /// <param name="contentXml">内容信息</param>
-        /// <param name="signature">签名信息</param>
-        /// <param name="timestamp">时间戳</param>
-        /// <param name="nonce">随机字符创</param>
-        /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果Data中返回</param>
-        /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public ResultMo<string> Processing(string contentXml, string signature, string timestamp, string nonce,string echostr)
+        /// <param name="msgType"></param>
+        /// <param name="recType"></param>
+        /// <param name="handler"></param>
+        protected  static ResultMo RegisterMsgHandler(string msgType,Type recType, Func<BaseRecMsg, BaseReplyMsg> handler)
         {
-            // 一.  检查是否是服务器验证
-            if (!string.IsNullOrEmpty(echostr))
+            string key = msgType.ToLower();
+            if (!m_MsgHandlerDir.ContainsKey(key))
             {
-                return CheckServerValid(signature, timestamp, nonce, echostr);
-            }
-
-            // 二.  正常消息处理
-            {
-                var checkRes = CheckAndDecryptMsg(contentXml, signature, timestamp, nonce);
-                if (!checkRes.IsSuccess)
-                    return checkRes.ConvertToResultOnly<string>();
-
-                var contextRes = ProcessCore(checkRes.Data);
-                if (!contextRes.IsSuccess)
-                    return contextRes.ConvertToResultOnly<string>();
-
-                ProcessEnd(contextRes.Data);
-
-                var resultString = contextRes.Data.ReplyMsg.ToReplyXml();
-                if (m_Config.SecurityType != WxSecurityType.None &&
-                    contextRes.Data.ReplyMsg.MsgType != ReplyMsgType.None)
+                var isTrue= m_MsgHandlerDir.TryAdd(key, Tuple.Create(recType, handler));
+                if (isTrue)
                 {
-                    return EncryptMsg(resultString, m_Config);
+                    return new ResultMo();
                 }
-                return new ResultMo<string>(resultString);
             }
+            return new ResultMo(ResultTypes.ObjectExsit,"已存在相同的消息处理类型！");
         }
 
-       /// <summary>
-       ///  服务器验证
-       /// </summary>
-       /// <param name="signature"></param>
-       /// <param name="timestamp"></param>
-       /// <param name="nonce"></param>
-       /// <param name="echostr"></param>
-       /// <returns></returns>
-        public ResultMo<string> CheckServerValid(string signature, string timestamp, string nonce, string echostr)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eventType"></param>
+        /// <param name="recMsgType"></param>
+        /// <param name="handler"></param>
+        protected static ResultMo RegisterEventMsgHandler(string eventType, Type recMsgType, Func<BaseRecMsg, BaseReplyMsg> handler)
         {
-            var checkSignRes = WxMsgCrypt.CheckSignature(m_Config.Token, signature, timestamp, nonce);
-            var resultRes = checkSignRes.ConvertToResultOnly<string>();
-            resultRes.Data = resultRes.IsSuccess ? echostr : string.Empty;
-            return resultRes;
+            string key =string.Concat("event-", eventType);
+
+            return RegisterMsgHandler(key, recMsgType, handler);
         }
 
-        #endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="recMsg"></param>
+        /// <param name="msgType"></param>
+        /// <param name="msgDirs"></param>
+        /// <returns></returns>
+        protected override MsgContext ProcessExecute_AdvancedMsg(string recMsg, string msgType, Dictionary<string, string> msgDirs)
+        {
+            string key = msgType == "event" ? string.Concat("event-", msgDirs["Event"].ToLower()) : msgType;
+            if (!m_MsgHandlerDir.ContainsKey(key))
+                return null;
+
+            var tupleItem = m_MsgHandlerDir[key];
+            //  处理msg
+            var msg = Activator.CreateInstance(tupleItem.Item1) as BaseRecMsg;
+            if (msg != null)
+            {
+                msg.SetMsgDirs(msgDirs);
+                msg.RecMsgXml = recMsg;
+            }
+            var replyMsg = ExecuteHandler(msg, tupleItem.Item2);
+
+            return new MsgContext() {RecMsg = msg,ReplyMsg = replyMsg};
+        }
+
 
     }
 

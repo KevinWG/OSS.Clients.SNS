@@ -101,25 +101,5 @@ namespace OS.Social.WX.Msg.Mos
 
     }
 
-    /// <summary>
-    /// 客服事件
-    /// </summary>
-    public class KFRecEventMsg : BaseRecEventMsg
-    {
-        /// <summary>
-        /// 格式化自身属性部分
-        /// </summary>
-        protected override void FormatPropertiesFromMsg()
-        {
-            base.FormatPropertiesFromMsg();
-            KfAccount = this["KfAccount"];
-        }
 
-        /// <summary>
-        /// 事件KEY值
-        /// </summary>
-        public string KfAccount { get; set; }
-
-    
-    }
 }

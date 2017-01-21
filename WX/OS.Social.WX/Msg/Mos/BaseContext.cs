@@ -55,13 +55,14 @@ namespace OS.Social.WX.Msg.Mos
         /// <summary>
         /// 消息类型
         /// </summary>
-        public MsgType MsgType { get; internal set; }
+        public string MsgType { get; internal set; }
 
         /// <summary>
         /// 格式化自身属性部分
         /// </summary>
         protected virtual void FormatPropertiesFromMsg()
         {
+            MsgType = this["MsgType"];
             ToUserName = this["ToUserName"];
             FromUserName = this["FromUserName"];
             CreateTime = this["CreateTime"].ToInt64();
@@ -96,8 +97,23 @@ namespace OS.Social.WX.Msg.Mos
         /// <summary>
         /// 事件类型
         /// </summary>
-        public EventType EventType { get; internal set; }
+        public string Event { get; internal set; }
+
+
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
+        protected override void FormatPropertiesFromMsg()
+        {
+            Event = this["Event"];
+            base.FormatPropertiesFromMsg();
+        
+        }
     }
+
+
+
+
 
     /// <summary>
     /// 被动回复
