@@ -93,7 +93,6 @@
     <Compile Include="Msg\Mos\ReplyMsgs.cs" />
     <Compile Include="Msg\Mos\WxMsgServerConfig.cs" />
     <Compile Include="Msg\WxMsgHandler.cs" />
-    <Compile Include="Msg\WxMsgHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

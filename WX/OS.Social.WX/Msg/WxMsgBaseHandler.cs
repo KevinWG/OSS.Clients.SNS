@@ -12,9 +12,9 @@
 #endregion
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 using OS.Common.ComModels;
 using OS.Common.ComModels.Enums;
 using OS.Common.Encrypt;
@@ -39,7 +39,7 @@ namespace OS.Social.WX.Msg
             m_Config = mConfig;
         }
 
-        #region   事件列表
+        #region   基础消息的事件列表
 
         #region 事件列表  普通消息
 
@@ -118,7 +118,8 @@ namespace OS.Social.WX.Msg
         /// <param name="res"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        protected static BaseReplyMsg ExecuteHandler<TRecMsg>(TRecMsg res, Func<TRecMsg, BaseReplyMsg> func) where TRecMsg : BaseRecMsg,new ()
+        protected static BaseReplyMsg ExecuteHandler<TRecMsg>(TRecMsg res, Func<TRecMsg, BaseReplyMsg> func)
+            where TRecMsg : BaseRecMsg, new()
         {
             var baseRep = func?.Invoke(res) ?? new NoneReplyMsg();
 
@@ -131,8 +132,6 @@ namespace OS.Social.WX.Msg
 
         #endregion
 
-
-
         #region 消息处理入口，出口（分为开始，处理，结束部分）
 
         /// <summary>
@@ -144,7 +143,8 @@ namespace OS.Social.WX.Msg
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果Data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public ResultMo<string> Process(string contentXml, string signature, string timestamp, string nonce, string echostr)
+        public ResultMo<string> Process(string contentXml, string signature, string timestamp, string nonce,
+            string echostr)
         {
             // 一.  检查是否是服务器验证
             if (!string.IsNullOrEmpty(echostr))
@@ -168,7 +168,7 @@ namespace OS.Social.WX.Msg
                 if (m_Config.SecurityType != WxSecurityType.None &&
                     contextRes.Data.ReplyMsg.MsgType != ReplyMsgType.None)
                 {
-                    return WxMsgCrypt.EncryptMsg(resultString, m_Config);
+                    return WxMsgHelper.EncryptMsg(resultString, m_Config);
                 }
                 return new ResultMo<string>(resultString);
             }
@@ -184,7 +184,7 @@ namespace OS.Social.WX.Msg
         /// <returns></returns>
         public ResultMo<string> CheckServerValid(string signature, string timestamp, string nonce, string echostr)
         {
-            var checkSignRes = WxMsgCrypt.CheckSignature(m_Config.Token, signature, timestamp, nonce);
+            var checkSignRes = WxMsgHelper.CheckSignature(m_Config.Token, signature, timestamp, nonce);
             var resultRes = checkSignRes.ConvertToResultOnly<string>();
             resultRes.Data = resultRes.IsSuccess ? echostr : string.Empty;
             return resultRes;
@@ -192,7 +192,40 @@ namespace OS.Social.WX.Msg
 
         #endregion
 
+        #region 消息处理 == start   验证消息参数以及加解密部分
 
+        /// <summary>
+        /// 核心执行方法    ==    验证签名和消息体信息解密处理部分
+        /// </summary>
+        /// <param name="recXml">消息内容</param>
+        /// <param name="signature">微信加密签名</param>
+        /// <param name="timestamp">时间戳</param>
+        /// <param name="nonce">随机数</param>
+        /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
+        protected ResultMo<string> ProcessBegin(string recXml, string signature,
+            string timestamp, string nonce)
+        {
+            if (string.IsNullOrEmpty(recXml))
+                return new ResultMo<string>(ResultTypes.ObjectNull, "接收的消息体为空！");
+
+            var resCheck = WxMsgHelper.CheckSignature(m_Config.Token, signature, timestamp, nonce);
+            if (resCheck.IsSuccess)
+            {
+                if (m_Config.SecurityType != WxSecurityType.None)
+                {
+                    var dirs = WxMsgHelper.ChangXmlToDir(recXml);
+                    if (dirs == null || !dirs.ContainsKey("Encrypt"))
+                        return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
+
+                    var recMsgXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], m_Config.EncodingAesKey);
+                    return new ResultMo<string>(recMsgXml);
+                }
+                return new ResultMo<string>(recXml);
+            }
+            return resCheck.ConvertToResultOnly<string>();
+        }
+
+        #endregion
 
         #region   消息处理 == Execute   处理消息传递响应
 
@@ -230,7 +263,8 @@ namespace OS.Social.WX.Msg
         /// <param name="msgType"></param>
         /// <param name="msgDirs"></param>
         /// <returns></returns>
-        protected virtual MsgContext ProcessExecute_AdvancedMsg(string recEventMsg,string msgType, Dictionary<string, string> msgDirs)
+        protected virtual MsgContext ProcessExecute_AdvancedMsg(string recEventMsg, string msgType,
+            Dictionary<string, string> msgDirs)
         {
             return null;
         }
@@ -242,7 +276,8 @@ namespace OS.Social.WX.Msg
         /// <param name="msgType"></param>
         /// <param name="recMsgDirs"></param>
         /// <returns></returns>
-        private MsgContext ProcessExecute_BasicMsg(string recMsgXml, string msgType, Dictionary<string, string> recMsgDirs)
+        private MsgContext ProcessExecute_BasicMsg(string recMsgXml, string msgType,
+            Dictionary<string, string> recMsgDirs)
         {
             MsgContext context = null;
             switch (msgType.ToLower())
@@ -281,7 +316,7 @@ namespace OS.Social.WX.Msg
         /// </summary>
         /// <param name="recEventMsg"></param>
         /// <param name="recEventDirs"></param>
-        private MsgContext ProcessExecute_BasicEventMsg(string recEventMsg,Dictionary<string, string> recEventDirs)
+        private MsgContext ProcessExecute_BasicEventMsg(string recEventMsg, Dictionary<string, string> recEventDirs)
         {
             string eventType = recEventDirs["Event"].ToLower();
             MsgContext context = null;
@@ -297,7 +332,7 @@ namespace OS.Social.WX.Msg
                     context = ExecuteBasicMsgHandler(recEventMsg, recEventDirs, ScanEventHandler);
                     break;
                 case "location":
-                    context = ExecuteBasicMsgHandler(recEventMsg, recEventDirs,LocationEventHandler);
+                    context = ExecuteBasicMsgHandler(recEventMsg, recEventDirs, LocationEventHandler);
                     break;
                 case "click":
                     context = ExecuteBasicMsgHandler(recEventMsg, recEventDirs, ClickEventHandler);
@@ -308,7 +343,7 @@ namespace OS.Social.WX.Msg
             }
             return context;
         }
-        
+
         /// <summary>
         ///  根据具体的消息类型执行相关的消息委托方法(基础消息)
         /// </summary>
@@ -317,7 +352,8 @@ namespace OS.Social.WX.Msg
         /// <param name="recMsgDirs"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        private static MsgContext ExecuteBasicMsgHandler<TRecMsg>(string recMsgXml, IDictionary<string, string> recMsgDirs, Func<TRecMsg, BaseReplyMsg> func)
+        private static MsgContext ExecuteBasicMsgHandler<TRecMsg>(string recMsgXml,
+            IDictionary<string, string> recMsgDirs, Func<TRecMsg, BaseReplyMsg> func)
             where TRecMsg : BaseRecMsg, new()
         {
             var msgContext = new MsgContext();
@@ -335,41 +371,7 @@ namespace OS.Social.WX.Msg
 
         #endregion
 
-        #region 消息处理 == start   验证消息参数以及加解密部分
-
-        /// <summary>
-        /// 核心执行方法    ==    验证签名和消息体信息解密处理部分
-        /// </summary>
-        /// <param name="recXml">消息内容</param>
-        /// <param name="signature">微信加密签名</param>
-        /// <param name="timestamp">时间戳</param>
-        /// <param name="nonce">随机数</param>
-        /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        protected ResultMo<string> ProcessBegin(string recXml, string signature,
-            string timestamp, string nonce)
-        {
-            if (string.IsNullOrEmpty(recXml))
-                return new ResultMo<string>(ResultTypes.ObjectNull, "接收的消息体为空！");
-
-            var resCheck = WxMsgCrypt.CheckSignature(m_Config.Token, signature, timestamp, nonce);
-            if (resCheck.IsSuccess)
-            {
-                if (m_Config.SecurityType != WxSecurityType.None)
-                {
-                    var dirs = WxMsgHelper.ChangXmlToDir(recXml);
-                    if (dirs == null || !dirs.ContainsKey("Encrypt"))
-                        return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
-
-                    var recMsgXml= Cryptography.WxAesDecrypt(dirs["Encrypt"], m_Config.EncodingAesKey);
-                    return new ResultMo<string>(recMsgXml);
-                }
-                return new ResultMo<string>(recXml);
-            }
-            return resCheck.ConvertToResultOnly<string>();
-        }
-
-
-        #endregion
+        #region  消息处理 == end  当前消息处理结束触发
 
         /// <summary>
         ///  执行结束方法
@@ -380,12 +382,13 @@ namespace OS.Social.WX.Msg
 
         }
 
+        #endregion
     }
 
 
-    internal static class WxMsgCrypt
+    internal static class WxMsgHelper
     {
-        #region   私有辅助方法
+        #region   消息内容加解密辅助方法
 
         /// <summary>
         /// 验证签名方法
@@ -449,7 +452,7 @@ namespace OS.Social.WX.Msg
             var sNonce = date.ToString("yyyyMMddHHssff");
 
 
-            string msgSigature = WxMsgCrypt.GenerateSignature(config.Token, sTimeStamp, sNonce, raw);
+            string msgSigature = GenerateSignature(config.Token, sTimeStamp, sNonce, raw);
             if (string.IsNullOrEmpty(msgSigature))
             {
                 return new ResultMo<string>(ResultTypes.InnerError, "生成签名信息出错！");
@@ -476,6 +479,49 @@ namespace OS.Social.WX.Msg
         }
 
 
+        #endregion
+
+
+        #region  消息内容辅助类
+
+        /// <summary>
+        /// 获取消息实体
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dirs"></param>
+        /// <returns></returns>
+        internal static T GetMsg<T>(IDictionary<string, string> dirs) where T : BaseRecMsg, new()
+        {
+            T t = new T();
+            t.SetMsgDirs(dirs);
+            return t;
+        }
+        /// <summary>
+        /// 把xml文本转化成字典对象
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        internal static Dictionary<string, string> ChangXmlToDir(string xml)
+        {
+            if (string.IsNullOrEmpty(xml))
+            {
+                return null;
+            }
+            var dirs = new Dictionary<string, string>();
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(xml);
+            XmlNode xmlNode = xmlDoc.FirstChild;
+            XmlNodeList nodes = xmlNode.ChildNodes;
+
+            foreach (XmlNode xn in nodes)
+            {
+                XmlElement xe = (XmlElement)xn;
+                dirs[xe.Name] = xe.InnerText;
+            }
+
+            return dirs;
+        }
         #endregion
     }
 }
