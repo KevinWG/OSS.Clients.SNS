@@ -166,7 +166,7 @@ namespace OS.Social.WX.Msg
 
                 var resultString = contextRes.Data.ReplyMsg.ToReplyXml();
                 if (m_Config.SecurityType != WxSecurityType.None &&
-                    contextRes.Data.ReplyMsg.MsgType != ReplyMsgType.None)
+                     !string.IsNullOrEmpty(contextRes.Data.ReplyMsg.MsgType))
                 {
                     return WxMsgHelper.EncryptMsg(resultString, m_Config);
                 }

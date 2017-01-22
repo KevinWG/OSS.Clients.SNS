@@ -87,7 +87,6 @@
     <Compile Include="BaseMos.cs" />
     <Compile Include="Msg\Cryptography.cs" />
     <Compile Include="Msg\Mos\BaseContext.cs" />
-    <Compile Include="Msg\Mos\Enums.cs" />
     <Compile Include="Msg\Mos\EventMsgs.cs" />
     <Compile Include="Msg\Mos\NormalMsgs.cs" />
     <Compile Include="Msg\Mos\ReplyMsgs.cs" />

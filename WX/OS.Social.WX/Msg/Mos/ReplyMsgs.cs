@@ -20,14 +20,10 @@ namespace OS.Social.WX.Msg.Mos
     /// </summary>
     public class NoneReplyMsg : BaseReplyMsg
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
         public NoneReplyMsg()
         {
-            MsgType = ReplyMsgType.None;
+            MsgType = String.Empty;
         }
-
         /// <summary>
         ///  缺省情况下直接回复 success
         /// </summary>
@@ -41,7 +37,7 @@ namespace OS.Social.WX.Msg.Mos
     {
         public TextReplyMsg()
         {
-            MsgType = ReplyMsgType.Text;
+            MsgType = "text";
         }
 
         /// <summary>
@@ -52,7 +48,6 @@ namespace OS.Social.WX.Msg.Mos
         protected override void FormatXml()
         {
             base.FormatXml();
-            SetReplyXmlValue("MsgType", "text");
             SetReplyXmlValue("Content", Content);
         }
     }
@@ -64,7 +59,7 @@ namespace OS.Social.WX.Msg.Mos
     {
         public ImageReplyMsg()
         {
-            MsgType = ReplyMsgType.Image;
+            MsgType = "image";
         }
 
         /// <summary>
@@ -75,7 +70,6 @@ namespace OS.Social.WX.Msg.Mos
         protected override void FormatXml()
         {
             base.FormatXml();
-            SetReplyXmlValue("MsgType", "image");
 
             var image = new List<Tuple<string, object>>();
             image.Add(Tuple.Create("MediaId", (object)MediaId));
@@ -91,7 +85,7 @@ namespace OS.Social.WX.Msg.Mos
     {
         public VoiceReplyMsg()
         {
-            MsgType = ReplyMsgType.Voice;
+            MsgType = "voice";
         }
 
         /// <summary>
@@ -102,7 +96,6 @@ namespace OS.Social.WX.Msg.Mos
         protected override void FormatXml()
         {
             base.FormatXml();
-            SetReplyXmlValue("MsgType", "voice");
 
             var voice = new List<Tuple<string, object>>();
             voice.Add(Tuple.Create("MediaId", (object)MediaId));
@@ -118,7 +111,7 @@ namespace OS.Social.WX.Msg.Mos
     {
         public VideoReplyMsg()
         {
-            MsgType = ReplyMsgType.Video;
+            MsgType = "video";
         }
 
         /// <summary>
@@ -139,7 +132,6 @@ namespace OS.Social.WX.Msg.Mos
         protected override void FormatXml()
         {
             base.FormatXml();
-            SetReplyXmlValue("MsgType", "video");
 
             var video = new List<Tuple<string, object>>();
             video.Add(Tuple.Create("MediaId", (object)MediaId));
@@ -157,7 +149,7 @@ namespace OS.Social.WX.Msg.Mos
     {
         public MusicReplyMsg()
         {
-            MsgType = ReplyMsgType.Music;
+            MsgType = "music";
         }
 
         /// <summary>
@@ -188,9 +180,9 @@ namespace OS.Social.WX.Msg.Mos
         protected override void FormatXml()
         {
             base.FormatXml();
-            SetReplyXmlValue("MsgType", "music");
 
             var music = new List<Tuple<string, object>>();
+
             music.Add(Tuple.Create("Title", (object)Title));
             music.Add(Tuple.Create("Description", (object)Description));
             music.Add(Tuple.Create("MusicURL", (object)MusicURL));
@@ -208,7 +200,7 @@ namespace OS.Social.WX.Msg.Mos
     {
         public NewsReplyMsg()
         {
-            MsgType = ReplyMsgType.News;
+            MsgType = "news";
             Items = new List<ArticleItem>();
         }
 
@@ -225,7 +217,6 @@ namespace OS.Social.WX.Msg.Mos
         protected override void FormatXml()
         {
             base.FormatXml();
-            SetReplyXmlValue("MsgType", "news");
             SetReplyXmlValue("ArticleCount", Items.Count);
 
             var items = new List<Tuple<string, object>>();
@@ -260,23 +251,6 @@ namespace OS.Social.WX.Msg.Mos
             /// 点击图文消息跳转链接
             /// </summary>
             public string Url { get; set; }
-        }
-    }
-
-    /// <summary>
-    /// 转客服
-    /// </summary>
-    public class KeFuMsg : BaseReplyMsg
-    {
-        public KeFuMsg()
-        {
-            MsgType = ReplyMsgType.KeFu;
-        }
-
-        protected override void FormatXml()
-        {
-            base.FormatXml();
-            SetReplyXmlValue("MsgType", "transfer_customer_service");
         }
     }
 }

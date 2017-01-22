@@ -21,6 +21,11 @@ namespace OS.Social.WX.Msg.Mos
         public string FromUserName { get; set; }
 
         /// <summary>
+        /// 消息类型
+        /// </summary>
+        public string MsgType { get; internal set; }
+
+        /// <summary>
         /// 消息创建时间
         /// </summary>
         public long CreateTime { get; internal set; }
@@ -32,16 +37,7 @@ namespace OS.Social.WX.Msg.Mos
     public class BaseRecMsg : BaseMsg
     {
         private IDictionary<string, string> m_PropertyDirs;
-
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public BaseRecMsg()
-        {
-     
-        }
-
+        
         /// <summary>
         ///  把消息的
         /// </summary>
@@ -51,11 +47,7 @@ namespace OS.Social.WX.Msg.Mos
             m_PropertyDirs = contentDirs;
             FormatPropertiesFromMsg();
         }
-
-        /// <summary>
-        /// 消息类型
-        /// </summary>
-        public string MsgType { get; internal set; }
+        
 
         /// <summary>
         /// 格式化自身属性部分
@@ -120,10 +112,6 @@ namespace OS.Social.WX.Msg.Mos
     /// </summary>
     public class BaseReplyMsg : BaseMsg
     {
-        /// <summary>
-        /// 消息类型
-        /// </summary>
-        public ReplyMsgType MsgType { get; set; }
         
         private List<Tuple<string, object>> _propertyList;
 
@@ -134,6 +122,7 @@ namespace OS.Social.WX.Msg.Mos
         {
             SetReplyXmlValue("ToUserName", ToUserName);
             SetReplyXmlValue("FromUserName", FromUserName);
+            SetReplyXmlValue("MsgType", MsgType);
             SetReplyXmlValue("CreateTime", CreateTime);
         }
 
@@ -154,18 +143,13 @@ namespace OS.Social.WX.Msg.Mos
         /// <returns></returns>
         public virtual string ToReplyXml()
         {
-            if (MsgType == ReplyMsgType.None)
-            {
-                return string.Empty;
-            }
             _propertyList = new List<Tuple<string, object>>();
             FormatXml();
             StringBuilder xml = new StringBuilder("<xml>");
             xml.Append(ProduceXml(_propertyList));
             xml.Append("</xml>");
-
-      
-            return xml.ToString(); 
+            
+            return xml.ToString();
         }
 
         private string ProduceXml(List<Tuple<string, object>> list)
