@@ -7,6 +7,9 @@ namespace OS.Social.WX.Msg.Mos
     /// </summary>
     public class SubscribeRecEventMsg : BaseRecEventMsg
     {
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
         protected override void FormatPropertiesFromMsg()
         {
             base.FormatPropertiesFromMsg();
@@ -30,6 +33,9 @@ namespace OS.Social.WX.Msg.Mos
     /// </summary>
     public class LocationRecEventMsg : BaseRecEventMsg
     {
+        /// <summary>
+        /// 格式化自身属性部分
+        /// </summary>
         protected override void FormatPropertiesFromMsg()
         {
             base.FormatPropertiesFromMsg();

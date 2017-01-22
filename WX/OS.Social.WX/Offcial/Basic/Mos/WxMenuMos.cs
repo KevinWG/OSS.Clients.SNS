@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using OS.Social.WX.SysUtils.Mos;
 
 namespace OS.Social.WX.Offcial.Basic.Mos
@@ -21,6 +23,7 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// <summary>   
         ///   必填    菜单的响应动作类型
         /// </summary>  
+        [JsonConverter(typeof(StringEnumConverter))]
         public WxButtonType type { get; set; }
 
         /// <summary>   

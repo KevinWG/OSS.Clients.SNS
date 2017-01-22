@@ -86,7 +86,7 @@ c. 调用时将当前请求的内容传入程序入口即可：
    }
    try
    {
-       var res = msgService.Processing( requestXml, signature, timestamp, nonce,echostr);
+       var res = msgService.Process( requestXml, signature, timestamp, nonce,echostr);
        if (res.IsSuccess)        
            return Content(res.Data);
    }
