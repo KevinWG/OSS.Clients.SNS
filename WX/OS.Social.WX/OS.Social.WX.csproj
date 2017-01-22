@@ -65,6 +65,7 @@
     <Compile Include="Offcial\Basic\Mos\WxUserMos.cs" />
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
+    <Compile Include="Offcial\Card\WxOffCardApi.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxArticleStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxInterfaceStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxMsgStatMos.cs" />
@@ -73,13 +74,14 @@
     <Compile Include="Offcial\Statistic\WxOffInterfaceStatApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffMsgStatApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffUserStatApi.cs" />
-    <Compile Include="Offcial\Store\Mos\WxCardMos.cs" />
+    <Compile Include="Offcial\Card\Mos\WxCardMos.cs" />
     <Compile Include="Offcial\Store\Mos\WxStoreMos.cs" />
     <Compile Include="Offcial\Store\WxOffStoreApi.cs" />
     <Compile Include="Offcial\WxOffBaseApi.cs" />
     <Compile Include="Offcial\Basic\WxOffQrApi.cs" />
     <Compile Include="Offcial\Basic\WxOffUserApi.cs" />
     <Compile Include="Sns\Mos\WxAuthMos.cs" />
+    <Compile Include="SysUtils\Mos\CardEnums.cs" />
     <Compile Include="SysUtils\Mos\CommonEnums.cs" />
     <Compile Include="SysUtils\Mos\StoreEnums.cs" />
     <Compile Include="SysUtils\WxDictionaryUtil.cs" />

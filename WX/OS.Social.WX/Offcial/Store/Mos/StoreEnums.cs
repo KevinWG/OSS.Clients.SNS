@@ -13,7 +13,7 @@
 
 using System.ComponentModel;
 
-namespace OS.Social.WX.SysUtils.Mos
+namespace OS.Social.WX.Offcial.Store.Mos
 {
     /// <summary>
     ///   门店的可用状态

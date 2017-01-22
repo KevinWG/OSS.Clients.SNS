@@ -1,4 +1,6 @@
-﻿namespace OS.Social.WX.SysUtils
+﻿using System.Collections.Generic;
+
+namespace OS.Social.WX.SysUtils
 {
     /// <summary>
     ///  微信字典
@@ -6,6 +8,6 @@
     public static class WxDictionaryUtil
     {
 
-
+      
     }
 }
