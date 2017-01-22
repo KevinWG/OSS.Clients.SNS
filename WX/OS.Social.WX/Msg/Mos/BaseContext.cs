@@ -45,6 +45,10 @@ namespace OS.Social.WX.Msg.Mos
         public void SetMsgDirs(IDictionary<string, string> contentDirs)
         {
             m_PropertyDirs = contentDirs;
+            MsgType = this["MsgType"];
+            ToUserName = this["ToUserName"];
+            FromUserName = this["FromUserName"];
+            CreateTime = this["CreateTime"].ToInt64();
             FormatPropertiesFromMsg();
         }
         
@@ -54,10 +58,6 @@ namespace OS.Social.WX.Msg.Mos
         /// </summary>
         protected virtual void FormatPropertiesFromMsg()
         {
-            MsgType = this["MsgType"];
-            ToUserName = this["ToUserName"];
-            FromUserName = this["FromUserName"];
-            CreateTime = this["CreateTime"].ToInt64();
         }
         
         /// <summary>
@@ -120,10 +120,7 @@ namespace OS.Social.WX.Msg.Mos
         /// </summary>
         protected virtual void FormatXml()
         {
-            SetReplyXmlValue("ToUserName", ToUserName);
-            SetReplyXmlValue("FromUserName", FromUserName);
-            SetReplyXmlValue("MsgType", MsgType);
-            SetReplyXmlValue("CreateTime", CreateTime);
+           
         }
 
         /// <summary>
@@ -144,7 +141,14 @@ namespace OS.Social.WX.Msg.Mos
         public virtual string ToReplyXml()
         {
             _propertyList = new List<Tuple<string, object>>();
+
+            SetReplyXmlValue("ToUserName", ToUserName);
+            SetReplyXmlValue("FromUserName", FromUserName);
+            SetReplyXmlValue("MsgType", MsgType);
+            SetReplyXmlValue("CreateTime", CreateTime);
+
             FormatXml();
+
             StringBuilder xml = new StringBuilder("<xml>");
             xml.Append(ProduceXml(_propertyList));
             xml.Append("</xml>");

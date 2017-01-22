@@ -47,7 +47,6 @@ namespace OS.Social.WX.Msg.Mos
 
         protected override void FormatXml()
         {
-            base.FormatXml();
             SetReplyXmlValue("Content", Content);
         }
     }
@@ -69,8 +68,6 @@ namespace OS.Social.WX.Msg.Mos
 
         protected override void FormatXml()
         {
-            base.FormatXml();
-
             var image = new List<Tuple<string, object>>();
             image.Add(Tuple.Create("MediaId", (object)MediaId));
 
@@ -95,8 +92,6 @@ namespace OS.Social.WX.Msg.Mos
 
         protected override void FormatXml()
         {
-            base.FormatXml();
-
             var voice = new List<Tuple<string, object>>();
             voice.Add(Tuple.Create("MediaId", (object)MediaId));
 
@@ -131,8 +126,6 @@ namespace OS.Social.WX.Msg.Mos
 
         protected override void FormatXml()
         {
-            base.FormatXml();
-
             var video = new List<Tuple<string, object>>();
             video.Add(Tuple.Create("MediaId", (object)MediaId));
             video.Add(Tuple.Create("Title", (object)Title));
@@ -179,8 +172,6 @@ namespace OS.Social.WX.Msg.Mos
 
         protected override void FormatXml()
         {
-            base.FormatXml();
-
             var music = new List<Tuple<string, object>>();
 
             music.Add(Tuple.Create("Title", (object)Title));
@@ -216,7 +207,6 @@ namespace OS.Social.WX.Msg.Mos
 
         protected override void FormatXml()
         {
-            base.FormatXml();
             SetReplyXmlValue("ArticleCount", Items.Count);
 
             var items = new List<Tuple<string, object>>();
