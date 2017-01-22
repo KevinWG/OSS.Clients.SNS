@@ -259,11 +259,11 @@ namespace OS.Social.WX.Msg
         /// <summary>
         /// 执行高级消息事件类型
         /// </summary>
-        /// <param name="recEventMsg"></param>
-        /// <param name="msgType"></param>
-        /// <param name="msgDirs"></param>
+        /// <param name="recMsgXml">接收到的消息内容体</param>
+        /// <param name="msgType">消息类型</param>
+        /// <param name="msgDirs">消息内容体字典</param>
         /// <returns></returns>
-        protected virtual MsgContext ProcessExecute_AdvancedMsg(string recEventMsg, string msgType,
+        protected virtual MsgContext ProcessExecute_AdvancedMsg(string recMsgXml, string msgType,
             Dictionary<string, string> msgDirs)
         {
             return null;
@@ -275,7 +275,7 @@ namespace OS.Social.WX.Msg
         /// <param name="recMsgXml"></param>
         /// <param name="msgType"></param>
         /// <param name="recMsgDirs"></param>
-        /// <returns></returns>
+        /// <returns>返回基础消息处理结果</returns>
         private MsgContext ProcessExecute_BasicMsg(string recMsgXml, string msgType,
             Dictionary<string, string> recMsgDirs)
         {
@@ -316,6 +316,7 @@ namespace OS.Social.WX.Msg
         /// </summary>
         /// <param name="recEventMsg"></param>
         /// <param name="recEventDirs"></param>
+        /// <returns>返回基础事件消息处理结果</returns>
         private MsgContext ProcessExecute_BasicEventMsg(string recEventMsg, Dictionary<string, string> recEventDirs)
         {
             string eventType = recEventDirs["Event"].ToLower();
@@ -356,6 +357,10 @@ namespace OS.Social.WX.Msg
             IDictionary<string, string> recMsgDirs, Func<TRecMsg, BaseReplyMsg> func)
             where TRecMsg : BaseRecMsg, new()
         {
+            //  如果为空，交由后续高级事件、默认事件 处理
+            if (func==null)
+                return null;
+            
             var msgContext = new MsgContext();
 
             var recMsg = WxMsgHelper.GetMsg<TRecMsg>(recMsgDirs);

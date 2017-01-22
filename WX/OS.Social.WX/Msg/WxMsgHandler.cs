@@ -33,28 +33,22 @@ namespace OS.Social.WX.Msg
         {
         }
 
-        
-        static WxMsgHandler()
-        {
-          
-        }
-
 
         private static readonly ConcurrentDictionary<string,Tuple<Type, Func<BaseRecMsg, BaseReplyMsg>> > m_MsgHandlerDir 
             = new ConcurrentDictionary<string, Tuple<Type, Func<BaseRecMsg, BaseReplyMsg>>>();
 
         /// <summary>
-        /// 
+        /// 注册消息处理委托
         /// </summary>
-        /// <param name="msgType"></param>
-        /// <param name="recType"></param>
-        /// <param name="handler"></param>
-        protected  static ResultMo RegisterMsgHandler(string msgType,Type recType, Func<BaseRecMsg, BaseReplyMsg> handler)
+        /// <param name="msgType">消息类型</param>
+        /// <param name="recMsgType">消息实体类型</param>
+        /// <param name="handler">消息处理委托</param>
+        protected static ResultMo RegisterMsgHandler(string msgType,Type recMsgType, Func<BaseRecMsg, BaseReplyMsg> handler)
         {
             string key = msgType.ToLower();
             if (!m_MsgHandlerDir.ContainsKey(key))
             {
-                var isTrue= m_MsgHandlerDir.TryAdd(key, Tuple.Create(recType, handler));
+                var isTrue= m_MsgHandlerDir.TryAdd(key, Tuple.Create(recMsgType, handler));
                 if (isTrue)
                 {
                     return new ResultMo();
@@ -64,41 +58,42 @@ namespace OS.Social.WX.Msg
         }
 
         /// <summary>
-        /// 
+        /// 注册事件消息处理委托
         /// </summary>
-        /// <param name="eventType"></param>
-        /// <param name="recMsgType"></param>
-        /// <param name="handler"></param>
-        protected static ResultMo RegisterEventMsgHandler(string eventType, Type recMsgType, Func<BaseRecMsg, BaseReplyMsg> handler)
+        /// <param name="eventName">事件名称</param>
+        /// <param name="recMsgEventType">事件消息实体类型</param>
+        /// <param name="handler">事件处理委托</param>
+        protected static ResultMo RegisterEventMsgHandler(string eventName, Type recMsgEventType, Func<BaseRecMsg, BaseReplyMsg> handler)
         {
-            string key =string.Concat("event-", eventType);
+            string key =string.Concat("event-", eventName);
 
-            return RegisterMsgHandler(key, recMsgType, handler);
+            return RegisterMsgHandler(key, recMsgEventType, handler);
         }
 
         /// <summary>
-        /// 
+        /// 执行高级消息事件类型
         /// </summary>
-        /// <param name="recMsg"></param>
-        /// <param name="msgType"></param>
-        /// <param name="msgDirs"></param>
+        /// <param name="recMsgXml">接收到的消息内容体</param>
+        /// <param name="msgType">消息类型</param>
+        /// <param name="msgDirs">消息内容体字典</param>
         /// <returns></returns>
-        protected override MsgContext ProcessExecute_AdvancedMsg(string recMsg, string msgType, Dictionary<string, string> msgDirs)
+        protected override MsgContext ProcessExecute_AdvancedMsg(string recMsgXml, string msgType, Dictionary<string, string> msgDirs)
         {
             string key = msgType == "event" ? string.Concat("event-", msgDirs["Event"].ToLower()) : msgType;
             if (!m_MsgHandlerDir.ContainsKey(key))
-                return null;
+                return null;  //  交由后续默认事件处理
 
             var tupleItem = m_MsgHandlerDir[key];
-            //  处理msg
+
+            //    反射生成消息实体实例
             var msg = Activator.CreateInstance(tupleItem.Item1) as BaseRecMsg;
             if (msg != null)
             {
                 msg.SetMsgDirs(msgDirs);
-                msg.RecMsgXml = recMsg;
+                msg.RecMsgXml = recMsgXml;
             }
-            var replyMsg = ExecuteHandler(msg, tupleItem.Item2);
 
+            var replyMsg = ExecuteHandler(msg, tupleItem.Item2);
             return new MsgContext() {RecMsg = msg,ReplyMsg = replyMsg};
         }
 
