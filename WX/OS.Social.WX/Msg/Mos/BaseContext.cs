@@ -45,10 +45,12 @@ namespace OS.Social.WX.Msg.Mos
         public void SetMsgDirs(IDictionary<string, string> contentDirs)
         {
             m_PropertyDirs = contentDirs;
+
             MsgType = this["MsgType"];
             ToUserName = this["ToUserName"];
             FromUserName = this["FromUserName"];
             CreateTime = this["CreateTime"].ToInt64();
+
             FormatPropertiesFromMsg();
         }
         
@@ -97,9 +99,8 @@ namespace OS.Social.WX.Msg.Mos
         /// </summary>
         protected override void FormatPropertiesFromMsg()
         {
-            Event = this["Event"];
             base.FormatPropertiesFromMsg();
-        
+            Event = this["Event"];
         }
     }
 

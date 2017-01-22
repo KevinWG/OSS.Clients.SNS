@@ -12,8 +12,6 @@ namespace OS.Social.WX.Msg.Mos
         /// </summary>
         protected override void FormatPropertiesFromMsg()
         {
-            base.FormatPropertiesFromMsg();
-
             Content = this["Content"];
             MsgId = this["MsgId"].ToInt64();
         }
@@ -40,8 +38,6 @@ namespace OS.Social.WX.Msg.Mos
         /// </summary>
         protected override void FormatPropertiesFromMsg()
         {
-            base.FormatPropertiesFromMsg();
-
             PicUrl = this["PicUrl"];
             MediaId = this["MediaId"];
             MsgId = this["MsgId"].ToInt64();
@@ -74,8 +70,6 @@ namespace OS.Social.WX.Msg.Mos
         /// </summary>
         protected override void FormatPropertiesFromMsg()
         {
-            base.FormatPropertiesFromMsg();
-
             Format = this["Format"];
             Recognition = this["Recognition"];
             MediaId = this["MediaId"];
@@ -114,8 +108,6 @@ namespace OS.Social.WX.Msg.Mos
         /// </summary>
         protected override void FormatPropertiesFromMsg()
         {
-            base.FormatPropertiesFromMsg();
-
             ThumbMediaId = this["ThumbMediaId"];
             MediaId = this["MediaId"];
             MsgId = this["MsgId"].ToInt64();
@@ -148,8 +140,6 @@ namespace OS.Social.WX.Msg.Mos
         /// </summary>
         protected override void FormatPropertiesFromMsg()
         {
-            base.FormatPropertiesFromMsg();
-
             Latitude = this["Location_X"].ToDouble();
             Longitude =this["Location_Y"].ToDouble();
             Scale = this["Scale"].ToInt32();
@@ -194,8 +184,6 @@ namespace OS.Social.WX.Msg.Mos
         /// </summary>
         protected override void FormatPropertiesFromMsg()
         {
-            base.FormatPropertiesFromMsg();
-
             Title = this["Title"];
             Description = this["Description"];
             Url = this["Url"];

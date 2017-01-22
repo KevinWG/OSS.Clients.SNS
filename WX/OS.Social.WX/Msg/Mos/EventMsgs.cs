@@ -10,7 +10,6 @@ namespace OS.Social.WX.Msg.Mos
         protected override void FormatPropertiesFromMsg()
         {
             base.FormatPropertiesFromMsg();
-
             EventKey = this["EventKey"];
             Ticket = this["Ticket"];
         }
@@ -24,8 +23,6 @@ namespace OS.Social.WX.Msg.Mos
         /// 二维码的ticket，可用来换取二维码图片
         /// </summary>
         public string Ticket { get; set; }
-
-
     }
 
     /// <summary>
@@ -36,7 +33,6 @@ namespace OS.Social.WX.Msg.Mos
         protected override void FormatPropertiesFromMsg()
         {
             base.FormatPropertiesFromMsg();
-
             Latitude = this["Latitude"].ToDouble();
             Longitude = this["Longitude"].ToDouble();
             Precision = this["Precision"].ToDouble();

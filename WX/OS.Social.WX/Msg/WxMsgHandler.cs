@@ -65,7 +65,7 @@ namespace OS.Social.WX.Msg
         /// <param name="handler">事件处理委托</param>
         protected static ResultMo RegisterEventMsgHandler(string eventName, Type recMsgEventType, Func<BaseRecMsg, BaseReplyMsg> handler)
         {
-            string key =string.Concat("event-", eventName);
+            string key =string.Concat("event_", eventName);
 
             return RegisterMsgHandler(key, recMsgEventType, handler);
         }
@@ -79,7 +79,7 @@ namespace OS.Social.WX.Msg
         /// <returns></returns>
         protected override MsgContext ProcessExecute_AdvancedMsg(string recMsgXml, string msgType, Dictionary<string, string> msgDirs)
         {
-            string key = msgType == "event" ? string.Concat("event-", msgDirs["Event"].ToLower()) : msgType;
+            string key = msgType == "event" ? string.Concat("event_", msgDirs["Event"].ToLower()) : msgType;
             if (!m_MsgHandlerDir.ContainsKey(key))
                 return null;  //  交由后续默认事件处理
 
