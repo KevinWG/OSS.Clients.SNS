@@ -73,6 +73,7 @@
     <Compile Include="Offcial\Statistic\WxOffInterfaceStatApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffMsgStatApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffUserStatApi.cs" />
+    <Compile Include="Offcial\Store\Mos\WxCardMos.cs" />
     <Compile Include="Offcial\Store\Mos\WxStoreMos.cs" />
     <Compile Include="Offcial\Store\WxOffStoreApi.cs" />
     <Compile Include="Offcial\WxOffBaseApi.cs" />

@@ -72,7 +72,8 @@ namespace OS.Social.WX.SysUtils.Mos
         /// 二维码显示code
         /// 适用于扫码/输码核销
         /// </summary>
-        [Description("二维码显示code")] CODE_TYPE_QRCODE,
+        [Description("二维码显示code")]
+        CODE_TYPE_QRCODE,
 
         /// <summary>
         /// 一维码显示code

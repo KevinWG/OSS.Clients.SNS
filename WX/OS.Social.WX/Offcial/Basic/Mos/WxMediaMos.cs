@@ -14,6 +14,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace OS.Social.WX.Offcial.Basic.Mos
@@ -257,6 +259,7 @@ namespace OS.Social.WX.Offcial.Basic.Mos
         /// <summary>   
         ///   必填    素材的类型，图片（image）、视频（video）、语音（voice）、图文（news）
         /// </summary>  
+        [JsonConverter(typeof(StringEnumConverter))]
         public MediaType type { get; set; }
 
         /// <summary>   

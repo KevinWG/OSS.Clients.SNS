@@ -51,6 +51,10 @@ namespace OS.Social.WX.Offcial.Store
             #endregion
         }
 
+
+
+        #region  门店接口
+
         /// <summary>
         /// 添加门店
         /// </summary>
@@ -147,6 +151,8 @@ namespace OS.Social.WX.Offcial.Store
 
             return RestCommonOffcial<WxStoreCategoryResp>(req);
         }
+
+        #endregion
 
 
 

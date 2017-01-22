@@ -46,8 +46,6 @@ namespace OS.Social.Samples
             };
         }
 
-
-
        
     }
 }
