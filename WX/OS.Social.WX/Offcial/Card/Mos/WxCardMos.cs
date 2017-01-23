@@ -155,7 +155,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     #region   优惠券
 
     /// <summary>
-    ///  添加兑换券请求实体
+    ///  添加优惠券请求实体
     /// </summary>
     public class WxAddCouponCardReq : WxAddCardBaseReq
     {
@@ -163,41 +163,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     }
 
     /// <summary>
-    ///   兑换券信息
-    /// </summary>
-    public class WxCouponCardMo
-    {
-        /// <summary>
-        ///   卡券基本信息
-        /// </summary>
-        public WxCardBasicMo base_info { get; set; }
-
-        /// <summary>
-        ///   卡券高级信息
-        /// </summary>
-        public WxCardAdvancedMo advanced_info { get; set; }
-
-        /// <summary>
-        ///  必填  string(3072) 优惠券专用，填写优惠详情
-        /// </summary>
-        public string default_detail { get; set; }
-    }
-
-    #endregion
-
-
-    #region   优惠券
-
-    /// <summary>
-    ///  添加兑换券请求实体
-    /// </summary>
-    public class WxAddCouponCardReq : WxAddCardBaseReq
-    {
-        public WxCouponCardMo general_coupon { get; set; }
-    }
-
-    /// <summary>
-    ///   兑换券信息
+    ///   优惠券信息
     /// </summary>
     public class WxCouponCardMo
     {

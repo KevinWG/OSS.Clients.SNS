@@ -32,20 +32,89 @@ namespace OS.Social.WX.Offcial.Card
         }
 
 
+        #region  创建卡券接口
+
         /// <summary>
-        ///   添加卡券接口
+        ///   添加现金卡券接口
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddCard(WxAddCardBaseReq cardReq)
+        public WxAddCardResp AddCashCard(WxAddCashCardReq cardReq)
+        {
+            return AddCard(cardReq);
+        }
+
+        /// <summary>
+        ///   添加优惠卡券接口
+        /// </summary>
+        /// <param name="cardReq"></param>
+        /// <returns></returns>
+        public WxAddCardResp AddCoupnCard(WxAddCouponCardReq cardReq)
+        {
+            return AddCard(cardReq);
+        }
+
+
+        /// <summary>
+        ///   添加折扣卡券接口
+        /// </summary>
+        /// <param name="cardReq"></param>
+        /// <returns></returns>
+        public WxAddCardResp AddDiscountCard(WxAddDiscountCardReq cardReq)
+        {
+            return AddCard(cardReq);
+        }
+
+
+        /// <summary>
+        ///   添加礼品卡券接口
+        /// </summary>
+        /// <param name="cardReq"></param>
+        /// <returns></returns>
+        public WxAddCardResp AddCoupnCard(WxAddGiftCardReq cardReq)
+        {
+            return AddCard(cardReq);
+        }
+
+
+
+        /// <summary>
+        ///   添加团购卡券接口
+        /// </summary>
+        /// <param name="cardReq"></param>
+        /// <returns></returns>
+        public WxAddCardResp AddCoupnCard(WxAddGroupCardReq cardReq)
+        {
+            return AddCard(cardReq);
+        }
+
+
+
+
+        /// <summary>
+        ///   添加卡券
+        /// </summary>
+        /// <param name="cardReq"></param>
+        /// <returns></returns>
+        private WxAddCardResp AddCard(WxAddCardBaseReq cardReq)
         {
             var req=new OsHttpRequest();
 
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/create");
-            req.CustomBody = JsonConvert.SerializeObject(new {card = cardReq});
+            req.CustomBody = JsonConvert.SerializeObject(new {card = cardReq}, Formatting.Indented,
+                new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
 
             return RestCommonOffcial<WxAddCardResp>(req);
         }
+
+
+        #endregion
+
+
+        #region   投放卡券
+        #endregion
+
+
     }
 }
