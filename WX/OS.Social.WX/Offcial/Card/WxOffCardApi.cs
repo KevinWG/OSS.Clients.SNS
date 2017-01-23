@@ -11,10 +11,14 @@
 
 #endregion
 
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using OS.Common.ComModels.Enums;
 using OS.Http;
 using OS.Http.Models;
+using OS.Social.WX.Offcial.Basic.Mos;
 using OS.Social.WX.Offcial.Card.Mos;
+using OS.Social.WX.SysUtils.Mos;
 
 namespace OS.Social.WX.Offcial.Card
 {
@@ -110,11 +114,65 @@ namespace OS.Social.WX.Offcial.Card
 
 
         #endregion
-
-
+        
         #region   投放卡券
-        #endregion
 
+        /// <summary>
+        ///   生成单卡券投放二维码
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="expireSeconds"></param>
+        /// <param name="cardQrMo"></param>
+        /// <returns></returns>
+        public WxCardQrCodeResp CreateCardQrCode(WxQrCodeType type, int expireSeconds, WxCardQrMo cardQrMo)
+        {
+            var actionInfo = new WxCreateCardQrReq()
+            {
+                expire_seconds = expireSeconds,
+                action_name = type,
+                action_info = new {card = cardQrMo}
+            };
+            return CreateCardQrCode(actionInfo);
+        }
+
+        /// <summary>
+        ///   生成多卡券投放二维码
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="expireSeconds"></param>
+        /// <param name="cardList"></param>
+        /// <returns></returns>
+        public WxCardQrCodeResp CreateMultiCardQrCode(WxQrCodeType type, int expireSeconds, List<WxCardQrMo> cardList)
+        {
+            if (cardList == null || cardList.Count > 5)
+                return new WxCardQrCodeResp() {Ret = (int) ResultTypes.ParaNotMeet, Message = "卡券数目不和要求，请不要为空或超过五个！"};
+            
+            var actionInfo = new WxCreateCardQrReq()
+            {
+                expire_seconds = expireSeconds,
+                action_name = type,
+                action_info = new {multiple_card = new {card_list = cardList}}
+            };
+            return CreateCardQrCode(actionInfo);
+        }
+
+
+        /// <summary>
+        /// 生成卡券投放二维码
+        /// </summary>
+        /// <param name="actionInfo"></param>
+        /// <returns></returns>
+        private WxCardQrCodeResp CreateCardQrCode(WxCreateCardQrReq actionInfo)
+        {
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/qrcode/create");
+            req.CustomBody = JsonConvert.SerializeObject(actionInfo);
+
+            return RestCommonOffcial<WxCardQrCodeResp>(req);
+        }
+
+        #endregion
 
     }
 }

@@ -70,4 +70,28 @@ namespace OS.Social.WX.SysUtils.Mos
 
 
 
+    public enum WxQrCodeType
+    {
+        [Description("临时二维码")]
+        QR_SCENE=10,
+
+
+        [Description("永久二维码-值")]
+        QR_LIMIT_SCENE=20,
+
+        [Description("永久二维码-字符")]
+        QR_LIMIT_STR_SCENE=21,
+
+        [Description("卡券二维码")]
+        QR_CARD=30,
+
+        [Description("卡券二维码（多）")]
+        QR_MULTIPLE_CARD=31
+
+    }
+
+
+
+
+
 }

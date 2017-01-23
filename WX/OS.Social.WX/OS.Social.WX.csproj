@@ -66,6 +66,7 @@
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardMos.cs" />
+    <Compile Include="Offcial\Card\Mos\WxCardQrMos.cs" />
     <Compile Include="Offcial\Card\WxOffCardApi.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxArticleStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxInterfaceStatMos.cs" />
@@ -98,7 +99,9 @@
     <Compile Include="Msg\WxMsgHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Offcial\Assist\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
