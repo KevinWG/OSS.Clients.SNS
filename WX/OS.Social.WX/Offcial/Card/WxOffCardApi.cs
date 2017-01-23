@@ -172,6 +172,71 @@ namespace OS.Social.WX.Offcial.Card
             return RestCommonOffcial<WxCardQrCodeResp>(req);
         }
 
+
+
+        /// <summary>
+        ///   导入卡券code
+        /// </summary>
+        /// <param name="cardId">需要进行导入code的卡券ID</param>
+        /// <param name="codes">需导入微信卡券后台的自定义code，上限为100个</param>
+        /// <returns></returns>
+        public WxImportCardCodeResp ImportCardCode(string cardId,List<string> codes)
+        {
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/deposit");
+            req.CustomBody = JsonConvert.SerializeObject(new { card_id =cardId,code=codes});
+
+            return RestCommonOffcial<WxImportCardCodeResp>(req);
+        }
+
+        /// <summary>
+        ///   查询导入code数目接口
+        /// </summary>
+        /// <param name="cardId"></param>
+        /// <returns></returns>
+        public WxGetImportCodeCountResp GetImportCodeCount(string cardId)
+        {
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/getdepositcount");
+            req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
+
+            return RestCommonOffcial<WxGetImportCodeCountResp>(req);
+        }
+
+        /// <summary>
+        ///   查询导入code数目接口
+        /// </summary>
+        /// <param name="cardId">需要进行导入code的卡券ID</param>
+        /// <param name="codes">需导入微信卡券后台的自定义code，上限为100个</param>
+       /// <returns></returns>
+        public WxCheckCodeResp CheckCode(string cardId, List<string> codes)
+        {
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/getdepositcount");
+            req.CustomBody = JsonConvert.SerializeObject(new { card_id = cardId, code = codes });
+
+            return RestCommonOffcial<WxCheckCodeResp>(req);
+        }
+
+
+        /// <summary>
+        ///   获取图文推送的卡券信息
+        /// </summary>
+        /// <param name="cardId"></param>
+        /// <returns></returns>
+        public WxGetCardArticleContentResp GetArticleContent(string cardId)
+        {
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/mpnews/gethtml");
+            req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
+
+            return RestCommonOffcial<WxGetCardArticleContentResp>(req);
+        }
+
         #endregion
 
     }

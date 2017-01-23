@@ -117,7 +117,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     }
 
 
-
+   
     public enum WxCardCustomCodeMode
     {
         GET_CUSTOM_CODE_MODE_DEPOSIT
