@@ -65,6 +65,7 @@
     <Compile Include="Offcial\Basic\Mos\WxUserMos.cs" />
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
+    <Compile Include="Offcial\Card\Mos\WxCardCodeMos.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardMos.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardQrMos.cs" />
     <Compile Include="Offcial\Card\WxOffCardApi.cs" />
