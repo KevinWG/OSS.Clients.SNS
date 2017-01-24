@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 using OS.Common.Extention;
 
 namespace OS.Social.WX.Msg.Mos
@@ -50,6 +51,7 @@ namespace OS.Social.WX.Msg.Mos
             ToUserName = this["ToUserName"];
             FromUserName = this["FromUserName"];
             CreateTime = this["CreateTime"].ToInt64();
+            MsgId = this["MsgId"].ToInt64();
 
             FormatPropertiesFromMsg();
         }
@@ -63,7 +65,7 @@ namespace OS.Social.WX.Msg.Mos
         }
         
         /// <summary>
-        /// 获取指定字段的值
+        /// 自定义索引，获取指定字段的值
         /// </summary>
         /// <param name="key"></param>
         public string this[string key]
@@ -80,6 +82,11 @@ namespace OS.Social.WX.Msg.Mos
         /// 消息实体
         /// </summary>
         public string RecMsgXml { get;internal set; }
+
+        /// <summary>
+        ///   消息id
+        /// </summary>
+        public long MsgId { get; set; }
 
     }
 

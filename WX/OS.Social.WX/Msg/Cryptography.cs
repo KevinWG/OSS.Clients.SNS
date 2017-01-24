@@ -12,14 +12,6 @@ namespace OS.Social.WX.Msg
    /// </summary>
     internal class Cryptography
     {
-        public static UInt32 HostToNetworkOrder(UInt32 inval)
-        {
-            UInt32 outval = 0;
-            for (int i = 0; i < 4; i++)
-                outval = (outval << 8) + ((inval >> (i*8)) & 255);
-            return outval;
-        }
-
         public static Int32 HostToNetworkOrder(Int32 inval)
         {
             Int32 outval = 0;
