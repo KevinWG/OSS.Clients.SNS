@@ -90,8 +90,14 @@ namespace OS.Social.WX.SysUtils.Mos
 
     }
 
+    public enum WxJsTicketType
+    {
+        [Description("卡券接口")]
+        wx_card = 30,
 
-
+        [Description("正常js接口")]
+        jsapi = 31
+    }
 
 
 }

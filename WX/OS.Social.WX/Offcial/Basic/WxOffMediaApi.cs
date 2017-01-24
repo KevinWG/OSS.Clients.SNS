@@ -14,7 +14,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using OS.Common.ComModels;
-using OS.Common.ComModels.Enums;
 using OS.Http;
 using OS.Http.Models;
 using OS.Social.WX.Offcial.Basic.Mos;

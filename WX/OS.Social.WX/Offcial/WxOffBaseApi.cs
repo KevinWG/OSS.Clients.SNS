@@ -18,6 +18,7 @@ using OS.Common.Modules.CacheModule;
 using OS.Http;
 using OS.Http.Models;
 using OS.Social.WX.Offcial.Basic.Mos;
+using OS.Social.WX.SysUtils;
 
 namespace OS.Social.WX.Offcial
 {
@@ -34,7 +35,7 @@ namespace OS.Social.WX.Offcial
         /// <param name="config"></param>
         public WxOffBaseApi(WxAppCoinfig config) : base(config)
         {
-            m_OffcialAccessTokenKey = string.Concat(m_OffcialAccessTokenKey, ApiConfig.AppId);
+            m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAccessTokenKey, ApiConfig.AppId);
         }
        
         /// <summary>
