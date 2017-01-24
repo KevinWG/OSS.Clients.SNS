@@ -110,9 +110,13 @@ namespace OS.Social.WX.Offcial.Card.Mos
     ///   卡券时效类型
     /// </summary>
     public enum WxCardDateType
-    {
+    {     /// <summary>
+          /// 固定日期区间
+          /// </summary>
         [Description("固定日期区间")] DATE_TYPE_FIX_TIME_RANGE = 1,
-
+        /// <summary>
+        /// 固定时长
+        /// </summary>
         [Description("固定时长")] DATE_TYPE_FIX_TERM = 2
     }
 
@@ -128,9 +132,24 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// </summary>
     public enum WxCardBusinessService
     {
+        /// <summary>
+        /// 外卖服务
+        /// </summary>
         [Description("外卖服务")] BIZ_SERVICE_DELIVER = 10,
+
+        /// <summary>
+        /// 停车位
+        /// </summary>
         [Description("停车位")] BIZ_SERVICE_FREE_PARK = 20,
+
+        /// <summary>
+        /// 可带宠物
+        /// </summary>
         [Description("可带宠物")] BIZ_SERVICE_WITH_PET = 30,
+
+        /// <summary>
+        /// 免费wifi
+        /// </summary>
         [Description("免费wifi")] BIZ_SERVICE_FREE_WIFI = 40,
     }
 
@@ -145,6 +164,46 @@ namespace OS.Social.WX.Offcial.Card.Mos
         [Description("周六")] SATURDAY = 60,
         [Description("周日")] SUNDAY = 70,
         [Description("假日")] HOLIDAY = 80
+    }
+
+
+    public enum WxCardLandPageSence
+    {
+        /// <summary>
+        /// 附近
+        /// </summary>
+        [Description("附近")] SCENE_NEAR_BY = 10,
+
+        /// <summary>
+        /// 自定义菜单
+        /// </summary>
+        [Description("自定义菜单")] SCENE_MENU = 20,
+
+        /// <summary>
+        /// 二维码
+        /// </summary>
+        [Description("二维码")] SCENE_QRCODE = 30,
+
+        /// <summary>
+        /// 公众号文章
+        /// </summary>
+        [Description("公众号文章")] SCENE_ARTICLE = 40,
+
+        /// <summary>
+        /// h5页面
+        /// </summary>
+        [Description("h5页面")] SCENE_H5 = 50,
+
+        /// <summary>
+        /// 自动回复
+        /// </summary>
+        [Description("自动回复")] SCENE_IVR = 60,
+
+        /// <summary>
+        /// 卡券自定义cell
+        /// </summary>
+        [Description("卡券自定义cell")] SCENE_CARD_CUSTOM_CELL = 70
+
     }
 
 }

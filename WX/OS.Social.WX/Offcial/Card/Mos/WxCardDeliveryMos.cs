@@ -1,7 +1,7 @@
 ﻿#region Copyright (C) 2017 Kevin (OS系列开源项目)
 
 /***************************************************************************
-*　　	文件功能描述：公号的功能接口 ——  卡券投放二维码实体
+*　　	文件功能描述：公号的功能接口 ——  卡券投放实体
 *
 *　　	创建人： Kevin
 *       创建人Email：1985088337@qq.com
@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
 using OS.Social.WX.Offcial.Basic.Mos;
@@ -18,6 +19,7 @@ using OS.Social.WX.SysUtils.Mos;
 
 namespace OS.Social.WX.Offcial.Card.Mos
 {
+    #region  投放二维码相关实体
     /// <summary>
     /// 微信卡券二维码请求
     /// </summary>
@@ -82,4 +84,72 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// </summary>  
         public string outer_str { get; set; }
     }
+    #endregion
+
+
+    #region  投放货架相关实体
+    /// <summary>
+    ///  创建卡券投放货架请求实体
+    /// </summary>
+    public class WxCreateCardLandPageReq
+    {
+        /// <summary>   
+        ///   页面的banner图片链接，须调用，建议尺寸为640*300。必填    
+        /// </summary>  
+        public string banner { get; set; }
+
+        /// <summary>   
+        ///   页面的title。必填    
+        /// </summary>  
+        public string title { get; set; }
+
+        /// <summary>   
+        ///   页面是否可以分享,填入true/false必填    
+        /// </summary>  
+        public string can_share { get; set; }
+
+        /// <summary>   
+        ///   投放页面的场景值；SCENE_NEAR_BY附近 SCENE_MENU自定义菜单 SCENE_QRCODE二维码 SCENE_ARTICLE公众号文章 SCENE_H5h5页面SCENE_IVR自动回复 SCENE_CARD_CUSTOM_CELL卡券自定义 cell
+        /// </summary>  
+        [JsonConverter(typeof(StringConverter))]
+        public WxCardLandPageSence scene { get; set; }
+        
+        /// <summary>   
+        ///   卡券列表，每个item有两个字段必填    
+        /// </summary>  
+        public List<WxCardLandPageItemMo> card_list { get; set; }
+
+    }
+
+    /// <summary>
+    /// 创建卡券投放货架响应实体
+    /// </summary>
+    public class WxCreateCardLandPageResp:WxBaseResp
+    {
+        /// <summary>
+        /// 货架链接
+        /// </summary>
+        public string url { get; set; }
+        /// <summary>
+        /// 货架ID。货架的唯一标识
+        /// </summary>
+        public long page_id { get; set; }
+
+    }
+
+    public class WxCardLandPageItemMo
+    {
+
+        /// <summary>   
+        ///   所要在页面投放的card_id必填    
+        /// </summary>  
+        public string card_id { get; set; }
+
+        /// <summary>   
+        ///   缩略图url
+        /// </summary>  
+        public string thumb_url { get; set; }
+    }
+
+    #endregion
 }

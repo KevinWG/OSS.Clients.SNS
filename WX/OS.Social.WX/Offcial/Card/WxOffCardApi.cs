@@ -16,7 +16,6 @@ using Newtonsoft.Json;
 using OS.Common.ComModels.Enums;
 using OS.Http;
 using OS.Http.Models;
-using OS.Social.WX.Offcial.Basic.Mos;
 using OS.Social.WX.Offcial.Card.Mos;
 using OS.Social.WX.SysUtils.Mos;
 
@@ -237,7 +236,28 @@ namespace OS.Social.WX.Offcial.Card
             return RestCommonOffcial<WxGetCardArticleContentResp>(req);
         }
 
+
+        /// <summary>
+        ///  创建卡券投放货架接口
+        /// </summary>
+        /// <param name="pageReq"></param>
+        /// <returns></returns>
+        public WxCreateCardLandPageResp CreateLandPage(WxCreateCardLandPageReq pageReq)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/landingpage/create");
+            req.CustomBody = JsonConvert.SerializeObject(pageReq);
+
+            return RestCommonOffcial<WxCreateCardLandPageResp>(req);
+        }
+
         #endregion
+
+
+
+
 
     }
 }
