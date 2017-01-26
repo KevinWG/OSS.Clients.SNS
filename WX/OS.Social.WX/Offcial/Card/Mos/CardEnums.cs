@@ -142,7 +142,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
         [Description("会议门票")] MEETING_TICKET = 100,
 
         /// <summary>
-        /// 会议门票
+        /// 汽车票
         /// </summary>
         [Description("汽车票")] BUS_TICKET = 110
 
