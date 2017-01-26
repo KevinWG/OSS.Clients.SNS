@@ -412,15 +412,15 @@ namespace OS.Social.WX.Offcial.Card.Mos
     #region  会议门票
 
 
-    public class WxMeetingTicketCardBigMo : WxCardTypeBaseMo
+    public class WxMeetingCardBigMo : WxCardTypeBaseMo
     {
         /// <summary>
         ///   会议票实体
         /// </summary>
-        public WxMeetingTicketCardMo meeting_ticket { get; set; }
+        public WxMeetingCardMo meeting_ticket { get; set; }
     }
 
-    public class WxMeetingTicketCardMo : WxCardSmallBaseMo
+    public class WxMeetingCardMo : WxCardSmallBaseMo
     {
 
         /// <summary>   
@@ -615,29 +615,26 @@ namespace OS.Social.WX.Offcial.Card.Mos
         public WxMemberCardMo member_card { get; set; }
 
         /// <summary>
+        /// 会议门票
+        /// </summary>
+        public WxMeetingCardMo meeting_ticket { get; set; }
+
+        /// <summary>
         /// 门票
         /// </summary>
-        public string scenic_ticket { get; set; }
+        public WxScenicCardMo scenic_ticket { get; set; }
 
         /// <summary>
         /// 电影票
         /// </summary>
-        public string movie_ticket { get; set; }
+        public WxMovieCardMo movie_ticket { get; set; }
 
         /// <summary>
         /// 飞机票
         /// </summary>
-        public string boarding_pass { get; set; }
-
-        /// <summary>
-        /// 红包
-        /// </summary>
-        public string lucky_money { get; set; }
-
-        /// <summary>
-        /// 会议门票
-        /// </summary>
-        public string meeting_ticket { get; set; }
+        public WxBoardCardMo boarding_pass { get; set; }
+        
+ 
     }
 
     #endregion
