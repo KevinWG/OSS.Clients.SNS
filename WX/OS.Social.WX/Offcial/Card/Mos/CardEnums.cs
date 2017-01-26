@@ -15,10 +15,51 @@ using System.ComponentModel;
 
 namespace OS.Social.WX.Offcial.Card.Mos
 {
+
+    public enum WxCardCodeUseState
+    {
+        /// <summary>
+        /// 正常
+        /// </summary>
+        [Description("正常")] NORMAL = 10,
+
+        /// <summary>
+        /// 已核销
+        /// </summary>
+        [Description("已核销")] CONSUMED = 20,
+
+        /// <summary>
+        /// 已过期
+        /// </summary>
+        [Description("已过期")] EXPIRE = 30,
+
+        /// <summary>
+        /// 转赠中
+        /// </summary>
+        [Description("转赠中")] GIFTING = 15,
+
+        /// <summary>
+        /// 转赠超时
+        /// </summary>
+        [Description("转赠超时")] GIFT_TIMEOUT = 18,
+
+        /// <summary>
+        /// 已删除
+        /// </summary>
+        [Description("已删除")] DELETE = -10,
+
+        /// <summary>
+        /// 已失效
+        /// </summary>
+        [Description("已失效")] UNAVAILABLE = -1
+
+    }
+
+
     /// <summary>
     ///   卡券code类型
     /// </summary>
-    public enum WxSCardCodeType
+    public enum WxCardCodeType
     {
         /// <summary>
         /// 二维码显示code
@@ -81,7 +122,38 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// <summary>
         /// 优惠券
         /// </summary>
-        [Description("优惠券")] GENERAL_COUPON = 50
+        [Description("优惠券")] GENERAL_COUPON = 50,
+
+        /// <summary>
+        /// 会员卡
+        /// </summary>
+        [Description("会员卡")] MEMBER_CARD = 60,
+
+        /// <summary>
+        /// 景点门票
+        /// </summary>
+        [Description("景点门票")] SCENIC_TICKET = 70,
+
+        /// <summary>
+        /// 电影票
+        /// </summary>
+        [Description("电影票")] MOVIE_TICKET = 80,
+
+        /// <summary>
+        /// 飞机票
+        /// </summary>
+        [Description("飞机票")] BOARDING_PASS = 90,
+
+        /// <summary>
+        /// 会议门票
+        /// </summary>
+        [Description("会议门票")] MEETING_TICKET = 100,
+
+        /// <summary>
+        /// 会议门票
+        /// </summary>
+        [Description("汽车票")] BUS_TICKET = 110
+
     }
 
     /// <summary>
@@ -204,6 +276,50 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// </summary>
         [Description("卡券自定义cell")] SCENE_CARD_CUSTOM_CELL = 70
 
+    }
+
+
+    public enum WxMemberCardCustomNameType
+    {
+        /// <summary>
+        /// 等级
+        /// </summary>
+        [Description("等级")] FIELD_NAME_TYPE_LEVEL = 10,
+
+        /// <summary>
+        /// 优惠券
+        /// </summary>
+        [Description("优惠券")] FIELD_NAME_TYPE_COUPON = 20,
+
+        /// <summary>
+        /// 印花
+        /// </summary>
+        [Description("印花")] FIELD_NAME_TYPE_STAMP = 30,
+
+        /// <summary>
+        /// 折扣
+        /// </summary>
+        [Description("折扣")] FIELD_NAME_TYPE_DISCOUNT = 40,
+
+        /// <summary>
+        /// 成就
+        /// </summary>
+        [Description("成就")] FIELD_NAME_TYPE_ACHIEVEMEN = 50,
+
+        /// <summary>
+        /// 里程
+        /// </summary>
+        [Description("里程")] FIELD_NAME_TYPE_MILEAGE = 60,
+
+        /// <summary>
+        /// 集点
+        /// </summary>
+        [Description("集点")] FIELD_NAME_TYPE_SET_POINTS = 70,
+
+        /// <summary>
+        /// 次数
+        /// </summary>
+        [Description("次数")] FIELD_NAME_TYPE_TIMS = 80,
     }
 
 }

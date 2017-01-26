@@ -114,19 +114,19 @@ namespace OS.Social.WX.Offcial.Card
         }
 
         /// <summary>
-        ///   查询导入code数目接口
+        ///   验证已经导入的code信息
         /// </summary>
         /// <param name="cardId">需要进行导入code的卡券ID</param>
         /// <param name="codes">需导入微信卡券后台的自定义code，上限为100个</param>
         /// <returns></returns>
-        public WxCheckCodeResp CheckCode(string cardId, List<string> codes)
+        public WxCheckImportCodeResp CheckImportCode(string cardId, List<string> codes)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/getdepositcount");
             req.CustomBody = JsonConvert.SerializeObject(new { card_id = cardId, code = codes });
 
-            return RestCommonOffcial<WxCheckCodeResp>(req);
+            return RestCommonOffcial<WxCheckImportCodeResp>(req);
         }
 
 

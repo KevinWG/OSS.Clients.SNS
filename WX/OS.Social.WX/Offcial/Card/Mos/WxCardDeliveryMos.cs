@@ -152,4 +152,60 @@ namespace OS.Social.WX.Offcial.Card.Mos
     }
 
     #endregion
+
+    /// <summary>
+    ///   获取卡券图文推送内容响应实体
+    /// </summary>
+    public class WxGetCardArticleContentResp : WxBaseResp
+    {
+        /// <summary>
+        /// 返回一段html代码，可以直接嵌入到图文消息的正文里。即可以把这段代码嵌入到上传图文消息素材接口中的content字段里
+        /// </summary>
+        public string content { get; set; }
+    }
+
+
+    #region  导入卡券code 相关实体
+
+    public class WxImportCardCodeResp : WxBaseResp
+    {
+        /// <summary>   
+        ///   成功个数
+        /// </summary>  
+        public int succ_code { get; set; }
+
+        /// <summary>   
+        ///   重复导入的code会自动被过滤。
+        /// </summary>  
+        public int duplicate_code { get; set; }
+
+        /// <summary>   
+        ///   失败个数。
+        /// </summary>  
+        public int fail_code { get; set; }
+
+    }
+
+    public class WxGetImportCodeCountResp : WxBaseResp
+    {
+        /// <summary>
+        /// 已经成功存入的code数目。
+        /// </summary>
+        public int count { get; set; }
+    }
+
+    public class WxCheckImportCodeResp : WxBaseResp
+    {
+        /// <summary>
+        /// 已经成功存入的code。
+        /// </summary>
+        public List<string> exist_code { get; set; }
+
+        /// <summary>
+        /// 没有存入的code。
+        /// </summary>
+        public List<string> not_exist_code { get; set; }
+    }
+
+    #endregion
 }

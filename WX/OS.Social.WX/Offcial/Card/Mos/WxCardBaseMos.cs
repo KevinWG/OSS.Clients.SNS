@@ -30,7 +30,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// <summary>
     ///   卡券实体基类
     /// </summary>
-    public class WxAddCardBaseReq
+    public class WxCardTypeBaseMo
     {
         /// <summary>
         /// 卡券类型
@@ -61,7 +61,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// CODE_TYPE_NONE，不显示code和条形码类型
         /// </summary>  
         [JsonConverter(typeof (StringEnumConverter))]
-        public WxSCardCodeType code_type { get; set; }
+        public WxCardCodeType code_type { get; set; }
 
         /// <summary>   
         ///   必填    string（36）商户名字,字数上限为12个汉字。
@@ -92,13 +92,13 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// <summary>   
         ///   必填    JSON结构商品信息。
         /// </summary>  
-        public WxCardSkuMo sku { get; set; }
+        public WxCardBasicSkuMo sku { get; set; }
 
 
         /// <summary>   
         ///   必填    JSON结构使用日期，有效期的信息。
         /// </summary>  
-        public WxCardDateMo date_info { get; set; }
+        public WxCardBasicDateMo date_info { get; set; }
         
         #region  可选字段
         /// <summary>   
@@ -212,7 +212,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// <summary>
     ///  卡券sku信息
     /// </summary>
-    public class WxCardSkuMo
+    public class WxCardBasicSkuMo
     {
         /// <summary>   
         ///   必填    int卡券库存的数量，上限为100000000。
@@ -224,7 +224,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// <summary>
     ///   卡券时间限制实体
     /// </summary>
-    public class WxCardDateMo
+    public class WxCardBasicDateMo
     {
         /// <summary>   
         ///   必填    stringDATE_TYPE_FIX_TIME_RANGE表示固定日期区间，DATE_TYPE_FIX_TERM表示固定时长（自领取后按天算。
@@ -263,18 +263,18 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// <summary>   
         ///   可空    JSON结构使用门槛（条件）字段，若不填写使用条件则在券面拼写：无最低消费限制，全场通用，不限品类；并在使用说明显示：可与其他优惠共享
         /// </summary>  
-        public WxCardUseConditionMo use_condition { get; set; }
+        public WxCardAdUseConditionMo use_condition { get; set; }
 
         /// <summary>   
         ///   可空    JSON结构封面摘要结构体名称
         /// </summary>  
         [JsonProperty("abstract")]
-        public WxCardAbstractMo Abstract { get; set; }
+        public WxCardAdAbstractMo Abstract { get; set; }
 
         /// <summary>   
         ///   可空 显示在详情内页，优惠券券开发者须至少传入一组图文列表
         /// </summary>  
-        public WxCardTextImgMo text_image_list { get; set; }
+        public WxCardAdTextImgMo text_image_list { get; set; }
 
         /// <summary>   
         ///   可空    arry商家服务类型，从 WxCardBusinessService 枚举中获取 可多选 
@@ -284,14 +284,14 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// <summary>   
         ///   可空    JSON结构使用时段限制，包含以下字段
         /// </summary>  
-        public WxCardTimeLimitMo time_limit { get; set; }
+        public WxCardAdTimeLimitMo time_limit { get; set; }
     }
 
 
     /// <summary>
-    /// 卡券使用条件实体
+    /// 卡券高级信息中的使用条件实体
     /// </summary>
-    public class WxCardUseConditionMo
+    public class WxCardAdUseConditionMo
     {
         /// <summary>   
         ///   可空    string（512）指定可用的商品类目，仅用于代金券类型，填入后将在券面拼写适用于xxx
@@ -325,7 +325,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// <summary>
     ///   卡券封面摘要实体
     /// </summary>
-    public class WxCardAbstractMo
+    public class WxCardAdAbstractMo
     {
         /// <summary>   
         ///   可空  封面摘要简介
@@ -341,7 +341,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
 
 
 
-    public class WxCardTextImgMo
+    public class WxCardAdTextImgMo
     {
         /// <summary>   
         ///   可空    string（128）图片链接，必须调用上传图片接口上传图片获得链接，并在此填入，否则报错
@@ -355,7 +355,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     }
 
 
-    public class WxCardTimeLimitMo
+    public class WxCardAdTimeLimitMo
     {
         /// <summary>   
         ///   可空    string（24）限制类型枚举值：支持填入MONDAY周一TUESDAY周二WEDNESDAY周三THURSDAY周四FRIDAY周五SATURDAY周六SUNDAY周日此处只控制显示，不控制实际使用逻辑，不填默认不显示

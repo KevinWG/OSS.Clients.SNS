@@ -49,7 +49,7 @@ namespace OS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddCoupnCard(WxAddCouponCardReq cardReq)
+        public WxAddCardResp AddCoupnCard(WxCouponCardBigMo cardReq)
         {
             return AddCard(cardReq);
         }
@@ -60,7 +60,7 @@ namespace OS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddDiscountCard(WxAddDiscountCardReq cardReq)
+        public WxAddCardResp AddDiscountCard(WxDiscountCardBig cardReq)
         {
             return AddCard(cardReq);
         }
@@ -71,7 +71,7 @@ namespace OS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddCoupnCard(WxAddGiftCardReq cardReq)
+        public WxAddCardResp AddCoupnCard(WxGiftCardBigMo cardReq)
         {
             return AddCard(cardReq);
         }
@@ -83,7 +83,7 @@ namespace OS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddCoupnCard(WxAddGroupCardReq cardReq)
+        public WxAddCardResp AddCoupnCard(WxGroupCardBigMo cardReq)
         {
             return AddCard(cardReq);
         }
@@ -96,7 +96,7 @@ namespace OS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        private WxAddCardResp AddCard(WxAddCardBaseReq cardReq)
+        private WxAddCardResp AddCard(WxCardTypeBaseMo cardReq)
         {
             var req=new OsHttpRequest();
 
@@ -110,6 +110,26 @@ namespace OS.Social.WX.Offcial.Card
 
 
         #endregion
-       
+
+        /// <summary>
+        ///  获取用户的卡券列表
+        /// </summary>
+        /// <param name="openId">需要查询的用户openid</param>
+        /// <param name="cardId">卡券ID。不填写时默认查询当前appid下的卡券</param>
+        /// <returns></returns>
+        public WxGetUserCardListResp GetUserCardList(string openId,string cardId)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/user/getcardlist");
+            req.CustomBody = $"{{\"openid\":\"{openId}\",\"card_id\":\"{cardId}\"}}";
+
+            return RestCommonOffcial<WxGetUserCardListResp>(req);
+        }
+
+
+
+
     }
 }

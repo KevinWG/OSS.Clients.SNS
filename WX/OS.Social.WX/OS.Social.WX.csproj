@@ -67,10 +67,11 @@
     <Compile Include="Offcial\Basic\Mos\WxUserMos.cs" />
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardCodeMos.cs" />
+    <Compile Include="Offcial\Card\Mos\WxCardConsumeMos.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardMos.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardDeliveryMos.cs" />
     <Compile Include="Offcial\Card\WxOffCardApi.cs" />
+    <Compile Include="Offcial\Card\WxOffCardConsumeApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardDeliveryApi.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxArticleStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxInterfaceStatMos.cs" />
