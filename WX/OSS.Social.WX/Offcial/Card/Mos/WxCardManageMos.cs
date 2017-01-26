@@ -181,9 +181,5 @@ namespace OSS.Social.WX.Offcial.Card.Mos
 
     #endregion
 
-    #region 修改库存实体
-
-
-
-    #endregion
+   
 }

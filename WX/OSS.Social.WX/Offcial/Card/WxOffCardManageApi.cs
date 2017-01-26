@@ -235,9 +235,7 @@ namespace OSS.Social.WX.Offcial.Card
         }
 
         #endregion
-
-
-
+        
         #region  修改卡券
 
         /// <summary>
@@ -383,6 +381,81 @@ namespace OSS.Social.WX.Offcial.Card
             return RestCommonOffcial<WxUpdateCardResp>(req);
         }
 
+        #endregion
+
+        #region  修改库存，更换code，删除卡券, 设置卡券失效
+
+        /// <summary>
+        ///  更新库存
+        /// </summary>
+        /// <param name="cardId">卡Id</param>
+        /// <param name="increaseCount">增加的数量</param>
+        /// <param name="reduceCount">减少的数量</param>
+        /// <returns></returns>
+        public WxBaseResp UpdateStock(string cardId,int increaseCount,int reduceCount)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/modifystock");
+            req.CustomBody = $"{{\"card_id\":\"{cardId}\",\"increase_stock_value\":{increaseCount},\"reduce_stock_value\":{reduceCount}}}";
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
+        /// <summary>
+        ///  修改卡券code
+        /// </summary>
+        /// <param name="code">code</param>
+        /// <param name="cardId">卡Id</param>
+        /// <param name="newCode">新code</param>
+        /// <returns></returns>
+        public WxBaseResp UpdateCardCode(string code, string cardId,string newCode)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/update");
+            req.CustomBody = $"{{\"card_id\":\"{cardId}\",\"code\":\"{code}\",\"new_code\":\"{newCode}\"}}";
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
+
+        /// <summary>
+        ///  删除卡券
+        /// </summary>
+        /// <param name="cardId">卡Id</param>
+        /// <returns></returns>
+        public WxBaseResp DeleteCard( string cardId)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/delete");
+            req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
+
+        /// <summary>
+        /// 废弃指定code卡券
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="cardId">卡Id，自定义code时 必填</param>
+        /// <param name="reason">废弃理由，自定义code时 可空</param>
+        /// <returns></returns>
+        public WxBaseResp AbandonCardCode(string code,string cardId,string reason)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/unavailable");
+            req.CustomBody = $"{{\"code\":\"{code}\",\"card_id\":\"{cardId}\",\"reason\":\"{reason}\"}}";
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
         #endregion
     }
 }
