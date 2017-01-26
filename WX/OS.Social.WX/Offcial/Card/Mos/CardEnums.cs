@@ -16,45 +16,37 @@ using System.ComponentModel;
 namespace OS.Social.WX.Offcial.Card.Mos
 {
 
-    public enum WxCardCodeUseState
+    public enum WxCardStatus
     {
         /// <summary>
-        /// 正常
+        /// 待审核
         /// </summary>
-        [Description("正常")] NORMAL = 10,
+        [Description("待审核")]
+        CARD_STATUS_NOT_VERIFY = 10,
 
         /// <summary>
-        /// 已核销
+        /// 审核失败
         /// </summary>
-        [Description("已核销")] CONSUMED = 20,
+        [Description("审核失败")]
+        CARD_STATUS_VERIFY_FAIL = 20,
 
         /// <summary>
-        /// 已过期
+        /// 通过审核
         /// </summary>
-        [Description("已过期")] EXPIRE = 30,
-
+        [Description("通过审核")]
+        CARD_STATUS_VERIFY_OK = 30,
         /// <summary>
-        /// 转赠中
+        /// 卡券被商户删除
         /// </summary>
-        [Description("转赠中")] GIFTING = 15,
-
+        [Description("卡券被商户删除")]
+        CARD_STATUS_DELETE = 40,
         /// <summary>
-        /// 转赠超时
+        /// 在公众平台投放过的卡券
         /// </summary>
-        [Description("转赠超时")] GIFT_TIMEOUT = 18,
-
-        /// <summary>
-        /// 已删除
-        /// </summary>
-        [Description("已删除")] DELETE = -10,
-
-        /// <summary>
-        /// 已失效
-        /// </summary>
-        [Description("已失效")] UNAVAILABLE = -1
+        [Description("在公众平台投放过的卡券")]
+        CARD_STATUS_DISPATCH = 50,
 
     }
-
 
     /// <summary>
     ///   卡券code类型
@@ -321,5 +313,53 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// </summary>
         [Description("次数")] FIELD_NAME_TYPE_TIMS = 80,
     }
+
+
+    public enum WxCardCodeUseState
+    {
+        /// <summary>
+        /// 正常
+        /// </summary>
+        [Description("正常")]
+        NORMAL = 10,
+
+        /// <summary>
+        /// 已核销
+        /// </summary>
+        [Description("已核销")]
+        CONSUMED = 20,
+
+        /// <summary>
+        /// 已过期
+        /// </summary>
+        [Description("已过期")]
+        EXPIRE = 30,
+
+        /// <summary>
+        /// 转赠中
+        /// </summary>
+        [Description("转赠中")]
+        GIFTING = 15,
+
+        /// <summary>
+        /// 转赠超时
+        /// </summary>
+        [Description("转赠超时")]
+        GIFT_TIMEOUT = 18,
+
+        /// <summary>
+        /// 已删除
+        /// </summary>
+        [Description("已删除")]
+        DELETE = -10,
+
+        /// <summary>
+        /// 已失效
+        /// </summary>
+        [Description("已失效")]
+        UNAVAILABLE = -1
+
+    }
+
 
 }

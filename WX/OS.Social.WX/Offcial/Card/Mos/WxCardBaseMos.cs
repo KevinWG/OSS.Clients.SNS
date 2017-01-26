@@ -41,12 +41,17 @@ namespace OS.Social.WX.Offcial.Card.Mos
     }
 
     #region  卡券基本信息
-
+    
     /// <summary>
     ///   卡券基本信息
     /// </summary>
     public class WxCardBasicMo
     {
+        /// <summary>
+        ///   卡Id  添加时不做处理
+        /// </summary>
+        public string id { get; set; }
+
         /// <summary>   
         ///   必填    string(128)http://mmbiz.qpic.cn/卡券的商户logo，建议像素为300*300。
         /// </summary>  
@@ -206,7 +211,13 @@ namespace OS.Social.WX.Offcial.Card.Mos
         public bool can_give_friend { get; set; }
         
         #endregion
-        
+
+        /// <summary>
+        ///   状态  添加卡券时不做处理
+        /// </summary>
+        [JsonConverter(typeof(StringConverter))]
+        public WxCardStatus status { get; set; }
+
     }
 
     /// <summary>

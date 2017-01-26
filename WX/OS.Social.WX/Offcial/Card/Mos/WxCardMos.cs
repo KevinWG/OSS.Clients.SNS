@@ -29,7 +29,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// <summary>
     ///   卡券信息的基类
     /// </summary>
-    public class WxCardBaseMo: WxCardSmallBaseMo
+    public class WxCardBaseMo : WxCardSmallBaseMo
     {
         /// <summary>
         ///   卡券高级信息
@@ -51,16 +51,16 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// <summary>
     ///   团购券信息
     /// </summary>
-    public class WxGroupCardMo:WxCardBaseMo
+    public class WxGroupCardMo : WxCardBaseMo
     {
         /// <summary>
         ///  必填 团购券专用，团购详情。
         /// </summary>
         public string deal_detail { get; set; }
     }
-    
+
     #endregion
-    
+
     #region  现金券
 
     /// <summary>
@@ -74,7 +74,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// <summary>
     ///   现金券信息
     /// </summary>
-    public class WxCashCardMo: WxCardBaseMo
+    public class WxCashCardMo : WxCardBaseMo
     {
         /// <summary>
         ///  必填 代金券专用，表示起用金额（单位为分）,如果无起用门槛则填0
@@ -102,7 +102,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// <summary>
     ///   折扣券信息
     /// </summary>
-    public class WxDiscountCardMo:WxCardBaseMo
+    public class WxDiscountCardMo : WxCardBaseMo
     {
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// <summary>
     ///   兑换券信息
     /// </summary>
-    public class WxGiftCardMo: WxCardBaseMo
+    public class WxGiftCardMo : WxCardBaseMo
     {
         /// <summary>
         ///  必填  string(3072) 兑换券专用，填写兑换内容的名称
@@ -151,7 +151,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     /// <summary>
     ///   优惠券信息
     /// </summary>
-    public class WxCouponCardMo: WxCardBaseMo
+    public class WxCouponCardMo : WxCardBaseMo
     {
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
         ///    可空 string(128) 设置跳转外链查看余额详情。仅适用于余额无法通过激活接口同步的情况下使用该字段。
         /// </summary>  
         public string balance_url { get; set; }
-        
+
         /// <summary>   
         ///    可空 JSON结构 自定义会员信息类目，会员卡激活后显示,包含name_type(name)和url字段
         /// </summary>  
@@ -231,7 +231,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
         ///    可空 JSON结构 自定义会员信息类目，会员卡激活后显示，包含name_type(name)和url字段
         /// </summary>  
         public WxMemberCardCustomFieldMo custom_field3 { get; set; }
-        
+
         /// <summary>   
         ///    可空 string（128） 积分清零规则。
         /// </summary>  
@@ -262,7 +262,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
         ///    可空 JSON结构 积分规则。
         /// </summary>  
         public WxMemberCardBonusRuleMo bonus_rule { get; set; }
-        
+
         /// <summary>   
         ///    可空 int 折扣，该会员卡享受的折扣优惠,填10就是九折
         /// </summary>  
@@ -287,7 +287,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// FIELD_NAME_TYPE_SET_POINTS 集点 
         /// FIELD_NAME_TYPE_TIMS 次数
         /// </summary>  
-        [JsonConverter(typeof(StringConverter))]
+        [JsonConverter(typeof (StringConverter))]
         public WxMemberCardCustomNameType name_type { get; set; }
 
         /// <summary>   
@@ -367,13 +367,13 @@ namespace OS.Social.WX.Offcial.Card.Mos
     #endregion
 
     #region  朋友的券
-    
-    public class WxFriendCardBigMo: WxCardTypeBaseMo
+
+    public class WxFriendCardBigMo : WxCardTypeBaseMo
     {
 
-       /// <summary>
-       ///   朋友的券 ==  礼品券类型时需要的部分
-       /// </summary>
+        /// <summary>
+        ///   朋友的券 ==  礼品券类型时需要的部分
+        /// </summary>
         public WxFriendCardGiftMo gift { get; set; }
 
 
@@ -381,14 +381,14 @@ namespace OS.Social.WX.Offcial.Card.Mos
         ///   朋友的券 ==  现金券类型时需要的部分
         /// </summary>
         public WxCashCardMo cash { get; set; }
-        
+
     }
 
 
     /// <summary>
     ///   朋友券中的礼品券信息
     /// </summary>
-    public class WxFriendCardGiftMo: WxGiftCardMo
+    public class WxFriendCardGiftMo : WxGiftCardMo
     {
         /// <summary>   
         ///    兑换券兑换商品名字，限6个汉字 必填
@@ -437,15 +437,17 @@ namespace OS.Social.WX.Offcial.Card.Mos
     #endregion
 
     #region   景区门票
+
     public class WxScenicCardBigMo : WxCardTypeBaseMo
     {
         /// <summary>   
         ///    门票实体
         /// </summary>  
         public WxScenicCardMo scenic_ticket { get; set; }
-        
+
     }
-    public class WxScenicCardMo:WxCardSmallBaseMo
+
+    public class WxScenicCardMo : WxCardSmallBaseMo
     {
         /// <summary>   
         ///    必填 string(3072) 平日全票 票类型，例如平日全票，套票等。
@@ -460,10 +462,9 @@ namespace OS.Social.WX.Offcial.Card.Mos
     }
 
     #endregion
-
-
-
+    
     #region  电影票
+
     public class WxMovieCardBigMo : WxCardTypeBaseMo
     {
         /// <summary>   
@@ -471,7 +472,8 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// </summary>  
         public WxMovieCardMo movie_ticket { get; set; }
     }
-    public class WxMovieCardMo:WxCardSmallBaseMo
+
+    public class WxMovieCardMo : WxCardSmallBaseMo
     {
         /// <summary>   
         ///    必填 string(3072) 电影名：xxx，电影简介：xxx。 电影票详
@@ -485,7 +487,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
     #region  飞机票
 
 
-    public class WxBoardCardBigMo:WxCardTypeBaseMo
+    public class WxBoardCardBigMo : WxCardTypeBaseMo
     {
         /// <summary>
         ///   票实体
@@ -543,7 +545,7 @@ namespace OS.Social.WX.Offcial.Card.Mos
 
     #region  卡券列表
 
-    public class WxGetUserCardListResp:WxBaseResp
+    public class WxGetUserCardCodeListResp : WxBaseResp
     {
         /// <summary>
         ///   卡券列表
@@ -571,12 +573,40 @@ namespace OS.Social.WX.Offcial.Card.Mos
         public string card_id { get; set; }
     }
 
+    /// <summary>
+    /// 获取卡券id列表
+    /// </summary>
+    public class WxGetCardIdListResp:WxBaseResp
+    {
+        /// <summary>
+        /// 该商户名下卡券ID总数
+        /// </summary>
+        public int total_num { get; set; }
+
+        /// <summary>
+        ///    卡券id列表
+        /// </summary>
+        public List<string> card_id_list { get; set; }
+    }
+
     #endregion
 
 
 
 
     #region  获取卡券信息相关实体
+
+    /// <summary>
+    ///   获取卡券详情响应实体
+    /// </summary>
+    public class WxGetCardDetailRsp : WxBaseResp
+    {
+        /// <summary>
+        ///   返回的卡详情实体
+        /// </summary>
+        public WxCardPackageMo card { get; set; }
+    }
+
 
     /// <summary>
     /// 卡券类型  和  卡券相关类型的包实体
@@ -633,8 +663,8 @@ namespace OS.Social.WX.Offcial.Card.Mos
         /// 飞机票
         /// </summary>
         public WxBoardCardMo boarding_pass { get; set; }
-        
- 
+
+
     }
 
     #endregion
