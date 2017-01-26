@@ -175,4 +175,4 @@ public void GetUserInfoTest()
      尽快完善
      
 ### 五. 项目依赖
-当前项目依赖于我以前写的开源项目 [OS.Common](https://github.com/KevinWG/OS.Common)(全局错误实体，和模块注入)  和  [OS.Http](https://github.com/KevinWG/OS.Http)（http请求）   都比较简单小巧,只有几个class，不用担心臃肿
+当前项目依赖于我以前写的开源项目 [OSS.Common](https://github.com/KevinWG/OSS.Common)(全局错误实体，和模块注入)  和  [OSS.Http](https://github.com/KevinWG/OSS.Http)（http请求）   都比较简单小巧,只有几个class，不用担心臃肿

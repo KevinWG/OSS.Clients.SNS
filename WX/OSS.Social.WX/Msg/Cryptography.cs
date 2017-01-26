@@ -2,7 +2,7 @@
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using OS.Common.Encrypt;
+using OSS.Common.Encrypt;
 
 namespace OSS.Social.WX.Msg
 {

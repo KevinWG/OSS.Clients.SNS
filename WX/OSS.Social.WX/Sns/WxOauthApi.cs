@@ -12,8 +12,8 @@
 #endregion
 
 
-using OS.Http;
-using OS.Http.Models;
+using OSS.Http;
+using OSS.Http.Models;
 using OSS.Social.WX.Sns.Mos;
 using OSS.Social.WX.SysUtils.Mos;
 

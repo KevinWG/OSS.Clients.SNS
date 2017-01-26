@@ -15,12 +15,12 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using OS.Common.ComModels;
-using OS.Common.ComModels.Enums;
-using OS.Common.Modules;
-using OS.Common.Modules.LogModule;
-using OS.Http;
-using OS.Http.Models;
+using OSS.Common.ComModels;
+using OSS.Common.ComModels.Enums;
+using OSS.Common.Modules;
+using OSS.Common.Modules.LogModule;
+using OSS.Http;
+using OSS.Http.Models;
 
 namespace OSS.Social.WX
 {

@@ -11,8 +11,8 @@
 
 #endregion
 
-using OS.Http;
-using OS.Http.Models;
+using OSS.Http;
+using OSS.Http.Models;
 using OSS.Social.WX.Offcial.Card.Mos;
 
 namespace OSS.Social.WX.Offcial.Card

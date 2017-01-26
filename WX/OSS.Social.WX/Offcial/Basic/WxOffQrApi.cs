@@ -13,9 +13,9 @@
 
 using System.Text;
 using Newtonsoft.Json;
-using OS.Common.Extention;
-using OS.Http;
-using OS.Http.Models;
+using OSS.Common.Extention;
+using OSS.Http;
+using OSS.Http.Models;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic

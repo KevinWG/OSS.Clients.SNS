@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using OS.Common.Extention;
+using OSS.Common.Extention;
 
 namespace OSS.Social.WX.Msg.Mos
 {

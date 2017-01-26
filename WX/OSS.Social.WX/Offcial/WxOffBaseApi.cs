@@ -12,11 +12,11 @@
 #endregion
 
 using System;
-using OS.Common.ComModels;
-using OS.Common.Modules;
-using OS.Common.Modules.CacheModule;
-using OS.Http;
-using OS.Http.Models;
+using OSS.Common.ComModels;
+using OSS.Common.Modules;
+using OSS.Common.Modules.CacheModule;
+using OSS.Http;
+using OSS.Http.Models;
 using OSS.Social.WX.Offcial.Basic.Mos;
 using OSS.Social.WX.SysUtils;
 

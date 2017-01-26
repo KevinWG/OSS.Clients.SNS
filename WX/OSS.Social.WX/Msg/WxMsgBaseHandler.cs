@@ -15,10 +15,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using OS.Common.ComModels;
-using OS.Common.ComModels.Enums;
-using OS.Common.Encrypt;
-using OS.Common.Extention;
+using OSS.Common.ComModels;
+using OSS.Common.ComModels.Enums;
+using OSS.Common.Encrypt;
+using OSS.Common.Extention;
 using OSS.Social.WX.Msg.Mos;
 
 namespace OSS.Social.WX.Msg

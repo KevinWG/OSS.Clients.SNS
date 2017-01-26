@@ -13,9 +13,9 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using OS.Common.ComModels.Enums;
-using OS.Http;
-using OS.Http.Models;
+using OSS.Common.ComModels.Enums;
+using OSS.Http;
+using OSS.Http.Models;
 using OSS.Social.WX.Offcial.Card.Mos;
 using OSS.Social.WX.SysUtils.Mos;
 

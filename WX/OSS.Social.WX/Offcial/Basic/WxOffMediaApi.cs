@@ -13,9 +13,9 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using OS.Common.ComModels;
-using OS.Http;
-using OS.Http.Models;
+using OSS.Common.ComModels;
+using OSS.Http;
+using OSS.Http.Models;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic

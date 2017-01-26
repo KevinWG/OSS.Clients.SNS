@@ -1,4 +1,4 @@
-﻿using OS.Common.Extention;
+﻿using OSS.Common.Extention;
 
 namespace OSS.Social.WX.Msg.Mos
 {

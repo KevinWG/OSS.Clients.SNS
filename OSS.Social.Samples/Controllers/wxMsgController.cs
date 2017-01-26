@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Web.Mvc;
-using OS.Common.Modules.LogModule;
+using OSS.Common.Modules.LogModule;
 using OSS.Social.WX.Msg.Mos;
 
 namespace OSS.Social.Samples.Controllers

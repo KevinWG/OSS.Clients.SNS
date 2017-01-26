@@ -11,8 +11,7 @@
 
 #endregion
 
-
-using OS.Common.ComModels;
+using OSS.Common.ComModels;
 
 namespace OSS.Social.WX
 {

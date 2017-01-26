@@ -14,8 +14,8 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using OS.Common.ComModels;
-using OS.Common.ComModels.Enums;
+using OSS.Common.ComModels;
+using OSS.Common.ComModels.Enums;
 using OSS.Social.WX.Msg.Mos;
 
 namespace OSS.Social.WX.Msg

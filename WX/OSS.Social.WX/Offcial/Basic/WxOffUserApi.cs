@@ -13,8 +13,8 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using OS.Http;
-using OS.Http.Models;
+using OSS.Http;
+using OSS.Http.Models;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic

@@ -49,8 +49,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="OS.Common, Version=1.2.39.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OS.Common.1.3.2.3\lib\net40\OS.Common.dll</HintPath>
+    <Reference Include="OSS.Common, Version=1.3.8.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OSS.Common.1.0\lib\net45\OSS.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
