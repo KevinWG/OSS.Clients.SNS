@@ -92,11 +92,17 @@ namespace OSS.Social.WX.SysUtils.Mos
 
     public enum WxJsTicketType
     {
+        /// <summary>
+        /// 卡券接口
+        /// </summary>
         [Description("卡券接口")]
-        wx_card = 30,
+        wx_card = 10,
 
+        /// <summary>
+        /// 正常js接口
+        /// </summary>
         [Description("正常js接口")]
-        jsapi = 31
+        jsapi = 20
     }
 
 

@@ -457,5 +457,7 @@ namespace OSS.Social.WX.Offcial.Card
             return RestCommonOffcial<WxBaseResp>(req);
         }
         #endregion
+
+
     }
 }

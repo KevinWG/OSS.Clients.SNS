@@ -485,8 +485,7 @@ namespace OSS.Social.WX.Msg
 
 
         #endregion
-
-
+        
         #region  消息内容辅助类
 
         /// <summary>

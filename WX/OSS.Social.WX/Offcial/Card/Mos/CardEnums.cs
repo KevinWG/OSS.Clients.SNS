@@ -16,6 +16,9 @@ using System.ComponentModel;
 namespace OSS.Social.WX.Offcial.Card.Mos
 {
 
+    /// <summary>
+    /// 卡券状态
+    /// </summary>
     public enum WxCardStatus
     {
         /// <summary>
@@ -90,31 +93,30 @@ namespace OSS.Social.WX.Offcial.Card.Mos
     public enum WxCardType
     {
         /// <summary>
-        /// 团购券
+        /// 折扣券
         /// </summary>
-        [Description("团购券")] GROUPON = 10,
-
+        [Description("折扣券")] DISCOUNT = 0,  //  官方数值
         /// <summary>
         /// 代金券
         /// </summary>
-        [Description("代金券")] CASH = 20,
+        [Description("代金券")]
+        CASH = 1,    //  官方数值
 
         /// <summary>
-        /// 折扣券
+        /// 礼品券
         /// </summary>
-        [Description("折扣券")] DISCOUNT = 30,
-
-
-        /// <summary>
-        /// 兑换券
-        /// </summary>
-        [Description("兑换券")] GIFT = 40,
-
+        [Description("礼品券")] GIFT = 2,   //  官方数值
 
         /// <summary>
         /// 优惠券
         /// </summary>
-        [Description("优惠券")] GENERAL_COUPON = 50,
+        [Description("优惠券")] GENERAL_COUPON = 3,  //  官方数值
+
+        /// <summary>
+        /// 团购券
+        /// </summary>
+        [Description("团购券")]
+        GROUPON = 4,     //  官方数值
 
         /// <summary>
         /// 会员卡

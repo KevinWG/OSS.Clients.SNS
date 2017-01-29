@@ -68,12 +68,14 @@
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardConsumeMos.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardMos.cs" />
+    <Compile Include="Offcial\Card\Mos\WxCardBaseMos.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardDeliveryMos.cs" />
+    <Compile Include="Offcial\Card\Mos\WxCardStatisticMos.cs" />
     <Compile Include="Offcial\Card\Mos\WxMemberCardMos.cs" />
     <Compile Include="Offcial\Card\WxOffCardManageApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardConsumeApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardDeliveryApi.cs" />
+    <Compile Include="Offcial\Card\WxOffCardStatisticApi.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxArticleStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxInterfaceStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxMsgStatMos.cs" />
@@ -108,7 +110,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
