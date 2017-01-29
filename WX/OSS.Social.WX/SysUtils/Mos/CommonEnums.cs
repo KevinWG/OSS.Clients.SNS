@@ -41,12 +41,12 @@ namespace OSS.Social.WX.SysUtils.Mos
         ///   男
         /// </summary>
         [Description("男")]
-        Male=1,
+        MALE=1,
         /// <summary>
         /// 女
         /// </summary>
         [Description("女")]
-        Female=2
+        FEMALE=2
     }
 
     /// <summary>

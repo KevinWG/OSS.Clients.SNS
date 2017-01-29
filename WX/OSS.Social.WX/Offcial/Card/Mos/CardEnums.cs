@@ -364,4 +364,67 @@ namespace OSS.Social.WX.Offcial.Card.Mos
     }
 
 
+
+    /// <summary>
+    ///  微信会员卡激活表单通用字段
+    /// </summary>
+    public enum WxActiveFormCommonField
+    {
+        /// <summary>
+        /// 手机号
+        /// </summary>
+        [Description("手机号")] USER_FORM_INFO_FLAG_MOBILE = 10,
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        [Description("性别")] USER_FORM_INFO_FLAG_SEX = 20,
+
+        /// <summary>
+        /// 姓名
+        /// </summary>
+        [Description("姓名")] USER_FORM_INFO_FLAG_NAME = 30,
+
+        /// <summary>
+        /// 生日
+        /// </summary>
+        [Description("生日")] USER_FORM_INFO_FLAG_BIRTHDAY = 40,
+
+        /// <summary>
+        /// 身份证
+        /// </summary>
+        [Description("身份证")] USER_FORM_INFO_FLAG_IDCARD = 50,
+
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        [Description("邮箱")] USER_FORM_INFO_FLAG_EMAIL = 60,
+
+        /// <summary>
+        /// 姓名
+        /// </summary>
+        [Description("详细地址")] USER_FORM_INFO_FLAG_LOCATION = 70,
+
+        /// <summary>
+        /// 姓名
+        /// </summary>
+        [Description("教育背景")] USER_FORM_INFO_FLAG_EDUCATION_BACKGRO = 80,
+
+        /// <summary>
+        /// 姓名
+        /// </summary>
+        [Description("行业")] USER_FORM_INFO_FLAG_INDUSTRY = 90,
+
+        /// <summary>
+        /// 姓名
+        /// </summary>
+        [Description("收入")] USER_FORM_INFO_FLAG_INCOME = 100,
+
+        /// <summary>
+        /// 兴趣爱好
+        /// </summary>
+        [Description("兴趣爱好")] USER_FORM_INFO_FLAG_HABIT = 110
+    }
+
+
 }
