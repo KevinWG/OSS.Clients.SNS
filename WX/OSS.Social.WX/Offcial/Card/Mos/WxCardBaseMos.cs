@@ -242,13 +242,13 @@ namespace OSS.Social.WX.Offcial.Card.Mos
         /// <summary>   
         ///  unsignedinttype为DATE_TYPE_FIX_TIME_RANGE时【必填】，表示起用时间。从1970年1月1日00:00:00至起用时间的秒数，最终需转换为字符串形态传入。（东八区时间,UTC+8，单位为秒）
         /// </summary>  
-        public uint begin_timestamp { get; set; }
+        public long begin_timestamp { get; set; }
 
         /// <summary>   
         ///   固定时间段时必填    表示结束时间，建议设置为截止日期的23:59:59过期。（东八区时间,UTC+8，单位为秒）
         ///   固定时长时选填   表示过期时间
         /// </summary>  
-        public uint end_timestamp { get; set; }
+        public long end_timestamp { get; set; }
 
         /// <summary>   
         ///   【固定】时长专用【必填】    inttype为DATE_TYPE_FIX_TERM时专用，表示自领取后多少天内有效，不支持填写0。
@@ -665,6 +665,9 @@ namespace OSS.Social.WX.Offcial.Card.Mos
     }
 
 
+    /// <summary>
+    /// 飞机票更新实体
+    /// </summary>
     public class WxUpdateBoardCardReq : WxUpdateCardBaseReq
     {
         /// <summary>   
@@ -685,7 +688,7 @@ namespace OSS.Social.WX.Offcial.Card.Mos
         /// <summary>
         /// 登机时间，只显示“时分”不显示日期，按Unix时间戳格式填写。如发生登机时间变更，建议商家实时调用该接口变更
         /// </summary>
-        public uint boarding_time { get; set; }
+        public long boarding_time { get; set; }
     }
 
     #endregion
