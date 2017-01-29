@@ -84,5 +84,23 @@ namespace OSS.Social.WX.Offcial.Card
 
             return RestCommonOffcial<WxGetActiveTempInfoResp>(req);
         }
+
+
+        /// <summary>
+        /// 当会员持卡消费后，开发者调用该接口更新会员信息。
+        /// </summary>
+        /// <param name="updateReq">更新信息</param>
+        /// <returns></returns>
+        public WxUpdateMemberCardUserInfoResp UpdateMemberCardUserInfo(WxUpdateMemberCardUserInfoReq updateReq)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/updateuser");
+            req.CustomBody = JsonConvert.SerializeObject(updateReq);
+
+            return RestCommonOffcial<WxUpdateMemberCardUserInfoResp>(req);
+        }
+        
     }
 }
