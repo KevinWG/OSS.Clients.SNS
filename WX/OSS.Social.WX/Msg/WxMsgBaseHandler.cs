@@ -249,7 +249,7 @@ namespace OSS.Social.WX.Msg
 
             var context = ProcessExecute_BasicMsg(recMsgXml, msgType, recMsgDirs)
                           ?? ProcessExecute_AdvancedMsg(recMsgXml, msgType, recMsgDirs)
-                          ?? ExecuteBasicMsgHandler(recMsgXml, recMsgDirs, UnknowHandler);
+                          ?? ExcuteBasicMsg(recMsgXml, recMsgDirs, UnknowHandler);
 
             return new ResultMo<MsgContext>(context);
         }
@@ -360,7 +360,13 @@ namespace OSS.Social.WX.Msg
             //  如果为空，交由后续高级事件、默认事件 处理
             if (func==null)
                 return null;
-            
+
+            return ExcuteBasicMsg(recMsgXml, recMsgDirs, func);
+        }
+
+        private static MsgContext ExcuteBasicMsg<TRecMsg>(string recMsgXml, IDictionary<string, string> recMsgDirs, Func<TRecMsg, BaseReplyMsg> func)
+            where TRecMsg : BaseRecMsg, new()
+        {
             var msgContext = new MsgContext();
 
             var recMsg = WxMsgHelper.GetMsg<TRecMsg>(recMsgDirs);
