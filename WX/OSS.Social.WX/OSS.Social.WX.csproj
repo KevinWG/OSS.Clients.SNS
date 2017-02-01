@@ -59,7 +59,9 @@
     <Compile Include="Msg\WxMsgBaseHandler.cs" />
     <Compile Include="Offcial\Assist\Mos\WxJsMos.cs" />
     <Compile Include="Offcial\Assist\WxOffJsApi.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxBasicEnums.cs" />
     <Compile Include="Offcial\Basic\Mos\WxBasicMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxMsgMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxMediaMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxMenuMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxQrMos.cs" />
@@ -67,6 +69,7 @@
     <Compile Include="Offcial\Basic\Mos\WxUserMos.cs" />
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
+    <Compile Include="Offcial\Basic\WxOffMsgApi.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardConsumeMos.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardBaseMos.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardDeliveryMos.cs" />

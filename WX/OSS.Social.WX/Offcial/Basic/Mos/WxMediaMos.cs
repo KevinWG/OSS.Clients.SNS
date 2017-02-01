@@ -67,7 +67,7 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
         /// <summary>
         /// 素材类型
         /// </summary>
-        public MediaType type { get; set; }
+        public WxMediaType type { get; set; }
         
         /// <summary>
         /// 视频素材的标题    可空  【视频】类型素材需要 
@@ -125,7 +125,7 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
         /// <summary>
         /// 素材类型
         /// </summary>
-        public MediaType type { get; set; }
+        public WxMediaType type { get; set; }
     }
     
     /// <summary>
@@ -260,7 +260,7 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
         ///   必填    素材的类型，图片（image）、视频（video）、语音（voice）、图文（news）
         /// </summary>  
         [JsonConverter(typeof(StringEnumConverter))]
-        public MediaType type { get; set; }
+        public WxMediaType type { get; set; }
 
         /// <summary>   
         ///   必填    从全部素材的该偏移位置开始返回，0表示从第一个素材返回
@@ -343,29 +343,5 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
 
    
 
-    /// <summary>
-    /// 素材类型
-    /// </summary>
-    public enum MediaType
-    {
-        /// <summary>
-        /// 图片（image）: 2M，支持PNG\JPEG\JPG\GIF格式
-        /// </summary>
-        image,
-
-        /// <summary>
-        ///  语音（voice）：2M，播放长度不超过60s，支持AMR\MP3格式
-        /// </summary>
-        voice,
-
-        /// <summary>
-        ///   视频（video）：10MB，支持MP4格式
-        /// </summary>
-        video,
-
-        /// <summary>
-        ///  缩略图（thumb）：64KB，支持JPG格式
-        /// </summary>
-        thumb
-    }
+ 
 }

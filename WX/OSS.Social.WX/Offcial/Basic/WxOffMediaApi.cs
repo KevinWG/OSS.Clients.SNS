@@ -170,7 +170,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_material?type=", mediaReq.type.ToString());
             req.FileParameterList.Add(new FileParameter("media",mediaReq.file_stream,mediaReq.file_name,mediaReq.content_type));
 
-            if (mediaReq.type == MediaType.video)
+            if (mediaReq.type == WxMediaType.video)
                 req.Parameters.Add(new Parameter("description", $"{{\"title\":\"{mediaReq.title}\", \"introduction\":\"{mediaReq.introduction}\"}}", ParameterType.Form));
 
             return RestCommonOffcial<WxMediaUploadResp>(req);

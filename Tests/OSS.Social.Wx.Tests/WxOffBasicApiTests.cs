@@ -85,7 +85,7 @@ namespace OSS.Social.Wx.Tests
             var imageFile=new FileStream("E:\\1.jpg",FileMode.Open,FileAccess.Read);
             
             var req=new WxMediaTempUploadReq();
-            req.type=MediaType.image;
+            req.type=WxMediaType.image;
             req.content_type = "image/jpeg";
 
             req.file_name = "1.jpg";
@@ -128,7 +128,7 @@ namespace OSS.Social.Wx.Tests
             var imageFile = new FileStream("E:\\1.jpg", FileMode.Open, FileAccess.Read);
 
             var req = new WxMediaUploadReq();
-            req.type = MediaType.image;
+            req.type = WxMediaType.image;
             req.content_type = "image/jpeg";
 
             req.file_name = "1.jpg";
@@ -148,7 +148,7 @@ namespace OSS.Social.Wx.Tests
             var imageFile = new FileStream("E:\\11.mp4", FileMode.Open, FileAccess.Read);
 
             var req = new WxMediaUploadReq();
-            req.type = MediaType.video;
+            req.type = WxMediaType.video;
             req.content_type = "video/mpeg4";
 
             req.file_name = "11.mp4";

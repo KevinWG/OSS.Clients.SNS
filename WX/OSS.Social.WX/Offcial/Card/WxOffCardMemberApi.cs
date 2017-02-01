@@ -20,6 +20,9 @@ namespace OSS.Social.WX.Offcial.Card
 {
     public partial class WxOffCardApi
     {
+
+
+
         /// <summary>
         /// 6.1  接口激活会员卡
         /// </summary>

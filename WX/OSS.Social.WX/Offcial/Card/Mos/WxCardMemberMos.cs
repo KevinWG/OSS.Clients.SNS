@@ -233,6 +233,16 @@ namespace OSS.Social.WX.Offcial.Card.Mos
     public class WxUpdateMemberCardReq : WxUpdateCardBaseReq
     {
         /// <summary>   
+        ///    可空 string(128) 会员卡自定义卡面背景图
+        /// </summary>  
+        public string background_pic_url { get; set; }
+
+        /// <summary>   
+        ///    必填 bool 是否支持积分，仅支持从false变为true，默认为false
+        /// </summary>  
+        public bool supply_bonus { get; set; }
+
+        /// <summary>   
         ///    可空 string（128） 积分清零规则。
         /// </summary>  
         public string bonus_cleared { get; set; }
@@ -243,6 +253,11 @@ namespace OSS.Social.WX.Offcial.Card.Mos
         public string bonus_rules { get; set; }
 
         /// <summary>   
+        ///    必填 bool 是否支持储值，仅支持从false变为true，默认为false
+        /// </summary>  
+        public string supply_balance { get; set; }
+
+        /// <summary>   
         ///    可空 string（128） 储值说明。
         /// </summary>  
         public string balance_rules { get; set; }
@@ -251,6 +266,33 @@ namespace OSS.Social.WX.Offcial.Card.Mos
         ///    必填 string（3072） 会员卡特权说明。
         /// </summary>  
         public string prerogative { get; set; }
+
+
+        /// <summary>   
+        ///    可空 bool 设置为true时用户领取会员卡后系统自动将其激活，无需调用激活接口，详情见自动激活。
+        /// </summary>  
+        public bool auto_activate { get; set; }
+
+        /// <summary>   
+        ///    必填 string（128） 激活会员卡的url。
+        /// </summary>  
+        public string activate_url { get; set; }
+
+        /// <summary>   
+        ///    可空 bool 设置为true时会员卡支持一键开卡，不允许同时传入activate_url字段，否则设置wx_activate失效。填入该字段后仍需调用接口设置开卡项方可生效，详情见一键开卡。
+        /// </summary>  
+        public bool wx_activate { get; set; }
+
+        /// <summary>   
+        ///    可空 bool 是否支持跳转型一键激活，填true或lse
+        /// </summary>  
+        public bool wx_activate_after_submit { get; set; }
+
+        /// <summary>   
+        ///    可空 跳转型一键激活跳转的地址链接，请填写http://或者https://开头的链接
+        /// </summary>  
+        public string wx_activate_after_submit_url { get; set; }
+
 
         /// <summary>   
         ///    可空 JSON结构 自定义会员信息类目，会员卡激活后显示,包含name_type(name)和url字段
@@ -271,6 +313,16 @@ namespace OSS.Social.WX.Offcial.Card.Mos
         ///    可空 JSON结构 自定义会员信息类目，会员卡激活后显示。
         /// </summary>  
         public WxMemberCardCustomCellMo custom_cell1 { get; set; }
+
+        /// <summary>   
+        ///    可空 JSON结构 积分规则。
+        /// </summary>  
+        public WxMemberCardBonusRuleMo bonus_rule { get; set; }
+
+        /// <summary>   
+        ///    可空 int 折扣，该会员卡享受的折扣优惠,填10就是九折
+        /// </summary>  
+        public int discount { get; set; }
     }
 
     /// <summary>
