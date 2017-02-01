@@ -42,7 +42,7 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
     /// <summary>
     ///  群发消息时的素材类型
     /// </summary>
-    public enum WxSendMsgType
+    public enum WxMassMsgType
     {
         /// <summary>
         ///  图文素材

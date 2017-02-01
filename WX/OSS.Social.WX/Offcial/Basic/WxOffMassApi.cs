@@ -102,7 +102,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="data">素材消息的media_id,  text类型时是content, wxcard 时是card_id </param>
         /// <param name="sendIgnoreReprint">当 send_ignore_reprint=1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。当 send_ignore_reprint =0时，文章被判定为转载时，将停止群发操作。send_ignore_reprint 默认为0</param>
         /// <returns></returns>
-        public WxSendMassMsgResp SendMassMsgByTag(int tagId, bool isToAll,WxSendMsgType msgType, string data, int sendIgnoreReprint = 0)
+        public WxSendMassMsgResp SendMassMsgByTag(int tagId, bool isToAll,WxMassMsgType msgType, string data, int sendIgnoreReprint = 0)
         {
             var msgStr=new StringBuilder("{");
 
@@ -126,16 +126,16 @@ namespace OSS.Social.WX.Offcial.Basic
             return RestCommonOffcial<WxSendMassMsgResp>(req);
         }
 
-        private static void GenerateMsgBody(WxSendMsgType msgType, string data, StringBuilder msgStr)
+        private static void GenerateMsgBody(WxMassMsgType msgType, string data, StringBuilder msgStr)
         {
             #region  拼接内容mediaid, content , cardid
             msgStr.Append("\"").Append(msgType).Append("\":{");
             switch (msgType)
             {
-                case WxSendMsgType.text:
+                case WxMassMsgType.text:
                     msgStr.Append("\"content\":\"").Append(data).Append("\"");
                     break;
-                case WxSendMsgType.wxcard:
+                case WxMassMsgType.wxcard:
                     msgStr.Append("\"card_id\":\"").Append(data).Append("\"");
                     break;
                 default:
@@ -145,7 +145,7 @@ namespace OSS.Social.WX.Offcial.Basic
             msgStr.Append("},");
             msgStr.Append("\"msgtype\":\"").Append(msgType);
 
-            if (msgType == WxSendMsgType.mpnews)
+            if (msgType == WxMassMsgType.mpnews)
                 msgStr.Append("\",").Append("\"send_ignore_reprint\":").Append(msgType);
             #endregion
         }
@@ -158,7 +158,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="data">素材消息的media_id,  text类型时是content, wxcard 时是card_id </param>
         /// <param name="sendIgnoreReprint">当 send_ignore_reprint=1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。当 send_ignore_reprint =0时，文章被判定为转载时，将停止群发操作。send_ignore_reprint 默认为0</param>
         /// <returns></returns>
-        public WxSendMassMsgResp SendMassMsgByOpenIds(List<string> openIds , WxSendMsgType msgType, string data, int sendIgnoreReprint = 0)
+        public WxSendMassMsgResp SendMassMsgByOpenIds(List<string> openIds , WxMassMsgType msgType, string data, int sendIgnoreReprint = 0)
         {
             var msgStr = new StringBuilder("{");
 
@@ -228,7 +228,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="data">素材消息的media_id,  text类型时是content, wxcard 时是card_id </param>
         /// <param name="sendIgnoreReprint">当 send_ignore_reprint=1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。当 send_ignore_reprint =0时，文章被判定为转载时，将停止群发操作。send_ignore_reprint 默认为0</param>
         /// <returns></returns>
-        public WxSendMassMsgResp PreviewMassMsg(string wxName, string openId, WxSendMsgType msgType, string data, int sendIgnoreReprint = 0)
+        public WxSendMassMsgResp PreviewMassMsg(string wxName, string openId, WxMassMsgType msgType, string data, int sendIgnoreReprint = 0)
         {
             var msgStr = new StringBuilder("{");
 
