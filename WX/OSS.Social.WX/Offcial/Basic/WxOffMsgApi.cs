@@ -61,7 +61,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="articles"></param>
         /// <returns></returns>
-        public WxMediaResp UploadMsgArticles(List<WxArticleInfo> articles )
+        public WxMediaResp UploadMassMsgArticles(List<WxArticleInfo> articles )
         {
             var req=new OsHttpRequest();
 
@@ -82,7 +82,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="title">消息的标题</param>
         /// <param name="desp">消息的描述</param>
         /// <returns></returns>
-        public WxMediaResp UploadMsgVedio(string mediaId,string title,string desp)
+        public WxMediaResp UploadMassMsgVedio(string mediaId,string title,string desp)
         {
             var req = new OsHttpRequest();
 
@@ -102,7 +102,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="data">素材消息的media_id,  text类型时是content, wxcard 时是card_id </param>
         /// <param name="sendIgnoreReprint">当 send_ignore_reprint=1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。当 send_ignore_reprint =0时，文章被判定为转载时，将停止群发操作。send_ignore_reprint 默认为0</param>
         /// <returns></returns>
-        public WxSendGroupMsgResp SendMsgByTag(int tagId, bool isToAll,WxSendMsgType msgType, string data, int sendIgnoreReprint = 0)
+        public WxSendMassMsgResp SendMassMsgByTag(int tagId, bool isToAll,WxSendMsgType msgType, string data, int sendIgnoreReprint = 0)
         {
             var msgStr=new StringBuilder("{");
 
@@ -123,7 +123,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/sendall");
             req.CustomBody = msgStr.ToString();
 
-            return RestCommonOffcial<WxSendGroupMsgResp>(req);
+            return RestCommonOffcial<WxSendMassMsgResp>(req);
         }
 
         private static void GenerateMsgBody(WxSendMsgType msgType, string data, StringBuilder msgStr)
@@ -158,7 +158,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="data">素材消息的media_id,  text类型时是content, wxcard 时是card_id </param>
         /// <param name="sendIgnoreReprint">当 send_ignore_reprint=1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。当 send_ignore_reprint =0时，文章被判定为转载时，将停止群发操作。send_ignore_reprint 默认为0</param>
         /// <returns></returns>
-        public WxSendGroupMsgResp SendMsgByOpenIds(List<string> openIds , WxSendMsgType msgType, string data, int sendIgnoreReprint = 0)
+        public WxSendMassMsgResp SendMassMsgByOpenIds(List<string> openIds , WxSendMsgType msgType, string data, int sendIgnoreReprint = 0)
         {
             var msgStr = new StringBuilder("{");
 
@@ -183,9 +183,75 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/send");
             req.CustomBody = msgStr.ToString();
 
-            return RestCommonOffcial<WxSendGroupMsgResp>(req);
+            return RestCommonOffcial<WxSendMassMsgResp>(req);
         }
         #endregion
+
+        /// <summary>
+        ///  删除群发消息
+        /// </summary>
+        /// <param name="msgId"></param>
+        /// <returns></returns>
+        public WxBaseResp DeleteMassMsg(long msgId)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/delete");
+            req.CustomBody = $"{{\"msg_id\":{msgId}}}";
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
+        /// <summary>
+        ///  查询群发消息状态
+        /// </summary>
+        /// <param name="msgId"></param>
+        /// <returns></returns>
+        public WxMassMsgStateResp GetMassMsgState(long msgId)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/get");
+            req.CustomBody = $"{{\"msg_id\":{msgId}}}";
+
+            return RestCommonOffcial<WxMassMsgStateResp>(req);
+        }
+
+        /// <summary>
+        /// 根据Tag群发消息接口
+        /// </summary>
+        /// <param name="openId">openid，wxName和openId同时赋值时，以wxname优先</param>
+        /// <param name="wxName">微信名称，wxName和openId同时赋值时，以wxname优先</param>
+        /// <param name="msgType">群发的消息类型</param>
+        /// <param name="data">素材消息的media_id,  text类型时是content, wxcard 时是card_id </param>
+        /// <param name="sendIgnoreReprint">当 send_ignore_reprint=1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。当 send_ignore_reprint =0时，文章被判定为转载时，将停止群发操作。send_ignore_reprint 默认为0</param>
+        /// <returns></returns>
+        public WxSendMassMsgResp PreviewMassMsg(string wxName, string openId, WxSendMsgType msgType, string data, int sendIgnoreReprint = 0)
+        {
+            var msgStr = new StringBuilder("{");
+
+            #region  拼接 发送用户信息
+            if (!string.IsNullOrEmpty(wxName))
+                msgStr.Append("\"towxname\":\"").Append(wxName).Append("\",");
+            if (!string.IsNullOrEmpty(openId))
+                msgStr.Append("\"touser\":\"").Append(openId).Append("\",");
+            #endregion
+
+            // 拼接内容mediaid, content , cardid
+            GenerateMsgBody(msgType, data, msgStr);
+            msgStr.Append("}");
+
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/preview");
+            req.CustomBody = msgStr.ToString();
+
+            return RestCommonOffcial<WxSendMassMsgResp>(req);
+        }
+
 
 
     }
