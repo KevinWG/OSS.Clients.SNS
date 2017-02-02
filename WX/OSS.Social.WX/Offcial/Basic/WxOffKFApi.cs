@@ -54,14 +54,32 @@ namespace OSS.Social.WX.Offcial.Basic
             return RestCommonOffcial<WxBaseResp>(req);
         }
 
+        /// <summary>
+        ///   删除客服账号
+        /// </summary>
+        /// <param name="account">完整客服账号，格式为：账号前缀@公众号微信号</param>
+        /// <param name="nickname">客服昵称，最长6个汉字或12个英文字符</param>
+        /// <param name="password">客服账号登录密码，格式为密码明文的32位加密MD5值。该密码仅用于在公众平台官网的多客服功能中使用，若不使用多客服功能，则不必设置密码</param>
+        /// <returns></returns>
+        public WxBaseResp DeleteKFAccount(string account, string nickname, string password)
+        {
+            var req = new OsHttpRequest();
 
-       /// <summary>
-       ///   设置客服账号头像
-       /// </summary>
-       /// <param name="account">完整客服账号，格式为：账号前缀@公众号微信号</param>
-       /// <param name="fileReq">头像的文件信息</param>
-       /// <returns></returns>
-       public WxBaseResp UploadKFHeadImg(string account, WxFileReq fileReq)
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/del");
+            req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\",\"password\":\"{password}\"}}";
+
+            return RestCommonOffcial<WxBaseResp>(req);
+        }
+
+
+        /// <summary>
+        ///   设置客服账号头像
+        /// </summary>
+        /// <param name="account">完整客服账号，格式为：账号前缀@公众号微信号</param>
+        /// <param name="fileReq">头像的文件信息</param>
+        /// <returns></returns>
+        public WxBaseResp UploadKFHeadImg(string account, WxFileReq fileReq)
         {
             var req = new OsHttpRequest();
 
