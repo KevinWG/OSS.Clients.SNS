@@ -108,7 +108,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="imgReq"></param>
         /// <returns></returns>
-         public WxArticleUploadImgResp UploadFreeImage(WxMediaFileReq imgReq)
+         public WxArticleUploadImgResp UploadFreeImage(WxFileReq imgReq)
          {
             var req=new OsHttpRequest();
 

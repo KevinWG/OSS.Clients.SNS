@@ -61,12 +61,14 @@
     <Compile Include="Offcial\Assist\WxOffJsApi.cs" />
     <Compile Include="Offcial\Basic\Mos\WxBasicEnums.cs" />
     <Compile Include="Offcial\Basic\Mos\WxBasicMos.cs" />
+    <Compile Include="Offcial\Basic\Mos\WxKFMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxMassMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxMediaMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxMenuMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxQrMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxTagMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxUserMos.cs" />
+    <Compile Include="Offcial\Basic\WxOffKFApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMassApi.cs" />

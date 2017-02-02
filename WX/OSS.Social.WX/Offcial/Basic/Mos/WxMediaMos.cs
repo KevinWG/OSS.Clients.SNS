@@ -25,7 +25,7 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
     /// 素材上传请求基础实体
     ///    文章中的图片上传请求也使用这个实体
     /// </summary>
-    public class WxMediaFileReq
+    public class WxFileReq
     {
         /// <summary>
         /// formdata中的文件名称  如：my_photo_20170116.jpg
@@ -62,7 +62,7 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
     /// <summary>
     /// 上传【永久】素材请求参数
     /// </summary>
-    public class WxMediaUploadReq:WxMediaFileReq
+    public class WxMediaUploadReq:WxFileReq
     {
         /// <summary>
         /// 素材类型
@@ -120,7 +120,7 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
     /// <summary>
     /// 上传【临时】素材请求参数
     /// </summary>
-    public class WxMediaTempUploadReq : WxMediaFileReq
+    public class WxMediaTempUploadReq : WxFileReq
     {
         /// <summary>
         /// 素材类型

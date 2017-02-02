@@ -109,7 +109,7 @@ namespace OSS.Social.Wx.Tests
         {
             var imageFile = new FileStream("E:\\1.jpg", FileMode.Open, FileAccess.Read);
 
-            var req = new WxMediaFileReq();
+            var req = new WxFileReq();
             req.content_type = "image/jpeg";
 
             req.file_name = "1.jpg";
