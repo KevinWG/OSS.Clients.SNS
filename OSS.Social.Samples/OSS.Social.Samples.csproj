@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WxBaseMsgService.cs" />
     <Compile Include="App_Start\WxMsgService.cs" />
     <Compile Include="Controllers\homeController.cs" />
     <Compile Include="Controllers\wxMsgController.cs" />

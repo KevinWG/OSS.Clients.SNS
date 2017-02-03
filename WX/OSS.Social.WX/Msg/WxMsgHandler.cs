@@ -23,7 +23,7 @@ namespace OSS.Social.WX.Msg
     /// <summary>
     ///  消息对话事件句柄，被动消息处理
     /// </summary>
-    public class WxMsgHandler:WxMsgBaseHandler
+    public class WxMsgHandler:WxBasicMsgHandler
     {
         /// <summary>
         /// 构造函数

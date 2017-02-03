@@ -56,7 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Msg\WxMsgBaseHandler.cs" />
+    <Compile Include="Msg\WxMsgBasicHandler.cs" />
     <Compile Include="Offcial\Assist\Mos\WxJsMos.cs" />
     <Compile Include="Offcial\Assist\WxOffJsApi.cs" />
     <Compile Include="Offcial\Basic\Mos\WxBasicEnums.cs" />
@@ -107,10 +107,10 @@
     <Compile Include="Sns\WxOauthApi.cs" />
     <Compile Include="BaseMos.cs" />
     <Compile Include="Msg\Cryptography.cs" />
-    <Compile Include="Msg\Mos\BaseContext.cs" />
-    <Compile Include="Msg\Mos\EventMsgs.cs" />
-    <Compile Include="Msg\Mos\NormalMsgs.cs" />
-    <Compile Include="Msg\Mos\ReplyMsgs.cs" />
+    <Compile Include="Msg\Mos\BaseMos.cs" />
+    <Compile Include="Msg\Mos\RecEventMsgMos.cs" />
+    <Compile Include="Msg\Mos\RecMsgMos.cs" />
+    <Compile Include="Msg\Mos\ReplyMsgMos.cs" />
     <Compile Include="Msg\Mos\WxMsgServerConfig.cs" />
     <Compile Include="Msg\WxMsgHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
