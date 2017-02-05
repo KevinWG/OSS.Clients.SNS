@@ -52,7 +52,7 @@ namespace OSS.Social.WX
     public class WxAppCoinfig
     {
         /// <summary>
-        ///   应用来源
+        ///   应用来源,自定义部分
         /// 如果填写,授权回调时在state中会有赋值
         /// </summary>
         public string AppSource { get; set; }

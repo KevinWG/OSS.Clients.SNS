@@ -83,6 +83,7 @@
     <Compile Include="Offcial\Card\WxOffCardDeliveryApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardMemberApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardStatisticApi.cs" />
+    <Compile Include="Offcial\SmallApp\WxOffAppQrApi.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxArticleStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxInterfaceStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxMsgStatMos.cs" />
@@ -97,6 +98,8 @@
     <Compile Include="Offcial\WxOffBaseApi.cs" />
     <Compile Include="Offcial\Basic\WxOffQrApi.cs" />
     <Compile Include="Offcial\Basic\WxOffUserApi.cs" />
+    <Compile Include="Sns\Mos\WxAppUserMos.cs" />
+    <Compile Include="Sns\WxAppUserApi.cs" />
     <Compile Include="Sns\Mos\WxAuthMos.cs" />
     <Compile Include="Offcial\Card\Mos\CardEnums.cs" />
     <Compile Include="SysUtils\Mos\CommonEnums.cs" />
