@@ -43,6 +43,21 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
         /// </summary>
         public Stream file_stream { get; set; }
     }
+    /// <summary>
+    /// 文件下载的响应实体
+    /// </summary>
+    public class WxFileResp:WxBaseResp
+    {
+        /// <summary>
+        ///  请求中的contentteype
+        /// </summary>
+        public string content_type { get; set; }
+
+        /// <summary>
+        ///  文件的字节流
+        /// </summary>
+        public byte[] file { get; set; }
+    }
 
     /// <summary>
     ///  微信素材添加基础响应实体

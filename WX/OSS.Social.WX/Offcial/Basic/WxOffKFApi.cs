@@ -112,8 +112,6 @@ namespace OSS.Social.WX.Offcial.Basic
 
         #endregion
 
-
-
         #region  消息部分
 
         /// <summary>
@@ -262,7 +260,6 @@ namespace OSS.Social.WX.Offcial.Basic
         }
 
         #endregion
-
-
+        
     }
 }

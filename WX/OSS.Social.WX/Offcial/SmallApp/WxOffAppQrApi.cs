@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using OSS.Common.ComModels;
 using OSS.Http;
 using OSS.Http.Models;
+using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.SmallApp
 {
@@ -34,11 +35,11 @@ namespace OSS.Social.WX.Offcial.SmallApp
         /// <param name="path"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public ResultMo<byte[]> DownloadMedia(string path,int width)
+        public WxFileResp DownloadMedia(string path,int width)
         {
             var accessToken = GetOffcialAccessToken();
             if (!accessToken.IsSuccess)
-                return accessToken.ConvertToResultOnly<byte[]>();
+                return accessToken.ConvertToResult<WxFileResp>();
 
             var req = new OsHttpRequest();
 
@@ -49,10 +50,8 @@ namespace OSS.Social.WX.Offcial.SmallApp
             return RestCommon(req, resp =>
             {
                 if (!resp.ContentType.Contains("application/json"))
-                    return new ResultMo<byte[]>(resp.RawBytes);
-
-                var resJson = JsonConvert.DeserializeObject<WxBaseResp>(resp.Content);
-                return resJson.ConvertToResultOnly<byte[]>();
+                    return new WxFileResp() { content_type = resp.ContentType, file = resp.RawBytes };
+                return JsonConvert.DeserializeObject<WxFileResp>(resp.Content);
             });
         }
     }
