@@ -12,9 +12,9 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic
@@ -33,7 +33,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="buttons"></param>
         /// <returns></returns>
-        public WxBaseResp AddOrUpdateMenu(List<WxMenuButtonMo>  buttons)
+        public async Task<WxBaseResp> AddOrUpdateMenuAsync(List<WxMenuButtonMo>  buttons)
         {
             var req=new OsHttpRequest();
 
@@ -43,7 +43,7 @@ namespace OSS.Social.WX.Offcial.Basic
                 new JsonSerializerSettings() {NullValueHandling = NullValueHandling.Ignore});
 
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
 
@@ -51,27 +51,27 @@ namespace OSS.Social.WX.Offcial.Basic
         /// 获取菜单设置
         /// </summary>
         /// <returns></returns>
-        public WxGetMenuResp GetMenu()
+        public async Task<WxGetMenuResp> GetMenuAsync()
         {
             var req=new OsHttpRequest();
 
             req.HttpMothed=HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/get");
 
-            return RestCommonOffcial<WxGetMenuResp>(req);
+            return await RestCommonOffcialAsync<WxGetMenuResp>(req);
         }
 
         /// <summary>
         /// 删除菜单
         /// </summary>
         /// <returns></returns>
-        public WxBaseResp DeleteMenu()
+        public async Task<WxBaseResp> DeleteMenuAsync()
         {
             var  req=new OsHttpRequest();
             req.HttpMothed=HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/delete");
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
         #endregion
 
@@ -83,7 +83,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="buttons"></param>
         /// <param name="rule"></param>
         /// <returns></returns>
-        public WxAddCustomMenuResp AddCustomMenu(List<WxMenuButtonMo> buttons,WxMenuMatchRuleMo rule )
+        public async Task<WxAddCustomMenuResp> AddCustomMenuAsync(List<WxMenuButtonMo> buttons,WxMenuMatchRuleMo rule )
         {
             var req = new OsHttpRequest();
 
@@ -93,7 +93,7 @@ namespace OSS.Social.WX.Offcial.Basic
                 Formatting.Indented,new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
 
 
-            return RestCommonOffcial<WxAddCustomMenuResp>(req);
+            return await RestCommonOffcialAsync<WxAddCustomMenuResp>(req);
         }
 
         /// <summary>
@@ -101,14 +101,14 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="menuid">菜单Id</param>
         /// <returns></returns>
-        public WxBaseResp DeleteCustomMenu(long menuid)
+        public async Task<WxBaseResp> DeleteCustomMenuAsync(long menuid)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/delconditional");
             req.CustomBody = $"{{\"menuid\":\"{menuid}\"}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="userId">用户openid，或者微信号</param>
         /// <returns></returns>
-        public WxUserMenuResp GetUserMenu(string userId)
+        public async Task<WxUserMenuResp> GetUserMenuAsync(string userId)
         {
             var req=new OsHttpRequest();
 
@@ -124,7 +124,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/trymatch");
             req.CustomBody = $"{{\"user_id\":\"{userId}\"}}";
 
-            return RestCommonOffcial<WxUserMenuResp>(req);
+            return await RestCommonOffcialAsync<WxUserMenuResp>(req);
         }
 
 

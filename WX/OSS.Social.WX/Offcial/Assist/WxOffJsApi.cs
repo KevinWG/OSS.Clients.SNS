@@ -12,10 +12,10 @@
 #endregion
 
 using System;
+using System.Threading.Tasks;
 using OSS.Common.Modules;
 using OSS.Common.Modules.CacheModule;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Assist.Mos;
 using OSS.Social.WX.SysUtils;
 using OSS.Social.WX.SysUtils.Mos;
@@ -37,7 +37,7 @@ namespace OSS.Social.WX.Offcial.Assist
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public WxGetJsTicketResp GetJsTicket(WxJsTicketType type)
+        public async Task<WxGetJsTicketResp> GetJsTicketAsync(WxJsTicketType type)
         {
             string key = string.Format(WxCacheKeysUtil.OffcialJsTicketKey, ApiConfig.AppId, type);
             var ticket = CacheUtil.Get<WxGetJsTicketResp>(key);
@@ -49,12 +49,12 @@ namespace OSS.Social.WX.Offcial.Assist
             req.HttpMothed = HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, string.Concat("cgi-bin/ticket/getticket?type=", type.ToString()));
 
-            var ticketRes = RestCommonOffcial<WxGetJsTicketResp>(req);
+            var ticketRes = await RestCommonOffcialAsync<WxGetJsTicketResp>(req);
             if (ticketRes.IsSuccess)
             {
                 ticketRes.expires_time = DateTime.Now.AddSeconds(ticketRes.expires_in);
                 CacheUtil.AddOrUpdate(key, ticketRes, TimeSpan.FromSeconds(ticketRes.expires_in - 10), null,
-                    ModuleNames.SnsCenter);
+                    ModuleNames.SocialCenter);
             }
             return ticketRes;
         }

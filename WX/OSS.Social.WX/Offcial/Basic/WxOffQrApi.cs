@@ -11,11 +11,10 @@
 
 #endregion
 
-using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.Extention;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic
@@ -30,7 +29,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public WxQrCodeResp GetQrCodeTicket(WxCreateSenceQrReq req)
+        public async Task<WxQrCodeResp> GetQrCodeTicketAsync(WxCreateSenceQrReq req)
         {
             var reqest = new OsHttpRequest();
 
@@ -38,7 +37,7 @@ namespace OSS.Social.WX.Offcial.Basic
             reqest.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/qrcode/create");
             reqest.CustomBody = JsonConvert.SerializeObject(req);
 
-            return RestCommonOffcial<WxQrCodeResp>(reqest);
+            return await RestCommonOffcialAsync<WxQrCodeResp>(reqest);
         }
 
 
@@ -57,14 +56,14 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="longUrl">需要转换的长链接，支持http://、https://、weixin://wxpay 格式的url</param>
         /// <returns></returns>
-        public WxShortUrlResp GetShortUrl(string longUrl)
+        public async Task<WxShortUrlResp> GetShortUrl(string longUrl)
         {
             var req=new OsHttpRequest();
             req.HttpMothed=HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/shorturl");
             req.CustomBody = $"{{\"action\":\"long2short\",\"long_url\":\"{longUrl}\"}}";
 
-            return RestCommonOffcial<WxShortUrlResp>(req);
+            return await RestCommonOffcialAsync<WxShortUrlResp>(req);
         }
         
     }

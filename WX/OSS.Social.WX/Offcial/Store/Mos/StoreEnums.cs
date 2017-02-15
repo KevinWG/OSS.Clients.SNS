@@ -11,7 +11,7 @@
 
 #endregion
 
-using System.ComponentModel;
+using OSS.Common.Extention;
 
 namespace OSS.Social.WX.Offcial.Store.Mos
 {
@@ -23,25 +23,25 @@ namespace OSS.Social.WX.Offcial.Store.Mos
         /// <summary>
         ///  失败
         /// </summary>
-        [Description("失败")]
+        [OSDescript("失败")]
         error = 1,
 
         /// <summary>
         ///  审核中
         /// </summary>
-        [Description("审核中")]
+        [OSDescript("审核中")]
         checking = 2,
 
         /// <summary>
         ///  通过
         /// </summary>
-        [Description("通过")]
+        [OSDescript("通过")]
         pass = 3,
         
         /// <summary>
         ///  驳回
         /// </summary>
-        [Description("驳回")]
+        [OSDescript("驳回")]
         failed = 1
     }
 
@@ -53,13 +53,13 @@ namespace OSS.Social.WX.Offcial.Store.Mos
         /// <summary>
         ///  无
         /// </summary>
-        [Description("可以更新")]
+        [OSDescript("可以更新")]
         done = 0,
 
         /// <summary>
         ///   正在更新
         /// </summary>
-        [Description("更新中")]
+        [OSDescript("更新中")]
         doing = 1
     }
     

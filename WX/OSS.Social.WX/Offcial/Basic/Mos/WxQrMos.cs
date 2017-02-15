@@ -14,10 +14,10 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
         /// </summary>
         public int expire_seconds { get; set; }
         /// <summary>
-        /// 生成二维码性质   
+        /// 生成二维码性质  
+        ///  可以通过 typeof(WxQrCodeType).ToEnumDirs() 获取对应的枚举字典列表
         /// </summary>
-        [JsonConverter(typeof(StringConverter))]
-        public WxQrCodeType action_name { get; set; }
+        public string action_name { get; set; }
 
         /// <summary>
         ///   场景二维码信息

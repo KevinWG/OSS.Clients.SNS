@@ -11,16 +11,17 @@
 
 #endregion
 
-
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Modules;
 using OSS.Common.Modules.LogModule;
 using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 
 namespace OSS.Social.WX
 {
@@ -33,9 +34,12 @@ namespace OSS.Social.WX
         ///   默认配置信息，如果实例中的配置为空会使用当前配置信息
         /// </summary>
         public static WxAppCoinfig DefaultConfig { get; set; }
-
-
         private readonly WxAppCoinfig m_Config;
+
+        /// <summary>
+        ///  当前实体请求是否开启异步
+        /// </summary>
+        public bool IsAsync { get; set; } = false;
         /// <summary>
         /// 微信接口配置
         /// </summary>
@@ -60,16 +64,18 @@ namespace OSS.Social.WX
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxBaseApi(WxAppCoinfig config)
+        /// <param name="isAsync"></param>
+        public WxBaseApi(WxAppCoinfig config, bool isAsync = false)
         {
             if (config == null && DefaultConfig == null)
-            {
                 throw new ArgumentNullException("config",
                     "构造函数中的config 和 全局DefaultConfig 配置信息同时为空，请通过构造函数赋值，或者在程序入口处给 DefaultConfig 赋值！");
-            }
             m_Config = config;
+            IsAsync = isAsync;
         }
-        
+
+
+
         /// <summary>
         /// 处理远程请求方法，并返回需要的实体
         /// </summary>
@@ -77,22 +83,21 @@ namespace OSS.Social.WX
         /// <param name="request">远程请求组件的request基本信息</param>
         /// <param name="funcFormat">获取实体格式化方法</param>
         /// <returns>实体类型</returns>
-        public static T RestCommon<T>(OsHttpRequest request, Func<OsHttpResponse, T> funcFormat = null)
+        public static async Task<T> RestCommon<T>(OsHttpRequest request, Func<HttpResponseMessage, Task<T>> funcFormat = null)
             where T : ResultMo, new()
         {
             T t = default(T);
             try
             {
-                OsHttpResponse response = request.ExecuteSync();
-                if (response.ResponseStatus == ResponseStatus.Completed
-                    || response.ResponseStatus == ResponseStatus.ErrorButResponse)
+                var resp = await request.RestSend();
+                if (resp.IsSuccessStatusCode)
                 {
-
                     if (funcFormat != null)
-                        t = funcFormat(response);
+                        t =await funcFormat(resp);
                     else
                     {
-                        t = JsonConvert.DeserializeObject<T>(response.Content);
+                        var contentStr = await resp.Content.ReadAsStringAsync();
+                        t = JsonConvert.DeserializeObject<T>(contentStr);
                     }
                     if (!t.IsSuccess)
                     {
@@ -104,12 +109,11 @@ namespace OSS.Social.WX
             {
                 // ignored
                 t = new T() {Ret = (int) ResultTypes.InnerError, Message = ex.Message};
-                LogUtil.Error(string.Concat("基类请求出错，错误信息：", ex.Message), "RestCommon", ModuleNames.SnsCenter);
+                LogUtil.Error(string.Concat("基类请求出错，错误信息：", ex.Message), "RestCommon", ModuleNames.SocialCenter);
             }
             return t ?? new T() {Ret = 0};
         }
-
-
+        
         #region 错误基本信息
 
         /// <summary>
@@ -299,4 +303,33 @@ namespace OSS.Social.WX
         
     }
 
+
+
+    public static class TaskExtention
+    {
+        /// <summary>
+        ///   等待异步执行结果
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static TResult WaitResult<TResult>(this Task<TResult> task)
+        {
+            task.Wait();
+            return task.Result;
+        }
+
+        /// <summary>
+        /// 等待异步执行结果
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="task"></param>
+        /// <param name="milliseconds">等待的毫秒数</param>
+        /// <returns></returns>
+        public static TResult WaitResult<TResult>(this Task<TResult> task,int milliseconds)
+        {
+            task.Wait();
+            return task.Result;
+        }
+    }
 }

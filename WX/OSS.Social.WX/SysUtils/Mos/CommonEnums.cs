@@ -12,6 +12,7 @@
 #endregion
 
 using System.ComponentModel;
+using OSS.Common.Extention;
 
 namespace OSS.Social.WX.SysUtils.Mos
 {
@@ -40,12 +41,12 @@ namespace OSS.Social.WX.SysUtils.Mos
         /// <summary>
         ///   男
         /// </summary>
-        [Description("男")]
+        [OSDescript("男")]
         MALE=1,
         /// <summary>
         /// 女
         /// </summary>
-        [Description("女")]
+        [OSDescript("女")]
         FEMALE=2
     }
 
@@ -72,20 +73,20 @@ namespace OSS.Social.WX.SysUtils.Mos
 
     public enum WxQrCodeType
     {
-        [Description("临时二维码")]
+        [OSDescript("临时二维码")]
         QR_SCENE=10,
 
 
-        [Description("永久二维码-值")]
+        [OSDescript("永久二维码-值")]
         QR_LIMIT_SCENE=20,
 
-        [Description("永久二维码-字符")]
+        [OSDescript("永久二维码-字符")]
         QR_LIMIT_STR_SCENE=21,
 
-        [Description("卡券二维码")]
+        [OSDescript("卡券二维码")]
         QR_CARD=30,
 
-        [Description("卡券二维码（多）")]
+        [OSDescript("卡券二维码（多）")]
         QR_MULTIPLE_CARD=31
 
     }
@@ -95,13 +96,13 @@ namespace OSS.Social.WX.SysUtils.Mos
         /// <summary>
         /// 卡券接口
         /// </summary>
-        [Description("卡券接口")]
+        [OSDescript("卡券接口")]
         wx_card = 10,
 
         /// <summary>
         /// 正常js接口
         /// </summary>
-        [Description("正常js接口")]
+        [OSDescript("正常js接口")]
         jsapi = 20
     }
 

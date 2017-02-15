@@ -12,9 +12,9 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic
@@ -49,14 +49,14 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="next_openid">第一个拉取的OPENID，不填默认从头开始拉取</param>
         /// <returns></returns>
-        public WxOpenIdsResp GetOpenIdList(string next_openid = "")
+        public async Task<WxOpenIdsResp> GetOpenIdListAsync(string next_openid = "")
         {
             var req=new OsHttpRequest();
 
             req.HttpMothed=HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/get?next_openid=", next_openid);
 
-            return RestCommonOffcial<WxOpenIdsResp>(req);
+            return await RestCommonOffcialAsync<WxOpenIdsResp>(req);
 
         }
 
@@ -66,7 +66,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="openid"></param>
         /// <param name="remark">备注名称</param>
         /// <returns></returns>
-        public WxBaseResp SetUserRemark(string openid,string remark)
+        public async Task<WxBaseResp> SetUserRemarkAsync(string openid,string remark)
         {
             var req=new OsHttpRequest();
 
@@ -74,14 +74,14 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/info/updateremark");
             req.CustomBody = $"{{\"openid\":\"{openid}\",\"remark\":\"{remark}\"}}"; //JsonConvert.SerializeObject(new {openid = openid, remark = remark});
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
         /// <summary>
         /// 获取用户基本信息(UnionID机制)
         /// </summary>
         /// <param name="userReq">请求参数</param>
         /// <returns></returns>
-        public WxOffcialUserInfoResp GetUserInfo(WxOffcialUserInfoReq userReq)
+        public async Task<WxOffcialUserInfoResp> GetUserInfoAsync(WxOffcialUserInfoReq userReq)
         {
 
             var req = new OsHttpRequest();
@@ -89,7 +89,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.HttpMothed = HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, $"/cgi-bin/user/info?openid={userReq.openid}&lang={userReq.lang}");
 
-            return RestCommonOffcial<WxOffcialUserInfoResp>(req);
+            return await RestCommonOffcialAsync<WxOffcialUserInfoResp>(req);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="userReq">请求参数</param>
         /// <returns></returns>
-        public WxOffcialUserListResp GetUserInfoList(IList<WxOffcialUserInfoReq> userReq)
+        public async Task<WxOffcialUserListResp> GetUserInfoListAsync(IList<WxOffcialUserInfoReq> userReq)
         {
 
             var req = new OsHttpRequest();
@@ -108,7 +108,7 @@ namespace OSS.Social.WX.Offcial.Basic
             {
                 user_list = userReq
             });
-            return RestCommonOffcial<WxOffcialUserListResp>(req);
+            return await RestCommonOffcialAsync<WxOffcialUserListResp>(req);
         }
 
 
@@ -122,7 +122,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="tagId"></param>
         /// <param name="next_openid">第一个拉取的OPENID，不填默认从头开始拉取</param>
         /// <returns></returns>
-        public WxOpenIdsResp GetOpenIdListByTag(int tagId, string next_openid = "")
+        public async Task<WxOpenIdsResp> GetOpenIdListByTagAsync(int tagId, string next_openid = "")
         {
             var req = new OsHttpRequest();
 
@@ -130,7 +130,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/tag/get");
             req.CustomBody = JsonConvert.SerializeObject(new { tagid = tagId, next_openid = next_openid });
 
-            return RestCommonOffcial<WxOpenIdsResp>(req);
+            return await RestCommonOffcialAsync<WxOpenIdsResp>(req);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="name">标签名称</param>
         /// <returns></returns>
-        public WxAddTagResp AddTag(string name)
+        public async Task<WxAddTagResp> AddTagAsync(string name)
         {
             var req=new OsHttpRequest();
 
@@ -146,7 +146,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/create");
             req.CustomBody = $"{{\"tag\":{{\"name\":\"{name}\"}}}}";// JsonConvert.SerializeObject(param);
 
-            return RestCommonOffcial<WxAddTagResp>(req);
+            return await RestCommonOffcialAsync<WxAddTagResp>(req);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="id">标签id</param>
         /// <param name="name">标签名称</param>
         /// <returns></returns>
-        public WxBaseResp UpdateTag(int id,string name)
+        public async Task<WxBaseResp> UpdateTagAsync(int id,string name)
         {
             var req = new OsHttpRequest
             {
@@ -165,7 +165,7 @@ namespace OSS.Social.WX.Offcial.Basic
             
             req.CustomBody = $"{{\"tag\":{{\"id\":{id},\"name\":\"{name}\"}}}}";// JsonConvert.SerializeObject(param);
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="id">标签id</param>
         /// <returns></returns>
-        public WxBaseResp DeleteTag(int id)
+        public async Task<WxBaseResp> DeleteTagAsync(int id)
         {
             var req = new OsHttpRequest
             {
@@ -183,21 +183,21 @@ namespace OSS.Social.WX.Offcial.Basic
 
             req.CustomBody = $"{{\"tag\":{{\"id\":{id}}}}}";// JsonConvert.SerializeObject(param);
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         /// <summary>
         ///   获取公众号已创建的标签
         /// </summary>
         /// <returns></returns>
-        public WxGetTagListResp GetTagList()
+        public async Task<WxGetTagListResp> GetTagListAsync()
         {
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/get");
            
-            return RestCommonOffcial<WxGetTagListResp>(req);
+            return await RestCommonOffcialAsync<WxGetTagListResp>(req);
         }
 
 
@@ -209,7 +209,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="tagId">标签Id</param>
         /// <param name="flag">标识  0. 增加标签     1.  取消标签</param>
         /// <returns></returns>
-        public WxBaseResp SetOrCancleUsersTag(List<string> openIdList,int tagId,int flag)
+        public async Task<WxBaseResp> SetOrCancleUsersTagAsync(List<string> openIdList,int tagId,int flag)
         {
             var req = new OsHttpRequest();
 
@@ -217,7 +217,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/",flag==0? "batchtagging" : "batchuntagging");
             req.CustomBody = JsonConvert.SerializeObject(new { tagid = tagId, openid_list = openIdList });
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
          
         }
 
@@ -226,7 +226,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="openid"></param>
         /// <returns></returns>
-        public WxGetUserTagsResp GetUserTagsByOpenId(string openid)
+        public async Task<WxGetUserTagsResp> GetUserTagsByOpenId(string openid)
         {
             var req=new OsHttpRequest();
 
@@ -234,7 +234,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/getidlist");
             req.CustomBody = $"{{\"openid\":\"{openid}\"}}";// JsonConvert.SerializeObject(new { openid= openid });
 
-            return RestCommonOffcial<WxGetUserTagsResp>(req);
+            return await RestCommonOffcialAsync<WxGetUserTagsResp>(req);
         }
 
         #endregion
@@ -246,7 +246,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="next_openid"></param>
         /// <returns></returns>
-        public WxOpenIdsResp GetBlackOpenIdList(string next_openid)
+        public async Task<WxOpenIdsResp> GetBlackOpenIdListAsync(string next_openid)
         {
             var req = new OsHttpRequest();
 
@@ -254,7 +254,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/getblacklist");
             req.CustomBody = $"{{\"begin_openid\":\"{next_openid}\"}}";// JsonConvert.SerializeObject(new { begin_openid = next_openid });
 
-            return RestCommonOffcial<WxOpenIdsResp>(req);
+            return await RestCommonOffcialAsync<WxOpenIdsResp>(req);
         }
 
 
@@ -263,7 +263,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="openids">openid列表</param>
         /// <returns></returns>
-        public WxBaseResp  BatchBlackOpenIds(IList<string> openids)
+        public async Task<WxBaseResp>  BatchBlackOpenIds(IList<string> openids)
         {
             var req = new OsHttpRequest();
 
@@ -271,7 +271,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/batchblacklist");
             req.CustomBody = JsonConvert.SerializeObject(new { opened_list = openids });
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
 
@@ -280,7 +280,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="openids">openid列表</param>
         /// <returns></returns>
-        public WxBaseResp BatchUnBlackOpenIds(IList<string> openids)
+        public async Task<WxBaseResp> BatchUnBlackOpenIds(IList<string> openids)
         {
             var req = new OsHttpRequest();
 
@@ -288,7 +288,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/batchunblacklist");
             req.CustomBody = JsonConvert.SerializeObject(new { opened_list = openids });
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         #endregion

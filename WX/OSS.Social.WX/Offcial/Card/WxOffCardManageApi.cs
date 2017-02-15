@@ -12,9 +12,9 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Card.Mos;
 
 namespace OSS.Social.WX.Offcial.Card
@@ -40,10 +40,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddCashCard(WxCashCardMo cardReq)
+        public async Task<WxAddCardResp> AddCashCardAsync(WxCashCardMo cardReq)
         {
             var data = new {card_type = WxCardType.CASH, cash = cardReq};
-            return AddCard(data);
+            return await AddCardAsync(data);
         }
 
         /// <summary>
@@ -51,10 +51,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddCoupnCard(WxCouponCardMo cardReq)
+        public async Task<WxAddCardResp> AddCoupnCardAsync(WxCouponCardMo cardReq)
         {
             var data = new {card_type = WxCardType.GENERAL_COUPON, general_coupon = cardReq};
-            return AddCard(data);
+            return await AddCardAsync(data);
         }
 
 
@@ -63,10 +63,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddDiscountCard(WxDiscountCardMo cardReq)
+        public async Task<WxAddCardResp> AddDiscountCardAsync(WxDiscountCardMo cardReq)
         {
             var data = new {card_type = WxCardType.DISCOUNT, discount = cardReq};
-            return AddCard(data);
+            return await AddCardAsync(data);
         }
 
 
@@ -75,10 +75,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddGiftCard(WxGiftCardMo cardReq)
+        public async Task<WxAddCardResp> AddGiftCardAsync(WxGiftCardMo cardReq)
         {
             var data = new {card_type = WxCardType.GIFT, gift = cardReq};
-            return AddCard(data);
+            return await AddCardAsync(data);
         }
 
         /// <summary>
@@ -86,10 +86,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddGrouponCard(WxGroupCardMo cardReq)
+        public async Task<WxAddCardResp> AddGrouponCardAsync(WxGroupCardMo cardReq)
         {
             var data = new {card_type = WxCardType.GROUPON, groupon = cardReq};
-            return AddCard(data);
+            return await AddCardAsync(data);
         }
 
         /// <summary>
@@ -97,10 +97,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddMemberCard(WxMemberCardMo cardReq)
+        public async Task<WxAddCardResp> AddMemberCardAsync(WxMemberCardMo cardReq)
         {
             var data = new {card_type = WxCardType.MEMBER_CARD, member_card = cardReq};
-            return AddCard(data);
+            return await AddCardAsync(data);
         }
 
 
@@ -109,9 +109,9 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddFriendCard(WxFriendCardBigMo cardReq)
+        public async Task<WxAddCardResp> AddFriendCard(WxFriendCardBigMo cardReq)
         {
-            return AddCard(cardReq);
+            return await AddCardAsync(cardReq);
         }
 
 
@@ -120,10 +120,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddMeetingCard(WxMeetingCardMo cardReq)
+        public async Task<WxAddCardResp> AddMeetingCardAsync(WxMeetingCardMo cardReq)
         {
             var data = new {card_type = WxCardType.MEETING_TICKET, meeting_ticket = cardReq};
-            return AddCard(data);
+            return await AddCardAsync(data);
         }
 
 
@@ -132,10 +132,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddScenicCard(WxScenicCardMo cardReq)
+        public async Task<WxAddCardResp> AddScenicCardAsync(WxScenicCardMo cardReq)
         {
             var data = new {card_type = WxCardType.SCENIC_TICKET, scenic_ticket = cardReq};
-            return AddCard(data);
+            return await AddCardAsync(data);
         }
 
 
@@ -144,10 +144,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddMovieCard(WxMovieCardMo cardReq)
+        public async Task<WxAddCardResp> AddMovieCardAsync(WxMovieCardMo cardReq)
         {
             var data = new {card_type = WxCardType.MOVIE_TICKET, movie_ticket = cardReq};
-            return AddCard(data);
+            return await AddCardAsync(data);
         }
 
         /// <summary>
@@ -155,10 +155,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        public WxAddCardResp AddBoardCard(WxBoardCardMo cardReq)
+        public async Task<WxAddCardResp> AddBoardCardAsync(WxBoardCardMo cardReq)
         {
             var data = new {card_type = WxCardType.BOARDING_PASS, boarding_pass = cardReq};
-            return AddCard(data);
+            return await AddCardAsync(data);
         }
 
 
@@ -167,7 +167,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardReq"></param>
         /// <returns></returns>
-        private WxAddCardResp AddCard(object cardReq)
+        private async Task<WxAddCardResp> AddCardAsync(object cardReq)
         {
             var req = new OsHttpRequest();
 
@@ -176,7 +176,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.CustomBody = JsonConvert.SerializeObject(new {card = cardReq}, Formatting.Indented,
                 new JsonSerializerSettings() {NullValueHandling = NullValueHandling.Ignore});
 
-            return RestCommonOffcial<WxAddCardResp>(req);
+            return await RestCommonOffcialAsync<WxAddCardResp>(req);
         }
 
         #endregion
@@ -189,7 +189,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="openId">需要查询的用户openid</param>
         /// <param name="cardId">卡券ID。不填写时默认查询当前appid下的卡券</param>
         /// <returns></returns>
-        public WxGetUserCardCodeListResp GetUserCardCodeList(string openId, string cardId)
+        public async Task<WxGetUserCardCodeListResp> GetUserCardCodeListAsync(string openId, string cardId)
         {
             var req = new OsHttpRequest();
 
@@ -197,7 +197,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/user/getcardlist");
             req.CustomBody = $"{{\"openid\":\"{openId}\",\"card_id\":\"{cardId}\"}}";
 
-            return RestCommonOffcial<WxGetUserCardCodeListResp>(req);
+            return await RestCommonOffcialAsync<WxGetUserCardCodeListResp>(req);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardId"></param>
         /// <returns></returns>
-        public WxGetCardDetailRsp GetCardDetail(string cardId)
+        public async Task<WxGetCardDetailRsp> GetCardDetailAsync(string cardId)
         {
             var req = new OsHttpRequest();
 
@@ -213,7 +213,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/get");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
 
-            return RestCommonOffcial<WxGetCardDetailRsp>(req);
+            return await RestCommonOffcialAsync<WxGetCardDetailRsp>(req);
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="count"> 需要查询的卡片的数量（数量最大50</param>
         /// <param name="status"> 可空 支持开发者拉出指定状态的卡券列表</param>
         /// <returns></returns>
-        public WxGetCardIdListResp GetCardIdList(int offset, int count, List<string> status)
+        public async Task<WxGetCardIdListResp> GetCardIdListAsync(int offset, int count, List<string> status)
         {
             var req = new OsHttpRequest();
 
@@ -231,7 +231,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/batchget");
             req.CustomBody = JsonConvert.SerializeObject(new {offset = offset, count = count, status_list = status});
 
-            return RestCommonOffcial<WxGetCardIdListResp>(req);
+            return await RestCommonOffcialAsync<WxGetCardIdListResp>(req);
         }
 
         #endregion
@@ -244,10 +244,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡券Id</param>
         /// <param name="cardMo">修改的基础信息</param>
         /// <returns></returns>
-        public WxUpdateCardResp UpdateCashCard(string cardId, WxUpdateCardBaseReq cardMo)
+        public async Task<WxUpdateCardResp> UpdateCashCardAsync(string cardId, WxUpdateCardBaseReq cardMo)
         {
             var data = new { card_id = cardId, cash = cardMo };
-            return UpdateCard(data);
+            return await UpdateCardAsync(data);
         }
 
         /// <summary>
@@ -256,10 +256,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡券Id</param>
         /// <param name="cardMo">修改的基础信息</param>
         /// <returns></returns>
-        public WxUpdateCardResp UpdateCoupnCard(string cardId, WxUpdateCardBaseReq cardMo)
+        public async Task<WxUpdateCardResp> UpdateCoupnCardAsync(string cardId, WxUpdateCardBaseReq cardMo)
         {
             var data = new { card_id = cardId, general_coupon = cardMo };
-            return UpdateCard(data);
+            return await UpdateCardAsync(data);
         }
 
 
@@ -269,10 +269,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡券Id</param>
         /// <param name="cardMo">修改对应的卡券相关信息</param>
         /// <returns></returns>
-        public WxUpdateCardResp UpdateDiscountCard(string cardId, WxUpdateCardBaseReq cardMo)
+        public async Task<WxUpdateCardResp> UpdateDiscountCardAsync(string cardId, WxUpdateCardBaseReq cardMo)
         {
             var data = new {card_id = cardId, discount = cardMo};
-            return UpdateCard(data);
+            return await UpdateCardAsync(data);
         }
 
 
@@ -282,10 +282,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡券Id</param>
         /// <param name="cardMo">修改对应的卡券相关信息</param>
         /// <returns></returns>
-        public WxUpdateCardResp UpdateGiftCard(string cardId, WxUpdateCardBaseReq cardMo)
+        public async Task<WxUpdateCardResp> UpdateGiftCardAsync(string cardId, WxUpdateCardBaseReq cardMo)
         {
             var data = new { card_id = cardId, gift = cardMo };
-            return UpdateCard(data);
+            return await UpdateCardAsync(data);
         }
 
         /// <summary>
@@ -294,10 +294,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡券Id</param>
         /// <param name="cardMo">修改对应的卡券相关信息</param>
         /// <returns></returns>
-        public WxUpdateCardResp UpdateGrouponCard(string cardId, WxUpdateCardBaseReq cardMo)
+        public async Task<WxUpdateCardResp> UpdateGrouponCardAsync(string cardId, WxUpdateCardBaseReq cardMo)
         {
             var data = new { card_id = cardId, groupon = cardMo };
-            return UpdateCard(data);
+            return await UpdateCardAsync(data);
         }
 
         /// <summary>
@@ -306,10 +306,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡券Id</param>
         /// <param name="cardMo">修改对应的卡券相关信息</param>
         /// <returns></returns>
-        public WxUpdateCardResp UpdateMemberCard(string cardId, WxUpdateMemberCardReq cardMo)
+        public async Task<WxUpdateCardResp> UpdateMemberCardAsync(string cardId, WxUpdateMemberCardReq cardMo)
         {
             var data = new { card_id = cardId, member_card = cardMo };
-            return UpdateCard(data);
+            return await UpdateCardAsync(data);
         }
         
 
@@ -319,10 +319,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡券Id</param>
         /// <param name="cardMo">修改对应的卡券相关信息</param>
         /// <returns></returns>
-        public WxUpdateCardResp UpdateMeetingCard(string cardId, WxUpdateMeetingCardReq cardMo)
+        public async Task<WxUpdateCardResp> UpdateMeetingCardAsync(string cardId, WxUpdateMeetingCardReq cardMo)
         {
             var data = new { card_id = cardId, meeting_ticket = cardMo };
-            return UpdateCard(data);
+            return await UpdateCardAsync(data);
         }
 
 
@@ -332,10 +332,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡券Id</param>
         /// <param name="cardMo">修改对应的卡券相关信息</param>
         /// <returns></returns>
-        public WxUpdateCardResp UpdateScenicCard(string cardId, WxScenicCardMo cardMo)
+        public async Task<WxUpdateCardResp> UpdateScenicCardAsync(string cardId, WxScenicCardMo cardMo)
         {
             var data = new { card_id = cardId, scenic_ticket = cardMo };
-            return UpdateCard(data);
+            return await UpdateCardAsync(data);
         }
 
 
@@ -345,10 +345,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡券Id</param>
         /// <param name="cardMo">修改对应的卡券相关信息</param>
         /// <returns></returns>
-        public WxUpdateCardResp UpdateMovieCard(string cardId, WxUpdateMovieCardReq cardMo)
+        public async Task<WxUpdateCardResp> UpdateMovieCardAsync(string cardId, WxUpdateMovieCardReq cardMo)
         {
             var data = new { card_id = cardId, movie_ticket = cardMo };
-            return UpdateCard(data);
+            return await UpdateCardAsync(data);
         }
 
         /// <summary>
@@ -357,10 +357,10 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡券Id</param>
         /// <param name="cardMo">修改对应的卡券相关信息</param>
         /// <returns></returns>
-        public WxUpdateCardResp UpdateBoardCard(string cardId, WxUpdateBoardCardReq cardMo)
+        public async Task<WxUpdateCardResp> UpdateBoardCardAsync(string cardId, WxUpdateBoardCardReq cardMo)
         {
             var data = new { card_id = cardId, boarding_pass = cardMo };
-            return UpdateCard(data);
+            return await UpdateCardAsync(data);
         }
         
 
@@ -369,7 +369,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        private WxUpdateCardResp UpdateCard(object obj)
+        private async Task<WxUpdateCardResp> UpdateCardAsync(object obj)
         {
             var req = new OsHttpRequest();
 
@@ -378,7 +378,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.CustomBody = JsonConvert.SerializeObject(obj, Formatting.Indented,
                 new JsonSerializerSettings() {NullValueHandling = NullValueHandling.Ignore});
 
-            return RestCommonOffcial<WxUpdateCardResp>(req);
+            return await RestCommonOffcialAsync<WxUpdateCardResp>(req);
         }
 
         #endregion
@@ -392,7 +392,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="increaseCount">增加的数量</param>
         /// <param name="reduceCount">减少的数量</param>
         /// <returns></returns>
-        public WxBaseResp UpdateStock(string cardId,int increaseCount,int reduceCount)
+        public async Task<WxBaseResp> UpdateStockAsync(string cardId,int increaseCount,int reduceCount)
         {
             var req = new OsHttpRequest();
 
@@ -400,7 +400,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/modifystock");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\",\"increase_stock_value\":{increaseCount},\"reduce_stock_value\":{reduceCount}}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         /// <summary>
@@ -410,7 +410,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡Id</param>
         /// <param name="newCode">新code</param>
         /// <returns></returns>
-        public WxBaseResp UpdateCardCode(string code, string cardId,string newCode)
+        public async Task<WxBaseResp> UpdateCardCodeAsync(string code, string cardId,string newCode)
         {
             var req = new OsHttpRequest();
 
@@ -418,16 +418,15 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/update");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\",\"code\":\"{code}\",\"new_code\":\"{newCode}\"}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
-
-
+        
         /// <summary>
         ///  删除卡券
         /// </summary>
         /// <param name="cardId">卡Id</param>
         /// <returns></returns>
-        public WxBaseResp DeleteCard( string cardId)
+        public async Task<WxBaseResp> DeleteCardAsync( string cardId)
         {
             var req = new OsHttpRequest();
 
@@ -435,7 +434,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/delete");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
 
@@ -446,7 +445,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">卡Id，自定义code时 必填</param>
         /// <param name="reason">废弃理由，自定义code时 可空</param>
         /// <returns></returns>
-        public WxBaseResp AbandonCardCode(string code,string cardId,string reason)
+        public async Task<WxBaseResp> AbandonCardCodeAsync(string code,string cardId,string reason)
         {
             var req = new OsHttpRequest();
 
@@ -454,7 +453,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/unavailable");
             req.CustomBody = $"{{\"code\":\"{code}\",\"card_id\":\"{cardId}\",\"reason\":\"{reason}\"}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
         #endregion
 

@@ -11,8 +11,8 @@
 
 #endregion
 
-using OSS.Http;
-using OSS.Http.Models;
+using System.Threading.Tasks;
+using OSS.Http.Mos;
 using OSS.Social.WX.Sns.Mos;
 
 namespace OSS.Social.WX.Sns
@@ -33,14 +33,14 @@ namespace OSS.Social.WX.Sns
         /// </summary>
         /// <param name="jsCode"></param>
         /// <returns></returns>
-        public WxGetSessionCodeResp GetSessionCode(string jsCode)
+        public async Task<WxGetSessionCodeResp> GetSessionCodeAsync(string jsCode)
         {
             var req=new OsHttpRequest();
 
             req.HttpMothed=HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, $"/sns/jscode2session?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&js_code={jsCode}&grant_type=authorization_code");
 
-            return RestCommon<WxGetSessionCodeResp>(req);
+            return await RestCommon<WxGetSessionCodeResp>(req);
         }
 
         #endregion

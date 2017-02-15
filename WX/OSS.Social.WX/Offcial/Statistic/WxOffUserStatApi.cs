@@ -11,9 +11,8 @@
 
 #endregion
 
-using System;
-using OSS.Http;
-using OSS.Http.Models;
+using System.Threading.Tasks;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Statistic.Mos;
 
 namespace OSS.Social.WX.Offcial.Statistic
@@ -47,7 +46,7 @@ namespace OSS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statisticReq"></param>
         /// <returns></returns>
-        public WxUserStatResp GetUserSummary(WxStatReq statisticReq)
+        public async Task<WxUserStatResp> GetUserSummaryAsync(WxStatReq statisticReq)
         {
             var req = new OsHttpRequest();
 
@@ -55,7 +54,7 @@ namespace OSS.Social.WX.Offcial.Statistic
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusersummary");
             req.CustomBody = GetRequestBody(statisticReq);
 
-            return RestCommonOffcial<WxUserStatResp>(req);
+            return await RestCommonOffcialAsync<WxUserStatResp>(req);
         }
 
 
@@ -66,7 +65,7 @@ namespace OSS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statisticReq"></param>
         /// <returns></returns>
-        public WxUserStatResp GetUserCumulate(WxStatReq statisticReq)
+        public async Task<WxUserStatResp> GetUserCumulateAsync(WxStatReq statisticReq)
         {
             var req = new OsHttpRequest();
 
@@ -74,7 +73,7 @@ namespace OSS.Social.WX.Offcial.Statistic
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusercumulate");
             req.CustomBody = GetRequestBody(statisticReq);
 
-            return RestCommonOffcial<WxUserStatResp>(req);
+            return await RestCommonOffcialAsync<WxUserStatResp>(req);
         }
 
         /// <summary>

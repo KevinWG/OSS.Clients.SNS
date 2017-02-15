@@ -12,8 +12,8 @@
 #endregion
 
 using System;
-using OSS.Http;
-using OSS.Http.Models;
+using System.Threading.Tasks;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Statistic.Mos;
 
 namespace OSS.Social.WX.Offcial.Statistic
@@ -29,7 +29,7 @@ namespace OSS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="statReq"> 最大时间宽度【三十天】</param>
         /// <returns></returns>
-        public WxInterfaceStatResp GetInterfaceStatistic(WxStatReq statReq)
+        public async Task<WxInterfaceStatResp> GetInterfaceStatisticAsync(WxStatReq statReq)
         {
             var req=new OsHttpRequest();
 
@@ -37,7 +37,7 @@ namespace OSS.Social.WX.Offcial.Statistic
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getinterfacesummary");
             req.CustomBody = GetRequestBody(statReq);
 
-            return RestCommonOffcial<WxInterfaceStatResp>(req);
+            return await RestCommonOffcialAsync<WxInterfaceStatResp>(req);
         }
 
 
@@ -46,7 +46,7 @@ namespace OSS.Social.WX.Offcial.Statistic
         /// </summary>
         /// <param name="date"> </param>
         /// <returns></returns>
-        public WxInterfaceStatResp GetInterfaceHourStatistic(DateTime date)
+        public async Task<WxInterfaceStatResp> GetInterfaceHourStatisticAsync(DateTime date)
         {
             var req = new OsHttpRequest();
 
@@ -54,11 +54,8 @@ namespace OSS.Social.WX.Offcial.Statistic
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getinterfacesummaryhour");
             req.CustomBody = GetRequestBody(new WxStatReq() {begin_date = date, end_date = date});
 
-            return RestCommonOffcial<WxInterfaceStatResp>(req);
+            return await RestCommonOffcialAsync<WxInterfaceStatResp>(req);
         }
-
-
-
     }
    
 }

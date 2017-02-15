@@ -39,9 +39,9 @@ namespace OSS.Social.WX.Offcial.Card.Mos
         ///   当前code对应卡券的状态，NORMAL 正常  CONSUMED 已核销  EXPIRE 已过期
         /// GIFTING 转赠中 GIFT_TIMEOUT 转赠超时   DELETE 已删除，UNAVAILABLE 已失效    
         /// code未被添加或被转赠领取的情况则统一报错：invalidserialcode
+        /// 可以通过 typeof(WxCardCodeUseState).ToEnumDirs() 获取对应的枚举字典列表
         /// </summary>  
-        [JsonConverter(typeof(StringConverter))]
-        public WxCardCodeUseState user_card_status { get; set; }
+        public string user_card_status { get; set; }
 
         /// <summary>   
         ///   是否可以核销，true为可以核销，false为不可核销

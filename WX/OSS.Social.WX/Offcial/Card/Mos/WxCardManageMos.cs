@@ -95,9 +95,9 @@ namespace OSS.Social.WX.Offcial.Card.Mos
     {
         /// <summary>
         /// 卡券类型
+        ///  typeof(WxCardType).ToEnumDirs  获取对应的枚举字典列表
         /// </summary>
-        [JsonConverter(typeof (StringConverter))]
-        public WxCardType card_type { get; set; }
+        public string card_type { get; set; }
 
         /// <summary>
         /// 通用券

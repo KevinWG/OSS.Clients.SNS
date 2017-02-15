@@ -1,4 +1,6 @@
-﻿using OSS.Social.WX.Msg;
+﻿using OSS.Common.ComModels.Enums;
+using OSS.Common.Extention;
+using OSS.Social.WX.Msg;
 using OSS.Social.WX.Msg.Mos;
 
 namespace OSS.Social.Samples

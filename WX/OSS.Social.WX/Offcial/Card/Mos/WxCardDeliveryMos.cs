@@ -32,9 +32,9 @@ namespace OSS.Social.WX.Offcial.Card.Mos
 
         /// <summary>
         /// 生成二维码性质   
+        /// 可以通过 typeof(WxQrCodeType).ToEnumDirs() 获取对应的枚举字典列表
         /// </summary>
-        [JsonConverter(typeof(StringConverter))]
-        public WxQrCodeType action_name { get; set; }
+        public string action_name { get; set; }
 
         /// <summary>
         ///   场景二维码信息
@@ -110,9 +110,9 @@ namespace OSS.Social.WX.Offcial.Card.Mos
 
         /// <summary>   
         ///   投放页面的场景值；SCENE_NEAR_BY附近 SCENE_MENU自定义菜单 SCENE_QRCODE二维码 SCENE_ARTICLE公众号文章 SCENE_H5h5页面SCENE_IVR自动回复 SCENE_CARD_CUSTOM_CELL卡券自定义 cell
+        ///   typeof(WxCardLandPageSence).ToEnumDirs() 获取对应的枚举字典列表
         /// </summary>  
-        [JsonConverter(typeof(StringConverter))]
-        public WxCardLandPageSence scene { get; set; }
+        public string scene { get; set; }
         
         /// <summary>   
         ///   卡券列表，每个item有两个字段必填    

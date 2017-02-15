@@ -17,9 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A5E61538
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Social.Wx.Tests", "Tests\OSS.Social.Wx.Tests\OSS.Social.Wx.Tests.csproj", "{1789947F-B717-425F-9039-3070299F62F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Social.WX", "WX\OSS.Social.WX\OSS.Social.WX.csproj", "{D9F2075E-8FDC-4734-B2CB-02399F982867}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Social.WX.NET45", "WX\OSS.Social.WX\OSS.Social.WX.NET45.csproj", "{D9F2075E-8FDC-4734-B2CB-02399F982867}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Social.Samples", "OSS.Social.Samples\OSS.Social.Samples.csproj", "{5E7D6976-5D48-4D97-8988-2A2255FF93FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Social.WX", "WX\OSS.Social.WX\OSS.Social.WX.csproj", "{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{5E7D6976-5D48-4D97-8988-2A2255FF93FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E7D6976-5D48-4D97-8988-2A2255FF93FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E7D6976-5D48-4D97-8988-2A2255FF93FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,5 +52,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1789947F-B717-425F-9039-3070299F62F8} = {A5E61538-E1B8-44C9-B494-D664B28CA32D}
 		{D9F2075E-8FDC-4734-B2CB-02399F982867} = {FEDAA494-9793-42A6-9F9C-D6CF02022180}
+		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B} = {FEDAA494-9793-42A6-9F9C-D6CF02022180}
 	EndGlobalSection
 EndGlobal

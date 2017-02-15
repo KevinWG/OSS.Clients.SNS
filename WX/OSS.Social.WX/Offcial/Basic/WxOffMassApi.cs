@@ -13,9 +13,9 @@
 
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic
@@ -32,7 +32,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="url">消息详情链接地址</param>
         /// <param name="data">消息数据</param>
         /// <returns></returns>
-        public WxBaseResp SendTemplate(string openId, string templateId, string url, object data)
+        public async Task<WxBaseResp> SendTemplateAsync(string openId, string templateId, string url, object data)
         {
             var req = new OsHttpRequest();
 
@@ -47,7 +47,7 @@ namespace OSS.Social.WX.Offcial.Basic
             };
             req.CustomBody = JsonConvert.SerializeObject(param);
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         #endregion
@@ -61,7 +61,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="articles"></param>
         /// <returns></returns>
-        public WxMediaResp UploadMassMsgArticles(List<WxArticleInfo> articles )
+        public async Task<WxMediaResp> UploadMassMsgArticlesAsync(List<WxArticleInfo> articles )
         {
             var req=new OsHttpRequest();
 
@@ -69,7 +69,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/uploadnews");
             req.CustomBody = JsonConvert.SerializeObject(new {articles = articles});
 
-            return RestCommonOffcial<WxMediaResp>(req);
+            return await RestCommonOffcialAsync<WxMediaResp>(req);
         }
 
 
@@ -82,7 +82,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="title">消息的标题</param>
         /// <param name="desp">消息的描述</param>
         /// <returns></returns>
-        public WxMediaResp UploadMassMsgVedio(string mediaId,string title,string desp)
+        public async Task<WxMediaResp> UploadMassMsgVedioAsync(string mediaId,string title,string desp)
         {
             var req = new OsHttpRequest();
 
@@ -90,7 +90,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/uploadvideo");
             req.CustomBody = $"{{\"media_id\":\"{mediaId}\",\"title\":\"{title}\",\"description\":\"{desp}\"}}";
 
-            return RestCommonOffcial<WxMediaResp>(req);
+            return await RestCommonOffcialAsync<WxMediaResp>(req);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="data">素材消息的media_id,  text类型时是content, wxcard 时是card_id </param>
         /// <param name="sendIgnoreReprint">当 send_ignore_reprint=1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。当 send_ignore_reprint =0时，文章被判定为转载时，将停止群发操作。send_ignore_reprint 默认为0</param>
         /// <returns></returns>
-        public WxSendMassMsgResp SendMassMsgByTag(int tagId, bool isToAll,WxMassMsgType msgType, string data, int sendIgnoreReprint = 0)
+        public async Task<WxSendMassMsgResp> SendMassMsgByTagAsync(int tagId, bool isToAll,WxMassMsgType msgType, string data, int sendIgnoreReprint = 0)
         {
             var msgStr=new StringBuilder("{");
 
@@ -123,7 +123,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/sendall");
             req.CustomBody = msgStr.ToString();
 
-            return RestCommonOffcial<WxSendMassMsgResp>(req);
+            return await RestCommonOffcialAsync<WxSendMassMsgResp>(req);
         }
 
         private static void GenerateMsgBody(WxMassMsgType msgType, string data, StringBuilder msgStr)
@@ -158,7 +158,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="data">素材消息的media_id,  text类型时是content, wxcard 时是card_id </param>
         /// <param name="sendIgnoreReprint">当 send_ignore_reprint=1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。当 send_ignore_reprint =0时，文章被判定为转载时，将停止群发操作。send_ignore_reprint 默认为0</param>
         /// <returns></returns>
-        public WxSendMassMsgResp SendMassMsgByOpenIds(List<string> openIds , WxMassMsgType msgType, string data, int sendIgnoreReprint = 0)
+        public async Task<WxSendMassMsgResp> SendMassMsgByOpenIds(List<string> openIds , WxMassMsgType msgType, string data, int sendIgnoreReprint = 0)
         {
             var msgStr = new StringBuilder("{");
 
@@ -183,7 +183,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/send");
             req.CustomBody = msgStr.ToString();
 
-            return RestCommonOffcial<WxSendMassMsgResp>(req);
+            return await RestCommonOffcialAsync<WxSendMassMsgResp>(req);
         }
         #endregion
 
@@ -192,7 +192,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="msgId"></param>
         /// <returns></returns>
-        public WxBaseResp DeleteMassMsg(long msgId)
+        public async Task<WxBaseResp> DeleteMassMsgAsync(long msgId)
         {
             var req = new OsHttpRequest();
 
@@ -200,7 +200,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/delete");
             req.CustomBody = $"{{\"msg_id\":{msgId}}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="msgId"></param>
         /// <returns></returns>
-        public WxMassMsgStateResp GetMassMsgState(long msgId)
+        public async Task<WxMassMsgStateResp> GetMassMsgStateAsync(long msgId)
         {
             var req = new OsHttpRequest();
 
@@ -216,7 +216,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/get");
             req.CustomBody = $"{{\"msg_id\":{msgId}}}";
 
-            return RestCommonOffcial<WxMassMsgStateResp>(req);
+            return await RestCommonOffcialAsync<WxMassMsgStateResp>(req);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="data">素材消息的media_id,  text类型时是content, wxcard 时是card_id </param>
         /// <param name="sendIgnoreReprint">当 send_ignore_reprint=1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。当 send_ignore_reprint =0时，文章被判定为转载时，将停止群发操作。send_ignore_reprint 默认为0</param>
         /// <returns></returns>
-        public WxSendMassMsgResp PreviewMassMsg(string wxName, string openId, WxMassMsgType msgType, string data, int sendIgnoreReprint = 0)
+        public async Task<WxSendMassMsgResp> PreviewMassMsgAsync(string wxName, string openId, WxMassMsgType msgType, string data, int sendIgnoreReprint = 0)
         {
             var msgStr = new StringBuilder("{");
 
@@ -249,7 +249,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/preview");
             req.CustomBody = msgStr.ToString();
 
-            return RestCommonOffcial<WxSendMassMsgResp>(req);
+            return await RestCommonOffcialAsync<WxSendMassMsgResp>(req);
         }
 
 

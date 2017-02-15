@@ -40,8 +40,8 @@
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OSS.Common, Version=1.3.8.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OSS.Common.1.0\lib\net45\OSS.Common.dll</HintPath>
+    <Reference Include="OSS.Common, Version=1.1.2.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OSS.Common.1.1.2.1\lib\net45\OSS.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -73,9 +73,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WX\OSS.Social.WX\OSS.Social.WX.csproj">
+    <ProjectReference Include="..\..\WX\OSS.Social.WX\OSS.Social.WX.NET45.csproj">
       <Project>{d9f2075e-8fdc-4734-b2cb-02399f982867}</Project>
-      <Name>OSS.Social.WX</Name>
+      <Name>OSS.Social.WX.NET45</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
