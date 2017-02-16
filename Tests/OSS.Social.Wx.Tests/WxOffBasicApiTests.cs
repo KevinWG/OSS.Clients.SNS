@@ -16,6 +16,13 @@ namespace OSS.Social.Wx.Tests
         private static WxOffBasicApi  m_Api=new WxOffBasicApi(m_Config);
 
         [TestMethod]
+        public void GetAccessTokenTest()
+        {
+            var res = m_Api.GetAccessTokenAsync().WaitResult();
+            Assert.IsTrue(res.IsSuccess );
+        }
+
+        [TestMethod]
         public void TagTests()
         {
             var res = m_Api.AddTagAsync("我就是试一试！").WaitResult();

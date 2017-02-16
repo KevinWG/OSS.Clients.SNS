@@ -49,7 +49,7 @@ namespace OSS.Social.Wx.Tests
         [TestMethod]
         public void GetWxIpListTest()
         {
-            var iplist = m_Api.GetWxIpListAsync();
+            var iplist = m_Api.GetWxIpListAsync().WaitResult();
             Assert.IsTrue(iplist.IsSuccess && iplist.ip_list.Count > 0);
         }
 

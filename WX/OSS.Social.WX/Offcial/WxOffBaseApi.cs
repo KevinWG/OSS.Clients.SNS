@@ -61,7 +61,7 @@ namespace OSS.Social.WX.Offcial
         ///   获取公众号的AccessToken
         /// </summary>
         /// <returns></returns>
-        public async Task<WxOffAccessTokenResp> GetOffcialAccessTokenAsync()
+        public async Task<WxOffAccessTokenResp> GetAccessTokenAsync()
         {
             var tokenResp = CacheUtil.Get<WxOffAccessTokenResp>(m_OffcialAccessTokenKey, ModuleNames.SocialCenter);
 
@@ -97,7 +97,7 @@ namespace OSS.Social.WX.Offcial
             Func<HttpResponseMessage, Task<T>> funcFormat = null)
             where T : WxBaseResp, new()
         {
-            var tokenRes = await GetOffcialAccessTokenAsync();
+            var tokenRes = await GetAccessTokenAsync();
             if (!tokenRes.IsSuccess)
                 return tokenRes.ConvertToResult<T>();
 

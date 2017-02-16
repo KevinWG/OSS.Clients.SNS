@@ -104,6 +104,12 @@
   <ItemGroup>
     <Folder Include="Offcial\Shop\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\OSS.Http\OSS.Http\OSS.Http.csproj">
+      <Project>{7ae49c75-d715-4688-8e11-a8334c461608}</Project>
+      <Name>OSS.Http</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

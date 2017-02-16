@@ -49,7 +49,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <returns></returns>
         public async Task<WxFileResp> DownloadTempMediaAsync(string mediaId)
         {
-            var accessToken = await GetOffcialAccessTokenAsync();
+            var accessToken = await GetAccessTokenAsync();
             if (!accessToken.IsSuccess)
                 return accessToken.ConvertToResult<WxFileResp>();
 
@@ -199,7 +199,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <returns></returns>
         public async Task<WxFileResp> DownloadMediaAsync(string mediaId)
         {
-            var accessToken = await GetOffcialAccessTokenAsync();
+            var accessToken = await GetAccessTokenAsync();
             if (!accessToken.IsSuccess)
                 return accessToken.ConvertToResult<WxFileResp>();
 
