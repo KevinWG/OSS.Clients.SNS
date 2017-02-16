@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "exports": {
+    "OSS.Social.WX/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.3",
+      "compile": {
+        "bin/Debug/OSS.Social.WX.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/OSS.Social.WX.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/OSS.Social.WX.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "OSS.Http/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.1",
+      "compile": {
+        "bin/Debug/OSS.Http.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/OSS.Http.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/OSS.Http.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}
