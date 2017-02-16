@@ -11,9 +11,8 @@
 
 #endregion
 
-
-using OSS.Http;
-using OSS.Http.Models;
+using System.Threading.Tasks;
+using OSS.Http.Mos;
 using OSS.Social.WX.Sns.Mos;
 using OSS.Social.WX.SysUtils.Mos;
 
@@ -55,14 +54,14 @@ namespace OSS.Social.WX.Sns
         /// </summary>
         /// <param name="code">填写第一步获取的code参数</param>
         /// <returns></returns>
-        public WxGetAccessTokenResp GetAuthAccessToken(string code)
+        public async Task<WxGetAccessTokenResp> GetAuthAccessTokenAsync(string code)
         {
             var req=new OsHttpRequest();
 
             req.AddressUrl = $"{m_ApiUrl}/sns/oauth2/access_token?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&code={code}&grant_type=authorization_code";
             req.HttpMothed=HttpMothed.GET;
 
-            return RestCommon<WxGetAccessTokenResp>(req);
+            return await RestCommon<WxGetAccessTokenResp>(req);
         }
 
         /// <summary>
@@ -70,14 +69,14 @@ namespace OSS.Social.WX.Sns
         /// </summary>
         /// <param name="accessToken">授权接口调用凭证</param>
         /// <returns></returns>
-        public WxGetAccessTokenResp RefreshAuthAccessToken(string accessToken)
+        public async Task<WxGetAccessTokenResp> RefreshAuthAccessTokenAsync(string accessToken)
         {
             var request = new OsHttpRequest();
 
             request.AddressUrl = $"{m_ApiUrl}/sns/oauth2/refresh_token?appid={ApiConfig.AppId}&grant_type=refresh_token&refresh_token={accessToken}";
             request.HttpMothed = HttpMothed.GET;
 
-            return RestCommon<WxGetAccessTokenResp>(request);
+            return await RestCommon<WxGetAccessTokenResp>(request);
         }
 
 
@@ -87,13 +86,13 @@ namespace OSS.Social.WX.Sns
         /// <param name="accessToken">授权接口调用凭证</param>
         /// <param name="openId">用户的唯一标识</param>
         /// <returns></returns>
-        public WxGetAuthUserResp GetWxAuthUserInfo(string accessToken, string openId)
+        public async Task<WxGetAuthUserResp> GetWxAuthUserInfoAsync(string accessToken, string openId)
         {
             var request = new OsHttpRequest();
             request.AddressUrl = $"{m_ApiUrl}/sns/userinfo?access_token={accessToken}&openid={openId}";
             request.HttpMothed = HttpMothed.GET;
 
-            return RestCommon<WxGetAuthUserResp>(request);
+            return await RestCommon<WxGetAuthUserResp>(request);
         }
 
 
@@ -104,7 +103,7 @@ namespace OSS.Social.WX.Sns
         /// <param name="accessToken">授权接口调用凭证</param>
         /// <param name="openId">用户的唯一标识</param>
         /// <returns></returns>
-        public WxBaseResp CheckAccessToken(string accessToken, string openId)
+        public async Task<WxBaseResp> CheckAccessTokenAsync(string accessToken, string openId)
         {
             string url = $"{m_ApiUrl}/sns/auth?access_token={accessToken}&openid={openId}";
 
@@ -112,7 +111,7 @@ namespace OSS.Social.WX.Sns
             request.AddressUrl = url;
             request.HttpMothed = HttpMothed.GET;
 
-            return RestCommon<WxBaseResp>(request);
+            return await RestCommon<WxBaseResp>(request);
         }
 
     }

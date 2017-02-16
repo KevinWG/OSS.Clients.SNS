@@ -2,16 +2,20 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D9F2075E-8FDC-4734-B2CB-02399F982867}</ProjectGuid>
+    <ProjectGuid>{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OSS.Social.WX</RootNamespace>
     <AssemblyName>OSS.Social.WX</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DefaultLanguage>zh-CN</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,34 +33,21 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\OSS.Social.WX.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OSS.Common, Version=1.3.8.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OSS.Common.1.0\lib\net45\OSS.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OSS.Http, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OSS.Http.1.2.8\lib\net45\OSS.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <None Include="project.json" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseMos.cs" />
+    <Compile Include="Msg\Cryptography.cs" />
+    <Compile Include="Msg\Mos\BaseMos.cs" />
+    <Compile Include="Msg\Mos\RecEventMsgMos.cs" />
+    <Compile Include="Msg\Mos\RecMsgMos.cs" />
+    <Compile Include="Msg\Mos\ReplyMsgMos.cs" />
+    <Compile Include="Msg\Mos\WxMsgServerConfig.cs" />
     <Compile Include="Msg\WxMsgBasicHandler.cs" />
+    <Compile Include="Msg\WxMsgHandler.cs" />
     <Compile Include="Offcial\Assist\Mos\WxJsMos.cs" />
     <Compile Include="Offcial\Assist\WxOffJsApi.cs" />
     <Compile Include="Offcial\Basic\Mos\WxBasicEnums.cs" />
@@ -69,18 +60,22 @@
     <Compile Include="Offcial\Basic\Mos\WxTagMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxUserMos.cs" />
     <Compile Include="Offcial\Basic\WxOffKFApi.cs" />
+    <Compile Include="Offcial\Basic\WxOffMassApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
-    <Compile Include="Offcial\Basic\WxOffMassApi.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardConsumeMos.cs" />
+    <Compile Include="Offcial\Basic\WxOffQrApi.cs" />
+    <Compile Include="Offcial\Basic\WxOffUserApi.cs" />
+    <Compile Include="Offcial\Card\Mos\CardEnums.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardBaseMos.cs" />
+    <Compile Include="Offcial\Card\Mos\WxCardConsumeMos.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardDeliveryMos.cs" />
+    <Compile Include="Offcial\Card\Mos\WxCardManageMos.cs" />
+    <Compile Include="Offcial\Card\Mos\WxCardMemberMos.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardMemberUserMo.cs" />
     <Compile Include="Offcial\Card\Mos\WxCardStatisticMos.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardMemberMos.cs" />
-    <Compile Include="Offcial\Card\WxOffCardManageApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardConsumeApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardDeliveryApi.cs" />
+    <Compile Include="Offcial\Card\WxOffCardManageApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardMemberApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardStatisticApi.cs" />
     <Compile Include="Offcial\SmallApp\WxOffAppQrApi.cs" />
@@ -92,41 +87,30 @@
     <Compile Include="Offcial\Statistic\WxOffInterfaceStatApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffMsgStatApi.cs" />
     <Compile Include="Offcial\Statistic\WxOffUserStatApi.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardManageMos.cs" />
+    <Compile Include="Offcial\Store\Mos\StoreEnums.cs" />
     <Compile Include="Offcial\Store\Mos\WxStoreMos.cs" />
     <Compile Include="Offcial\Store\WxOffStoreApi.cs" />
     <Compile Include="Offcial\WxOffBaseApi.cs" />
-    <Compile Include="Offcial\Basic\WxOffQrApi.cs" />
-    <Compile Include="Offcial\Basic\WxOffUserApi.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sns\Mos\WxAppUserMos.cs" />
-    <Compile Include="Sns\WxAppUserApi.cs" />
     <Compile Include="Sns\Mos\WxAuthMos.cs" />
-    <Compile Include="Offcial\Card\Mos\CardEnums.cs" />
+    <Compile Include="Sns\WxAppUserApi.cs" />
+    <Compile Include="Sns\WxOauthApi.cs" />
     <Compile Include="SysUtils\Mos\CommonEnums.cs" />
-    <Compile Include="Offcial\Store\Mos\StoreEnums.cs" />
     <Compile Include="SysUtils\WxCacheKeysUtil.cs" />
     <Compile Include="SysUtils\WxDictionaryUtil.cs" />
     <Compile Include="WxBaseApi.cs" />
-    <Compile Include="Sns\WxOauthApi.cs" />
-    <Compile Include="BaseMos.cs" />
-    <Compile Include="Msg\Cryptography.cs" />
-    <Compile Include="Msg\Mos\BaseMos.cs" />
-    <Compile Include="Msg\Mos\RecEventMsgMos.cs" />
-    <Compile Include="Msg\Mos\RecMsgMos.cs" />
-    <Compile Include="Msg\Mos\ReplyMsgMos.cs" />
-    <Compile Include="Msg\Mos\WxMsgServerConfig.cs" />
-    <Compile Include="Msg\WxMsgHandler.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Offcial\Shop\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <ProjectReference Include="..\..\..\OSS.Http\OSS.Http\OSS.Http.csproj">
+      <Project>{7ae49c75-d715-4688-8e11-a8334c461608}</Project>
+      <Name>OSS.Http</Name>
+    </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

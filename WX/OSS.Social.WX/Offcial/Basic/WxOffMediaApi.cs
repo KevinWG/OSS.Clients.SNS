@@ -12,15 +12,15 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic
 {
-     public partial class WxOffBasicApi
+    public partial class WxOffBasicApi
     {
 
         #region  临时素材
@@ -30,55 +30,51 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public WxMediaTempUploadResp UploadTempMedia(WxMediaTempUploadReq request )
-         {
-            var req=new OsHttpRequest();
+        public async Task<WxMediaTempUploadResp> UploadTempMediaAsync(WxMediaTempUploadReq request)
+        {
+            var req = new OsHttpRequest();
 
-            req.HttpMothed=HttpMothed.POST;
+            req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/upload?type=", request.type.ToString());
-            req.FileParameterList.Add(new FileParameter("media", request.file_stream,request.file_name,request.content_type));
+            req.FileParameterList.Add(new FileParameter("media", request.file_stream, request.file_name,
+                request.content_type));
 
-            return RestCommonOffcial<WxMediaTempUploadResp>(req);
-         }
+            return await RestCommonOffcialAsync<WxMediaTempUploadResp>(req);
+        }
 
-         /// <summary>
-         ///  获取素材【临时素材】 文件流
-         /// </summary>
-         /// <param name="mediaId"></param>
-         /// <returns></returns>
-         public WxFileResp DownloadTempMedia(string mediaId)
-         {
-             var accessToken = GetOffcialAccessToken();
-             if (!accessToken.IsSuccess)
-                 return accessToken.ConvertToResult<WxFileResp>();
+        /// <summary>
+        ///  获取素材【临时素材】 文件流
+        /// </summary>
+        /// <param name="mediaId"></param>
+        /// <returns></returns>
+        public async Task<WxFileResp> DownloadTempMediaAsync(string mediaId)
+        {
+            var accessToken = await GetAccessTokenAsync();
+            if (!accessToken.IsSuccess)
+                return accessToken.ConvertToResult<WxFileResp>();
 
-             var req = new OsHttpRequest();
-             req.HttpMothed = HttpMothed.GET;
-             req.AddressUrl = string.Concat(m_ApiUrl,
-                 $"/cgi-bin/media/get?access_token={accessToken.access_token}&media_id={mediaId}");
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl,
+                $"/cgi-bin/media/get?access_token={accessToken.access_token}&media_id={mediaId}");
 
-             return RestCommon(req, resp =>
-             {
-                 if (!resp.ContentType.Contains("application/json"))
-                     return new WxFileResp() {content_type = resp.ContentType, file = resp.RawBytes};
-                 return JsonConvert.DeserializeObject<WxFileResp>(resp.Content);
-             });
-         }
+            return await RestCommon(req, resp => DownLoadFileAsync(resp));
+        }
 
 
-         /// <summary>
-         ///  获取视频素材【临时素材】下载地址
-         /// </summary>
-         /// <param name="mediaId"></param>
-         /// <returns></returns>
-         public WxMediaTempVideoUrlResp GetTempMediaVedioUrl(string mediaId)
+        /// <summary>
+        ///  获取视频素材【临时素材】下载地址
+        /// </summary>
+        /// <param name="mediaId"></param>
+        /// <returns></returns>
+        public async Task<WxMediaTempVideoUrlResp> GetTempMediaVedioUrlAsync(string mediaId)
         {
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/get?media_id=", mediaId);
 
-            return RestCommonOffcial<WxMediaTempVideoUrlResp>(req);
+            return await RestCommonOffcialAsync<WxMediaTempVideoUrlResp>(req);
         }
 
         #endregion
@@ -90,15 +86,15 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public WxMediaResp AddArticleGroup(IList<WxArticleInfo> list)
-         {
-             var req = new OsHttpRequest();
-             req.HttpMothed = HttpMothed.POST;
-             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_news");
-             req.CustomBody = JsonConvert.SerializeObject(new {articles = list});
+        public async Task<WxMediaResp> AddArticleGroupAsync(IList<WxArticleInfo> list)
+        {
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_news");
+            req.CustomBody = JsonConvert.SerializeObject(new {articles = list});
 
-             return RestCommonOffcial<WxMediaResp>(req);
-         }
+            return await RestCommonOffcialAsync<WxMediaResp>(req);
+        }
 
         /// <summary>
         ///  上传图片并获取地址
@@ -106,81 +102,24 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="imgReq"></param>
         /// <returns></returns>
-         public WxArticleUploadImgResp UploadFreeImage(WxFileReq imgReq)
-         {
-            var req=new OsHttpRequest();
-
-            req.HttpMothed=HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/uploadimg");
-            req.FileParameterList.Add(new FileParameter("media",imgReq.file_stream,imgReq.file_name,imgReq.content_type));
-
-            return RestCommonOffcial<WxArticleUploadImgResp>(req);
-         }
-
-         /// <summary>
-         ///   获取图文素材（文章组合）
-         /// </summary>
-         /// <param name="mediaId">素材</param>
-         /// <returns></returns>
-         public WxGetArticleGroupResp GetArticleGroup(string mediaId)
-         {
-            var req=new OsHttpRequest();
-
-            req.HttpMothed =HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_material");
-            req.CustomBody = $"{{\"media_id\":\"{mediaId}\"}}";
-
-             return RestCommonOffcial<WxGetArticleGroupResp>(req);
-         }
-        
-        /// <summary>
-        ///   修改图文素材列表中的文章接口
-        /// </summary>
-        /// <param name="mediaId"></param>
-        /// <param name="index"></param>
-        /// <param name="article"></param>
-        /// <returns></returns>
-         public WxBaseResp UpdateArticle(string mediaId,int index,WxArticleInfo article)
-         {
+        public async Task<WxArticleUploadImgResp> UploadFreeImageAsync(WxFileReq imgReq)
+        {
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/update_news");
-            req.CustomBody =JsonConvert.SerializeObject(new { media_id =mediaId,index=index, articles = article });
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/uploadimg");
+            req.FileParameterList.Add(new FileParameter("media", imgReq.file_stream, imgReq.file_name,
+                imgReq.content_type));
 
-            return RestCommonOffcial<WxGetArticleGroupResp>(req);
+            return await RestCommonOffcialAsync<WxArticleUploadImgResp>(req);
         }
 
-         #endregion
-        
-        #region    非文章类的其他永久素材
-
         /// <summary>
-        ///  上传永久素材接口
-        /// </summary>
-        /// <param name="mediaReq"></param>
-        /// <returns></returns>
-         public WxMediaUploadResp UploadMedia(WxMediaUploadReq mediaReq)
-         {
-            var req=new OsHttpRequest();
-
-            req.HttpMothed=HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_material?type=", mediaReq.type.ToString());
-            req.FileParameterList.Add(new FileParameter("media",mediaReq.file_stream,mediaReq.file_name,mediaReq.content_type));
-
-            if (mediaReq.type == WxMediaType.video)
-                req.Parameters.Add(new Parameter("description", $"{{\"title\":\"{mediaReq.title}\", \"introduction\":\"{mediaReq.introduction}\"}}", ParameterType.Form));
-
-            return RestCommonOffcial<WxMediaUploadResp>(req);
-         }
-
-
-        /// <summary>
-        ///  获取视频【永久】素材下载地址
+        ///   获取图文素材（文章组合）
         /// </summary>
         /// <param name="mediaId">素材</param>
         /// <returns></returns>
-        public WxMediaVedioUrlResp GetMediaVedioUrl(string mediaId)
+        public async Task<WxGetArticleGroupResp> GetArticleGroupAsync(string mediaId)
         {
             var req = new OsHttpRequest();
 
@@ -188,7 +127,67 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_material");
             req.CustomBody = $"{{\"media_id\":\"{mediaId}\"}}";
 
-            return RestCommonOffcial<WxMediaVedioUrlResp>(req);
+            return await RestCommonOffcialAsync<WxGetArticleGroupResp>(req);
+        }
+
+        /// <summary>
+        ///   修改图文素材列表中的文章接口
+        /// </summary>
+        /// <param name="mediaId"></param>
+        /// <param name="index"></param>
+        /// <param name="article"></param>
+        /// <returns></returns>
+        public async Task<WxBaseResp> UpdateArticleAsync(string mediaId, int index, WxArticleInfo article)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/update_news");
+            req.CustomBody = JsonConvert.SerializeObject(new {media_id = mediaId, index = index, articles = article});
+
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
+        }
+
+        #endregion
+
+        #region    非文章类的其他永久素材
+
+        /// <summary>
+        ///  上传永久素材接口
+        /// </summary>
+        /// <param name="mediaReq"></param>
+        /// <returns></returns>
+        public async Task<WxMediaUploadResp> UploadMediaAsync(WxMediaUploadReq mediaReq)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_material?type=", mediaReq.type.ToString());
+            req.FileParameterList.Add(new FileParameter("media", mediaReq.file_stream, mediaReq.file_name,
+                mediaReq.content_type));
+
+            if (mediaReq.type == WxMediaType.video)
+                req.FormParameters.Add(new FormParameter("description",
+                    $"{{\"title\":\"{mediaReq.title}\", \"introduction\":\"{mediaReq.introduction}\"}}"));
+
+            return await RestCommonOffcialAsync<WxMediaUploadResp>(req);
+        }
+
+
+        /// <summary>
+        ///  获取视频【永久】素材下载地址
+        /// </summary>
+        /// <param name="mediaId">素材</param>
+        /// <returns></returns>
+        public async Task<WxMediaVedioUrlResp> GetMediaVedioUrlAsync(string mediaId)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_material");
+            req.CustomBody = $"{{\"media_id\":\"{mediaId}\"}}";
+
+            return await RestCommonOffcialAsync<WxMediaVedioUrlResp>(req);
         }
 
 
@@ -198,9 +197,9 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="mediaId"></param>
         /// <returns></returns>
-        public WxFileResp DownloadMedia(string mediaId)
+        public async Task<WxFileResp> DownloadMediaAsync(string mediaId)
         {
-            var accessToken = GetOffcialAccessToken();
+            var accessToken = await GetAccessTokenAsync();
             if (!accessToken.IsSuccess)
                 return accessToken.ConvertToResult<WxFileResp>();
 
@@ -210,12 +209,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl,
                 $"/cgi-bin/material/get_material?access_token=", accessToken.access_token);
 
-            return RestCommon(req, resp =>
-            {
-                if (!resp.ContentType.Contains("application/json"))
-                    return new WxFileResp() { content_type = resp.ContentType, file = resp.RawBytes };
-                return JsonConvert.DeserializeObject<WxFileResp>(resp.Content);
-            });
+            return await RestCommon(req, resp => DownLoadFileAsync(resp));
         }
 
         /// <summary>
@@ -223,7 +217,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="mediaId">素材Id</param>
         /// <returns></returns>
-        public WxBaseResp DeleteMedia(string mediaId)
+        public async Task<WxBaseResp> DeleteMediaAsync(string mediaId)
         {
             var req = new OsHttpRequest();
 
@@ -231,7 +225,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/del_material");
             req.CustomBody = $"{{\"media_id\":\"{mediaId}\"}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         #endregion
@@ -241,28 +235,28 @@ namespace OSS.Social.WX.Offcial.Basic
         ///   获取素材总数
         /// </summary>
         /// <returns></returns>
-         public WxMediaCountResp GetMediaCount()
-         {
-            var req=new OsHttpRequest();
-            req.HttpMothed=HttpMothed.GET;
-             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_materialcount");
+        public async Task<WxMediaCountResp> GetMediaCountAsync()
+        {
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_materialcount");
 
-             return RestCommonOffcial<WxMediaCountResp>(req);
-         }
+            return await RestCommonOffcialAsync<WxMediaCountResp>(req);
+        }
 
 
         /// <summary>
         ///   获取素材列表
         /// </summary>
         /// <returns></returns>
-        public WxGetMediaListResp GetMediaList(WxGetMediaListReq request)
+        public async Task<WxGetMediaListResp> GetMediaListAsync(WxGetMediaListReq request)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/batchget_material");
             req.CustomBody = JsonConvert.SerializeObject(request);
 
-            return RestCommonOffcial<WxGetMediaListResp>(req);
+            return await RestCommonOffcialAsync<WxGetMediaListResp>(req);
         }
 
     }

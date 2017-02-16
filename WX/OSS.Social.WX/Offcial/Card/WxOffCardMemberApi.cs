@@ -11,9 +11,9 @@
 
 #endregion
 
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Card.Mos;
 
 namespace OSS.Social.WX.Offcial.Card
@@ -28,7 +28,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="activeReq"></param>
         /// <returns></returns>
-        public WxBaseResp ActiveMemberCard(WxActiveMemberCardReq activeReq)
+        public async Task<WxBaseResp> ActiveMemberCardAsync(WxActiveMemberCardReq activeReq)
         {
             var req=new OsHttpRequest();
 
@@ -36,7 +36,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/activate");
             req.CustomBody = JsonConvert.SerializeObject(activeReq);
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="setReq"></param>
         /// <returns></returns>
-        public WxBaseResp SetActiveForm(WxSetActiveFormReq setReq)
+        public async Task<WxBaseResp> SetActiveFormAsync(WxSetActiveFormReq setReq)
         {
             var req = new OsHttpRequest();
 
@@ -52,7 +52,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/activateuserform/set");
             req.CustomBody = JsonConvert.SerializeObject(setReq);
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="code"></param>
         /// <param name="cardId"></param>
         /// <returns></returns>
-        public WxGetMemberCardUserInfoResp GetMemberCardUserInfo(string code,string cardId)
+        public async Task<WxGetMemberCardUserInfoResp> GetMemberCardUserInfoAsync(string code,string cardId)
         {
             var req = new OsHttpRequest();
 
@@ -69,7 +69,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/userinfo/get");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\",\"code\":\"{code}\"}}";
 
-            return RestCommonOffcial<WxGetMemberCardUserInfoResp>(req);
+            return await RestCommonOffcialAsync<WxGetMemberCardUserInfoResp>(req);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="activateTicket">临时票据</param>
         /// <returns></returns>
-        public WxGetActiveTempInfoResp GetMemberActiveTempInfo(string activateTicket)
+        public async Task<WxGetActiveTempInfoResp> GetMemberActiveTempInfoAsync(string activateTicket)
         {
             var req = new OsHttpRequest();
 
@@ -85,7 +85,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/userinfo/get");
             req.CustomBody = $"{{\"activate_ticket\":\"{activateTicket}\"}}";
 
-            return RestCommonOffcial<WxGetActiveTempInfoResp>(req);
+            return await RestCommonOffcialAsync<WxGetActiveTempInfoResp>(req);
         }
 
 
@@ -94,7 +94,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="updateReq">更新信息</param>
         /// <returns></returns>
-        public WxUpdateMemberCardUserInfoResp UpdateMemberCardUserInfo(WxUpdateMemberCardUserInfoReq updateReq)
+        public async Task<WxUpdateMemberCardUserInfoResp> UpdateMemberCardUserInfoAsync(WxUpdateMemberCardUserInfoReq updateReq)
         {
             var req = new OsHttpRequest();
 
@@ -102,7 +102,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/updateuser");
             req.CustomBody = JsonConvert.SerializeObject(updateReq);
 
-            return RestCommonOffcial<WxUpdateMemberCardUserInfoResp>(req);
+            return await RestCommonOffcialAsync<WxUpdateMemberCardUserInfoResp>(req);
         }
         
     }

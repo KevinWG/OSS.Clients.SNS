@@ -210,9 +210,9 @@ namespace OSS.Social.WX.Offcial.Card.Mos
 
         /// <summary>
         ///   状态  添加卡券时不做处理
+        /// 可以通过 typeof(WxCardStatus).ToEnumDirs() 获取对应的枚举字典列表
         /// </summary>
-        [JsonConverter(typeof(StringConverter))]
-        public WxCardStatus status { get; set; }
+        public string status { get; set; }
 
     }
 
@@ -502,9 +502,9 @@ namespace OSS.Social.WX.Offcial.Card.Mos
     {
         /// <summary>
         /// 卡券类型
+        ///  可以通过 typeof(WxCardType).ToEnumDirs() 获取对应的枚举字典列表
         /// </summary>
-        [JsonConverter(typeof(StringConverter))]
-        public WxCardType card_type { get; set; }
+        public string card_type { get; set; }
 
         /// <summary>
         ///   朋友的券 ==  礼品券类型时需要的部分

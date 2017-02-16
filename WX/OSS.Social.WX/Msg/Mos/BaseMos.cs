@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
-using System.Xml;
 using OSS.Common.Extention;
 
 namespace OSS.Social.WX.Msg.Mos
@@ -183,7 +183,7 @@ namespace OSS.Social.WX.Msg.Mos
                         .Append(item.Item2)
                         .Append("</").Append(item.Item1).Append(">");
                 }
-                else if (item.Item2.GetType().IsGenericType)
+                else if (item.Item2.GetType().GetTypeInfo().IsGenericType)
                 {
                     xml.Append("<").Append(item.Item1).Append(">")
                         .Append(ProduceXml((List<Tuple<string, object>>)item.Item2))

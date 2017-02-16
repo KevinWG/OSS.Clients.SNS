@@ -11,10 +11,10 @@
 
 #endregion
 
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.SmallApp
@@ -35,24 +35,20 @@ namespace OSS.Social.WX.Offcial.SmallApp
         /// <param name="path"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public WxFileResp DownloadMedia(string path,int width)
+        public async Task<WxFileResp> DownloadMediaAsync(string path, int width)
         {
-            var accessToken = GetOffcialAccessToken();
+            var accessToken = await GetAccessTokenAsync();
             if (!accessToken.IsSuccess)
                 return accessToken.ConvertToResult<WxFileResp>();
 
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl,"/cgi-bin/wxaapp/createwxaqrcode?access_token=", accessToken.access_token);
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/wxaapp/createwxaqrcode?access_token=",
+                accessToken.access_token);
             req.CustomBody = $"{{\"path\":\"{path}\",\"width\":{width}}}";
 
-            return RestCommon(req, resp =>
-            {
-                if (!resp.ContentType.Contains("application/json"))
-                    return new WxFileResp() { content_type = resp.ContentType, file = resp.RawBytes };
-                return JsonConvert.DeserializeObject<WxFileResp>(resp.Content);
-            });
+            return await RestCommon(req, resp => DownLoadFileAsync(resp));
         }
     }
 }

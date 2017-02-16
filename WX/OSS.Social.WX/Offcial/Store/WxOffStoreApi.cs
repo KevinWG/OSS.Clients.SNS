@@ -11,9 +11,9 @@
 
 #endregion
 
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Store.Mos;
 using static System.String;
 
@@ -60,7 +60,7 @@ namespace OSS.Social.WX.Offcial.Store
         /// </summary>
         /// <param name="storeMo"></param>
         /// <returns></returns>
-        public WxAddStoreResp AddStore(WxStoreBasicSmallMo storeMo)
+        public async Task<WxAddStoreResp> AddStoreAsync(WxStoreBasicSmallMo storeMo)
         {
             var req = new OsHttpRequest();
 
@@ -68,7 +68,7 @@ namespace OSS.Social.WX.Offcial.Store
             req.AddressUrl = Concat(m_ApiUrl, "/cgi-bin/poi/addpoi");
             req.CustomBody = JsonConvert.SerializeObject(new {business = new {base_info = storeMo}});
 
-            return RestCommonOffcial<WxAddStoreResp>(req);
+            return await RestCommonOffcialAsync<WxAddStoreResp>(req);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace OSS.Social.WX.Offcial.Store
         /// </summary>
         /// <param name="poiId"></param>
         /// <returns></returns>
-        public WxGetStoreResp GetStore(long poiId)
+        public async Task<WxGetStoreResp> GetStoreAsync(long poiId)
         {
             var req=new OsHttpRequest();
 
@@ -84,7 +84,7 @@ namespace OSS.Social.WX.Offcial.Store
             req.AddressUrl=Concat(m_ApiUrl, "/cgi-bin/poi/getpoi");
             req.CustomBody = $"{{\"poi_id\":{poiId}}}";
 
-            return RestCommonOffcial<WxGetStoreResp>(req);
+            return await RestCommonOffcialAsync<WxGetStoreResp>(req);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace OSS.Social.WX.Offcial.Store
         /// <param name="begin">开始位置，0 即为从第一条开始查询</param>
         /// <param name="limit">返回数据条数，最大允许50，默认为20</param>
         /// <returns></returns>
-        public WxGetStoreListResp GetStoreList(int begin = 0, int limit = 20)
+        public async Task<WxGetStoreListResp> GetStoreListAsync(int begin = 0, int limit = 20)
         {
             var req = new OsHttpRequest();
 
@@ -101,7 +101,7 @@ namespace OSS.Social.WX.Offcial.Store
             req.AddressUrl = Concat(m_ApiUrl, "/cgi-bin/poi/getpoilist");
             req.CustomBody = $"{{\"begin\":{begin},\"limit\":{limit}}}";
 
-            return RestCommonOffcial<WxGetStoreListResp>(req);
+            return await RestCommonOffcialAsync<WxGetStoreListResp>(req);
         }
 
 
@@ -111,7 +111,7 @@ namespace OSS.Social.WX.Offcial.Store
         /// </summary>
         /// <param name="serviceReq"></param>
         /// <returns></returns>
-        public WxBaseResp UpdateStoreBaicService(WxUpdateStoreBasicServiceReq serviceReq)
+        public async Task<WxBaseResp> UpdateStoreBaicServiceAsync(WxUpdateStoreBasicServiceReq serviceReq)
         {
             var req = new OsHttpRequest();
 
@@ -119,7 +119,7 @@ namespace OSS.Social.WX.Offcial.Store
             req.AddressUrl = Concat(m_ApiUrl, "/cgi-bin/poi/updatepoi");
             req.CustomBody = JsonConvert.SerializeObject(serviceReq);
 
-            return RestCommonOffcial<WxGetStoreResp>(req);
+            return await RestCommonOffcialAsync<WxGetStoreResp>(req);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace OSS.Social.WX.Offcial.Store
         /// </summary>
         /// <param name="poiId"></param>
         /// <returns></returns>
-        public WxBaseResp DeleteStore(long poiId)
+        public async Task<WxBaseResp> DeleteStoreAsync(long poiId)
         {
             var req = new OsHttpRequest();
 
@@ -135,21 +135,21 @@ namespace OSS.Social.WX.Offcial.Store
             req.AddressUrl = Concat(m_ApiUrl, "/cgi-bin/poi/delpoi");
             req.CustomBody = $"{{\"poi_id\":{poiId}}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         /// <summary>
         ///  获取门店类目列表
         /// </summary>
         /// <returns></returns>
-        public WxStoreCategoryResp GetStoreCategory()
+        public async Task<WxStoreCategoryResp> GetStoreCategoryAsync()
         {
             var req=new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.GET;
             req.AddressUrl = Concat(m_ApiUrl, "/cgi-bin/poi/getwxcategory");
 
-            return RestCommonOffcial<WxStoreCategoryResp>(req);
+            return await RestCommonOffcialAsync<WxStoreCategoryResp>(req);
         }
 
         #endregion

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OSS.Social.WX.Offcial;
+using OSS.Social.WX;
 using OSS.Social.WX.Offcial.Basic;
 using OSS.Social.WX.Offcial.Basic.Mos;
-using OSS.Social.WX.Sns;
 
 namespace OSS.Social.Wx.Tests
 {
@@ -18,23 +16,30 @@ namespace OSS.Social.Wx.Tests
         private static WxOffBasicApi  m_Api=new WxOffBasicApi(m_Config);
 
         [TestMethod]
+        public void GetAccessTokenTest()
+        {
+            var res = m_Api.GetAccessTokenAsync().WaitResult();
+            Assert.IsTrue(res.IsSuccess );
+        }
+
+        [TestMethod]
         public void TagTests()
         {
-            var res = m_Api.AddTag("我就是试一试！");
+            var res = m_Api.AddTagAsync("我就是试一试！").WaitResult();
             Assert.IsTrue(res.IsSuccess||res.Ret==45157);
         }
 
         [TestMethod]
         public void UpdateTagTest()
         {
-            var res = m_Api.UpdateTag(2, "我就是试一试！");
+            var res = m_Api.UpdateTagAsync(2, "我就是试一试！").WaitResult();
             Assert.IsTrue(res.IsSuccess || res.Ret == 45058);
         }
 
         [TestMethod]
         public void GetTagListTest()
         {
-            var res = m_Api.GetTagList();
+            var res = m_Api.GetTagListAsync().WaitResult();
             Assert.IsTrue(res.IsSuccess);
         }
         //  todo  test
@@ -43,7 +48,7 @@ namespace OSS.Social.Wx.Tests
         [TestMethod]
         public void GetOpenIdListByTagTest()
         {
-            var res = m_Api.GetOpenIdListByTag(2);
+            var res = m_Api.GetOpenIdListByTagAsync(2).WaitResult();
             Assert.IsTrue(res.IsSuccess);
         }
 
@@ -51,7 +56,7 @@ namespace OSS.Social.Wx.Tests
         [TestMethod]
         public void SetOrCancleUsersTagTest()
         {
-            var res = m_Api.SetOrCancleUsersTag(new List<string>() {""}, 2,0);
+            var res = m_Api.SetOrCancleUsersTagAsync(new List<string>() {""}, 2,0).WaitResult();
             Assert.IsTrue(res.IsSuccess);
 
         }
@@ -61,20 +66,21 @@ namespace OSS.Social.Wx.Tests
         [TestMethod]
         public void GetOpenIdListTest()
         {
-            var res = m_Api.GetOpenIdList();
+            var res = m_Api.GetOpenIdListAsync().WaitResult();
             Assert.IsTrue(res.IsSuccess);
         }
 
         [TestMethod]
         public void GetUserInfoTest()
         {
-            var res = m_Api.GetUserInfo(new WxOffcialUserInfoReq() {openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" });
+            var res = m_Api.GetUserInfoAsync(new WxOffcialUserInfoReq() {openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" }).WaitResult();
             Assert.IsTrue(res.IsSuccess);
         }
         [TestMethod]
         public void GetUserInfoListTest()
         {
-            var res = m_Api.GetUserInfoList(new List<WxOffcialUserInfoReq>() { new WxOffcialUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" } });
+            var res = m_Api.GetUserInfoListAsync(new List<WxOffcialUserInfoReq>() { new WxOffcialUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" } }).WaitResult();
+          
             Assert.IsTrue(res.IsSuccess);
         }
 
@@ -91,14 +97,14 @@ namespace OSS.Social.Wx.Tests
             req.file_name = "1.jpg";
             req.file_stream = imageFile;
 
-            var res = m_Api.UploadTempMedia(req);
+            var res = m_Api.UploadTempMediaAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
         }
 
         [TestMethod]
         public void GetTempMediaTest()
         {
-            var res = m_Api.DownloadTempMedia("MrKJ-9MZ2EDTrVBM1D-dBcskHx6XcHlbx7JSi9J9MSpGvDMapQ9lYmg_p8R1ydDq");//MrKJ-9MZ2EDTrVBM1D-dBcskHx6XcHlbx7JSi9J9MSpGvDMapQ9lYmg_p8R1ydDq
+            var res = m_Api.DownloadTempMediaAsync("MrKJ-9MZ2EDTrVBM1D-dBcskHx6XcHlbx7JSi9J9MSpGvDMapQ9lYmg_p8R1ydDq").WaitResult();//MrKJ-9MZ2EDTrVBM1D-dBcskHx6XcHlbx7JSi9J9MSpGvDMapQ9lYmg_p8R1ydDq
             Assert.IsTrue(res.IsSuccess);
         }
 
@@ -115,7 +121,7 @@ namespace OSS.Social.Wx.Tests
             req.file_name = "1.jpg";
             req.file_stream = imageFile;
 
-            var res = m_Api.UploadFreeImage(req);
+            var res = m_Api.UploadFreeImageAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
             //http://mmbiz.qpic.cn/mmbiz_jpg/N3louEAebXzhBzgsstFNBicyF1j1ZFIGgV55uQHPXLGDwIIDkvxrcnhEVGsEphEicICPLQ7Fh5kubPJg59u0rtFA/0
         }
@@ -134,7 +140,7 @@ namespace OSS.Social.Wx.Tests
             req.file_name = "1.jpg";
             req.file_stream = imageFile;
             
-            var res = m_Api.UploadMedia(req);
+            var res = m_Api.UploadMediaAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
 
            // 1xOBXsBtRgetSsO8INAcQ1x8rkSc5MGMXuFfWxkGRDg
@@ -157,7 +163,7 @@ namespace OSS.Social.Wx.Tests
             req.introduction = "只是试一试好不好玩！";
             req.title = "只是个视频";
 
-            var res = m_Api.UploadMedia(req);
+            var res = m_Api.UploadMediaAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
 
             // 1xOBXsBtRgetSsO8INAcQxiKCT1JD-5toVEOzrnJ2r0
@@ -167,7 +173,7 @@ namespace OSS.Social.Wx.Tests
         public void GetVedioMediaUrlTest()
         {
            
-            var res = m_Api.GetMediaVedioUrl("1xOBXsBtRgetSsO8INAcQxiKCT1JD-5toVEOzrnJ2r0");
+            var res = m_Api.GetMediaVedioUrlAsync("1xOBXsBtRgetSsO8INAcQxiKCT1JD-5toVEOzrnJ2r0").WaitResult();
             Assert.IsTrue(res.IsSuccess);
             
         }

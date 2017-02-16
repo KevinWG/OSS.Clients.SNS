@@ -13,9 +13,9 @@
 
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic
@@ -32,14 +32,14 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="nickname">客服昵称，最长6个汉字或12个英文字符</param>
         /// <param name="password">客服账号登录密码，格式为密码明文的32位加密MD5值。该密码仅用于在公众平台官网的多客服功能中使用，若不使用多客服功能，则不必设置密码</param>
         /// <returns></returns>
-        public WxBaseResp AddKFAccount(string account, string nickname, string password)
+        public async Task<WxBaseResp> AddKFAccountAsync(string account, string nickname, string password)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/add");
             req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\",\"password\":\"{password}\"}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
 
@@ -50,14 +50,14 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="nickname">客服昵称，最长6个汉字或12个英文字符</param>
         /// <param name="password">客服账号登录密码，格式为密码明文的32位加密MD5值。该密码仅用于在公众平台官网的多客服功能中使用，若不使用多客服功能，则不必设置密码</param>
         /// <returns></returns>
-        public WxBaseResp UpdateKFAccount(string account, string nickname, string password)
+        public async Task<WxBaseResp> UpdateKFAccountAsync(string account, string nickname, string password)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/update");
             req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\",\"password\":\"{password}\"}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="nickname">客服昵称，最长6个汉字或12个英文字符</param>
         /// <param name="password">客服账号登录密码，格式为密码明文的32位加密MD5值。该密码仅用于在公众平台官网的多客服功能中使用，若不使用多客服功能，则不必设置密码</param>
         /// <returns></returns>
-        public WxBaseResp DeleteKFAccount(string account, string nickname, string password)
+        public async Task<WxBaseResp> DeleteKFAccountAsync(string account, string nickname, string password)
         {
             var req = new OsHttpRequest();
 
@@ -75,7 +75,7 @@ namespace OSS.Social.WX.Offcial.Basic
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/del");
             req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\",\"password\":\"{password}\"}}";
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
 
@@ -85,7 +85,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="account">完整客服账号，格式为：账号前缀@公众号微信号</param>
         /// <param name="fileReq">头像的文件信息</param>
         /// <returns></returns>
-        public WxBaseResp UploadKFHeadImg(string account, WxFileReq fileReq)
+        public async Task<WxBaseResp> UploadKFHeadImgAsync(string account, WxFileReq fileReq)
         {
             var req = new OsHttpRequest();
 
@@ -94,20 +94,20 @@ namespace OSS.Social.WX.Offcial.Basic
             req.FileParameterList.Add(new FileParameter("media", fileReq.file_stream, fileReq.file_name,
                 fileReq.content_type));
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         /// <summary>
         ///  获取客服列表
         /// </summary>
         /// <returns></returns>
-        public WxGetKFAccountListResp GetKFAccountList()
+        public async Task<WxGetKFAccountListResp> GetKFAccountListAsync()
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/customservice/getkflist");
 
-            return RestCommonOffcial<WxGetKFAccountListResp>(req);
+            return await RestCommonOffcialAsync<WxGetKFAccountListResp>(req);
         }
 
         #endregion
@@ -123,7 +123,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="mediaId">素材id，当是wxcard类型时，传入cardId</param>
         /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
         /// <returns></returns>
-        public WxBaseResp SenKfMsg(string openId, string msgType, string mediaId,string kfAccount="")
+        public async Task<WxBaseResp> SenKfMsgAsync(string openId, string msgType, string mediaId,string kfAccount="")
         {
             StringBuilder msgStr = new StringBuilder("{");
 
@@ -140,7 +140,7 @@ namespace OSS.Social.WX.Offcial.Basic
                 msgStr.Append(",\"customservice\":{\"kf_account\":\"").Append(kfAccount).Append("\"}");
             msgStr.Append("}");
 
-            return SendKfMsg(msgStr.ToString());
+            return await SendKfMsgAsync(msgStr.ToString());
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="description"></param>
         /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
         /// <returns></returns>
-        public WxBaseResp SenKfVideoMsg(string openId, string mediaId, string thumbMediaId, string title="", string description="", string kfAccount = "")
+        public async Task<WxBaseResp> SenKfVideoMsgSync(string openId, string mediaId, string thumbMediaId, string title="", string description="", string kfAccount = "")
         {
             StringBuilder msgStr = new StringBuilder("{");
 
@@ -177,7 +177,7 @@ namespace OSS.Social.WX.Offcial.Basic
       
             msgStr.Append("}");
 
-            return SendKfMsg(msgStr.ToString());
+            return await SendKfMsgAsync(msgStr.ToString());
         }
 
 
@@ -192,7 +192,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="description"></param>
         /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
         /// <returns></returns>
-        public WxBaseResp SenKfMusicMsg(string openId, string musicurl, string hqmusicurl, string thumbMediaId,
+        public async Task<WxBaseResp> SenKfMusicMsgAsync(string openId, string musicurl, string hqmusicurl, string thumbMediaId,
             string title = "", string description = "", string kfAccount = "")
         {
             StringBuilder msgStr = new StringBuilder("{");
@@ -218,7 +218,7 @@ namespace OSS.Social.WX.Offcial.Basic
 
             msgStr.Append("}");
 
-            return SendKfMsg(msgStr.ToString());
+            return await SendKfMsgAsync(msgStr.ToString());
         }
 
 
@@ -229,7 +229,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="articles">图文信息，不能超过8条</param>
         /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
         /// <returns></returns>
-        public WxBaseResp SenKfArticlesMsg(string openId, List<WxArticleInfo> articles, string kfAccount = "")
+        public async Task<WxBaseResp> SenKfArticlesMsgAsync(string openId, List<WxArticleInfo> articles, string kfAccount = "")
         {
             string msgContent = JsonConvert.SerializeObject(new
             {
@@ -239,7 +239,7 @@ namespace OSS.Social.WX.Offcial.Basic
                 customservice = string.IsNullOrEmpty(kfAccount) ? new {kf_account = kfAccount} : null
             }, Formatting.Indented, new JsonSerializerSettings() {NullValueHandling = NullValueHandling.Ignore});
 
-            return SendKfMsg(msgContent);
+            return await SendKfMsgAsync(msgContent);
         }
 
 
@@ -248,15 +248,15 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="msgContent"></param>
         /// <returns></returns>
-        private WxBaseResp SendKfMsg(string msgContent)
-        {
+        private async Task<WxBaseResp> SendKfMsgAsync(string msgContent)
+        { 
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/custom/send");
             req.CustomBody = msgContent;
 
-            return RestCommonOffcial<WxBaseResp>(req);
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
         #endregion

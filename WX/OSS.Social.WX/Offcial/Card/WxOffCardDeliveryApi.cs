@@ -12,10 +12,10 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels.Enums;
-using OSS.Http;
-using OSS.Http.Models;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Card.Mos;
 using OSS.Social.WX.SysUtils.Mos;
 
@@ -32,15 +32,15 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="expireSeconds"></param>
         /// <param name="cardQrMo"></param>
         /// <returns></returns>
-        public WxCardQrCodeResp CreateCardQrCode(WxQrCodeType type, int expireSeconds, WxCardQrMo cardQrMo)
+        public async Task<WxCardQrCodeResp> CreateCardQrCodeAsync(WxQrCodeType type, int expireSeconds, WxCardQrMo cardQrMo)
         {
             var actionInfo = new WxCreateCardQrReq()
             {
                 expire_seconds = expireSeconds,
-                action_name = type,
+                action_name = type.ToString(),
                 action_info = new { card = cardQrMo }
             };
-            return CreateCardQrCode(actionInfo);
+            return await CreateCardQrCodeAsync(actionInfo);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="expireSeconds"></param>
         /// <param name="cardList"></param>
         /// <returns></returns>
-        public WxCardQrCodeResp CreateMultiCardQrCode(WxQrCodeType type, int expireSeconds, List<WxCardQrMo> cardList)
+        public async Task<WxCardQrCodeResp> CreateMultiCardQrCode(WxQrCodeType type, int expireSeconds, List<WxCardQrMo> cardList)
         {
             if (cardList == null || cardList.Count > 5)
                 return new WxCardQrCodeResp() { Ret = (int)ResultTypes.ParaNotMeet, Message = "卡券数目不和要求，请不要为空或超过五个！" };
@@ -58,10 +58,10 @@ namespace OSS.Social.WX.Offcial.Card
             var actionInfo = new WxCreateCardQrReq()
             {
                 expire_seconds = expireSeconds,
-                action_name = type,
+                action_name = type.ToString(),
                 action_info = new { multiple_card = new { card_list = cardList } }
             };
-            return CreateCardQrCode(actionInfo);
+            return await CreateCardQrCodeAsync(actionInfo);
         }
 
 
@@ -70,14 +70,14 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="actionInfo"></param>
         /// <returns></returns>
-        private WxCardQrCodeResp CreateCardQrCode(WxCreateCardQrReq actionInfo)
+        private async Task<WxCardQrCodeResp> CreateCardQrCodeAsync(WxCreateCardQrReq actionInfo)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/qrcode/create");
             req.CustomBody = JsonConvert.SerializeObject(actionInfo);
 
-            return RestCommonOffcial<WxCardQrCodeResp>(req);
+            return await RestCommonOffcialAsync<WxCardQrCodeResp>(req);
         }
 
 
@@ -88,14 +88,14 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">需要进行导入code的卡券ID</param>
         /// <param name="codes">需导入微信卡券后台的自定义code，上限为100个</param>
         /// <returns></returns>
-        public WxImportCardCodeResp ImportCardCode(string cardId, List<string> codes)
+        public async Task<WxImportCardCodeResp> ImportCardCodeAsync(string cardId, List<string> codes)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/deposit");
             req.CustomBody = JsonConvert.SerializeObject(new { card_id = cardId, code = codes });
 
-            return RestCommonOffcial<WxImportCardCodeResp>(req);
+            return await RestCommonOffcialAsync<WxImportCardCodeResp>(req);
         }
 
         /// <summary>
@@ -103,14 +103,14 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardId"></param>
         /// <returns></returns>
-        public WxGetImportCodeCountResp GetImportCodeCount(string cardId)
+        public async Task<WxGetImportCodeCountResp> GetImportCodeCountAsync(string cardId)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/getdepositcount");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
 
-            return RestCommonOffcial<WxGetImportCodeCountResp>(req);
+            return await RestCommonOffcialAsync<WxGetImportCodeCountResp>(req);
         }
 
         /// <summary>
@@ -119,14 +119,14 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="cardId">需要进行导入code的卡券ID</param>
         /// <param name="codes">需导入微信卡券后台的自定义code，上限为100个</param>
         /// <returns></returns>
-        public WxCheckImportCodeResp CheckImportCode(string cardId, List<string> codes)
+        public async Task<WxCheckImportCodeResp> CheckImportCodeAsync(string cardId, List<string> codes)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/getdepositcount");
             req.CustomBody = JsonConvert.SerializeObject(new { card_id = cardId, code = codes });
 
-            return RestCommonOffcial<WxCheckImportCodeResp>(req);
+            return await RestCommonOffcialAsync<WxCheckImportCodeResp>(req);
         }
 
 
@@ -135,14 +135,14 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="cardId"></param>
         /// <returns></returns>
-        public WxGetCardArticleContentResp GetArticleContent(string cardId)
+        public async Task<WxGetCardArticleContentResp> GetArticleContentAsync(string cardId)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/mpnews/gethtml");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
 
-            return RestCommonOffcial<WxGetCardArticleContentResp>(req);
+            return await RestCommonOffcialAsync<WxGetCardArticleContentResp>(req);
         }
 
 
@@ -151,7 +151,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// </summary>
         /// <param name="pageReq"></param>
         /// <returns></returns>
-        public WxCreateCardLandPageResp CreateLandPage(WxCreateCardLandPageReq pageReq)
+        public async Task<WxCreateCardLandPageResp> CreateLandPageAsync(WxCreateCardLandPageReq pageReq)
         {
             var req = new OsHttpRequest();
 
@@ -159,7 +159,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/landingpage/create");
             req.CustomBody = JsonConvert.SerializeObject(pageReq);
 
-            return RestCommonOffcial<WxCreateCardLandPageResp>(req);
+            return await RestCommonOffcialAsync<WxCreateCardLandPageResp>(req);
         }
 
         #endregion
@@ -174,7 +174,7 @@ namespace OSS.Social.WX.Offcial.Card
        /// <param name="openIds"> 可选 openid列表 </param>
        /// <param name="names">可选  微信号列表  二者必填其一</param>
        /// <returns></returns>
-       public WxBaseResp SetTestWhiteList(List<string> openIds, List<string> names)
+       public async Task<WxBaseResp> SetTestWhiteListAsync(List<string> openIds, List<string> names)
        {
            var req = new OsHttpRequest();
 
@@ -182,7 +182,7 @@ namespace OSS.Social.WX.Offcial.Card
            req.AddressUrl = string.Concat(m_ApiUrl, "/card/testwhitelist/set");
            req.CustomBody = JsonConvert.SerializeObject(new {openid = openIds, username = names});
 
-           return RestCommonOffcial<WxBaseResp>(req);
+           return await RestCommonOffcialAsync<WxBaseResp>(req);
        }
 
        #endregion

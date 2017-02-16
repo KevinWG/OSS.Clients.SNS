@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Xml.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OSS.Social.WX.Msg.Mos;
 using OSS.Social.WX.Offcial.Store;
 using OSS.Social.WX.Offcial.Store.Mos;
 
@@ -38,7 +35,7 @@ namespace OSS.Social.Wx.Tests
             req.district = "朝阳区";
 
 
-            var res = m_Api.AddStore(req);
+            var res = m_Api.AddStoreAsync(req);
         }
 
 

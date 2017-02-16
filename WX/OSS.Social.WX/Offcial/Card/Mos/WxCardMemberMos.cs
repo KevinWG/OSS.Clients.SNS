@@ -143,9 +143,9 @@ namespace OSS.Social.WX.Offcial.Card.Mos
         /// FIELD_NAME_TYPE_MILEAGE 里程 
         /// FIELD_NAME_TYPE_SET_POINTS 集点 
         /// FIELD_NAME_TYPE_TIMS 次数
+        /// typeof(WxMemberCardCustomNameType).ToEnumDirs  获取对应的枚举字典列表
         /// </summary>  
-        [JsonConverter(typeof (StringConverter))]
-        public WxMemberCardCustomNameType name_type { get; set; }
+        public string name_type { get; set; }
 
         /// <summary>   
         ///    可空 string(24) 会员信息类目自定义名称，当开发者变更这类类目信息的value值时不会触发系统模板消息通知用户

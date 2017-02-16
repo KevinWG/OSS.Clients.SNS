@@ -12,7 +12,6 @@
 #endregion
 
 using System.Collections.Generic;
-using System.ComponentModel;
 using Newtonsoft.Json;
 
 namespace OSS.Social.WX.Offcial.Card.Mos
@@ -56,9 +55,9 @@ namespace OSS.Social.WX.Offcial.Card.Mos
 
         /// <summary>   
         ///    当前用户的会员卡状态，NORMAL 正常 EXPIRE 已过期 GIFTING 转赠中 GIFT_SUCC 转赠成功 GIFT_TIMEOUT 转赠超时 DELETE 已删除，UNAVAILABLE 已失效
+        ///   typeof(WxCardStatus).ToEnumDirs() 获取对应的枚举字典列表
         /// </summary>  
-        [JsonConverter(typeof(StringConverter))]
-        public WxCardStatus user_card_status { get; set; }
+        public string user_card_status { get; set; }
 
         /// <summary>   
         ///    该卡是否已经被激活，true表示已经被激活，false表示未被激活
@@ -90,9 +89,9 @@ namespace OSS.Social.WX.Offcial.Card.Mos
     {
         /// <summary>   
         ///    会员信息类目名称
+        /// 可以通过 typeof(WxActiveFormCommonField).ToEnumDirs() 获取对应的枚举字典列表
         /// </summary>  
-        [JsonConverter(typeof(StringConverter))]
-        public WxActiveFormCommonField name { get; set; }
+        public string name { get; set; }
 
         /// <summary>   
         ///    会员卡信息类目值，比如等级值等

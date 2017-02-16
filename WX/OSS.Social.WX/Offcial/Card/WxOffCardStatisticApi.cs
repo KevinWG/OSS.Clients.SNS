@@ -12,8 +12,8 @@
 #endregion
 
 using System;
-using OSS.Http;
-using OSS.Http.Models;
+using System.Threading.Tasks;
+using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Card.Mos;
 
 namespace OSS.Social.WX.Offcial.Card
@@ -31,7 +31,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="endTime">查询数据的截至时间</param>
         /// <param name="source">卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据</param>
         /// <returns></returns>
-        public WxCardStatResp<WxCardStatMo> GetCardStatistic(DateTime beginDate,DateTime endTime,int source)
+        public async Task<WxCardStatResp<WxCardStatMo>> GetCardStatisticAsync(DateTime beginDate,DateTime endTime,int source)
         {
             var req=new OsHttpRequest();
 
@@ -39,7 +39,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getcardbizuininfo");
             req.CustomBody=$"{{\"begin_date\":\"{beginDate.ToString("yyyy-MM-dd")}\",\"end_date\":\"{endTime.ToString("yyyy-MM-dd")}\",\"cond_source\":{source}}}";
 
-            return RestCommonOffcial<WxCardStatResp<WxCardStatMo>>(req);
+            return await RestCommonOffcialAsync<WxCardStatResp<WxCardStatMo>>(req);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="source">卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据</param>
         /// <param name="cardId">可空，卡券ID。填写后，指定拉出该卡券的相关数据</param>
         /// <returns></returns>
-        public WxCardStatResp<WxCardItemStatMo> GetCardItemStatistic(DateTime beginDate, DateTime endTime, int source,string cardId)
+        public async Task<WxCardStatResp<WxCardItemStatMo>> GetCardItemStatisticAsync(DateTime beginDate, DateTime endTime, int source,string cardId)
         {
             var req = new OsHttpRequest();
 
@@ -58,7 +58,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getcardcardinfo");
             req.CustomBody = $"{{\"begin_date\":\"{beginDate.ToString("yyyy-MM-dd")}\",\"end_date\":\"{endTime.ToString("yyyy-MM-dd")}\",\"cond_source\":{source},\"card_id\":\"{cardId}\"}}";
 
-            return RestCommonOffcial<WxCardStatResp<WxCardItemStatMo>>(req);
+            return await RestCommonOffcialAsync<WxCardStatResp<WxCardItemStatMo>>(req);
         }
 
 
@@ -69,7 +69,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="endTime">查询数据的截至时间</param>
         /// <param name="source">卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据</param>
         /// <returns></returns>
-        public WxCardStatResp<WxMemberCardStatMo> GetMemberCardStatistic(DateTime beginDate, DateTime endTime, int source)
+        public async Task<WxCardStatResp<WxMemberCardStatMo>> GetMemberCardStatisticAsync(DateTime beginDate, DateTime endTime, int source)
         {
             var req = new OsHttpRequest();
 
@@ -77,7 +77,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getcardmembercardinfo");
             req.CustomBody = $"{{\"begin_date\":\"{beginDate.ToString("yyyy-MM-dd")}\",\"end_date\":\"{endTime.ToString("yyyy-MM-dd")}\",\"cond_source\":{source}}}";
 
-            return RestCommonOffcial<WxCardStatResp<WxMemberCardStatMo>>(req);
+            return await RestCommonOffcialAsync<WxCardStatResp<WxMemberCardStatMo>>(req);
         }
 
 
@@ -88,7 +88,7 @@ namespace OSS.Social.WX.Offcial.Card
         /// <param name="endTime">查询数据的截至时间</param>
         /// <param name="cardId">卡券ID</param>
         /// <returns></returns>
-        public WxCardStatResp<WxMemberCardDetailStatMo> GetMemberCardDetailStatistic(DateTime beginDate, DateTime endTime, string cardId)
+        public async Task<WxCardStatResp<WxMemberCardDetailStatMo>> GetMemberCardDetailStatisticAsync(DateTime beginDate, DateTime endTime, string cardId)
         {
             var req = new OsHttpRequest();
 
@@ -96,7 +96,7 @@ namespace OSS.Social.WX.Offcial.Card
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getcardmembercarddetail");
             req.CustomBody = $"{{\"begin_date\":\"{beginDate.ToString("yyyy-MM-dd")}\",\"end_date\":\"{endTime.ToString("yyyy-MM-dd")}\",\"card_id\":\"{cardId}\"}}";
 
-            return RestCommonOffcial<WxCardStatResp<WxMemberCardDetailStatMo>>(req);
+            return await RestCommonOffcialAsync<WxCardStatResp<WxMemberCardDetailStatMo>>(req);
         }
 
 
