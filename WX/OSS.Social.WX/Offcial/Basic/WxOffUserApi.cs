@@ -31,7 +31,6 @@ namespace OSS.Social.WX.Offcial.Basic
         public WxOffBasicApi(WxAppCoinfig config = null) : base(config)
         {
         }
-
     }
 
 
