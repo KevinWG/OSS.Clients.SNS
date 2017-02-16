@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using OSS.Http.Mos;
 using OSS.Social.WX;
 using OSS.Social.WX.Offcial.Basic;
 
@@ -21,8 +17,10 @@ namespace OSS.Social.Samples.Controllers
         private static WxOffBasicApi api = new WxOffBasicApi(m_Config);
         public IActionResult Index()
         {
-            //var token= api.GetAccessTokenAsync().WaitResult();
+            //var token = api.GetAccessTokenAsync().WaitResult();
             //return Content($"accesstoken:{token.access_token}");
+
+            //var path = AppContext.BaseDirectory;
             return View();
         }
 
