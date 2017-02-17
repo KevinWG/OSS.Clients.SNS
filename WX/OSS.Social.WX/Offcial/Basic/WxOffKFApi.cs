@@ -91,7 +91,7 @@ namespace OSS.Social.WX.Offcial.Basic
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/uploadheadimg?kf_account=", account);
-            req.FileParameterList.Add(new FileParameter("media", fileReq.file_stream, fileReq.file_name,
+            req.FileParameters.Add(new FileParameter("media", fileReq.file_stream, fileReq.file_name,
                 fileReq.content_type));
 
             return await RestCommonOffcialAsync<WxBaseResp>(req);

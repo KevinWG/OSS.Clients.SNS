@@ -13,7 +13,6 @@ namespace OSS.Social.WX.Msg.Mos
         protected override void FormatPropertiesFromMsg()
         {
             Content = this["Content"];
-            MsgId = this["MsgId"].ToInt64();
         }
 
         /// <summary>
@@ -21,10 +20,6 @@ namespace OSS.Social.WX.Msg.Mos
         /// </summary>
         public string Content { get; set; }
 
-        /// <summary>
-        /// 消息id，64位整型
-        /// </summary>
-        public long MsgId { get; set; }
 
     }
 
@@ -53,11 +48,6 @@ namespace OSS.Social.WX.Msg.Mos
         /// </summary>
         public string MediaId { get; set; }
 
-        /// <summary>
-        /// 消息id，64位整型
-        /// </summary>
-        public long MsgId { get; set; }
-
     }
 
     /// <summary>
@@ -73,7 +63,6 @@ namespace OSS.Social.WX.Msg.Mos
             Format = this["Format"];
             Recognition = this["Recognition"];
             MediaId = this["MediaId"];
-            MsgId = this["MsgId"].ToInt64();
         }
 
         /// <summary>
@@ -90,11 +79,6 @@ namespace OSS.Social.WX.Msg.Mos
         /// 图片消息媒体id，可以调用多媒体文件下载接口拉取数据。
         /// </summary>
         public string MediaId { get; set; }
-
-        /// <summary>
-        /// 消息id，64位整型
-        /// </summary>
-        public long MsgId { get; set; }
 
     }
 
@@ -123,11 +107,6 @@ namespace OSS.Social.WX.Msg.Mos
         /// </summary>
         public string MediaId { get; set; }
 
-        /// <summary>
-        /// 消息id，64位整型
-        /// </summary>
-        public long MsgId { get; set; }
-
     }
 
     /// <summary>
@@ -144,7 +123,6 @@ namespace OSS.Social.WX.Msg.Mos
             Longitude =this["Location_Y"].ToDouble();
             Scale = this["Scale"].ToInt32();
             Label = this["Label"];
-            MsgId = this["MsgId"].ToInt64();
         }
 
         /// <summary>
@@ -166,11 +144,7 @@ namespace OSS.Social.WX.Msg.Mos
         /// 地理位置信息
         /// </summary>
         public string Label { get; set; }
-
-        /// <summary>
-        /// 消息id，64位整型
-        /// </summary>
-        public long MsgId { get; set; }
+       
 
     }
 
@@ -187,7 +161,6 @@ namespace OSS.Social.WX.Msg.Mos
             Title = this["Title"];
             Description = this["Description"];
             Url = this["Url"];
-            MsgId = this["MsgId"].ToInt64();
         }
 
         /// <summary>
@@ -204,11 +177,6 @@ namespace OSS.Social.WX.Msg.Mos
         /// 消息链接
         /// </summary>
         public string Url { get; set; }
-
-        /// <summary>
-        /// 消息id，64位整型
-        /// </summary>
-        public long MsgId { get; set; }
 
     }
 

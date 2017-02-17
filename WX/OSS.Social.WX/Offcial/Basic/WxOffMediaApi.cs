@@ -36,7 +36,7 @@ namespace OSS.Social.WX.Offcial.Basic
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/upload?type=", request.type.ToString());
-            req.FileParameterList.Add(new FileParameter("media", request.file_stream, request.file_name,
+            req.FileParameters.Add(new FileParameter("media", request.file_stream, request.file_name,
                 request.content_type));
 
             return await RestCommonOffcialAsync<WxMediaTempUploadResp>(req);
@@ -108,7 +108,7 @@ namespace OSS.Social.WX.Offcial.Basic
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/uploadimg");
-            req.FileParameterList.Add(new FileParameter("media", imgReq.file_stream, imgReq.file_name,
+            req.FileParameters.Add(new FileParameter("media", imgReq.file_stream, imgReq.file_name,
                 imgReq.content_type));
 
             return await RestCommonOffcialAsync<WxArticleUploadImgResp>(req);
@@ -163,7 +163,7 @@ namespace OSS.Social.WX.Offcial.Basic
 
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_material?type=", mediaReq.type.ToString());
-            req.FileParameterList.Add(new FileParameter("media", mediaReq.file_stream, mediaReq.file_name,
+            req.FileParameters.Add(new FileParameter("media", mediaReq.file_stream, mediaReq.file_name,
                 mediaReq.content_type));
 
             if (mediaReq.type == WxMediaType.video)

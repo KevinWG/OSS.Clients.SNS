@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WX", "WX", "{FEDAA494-9793-42A6-9F9C-D6CF02022180}"
 EndProject
@@ -13,13 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WX\地区信息_中国地区_CN_EN.txt = WX\地区信息_中国地区_CN_EN.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Social.WX", "WX\OSS.Social.WX\OSS.Social.WX.csproj", "{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{B7756CCA-C5C3-487F-8582-F065DF960491}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OSS.Social.Samples", "Samples\OSS.Social.Samples\OSS.Social.Samples.xproj", "{77956346-2D56-45A0-BC1C-F160757BEDBE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{55E2C793-B2A5-47E8-8E4E-E5AF87A695B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Social.WX", "WX\OSS.Social.WX\OSS.Social.WX.csproj", "{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Social.Samples", "Samples\OSS.Social.Samples\OSS.Social.Samples.csproj", "{77956346-2D56-45A0-BC1C-F160757BEDBE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Social.Tests", "Tests\OSS.Social.Tests\OSS.Social.Tests.csproj", "{0912F88B-A093-4B15-8A11-1EBF1D3BE5DB}"
 EndProject
@@ -29,8 +29,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{77956346-2D56-45A0-BC1C-F160757BEDBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
