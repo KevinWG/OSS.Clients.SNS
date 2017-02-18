@@ -90,6 +90,10 @@ namespace OSS.Social.WX.Msg.Mos
         /// </summary>
         public string MediaId { get; set; }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void FormatXml()
         {
             var voice = new List<Tuple<string, object>>();

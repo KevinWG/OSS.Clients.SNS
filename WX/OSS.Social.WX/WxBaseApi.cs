@@ -74,8 +74,6 @@ namespace OSS.Social.WX
             IsAsync = isAsync;
         }
 
-
-
         /// <summary>
         /// 处理远程请求方法，并返回需要的实体
         /// </summary>
