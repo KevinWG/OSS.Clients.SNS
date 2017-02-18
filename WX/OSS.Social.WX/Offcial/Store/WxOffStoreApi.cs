@@ -35,19 +35,19 @@ namespace OSS.Social.WX.Offcial.Store
         static WxOffStoreApi()
         {
             #region  增加全局错误码
-            AddErrorCode(40009, "图片大小为0或者超过1M");
-            AddErrorCode(40097, "参数不正确，请参考字段要求检查json 字段");
-            AddErrorCode(65104, "门店的类型不合法，必须严格按照附表的分类填写");
-            AddErrorCode(65105, "图片url 不合法，必须使用接口1 的图片上传接口所获取的url");
-            AddErrorCode(65106, "门店状态必须未审核通过");
-            AddErrorCode(65107, "扩展字段为不允许修改的状态");
-            AddErrorCode(65109, "门店名为空");
-            AddErrorCode(65110, "门店所在详细街道地址为空");
-            AddErrorCode(65111, "门店的电话为空");
-            AddErrorCode(65112, "门店所在的城市为空");
-            AddErrorCode(65113, "门店所在的省份为空");
-            AddErrorCode(65114, "图片列表为空");
-            AddErrorCode(65115, "poi_id 不正确");
+            RegisteErrorCode(40009, "图片大小为0或者超过1M");
+            RegisteErrorCode(40097, "参数不正确，请参考字段要求检查json 字段");
+            RegisteErrorCode(65104, "门店的类型不合法，必须严格按照附表的分类填写");
+            RegisteErrorCode(65105, "图片url 不合法，必须使用接口1 的图片上传接口所获取的url");
+            RegisteErrorCode(65106, "门店状态必须未审核通过");
+            RegisteErrorCode(65107, "扩展字段为不允许修改的状态");
+            RegisteErrorCode(65109, "门店名为空");
+            RegisteErrorCode(65110, "门店所在详细街道地址为空");
+            RegisteErrorCode(65111, "门店的电话为空");
+            RegisteErrorCode(65112, "门店所在的城市为空");
+            RegisteErrorCode(65113, "门店所在的省份为空");
+            RegisteErrorCode(65114, "图片列表为空");
+            RegisteErrorCode(65115, "poi_id 不正确");
             #endregion
         }
 

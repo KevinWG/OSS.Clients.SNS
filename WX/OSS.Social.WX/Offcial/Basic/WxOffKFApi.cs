@@ -23,6 +23,7 @@ namespace OSS.Social.WX.Offcial.Basic
     public partial class WxOffBasicApi
     {
 
+
         #region  客服账号管理部分
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="nickname">客服昵称，最长6个汉字或12个英文字符</param>
         /// <param name="password">客服账号登录密码，格式为密码明文的32位加密MD5值。该密码仅用于在公众平台官网的多客服功能中使用，若不使用多客服功能，则不必设置密码</param>
         /// <returns></returns>
-        public async Task<WxBaseResp> AddKFAccountAsync(string account, string nickname, string password)
+        public async Task<WxBaseResp> AddKFAccountAsync(string account, string nickname, string password=null)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;

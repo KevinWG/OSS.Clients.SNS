@@ -164,6 +164,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WxTests\Baisc\WxOffBasicApiTests.cs" />
+    <Compile Include="WxTests\Baisc\WxOffKFTests.cs" />
     <Compile Include="WxTests\Baisc\WxOffMassTests.cs" />
     <Compile Include="WxTests\Store\WxOffStoreTests.cs" />
     <Compile Include="WxTests\WxBaseTests.cs" />
