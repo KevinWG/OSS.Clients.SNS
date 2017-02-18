@@ -16,7 +16,13 @@ namespace OSS.Social.Tests.WxTests
             AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
         };
 
-
+        //static WxBaseTests()
+        //{
+        //    OsConfig.CacheProvider = moduleName =>
+        //    {
+        //        return null;
+        //    };
+        //}
 
         public WxBaseTests()
         {
