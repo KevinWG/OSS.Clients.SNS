@@ -30,7 +30,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// <param name="openId">普通用户的标识，对当前公众号唯一</param>
         /// <param name="templateId">模板Id</param>
         /// <param name="url">消息详情链接地址</param>
-        /// <param name="data">消息数据</param>
+        /// <param name="data">消息数据， 格式可以为： new{first = new {value = "用户", color = "#173177"},{...}}</param>
         /// <returns></returns>
         public async Task<WxBaseResp> SendTemplateAsync(string openId, string templateId, string url, object data)
         {

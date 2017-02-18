@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Social.WX;
 using OSS.Social.WX.Offcial.Basic;
@@ -15,8 +14,6 @@ namespace OSS.Social.Tests.WxTests.Baisc
     public class WxOffBasicApiTests : WxBaseTests
     {
         private static WxOffBasicApi m_Api = new WxOffBasicApi(m_Config);
-
-
 
         [TestMethod]
         public void GetAccessTokenTest()
@@ -65,8 +62,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
             Assert.IsTrue(res.IsSuccess);
 
         }
-
-
+        
 
         [TestMethod]
         public void GetOpenIdListTest()
