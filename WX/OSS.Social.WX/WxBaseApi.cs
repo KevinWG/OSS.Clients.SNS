@@ -34,6 +34,7 @@ namespace OSS.Social.WX
         ///   默认配置信息，如果实例中的配置为空会使用当前配置信息
         /// </summary>
         public static WxAppCoinfig DefaultConfig { get; set; }
+
         private readonly WxAppCoinfig _config;
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace OSS.Social.WX
                 return DefaultConfig;
             }
         }
-        
+
         /// <summary>
         /// 微信api接口地址
         /// </summary>
@@ -75,7 +76,8 @@ namespace OSS.Social.WX
         /// <param name="request">远程请求组件的request基本信息</param>
         /// <param name="funcFormat">获取实体格式化方法</param>
         /// <returns>实体类型</returns>
-        public static async Task<T> RestCommon<T>(OsHttpRequest request, Func<HttpResponseMessage, Task<T>> funcFormat = null)
+        public static async Task<T> RestCommon<T>(OsHttpRequest request,
+            Func<HttpResponseMessage, Task<T>> funcFormat = null)
             where T : ResultMo, new()
         {
             T t = default(T);
@@ -85,7 +87,7 @@ namespace OSS.Social.WX
                 if (resp.IsSuccessStatusCode)
                 {
                     if (funcFormat != null)
-                        t =await funcFormat(resp);
+                        t = await funcFormat(resp);
                     else
                     {
                         var contentStr = await resp.Content.ReadAsStringAsync();
@@ -105,8 +107,8 @@ namespace OSS.Social.WX
             }
             return t ?? new T() {Ret = 0};
         }
-        
-     
+
+
         /// <summary>
         /// 基本错误信息字典，基类中继续完善
         /// </summary>
@@ -123,7 +125,8 @@ namespace OSS.Social.WX
             #region 错误基本信息
 
             m_DicErrMsg.TryAdd(-1, " 系统繁忙，此时请开发者稍候再试");
-            m_DicErrMsg.TryAdd(40001, "获取access_token时AppSecret错误，或者access_token无效。请开发者认真比对AppSecret的正确性，或查看是否正在为恰当的公众号调用接口");
+            m_DicErrMsg.TryAdd(40001,
+                "获取access_token时AppSecret错误，或者access_token无效。请开发者认真比对AppSecret的正确性，或查看是否正在为恰当的公众号调用接口");
             m_DicErrMsg.TryAdd(40002, "不合法的凭证类型");
             m_DicErrMsg.TryAdd(40003, "不合法的OpenID，请开发者确认OpenID（该用户）是否已关注公众号，或是否是其他公众号的OpenID");
             m_DicErrMsg.TryAdd(40004, "不合法的媒体文件类型");
@@ -272,18 +275,17 @@ namespace OSS.Social.WX
             m_DicErrMsg.TryAdd(45159, "非法的标签");
             m_DicErrMsg.TryAdd(45059, "有粉丝身上的标签数已经超过限制");
             m_DicErrMsg.TryAdd(49003, "传入的openid不属于此AppID");
+
             #endregion
         }
 
         /// <summary>
-        /// 添加错误码
+        /// 注册错误码
         /// </summary>
         /// <param name="code"></param>
         /// <param name="message"></param>
-        protected static void RegisteErrorCode(int code, string message)
-        {
-            m_DicErrMsg.TryAdd(code, message);
-        }
+        protected static void RegisteErrorCode(int code, string message) => m_DicErrMsg.TryAdd(code, message);
+
 
 
 
@@ -295,7 +297,7 @@ namespace OSS.Social.WX
         /// <returns></returns>
         protected static string GetErrMsg(int errCode)
             => m_DicErrMsg.ContainsKey(errCode) ? m_DicErrMsg[errCode] : string.Empty;
-        
+
     }
 
 
