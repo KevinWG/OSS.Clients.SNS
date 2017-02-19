@@ -79,7 +79,8 @@
     <Compile Include="Offcial\Card\WxOffCardManageApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardMemberApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardStatisticApi.cs" />
-    <Compile Include="Offcial\Shake\WxOffShakeRedApi.cs" />
+    <Compile Include="Offcial\Shake\Mos\WxLotteryMos.cs" />
+    <Compile Include="Offcial\Shake\WxOffLotteryApi.cs" />
     <Compile Include="Offcial\SmallApp\WxOffAppQrApi.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxArticleStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxInterfaceStatMos.cs" />
