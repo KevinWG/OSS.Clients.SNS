@@ -26,7 +26,7 @@ namespace OSS.Social.WX.Msg
     /// <summary>
     /// 消息处理基类
     ///  </summary>
-    public abstract class WxBasicMsgHandler
+    public abstract class WxMsgBasicHandler
     {
         protected readonly WxMsgServerConfig m_Config;
 
@@ -34,7 +34,7 @@ namespace OSS.Social.WX.Msg
         /// 构造函数
         /// </summary>
         /// <param name="mConfig"></param>
-        protected WxBasicMsgHandler(WxMsgServerConfig mConfig)
+        protected WxMsgBasicHandler(WxMsgServerConfig mConfig)
         {
             m_Config = mConfig;
         }

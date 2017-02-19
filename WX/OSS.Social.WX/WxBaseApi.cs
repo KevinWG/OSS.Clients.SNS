@@ -302,31 +302,5 @@ namespace OSS.Social.WX
 
 
 
-    public static class TaskExtention
-    {
-        /// <summary>
-        ///   等待异步执行结果
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="task"></param>
-        /// <returns></returns>
-        public static TResult WaitResult<TResult>(this Task<TResult> task)
-        {
-            task.Wait();
-            return task.Result;
-        }
 
-        /// <summary>
-        /// 等待异步执行结果
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="task"></param>
-        /// <param name="milliseconds">等待的毫秒数</param>
-        /// <returns></returns>
-        public static TResult WaitResult<TResult>(this Task<TResult> task,int milliseconds)
-        {
-            task.Wait();
-            return task.Result;
-        }
-    }
 }

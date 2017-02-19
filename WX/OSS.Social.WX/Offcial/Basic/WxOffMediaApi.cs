@@ -33,7 +33,7 @@ namespace OSS.Social.WX.Offcial.Basic
         public async Task<WxMediaTempUploadResp> UploadTempMediaAsync(WxMediaTempUploadReq request)
         {
             var req = new OsHttpRequest();
-
+            
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/upload?type=", request.type.ToString());
             req.FileParameters.Add(new FileParameter("media", request.file_stream, request.file_name,

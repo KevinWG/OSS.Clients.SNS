@@ -79,6 +79,7 @@
     <Compile Include="Offcial\Card\WxOffCardManageApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardMemberApi.cs" />
     <Compile Include="Offcial\Card\WxOffCardStatisticApi.cs" />
+    <Compile Include="Offcial\Shake\WxOffShakeRedApi.cs" />
     <Compile Include="Offcial\SmallApp\WxOffAppQrApi.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxArticleStatMos.cs" />
     <Compile Include="Offcial\Statistic\Mos\WxInterfaceStatMos.cs" />
@@ -102,9 +103,7 @@
     <Compile Include="SysUtils\WxDictionaryUtil.cs" />
     <Compile Include="WxBaseApi.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Offcial\Shop\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

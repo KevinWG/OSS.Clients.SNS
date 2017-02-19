@@ -200,8 +200,6 @@ namespace OSS.Social.WX.Msg.Mos
             }
             return xml.ToString();
         }
-        
-       
     }
 
     /// <summary>
