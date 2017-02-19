@@ -63,9 +63,8 @@
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OSS.Common, Version=1.1.2.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OSS.Common.1.1.2.5\lib\net45\OSS.Common.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="OSS.Common, Version=1.1.2.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OSS.Common.1.1.2.7\lib\netstandard1.3\OSS.Common.dll</HintPath>
     </Reference>
     <Reference Include="OSS.Http, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\OSS.Http.2.1.2\lib\netstandard1.1\OSS.Http.dll</HintPath>
