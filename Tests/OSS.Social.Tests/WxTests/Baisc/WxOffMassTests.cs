@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Social.WX;
 using OSS.Social.WX.Offcial.Basic;
