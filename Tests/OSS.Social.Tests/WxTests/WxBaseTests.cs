@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common;
+using OSS.Common.Modules;
 using OSS.Common.Modules.DirConfigModule;
 using OSS.Social.WX;
 

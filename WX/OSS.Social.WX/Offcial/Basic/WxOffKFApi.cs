@@ -246,16 +246,17 @@ namespace OSS.Social.WX.Offcial.Basic
 
         #region  消息部分
 
+
         /// <summary>
         ///  发送一般的客服消息
-        ///   包含：text-文本，image-图片,voice-语音，mpnews-图文消息，wxcard-卡券
+        ///   包含：image-图片,voice-语音，mpnews-图文消息，wxcard-卡券
         /// </summary>
         /// <param name="openId"></param>
         /// <param name="msgType">消息类型</param>
-        /// <param name="mediaId">素材id，当是wxcard类型时，传入cardId</param>
+        /// <param name="mediaId">素材id，当是wxcard类型时，传入cardId，其他正常传入medaid</param>
         /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
         /// <returns></returns>
-        public async Task<WxBaseResp> SenKfMsgAsync(string openId, string msgType, string mediaId,string kfAccount="")
+        public async Task<WxBaseResp> SenKfMediaMsgAsync(string openId, string msgType, string mediaId = null, string kfAccount = null)
         {
             StringBuilder msgStr = new StringBuilder("{");
 
@@ -266,6 +267,36 @@ namespace OSS.Social.WX.Offcial.Basic
             msgStr.Append("\"msgtype\":\"").Append(msgType).Append("\",");
             msgStr.Append("\"").Append(msgType).Append("\":");
             msgStr.Append("{\"media_id\":\"").Append(mediaId).Append("\"}");
+
+            #endregion
+
+            if (!string.IsNullOrEmpty(kfAccount))
+                msgStr.Append(",\"customservice\":{\"kf_account\":\"").Append(kfAccount).Append("\"}");
+            msgStr.Append("}");
+
+            return await SendKfMsgAsync(msgStr.ToString());
+        }
+
+        /// <summary>
+        ///  发送一般的客服消息
+        ///   包含：text-文本，image-图片,voice-语音，mpnews-图文消息，wxcard-卡券
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <param name="content">素材id，如果是text填空，当是wxcard类型时，传入cardId，其他正常传入meidaid</param>
+        /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
+        /// <returns></returns>
+        public async Task<WxBaseResp> SenKfTextMsgAsync(string openId,  string content,string kfAccount=null)
+        {
+            StringBuilder msgStr = new StringBuilder("{");
+
+            #region 拼接内容
+            // 用户信息
+            msgStr.Append("\"touser\":\"").Append(openId).Append("\",");
+            //  消息内容
+            msgStr.Append("\"msgtype\":\"text\",");
+            msgStr.Append("\"text\":");
+            msgStr.Append("{\"content\":\"").Append(content).Append("\"}");
+
             #endregion
 
             if (!string.IsNullOrEmpty(kfAccount))
