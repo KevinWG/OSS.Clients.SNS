@@ -20,25 +20,63 @@ using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic
 {
-    public partial class WxOffBasicApi
+    public class WxOffKfApi:WxOffBaseApi
     {
+        static WxOffKfApi()
+        {
+            #region  客服全局错误码信息
 
+            RegisteErrorCode(65400, "API不可用，即没有开通或升级到新版客服功能");
+            RegisteErrorCode(65401, "无效客服帐号");
+            RegisteErrorCode(65402, "客服帐号尚未绑定微信号，不能投入使用");
+            RegisteErrorCode(65413, "不存在对应用户的会话信息");
+            RegisteErrorCode(65414, "粉丝正在被其他客服接待");
+            RegisteErrorCode(65415, "指定的客服不在线");
+            RegisteErrorCode(40003, "非法的openid");
+            RegisteErrorCode(65416, "查询参数不合法");
+            RegisteErrorCode(65417, "查询时间段超出限制");
+
+            #endregion
+        }
 
         #region  客服账号管理部分
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="config"></param>
+        public WxOffKfApi(WxAppCoinfig config) : base(config)
+        {
+        }
 
         /// <summary>
         ///   添加客服账号
         /// </summary>
         /// <param name="account">完整客服账号，格式为：账号前缀@公众号微信号</param>
         /// <param name="nickname">客服昵称，最长6个汉字或12个英文字符</param>
-        /// <param name="password">客服账号登录密码，格式为密码明文的32位加密MD5值。该密码仅用于在公众平台官网的多客服功能中使用，若不使用多客服功能，则不必设置密码</param>
         /// <returns></returns>
-        public async Task<WxBaseResp> AddKFAccountAsync(string account, string nickname, string password=null)
+        public async Task<WxBaseResp> AddKfAccountAsync(string account, string nickname)
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/add");
-            req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\",\"password\":\"{password}\"}}";
+            req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\"}}";
+
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
+        }
+
+        /// <summary>
+        /// 邀请绑定客服帐号
+        /// </summary>
+        /// <param name="account">完整客服帐号，格式为：帐号前缀@公众号微信号</param>
+        /// <param name="inviteWx">接收绑定邀请的客服微信号</param>
+        /// <returns></returns>
+        public async Task<WxBaseResp> InviteKfWorker(string account, string inviteWx)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/inviteworker");
+            req.CustomBody = $"{{\"kf_account\":\"{account}\",\"invite_wx\":\"{inviteWx}\"}}";
 
             return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
@@ -49,14 +87,14 @@ namespace OSS.Social.WX.Offcial.Basic
         /// </summary>
         /// <param name="account">完整客服账号，格式为：账号前缀@公众号微信号</param>
         /// <param name="nickname">客服昵称，最长6个汉字或12个英文字符</param>
-        /// <param name="password">客服账号登录密码，格式为密码明文的32位加密MD5值。该密码仅用于在公众平台官网的多客服功能中使用，若不使用多客服功能，则不必设置密码</param>
         /// <returns></returns>
-        public async Task<WxBaseResp> UpdateKFAccountAsync(string account, string nickname, string password)
+        public async Task<WxBaseResp> UpdateKFAccountAsync(string account, string nickname)
         {
             var req = new OsHttpRequest();
+
             req.HttpMothed = HttpMothed.POST;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/update");
-            req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\",\"password\":\"{password}\"}}";
+            req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\"}}";
 
             return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
@@ -65,16 +103,13 @@ namespace OSS.Social.WX.Offcial.Basic
         ///   删除客服账号
         /// </summary>
         /// <param name="account">完整客服账号，格式为：账号前缀@公众号微信号</param>
-        /// <param name="nickname">客服昵称，最长6个汉字或12个英文字符</param>
-        /// <param name="password">客服账号登录密码，格式为密码明文的32位加密MD5值。该密码仅用于在公众平台官网的多客服功能中使用，若不使用多客服功能，则不必设置密码</param>
-        /// <returns></returns>
-        public async Task<WxBaseResp> DeleteKFAccountAsync(string account, string nickname, string password)
+            /// <returns></returns>
+        public async Task<WxBaseResp> DeleteKFAccountAsync(string account)
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/del");
-            req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\",\"password\":\"{password}\"}}";
+            req.HttpMothed = HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/del?kf_account=", account);
 
             return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
@@ -99,7 +134,7 @@ namespace OSS.Social.WX.Offcial.Basic
         }
 
         /// <summary>
-        ///  获取客服列表
+        ///  获取客服基本信息列表
         /// </summary>
         /// <returns></returns>
         public async Task<WxGetKFAccountListResp> GetKFAccountListAsync()
@@ -111,7 +146,103 @@ namespace OSS.Social.WX.Offcial.Basic
             return await RestCommonOffcialAsync<WxGetKFAccountListResp>(req);
         }
 
+        /// <summary>
+        ///   获取在线客服列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<WxGetKfOnlineResp> GetKfOnlineList()
+        {
+            var req = new OsHttpRequest();
+            req.HttpMothed = HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/customservice/getonlinekflist");
+
+            return await RestCommonOffcialAsync<WxGetKfOnlineResp>(req);
+        }
+
         #endregion
+
+        #region  会话管理部分
+        /// <summary>
+        /// 创建会话
+        /// </summary>
+        /// <param name="account">完整客服帐号，格式为：帐号前缀@公众号微信号</param>
+        /// <param name="openId">粉丝的openid</param>
+        /// <returns></returns>
+        public async Task<WxBaseResp> CreateKfSession(string account,string openId)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfsession/create");
+            req.CustomBody = $"{{\"kf_account\":\"{account}\",\"openid\":\"{openId}\"}}";
+
+            return await RestCommonOffcialAsync<WxGetKfOnlineResp>(req);
+        }
+
+        /// <summary>
+        /// 关闭会话
+        /// </summary>
+        /// <param name="account">完整客服帐号，格式为：帐号前缀@公众号微信号</param>
+        /// <param name="openId">粉丝的openid</param>
+        /// <returns></returns>
+        public async Task<WxBaseResp> CloseKfSession(string account, string openId)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfsession/close");
+            req.CustomBody = $"{{\"kf_account\":\"{account}\",\"openid\":\"{openId}\"}}";
+
+            return await RestCommonOffcialAsync<WxGetKfOnlineResp>(req);
+        }
+
+        /// <summary>
+        ///  获取用户客服会话信息
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        public async Task<WxGetUserKfSessionResp> GetUserKfSession(string openId)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfsession/getsession?openid=", openId);
+
+            return await RestCommonOffcialAsync<WxGetUserKfSessionResp>(req);
+        }
+
+
+        /// <summary>
+        ///  获取客服的用户会话列表
+        /// </summary>
+        /// <param name="account">客服账号</param>
+        /// <returns></returns>
+        public async Task<WxGetKfSessionsByAccountResp> GetKfSessionsByAccount(string account)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfsession/getsessionlist?kf_account=", account);
+
+            return await RestCommonOffcialAsync<WxGetKfSessionsByAccountResp>(req);
+        }
+
+
+        /// <summary>
+        ///  获取未接入会话列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<WxGetKfWaitUserListResp> GetKfWaitUserList()
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.GET;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfsession/getwaitcase?");
+
+            return await RestCommonOffcialAsync<WxGetKfWaitUserListResp>(req);
+        }
+        #endregion
+
 
         #region  消息部分
 
@@ -260,7 +391,23 @@ namespace OSS.Social.WX.Offcial.Basic
             return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
+
+        /// <summary>
+        ///   获取客服的聊天记录列表
+        /// </summary>
+        /// <param name="msgReq"></param>
+        /// <returns></returns>
+        public async Task<WxGetKfMsgListResp> GetKfMsgList(WxGetKfMsgListReq msgReq)
+        {
+            var req = new OsHttpRequest();
+
+            req.HttpMothed = HttpMothed.POST;
+            req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/msgrecord/getmsglist");
+            req.CustomBody = JsonConvert.SerializeObject(msgReq);
+
+            return await RestCommonOffcialAsync<WxGetKfMsgListResp>(req);
+        }
+
         #endregion
-        
     }
 }

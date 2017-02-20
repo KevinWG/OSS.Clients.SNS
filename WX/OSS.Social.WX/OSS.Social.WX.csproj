@@ -60,7 +60,7 @@
     <Compile Include="Offcial\Basic\Mos\WxQrMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxTagMos.cs" />
     <Compile Include="Offcial\Basic\Mos\WxUserMos.cs" />
-    <Compile Include="Offcial\Basic\WxOffKFApi.cs" />
+    <Compile Include="Offcial\Basic\WxOffKfApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMassApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
     <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />

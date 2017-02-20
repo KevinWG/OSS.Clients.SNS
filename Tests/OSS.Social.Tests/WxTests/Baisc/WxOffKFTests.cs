@@ -20,7 +20,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         public void AddKFAccountAsyncTest()
         {
             var res =
-                m_Api.AddKFAccountAsync("kevin@osscoder.com","kevin").WaitResult();
+                m_Api.AddKfAccountAsync("kevin@osscoder.com","kevin").WaitResult();
             Assert.IsTrue(res.IsSuccess);
         }
     }
