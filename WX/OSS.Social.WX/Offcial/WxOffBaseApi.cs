@@ -81,7 +81,6 @@ namespace OSS.Social.WX.Offcial
 
                 CacheUtil.AddOrUpdate(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in), null, ModuleNames.SocialCenter);
             }
-
             return tokenResp;
         }
 
@@ -101,10 +100,10 @@ namespace OSS.Social.WX.Offcial
             if (!tokenRes.IsSuccess)
                 return tokenRes.ConvertToResult<T>();
 
+            req.RequestSet = reqMsg => reqMsg.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             req.AddressUrl = string.Concat(req.AddressUrl, req.AddressUrl.IndexOf('?') > 0 ? "&" : "?", "access_token=",
                 tokenRes.access_token);
-            req.RequestSet = reqMsg => reqMsg.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
+          
             return await RestCommon<T>(req, funcFormat);
         }
 
