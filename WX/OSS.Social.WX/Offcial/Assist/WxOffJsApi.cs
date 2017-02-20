@@ -40,7 +40,7 @@ namespace OSS.Social.WX.Offcial.Assist
         public async Task<WxGetJsTicketResp> GetJsTicketAsync(WxJsTicketType type)
         {
             string key = string.Format(WxCacheKeysUtil.OffcialJsTicketKey, ApiConfig.AppId, type);
-            var ticket = CacheUtil.Get<WxGetJsTicketResp>(key);
+            var ticket = CacheUtil.Get<WxGetJsTicketResp>(key,ModuleNames.SocialCenter);
             if (ticket != null && ticket.expires_time > DateTime.Now)
                 return ticket;
 
