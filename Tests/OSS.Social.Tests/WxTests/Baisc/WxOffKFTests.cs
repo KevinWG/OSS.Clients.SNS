@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common.Extention;
-using OSS.Social.WX;
 using OSS.Social.WX.Offcial.Basic;
 
 namespace OSS.Social.Tests.WxTests.Baisc
@@ -12,15 +10,14 @@ namespace OSS.Social.Tests.WxTests.Baisc
     [TestClass]
     public class WxOffKfTests:WxBaseTests
     {
-        private static WxOffBasicApi m_Api = new WxOffBasicApi(m_Config);
+        private static WxOffKfApi m_Api = new WxOffKfApi(m_Config);
         /// <summary>
         /// 添加客服账号测试
         /// </summary>
         [TestMethod]
         public void AddKFAccountAsyncTest()
         {
-            var res =
-                m_Api.AddKfAccountAsync("kevin@osscoder.com","kevin").WaitResult();
+            var res = m_Api.AddKfAccountAsync("kevin@osscoder.com","kevin").WaitResult();
             Assert.IsTrue(res.IsSuccess);
         }
     }

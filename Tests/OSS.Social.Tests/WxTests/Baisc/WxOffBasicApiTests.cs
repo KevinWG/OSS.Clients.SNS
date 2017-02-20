@@ -2,7 +2,6 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common.Extention;
-using OSS.Social.WX;
 using OSS.Social.WX.Offcial.Basic;
 using OSS.Social.WX.Offcial.Basic.Mos;
 

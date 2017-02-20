@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OSS.Common;
+using OSS.Common.Modules.DirConfigModule;
 using OSS.Social.WX;
 
 namespace OSS.Social.Tests.WxTests
@@ -9,20 +12,27 @@ namespace OSS.Social.Tests.WxTests
     [TestClass]
     public class WxBaseTests
     {
+        protected static WxAppCoinfig m_Config = null;
 
-        protected static WxAppCoinfig m_Config = new WxAppCoinfig()
+        static WxBaseTests()
         {
-            AppId = "wxaa9e6cb3f03afa97",
-            AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
-        };
-
-        //static WxBaseTests()
-        //{
-        //    OsConfig.CacheProvider = moduleName =>
-        //    {
-        //        return null;
-        //    };
-        //}
+            var config = DirConfigUtil.GetDirConfig<TestConfigInfo>("my_weixin_appconfig");
+            if (config==null)
+            {
+                throw new ArgumentException("请将下边的配置信息直接赋值，或者通过DirConfigUtil.SetDirConfig初始化一下基础配置信息");
+            }
+            m_Config = config.WxConfig;
+            
+            OsConfig.CacheProvider=
+            moduleName =>
+            {
+                if (config!=null)
+                {
+                    return new RedisCache(0, config.RedisConnectionStr);
+                }
+                return null;//  走系统默认缓存
+            };
+        }
 
         public WxBaseTests()
         {
@@ -71,5 +81,12 @@ namespace OSS.Social.Tests.WxTests
         //
         #endregion
 
+    }
+
+
+    public class TestConfigInfo
+    {
+        public WxAppCoinfig WxConfig { get; set; }
+        public string RedisConnectionStr { get; set; }
     }
 }
