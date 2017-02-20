@@ -180,7 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="bin\Debug\Config\my_weixin_appconfig.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

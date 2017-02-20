@@ -100,6 +100,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
 
             var res = m_Api.UploadTempMediaAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
+            //{ "type":"image","media_id":"w6q00gTWx6n6fsgBiM-VoKS32Uq-vNWhx5EpM85YyeG8IOk1FdPlJNo8bE7PFE6j","created_at":1487601780}
         }
 
         [TestMethod]
@@ -167,7 +168,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
             var res = m_Api.UploadMediaAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
 
-            // 1xOBXsBtRgetSsO8INAcQxiKCT1JD-5toVEOzrnJ2r0
+            //{ "media_id":"zXOYSQS_A3op3R9ZW0EYKwbjgQ544KTICzLWYAUgpfU"}
         }
 
         [TestMethod]
