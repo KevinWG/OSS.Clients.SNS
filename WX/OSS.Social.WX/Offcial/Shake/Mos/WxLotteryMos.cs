@@ -34,7 +34,7 @@ namespace OSS.Social.WX.Offcial.Shake.Mos
         /// <summary>   
         ///    int 抽奖开关。0关闭，1开启，默认为1
         /// </summary>  
-        public int onoff { get; set; }
+        public int onoff { get; set; } = 1;
 
         /// <summary>   
         ///    long 抽奖活动开始时间，unix时间戳，单位秒
