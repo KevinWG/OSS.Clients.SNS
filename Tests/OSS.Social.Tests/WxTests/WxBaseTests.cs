@@ -16,6 +16,8 @@ namespace OSS.Social.Tests.WxTests
 
         static WxBaseTests()
         {
+            // 可以在这里初始化appid 等配置信息，也可以在下边直接赋值
+            // DirConfigUtil.SetDirConfig("my_weixin_appconfig",new TestConfigInfo(){})
             var config = DirConfigUtil.GetDirConfig<TestConfigInfo>("my_weixin_appconfig");
             if (config==null)
             {
@@ -23,23 +25,16 @@ namespace OSS.Social.Tests.WxTests
             }
             m_Config = config.WxConfig;
             
-            OsConfig.CacheProvider=
-            moduleName =>
+            OsConfig.CacheProvider=moduleName =>
             {
                 if (config!=null)
                 {
                     return new RedisCache(0, config.RedisConnectionStr);
                 }
-                return null;//  走系统默认缓存
+                return null;//  如果为空会走系统缓存
             };
         }
 
-        public WxBaseTests()
-        {
-            //
-            //TODO:  在此处添加构造函数逻辑
-            //
-        }
 
         private TestContext testContextInstance;
 
@@ -80,7 +75,6 @@ namespace OSS.Social.Tests.WxTests
         // public void MyTestCleanup() { }
         //
         #endregion
-
     }
 
 
