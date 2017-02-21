@@ -11,20 +11,15 @@ namespace OSS.Social.WX.Offcial.Basic.Mos
     public class WxMenuButtonMo
     {
         /// <summary>   
-        ///   必填    一级菜单数组，个数应为1~3个
-        /// </summary>  
-        public string button { get; set; }
-
-        /// <summary>   
         ///   可空    二级菜单数组，个数应为1~5个
         /// </summary>  
         public List<WxMenuButtonMo> sub_button { get; set; }
 
         /// <summary>   
         ///   必填    菜单的响应动作类型
+        /// typeof(WxButtonType).ToEnumDirs()  可获取字典信息
         /// </summary>  
-        [JsonConverter(typeof(StringEnumConverter))]
-        public WxButtonType type { get; set; }
+        public string type { get; set; }
 
         /// <summary>   
         ///   必填    菜单标题，不超过16个字节，子菜单不超过60个字节

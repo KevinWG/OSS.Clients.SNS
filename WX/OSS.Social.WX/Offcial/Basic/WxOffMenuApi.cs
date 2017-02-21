@@ -22,11 +22,19 @@ namespace OSS.Social.WX.Offcial.Basic
     /// <summary>
     /// 公号管理
     /// </summary>
-    public partial class WxOffBasicApi
+    public class WxOffMenuApi:WxOffBaseApi
     {
 
 
         #region 正常菜单管理
+
+       /// <summary>
+       /// 构造函数
+       /// </summary>
+       /// <param name="config"></param>
+        public WxOffMenuApi(WxAppCoinfig config) : base(config)
+        {
+        }
 
         /// <summary>
         ///    添加或更新公号菜单

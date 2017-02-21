@@ -169,6 +169,7 @@
     <Compile Include="WxTests\Baisc\WxOffBasicApiTests.cs" />
     <Compile Include="WxTests\Baisc\WxOffKFTests.cs" />
     <Compile Include="WxTests\Baisc\WxOffMassTests.cs" />
+    <Compile Include="WxTests\Baisc\WxOffMenuApiTests.cs" />
     <Compile Include="WxTests\Store\WxOffStoreTests.cs" />
     <Compile Include="WxTests\WxBaseTests.cs" />
   </ItemGroup>
