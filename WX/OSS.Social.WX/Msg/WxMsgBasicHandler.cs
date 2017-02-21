@@ -213,7 +213,8 @@ namespace OSS.Social.WX.Msg
             {
                 if (m_Config.SecurityType != WxSecurityType.None)
                 {
-                    var dirs = WxMsgHelper.ChangXmlToDir(recXml);
+                    XmlDocument xmlDoc = null;
+                    var dirs = WxMsgHelper.ChangXmlToDir(recXml,ref xmlDoc);
                     if (dirs == null || !dirs.ContainsKey("Encrypt"))
                         return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
 
@@ -235,7 +236,8 @@ namespace OSS.Social.WX.Msg
         /// <param name="recMsgXml">传入消息的xml</param>
         protected ResultMo<MsgContext> ProcessExecute(string recMsgXml)
         {
-            var recMsgDirs = WxMsgHelper.ChangXmlToDir(recMsgXml);
+            XmlDocument xmlDoc = null;
+            var recMsgDirs = WxMsgHelper.ChangXmlToDir(recMsgXml,ref xmlDoc);
 
             if (!recMsgDirs.ContainsKey("MsgType"))
                 return new ResultMo<MsgContext>(ResultTypes.ParaNotMeet, "消息数据中未发现 消息类型（MsgType）字段！");
@@ -247,9 +249,9 @@ namespace OSS.Social.WX.Msg
                     return new ResultMo<MsgContext>(ResultTypes.ParaNotMeet, "事件消息数据中未发现 事件类型（Event）字段！");
             }
 
-            var context = ProcessExecute_BasicMsg(recMsgXml, msgType, recMsgDirs)
-                          ?? ProcessExecute_AdvancedMsg(recMsgXml, msgType, recMsgDirs)
-                          ?? ExecuteBasicMsgHandler(recMsgXml, recMsgDirs, UnknowHandler);
+            var context = ProcessExecute_BasicMsg(xmlDoc, msgType, recMsgDirs)
+                          ?? ProcessExecute_AdvancedMsg(xmlDoc, msgType, recMsgDirs)
+                          ?? ExecuteBasicMsgHandler(xmlDoc, recMsgDirs, UnknowHandler);
 
             return new ResultMo<MsgContext>(context);
         }
@@ -263,7 +265,7 @@ namespace OSS.Social.WX.Msg
         /// <param name="msgType">消息类型</param>
         /// <param name="msgDirs">消息内容体字典</param>
         /// <returns></returns>
-        protected virtual MsgContext ProcessExecute_AdvancedMsg(string recMsgXml, string msgType,
+        protected virtual MsgContext ProcessExecute_AdvancedMsg(XmlDocument recMsgXml, string msgType,
             Dictionary<string, string> msgDirs)
         {
             return null;
@@ -276,7 +278,7 @@ namespace OSS.Social.WX.Msg
         /// <param name="msgType"></param>
         /// <param name="recMsgDirs"></param>
         /// <returns>返回基础消息处理结果</returns>
-        private MsgContext ProcessExecute_BasicMsg(string recMsgXml, string msgType,
+        private MsgContext ProcessExecute_BasicMsg(XmlDocument recMsgXml, string msgType,
             Dictionary<string, string> recMsgDirs)
         {
             MsgContext context = null;
@@ -317,7 +319,7 @@ namespace OSS.Social.WX.Msg
         /// <param name="recEventMsg"></param>
         /// <param name="recEventDirs"></param>
         /// <returns>返回基础事件消息处理结果</returns>
-        private MsgContext ProcessExecute_BasicEventMsg(string recEventMsg, Dictionary<string, string> recEventDirs)
+        private MsgContext ProcessExecute_BasicEventMsg(XmlDocument recEventMsg, Dictionary<string, string> recEventDirs)
         {
             string eventType = recEventDirs["Event"].ToLower();
             MsgContext context = null;
@@ -353,7 +355,7 @@ namespace OSS.Social.WX.Msg
         /// <param name="recMsgDirs"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        private static MsgContext ExecuteBasicMsgHandler<TRecMsg>(string recMsgXml,
+        private static MsgContext ExecuteBasicMsgHandler<TRecMsg>(XmlDocument recMsgXml,
             IDictionary<string, string> recMsgDirs, Func<TRecMsg, BaseReplyMsg> func)
             where TRecMsg : BaseRecMsg, new()
         {
@@ -497,12 +499,14 @@ namespace OSS.Social.WX.Msg
             t.SetMsgDirs(dirs);
             return t;
         }
+
         /// <summary>
         /// 把xml文本转化成字典对象
         /// </summary>
         /// <param name="xml"></param>
+        /// <param name="xmlDoc">返回格式化后的xml对象</param>
         /// <returns></returns>
-        internal static Dictionary<string, string> ChangXmlToDir(string xml)
+        internal static Dictionary<string, string> ChangXmlToDir(string xml,ref XmlDocument xmlDoc)
         {
             if (string.IsNullOrEmpty(xml))
             {
@@ -510,7 +514,7 @@ namespace OSS.Social.WX.Msg
             }
             var dirs = new Dictionary<string, string>();
 
-            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);
             XmlNode xmlNode = xmlDoc.FirstChild;
             XmlNodeList nodes = xmlNode.ChildNodes;

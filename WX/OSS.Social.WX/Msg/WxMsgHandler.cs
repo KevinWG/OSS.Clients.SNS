@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Xml;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Social.WX.Msg.Mos;
@@ -77,7 +78,7 @@ namespace OSS.Social.WX.Msg
         /// <param name="msgType">消息类型</param>
         /// <param name="msgDirs">消息内容体字典</param>
         /// <returns></returns>
-        protected override MsgContext ProcessExecute_AdvancedMsg(string recMsgXml, string msgType, Dictionary<string, string> msgDirs)
+        protected override MsgContext ProcessExecute_AdvancedMsg(XmlDocument recMsgXml, string msgType, Dictionary<string, string> msgDirs)
         {
             string key = msgType == "event" ? string.Concat("event_", msgDirs["Event"].ToLower()) : msgType;
             if (!m_MsgHandlerDir.ContainsKey(key))

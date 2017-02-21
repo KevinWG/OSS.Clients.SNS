@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Xml;
 using OSS.Common.Extention;
 
 namespace OSS.Social.WX.Msg.Mos
@@ -81,7 +82,7 @@ namespace OSS.Social.WX.Msg.Mos
         /// <summary>
         /// 消息实体
         /// </summary>
-        public string RecMsgXml { get;internal set; }
+        public XmlDocument RecMsgXml { get;internal set; }
 
         /// <summary>
         ///   消息id

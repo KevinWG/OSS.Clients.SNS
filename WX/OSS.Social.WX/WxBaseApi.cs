@@ -101,7 +101,6 @@ namespace OSS.Social.WX
             }
             catch (Exception ex)
             {
-                // ignored
                 t = new T() {Ret = (int) ResultTypes.InnerError, Message = ex.Message};
                 LogUtil.Error(string.Concat("基类请求出错，错误信息：", ex.Message), "RestCommon", ModuleNames.SocialCenter);
             }
