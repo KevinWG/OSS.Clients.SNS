@@ -146,12 +146,7 @@ namespace OSS.Social.WX.Offcial.Store.Mos
         ///  必填     门店所在的详细街道地址（不要填写省市信息）（东莞等没有“区”行政区划的城市，该字段可不必填写。其余城市必填。）
         /// </summary>  
         public string address { get; set; }
-
-        /// <summary>   
-        ///   必填  门店的电话（纯数字，区号、分机号均由“-”隔开）  
-        /// </summary>  
-        public string telephone { get; set; }
-
+        
         /// <summary>   
         ///   必填   门店的类型（不同级分类用“,”隔开，如：美食，川菜，火锅。详细分类参见附件：微信门店类目表 GetStoreCategoryAsync接口） 
         /// </summary>  
@@ -186,6 +181,12 @@ namespace OSS.Social.WX.Offcial.Store.Mos
         ///   可空    商户自己的id，用于后续审核通过收到poi_id的通知时，做对应关系。请商户自己保证唯一识别性  
         /// </summary>  
         public string sid { get; set; }
+
+
+        /// <summary>   
+        ///   必填  门店的电话（纯数字，区号、分机号均由“-”隔开）  
+        /// </summary>  
+        public string telephone { get; set; }
 
         /// <summary>   
         ///  可空     图片列表，url形式，可以有多张图片，尺寸为640*340px。必须为上一接口生成的url。图片内容不允许与门店不相关，不允许为二维码、员工合照（或模特肖像）、营业执照、无门店正门的街景、地图截图、公交地铁站牌、菜单截图等
