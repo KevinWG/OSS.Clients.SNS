@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using OSS.Common.Modules.DirConfigModule;
 using OSS.Social.Samples.Controllers.Codes;
 using OSS.Social.WX.Msg.Mos;
 
@@ -8,21 +9,24 @@ namespace OSS.Social.Samples.Controllers
 {
     public class WxMsgController : Controller
     {
-        private static readonly WxMsgServerConfig config = new WxMsgServerConfig()
+        private static readonly WxMsgServerConfig config = DirConfigUtil.GetDirConfig<WxMsgServerConfig>("my_wxmsg_config");
+        
+        static WxMsgController()
         {
-            Token = "90ae131cfda74ae9906bcfc574e2a84a",
-            EncodingAesKey = "你的加密key",
-            SecurityType = WxSecurityType.None,//  在微信段设置的安全模式
-            AppId = "wxc6544368e4c92a16"   //  
-        };
-
+            if (config==null)
+            {
+                throw new ArgumentException("请给config 直接赋值，或者通过 DirConfigUtil.SetDirConfig(\"my_wxmsg_config\", config) 放入配置管理当中");
+            }
+            _msgService = new WxBasicMsgService(config);
+        }
 
         #region   微信消息接口模块
 
-        private static readonly WxBasicMsgService _msgService = new WxBasicMsgService(config);
+        private static readonly WxBasicMsgService _msgService;
 
-        public ContentResult msg(string signature, string timestamp, string nonce, string echostr)
+        public ContentResult Msg(string signature, string timestamp, string nonce, string echostr)
         {
+          
             string requestXml;
             using (StreamReader reader = new StreamReader(Request.Body))
             {
@@ -41,6 +45,12 @@ namespace OSS.Social.Samples.Controllers
         }
 
         #endregion
+
+
+        public ActionResult Index()
+        {
+            return View();
+        }
 
     }
 }

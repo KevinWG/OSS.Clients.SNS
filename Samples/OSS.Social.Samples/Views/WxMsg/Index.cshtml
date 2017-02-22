@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "消息模块";
+}
+
+<div class="container">
+    <h3>
+        <strong>Msg消息模块</strong>
+    </h3>
+    <div class="container">
+        <div class="row">
+            <strong>使用方式：</strong>
+        </div>
+        <div class="row">
+            <br />
+            1. 自定义继承至 WxMsgBasicHandler 的类，例如：WxBasicMsgService
+            <br/>
+
+            <br/>
+            2. 绑定对应的消息处理事件
+            <br/>
+            <br/>
+            3. 配置 /WxMsg/Msg 到微信的消息接收配置中
+        </div>
+        <div class="row">
+            <br />
+            注：如果需要高级功能可以继承至 WxMsgHandler，可以注册高级自定义事件 可以参考<a href="http://www.cnblogs.com/osscoder/p/6363428.html">《开源OSS.Social微信项目进阶介绍》</a>
+        </div>
+    </div>
+</div>

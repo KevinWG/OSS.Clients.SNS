@@ -153,7 +153,7 @@ namespace OSS.Social.WX.Offcial.Store.Mos
         public string telephone { get; set; }
 
         /// <summary>   
-        ///   必填   门店的类型（不同级分类用“,”隔开，如：美食，川菜，火锅。详细分类参见附件：微信门店类目表） 
+        ///   必填   门店的类型（不同级分类用“,”隔开，如：美食，川菜，火锅。详细分类参见附件：微信门店类目表 GetStoreCategoryAsync接口） 
         /// </summary>  
         public List<string> categories { get; set; }
 

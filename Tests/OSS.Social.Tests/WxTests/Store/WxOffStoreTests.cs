@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OSS.Common.Modules.CacheModule;
+using OSS.Common.Extention;
 using OSS.Social.WX.Offcial.Store;
 using OSS.Social.WX.Offcial.Store.Mos;
 
@@ -28,17 +27,34 @@ namespace OSS.Social.Tests.WxTests.Store
         {
             var req = new WxStoreBasicSmallMo();
 
-            req.address = "英特国际公寓";
-            req.avg_price = 80;
-            req.branch_name = "西坝河店";
-            req.business_name = "绝味鸭脖";
-
-            req.categories = new List<string>() { "美食" };
             req.city = "北京";
             req.district = "朝阳区";
+            req.address = "英特国际公寓A座";
+            req.branch_name = "西坝河分部";
+            req.business_name = "OSSCoder作坊";
 
+            req.avg_price = 80;
+            req.categories = new List<string>() { "公司企业,企业/工厂" };
 
-            var res = m_Api.AddStoreAsync(req);
+            req.offset_type = 1;
+            req.latitude = 39.967420F;
+            req.longitude = 116.437680F;
+            req.province = "北京市";
+            req.telephone = "18610933383";
+
+            req.introduction = "OSSCoder分部接待单位";
+            req.open_time = "8:00-18:00";
+            req.sid = "osss2";
+
+            var res = m_Api.AddStoreAsync(req).WaitResult();
+            Assert.IsTrue(res.IsSuccess);
+        }
+
+        [TestMethod]
+        public void GetStoreCategoryAsyncTest()
+        {
+            var res = m_Api.GetStoreCategoryAsync().WaitResult();
+            Assert.IsTrue(res.IsSuccess);
         }
 
 

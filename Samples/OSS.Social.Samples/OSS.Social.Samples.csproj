@@ -21,5 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\WX\OSS.Social.WX\OSS.Social.WX.csproj" />
   </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="http://json.schemastore.org/pattern" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -209,11 +209,6 @@ namespace OSS.Social.WX.Msg.Mos
     public class MsgContext
     {
         /// <summary>
-        /// 当前请求消息内容
-        /// </summary>
-        public string ContextXml { get; internal set; }
-
-        /// <summary>
         /// 接收内容
         /// </summary>
         public BaseRecMsg RecMsg { get; set; }

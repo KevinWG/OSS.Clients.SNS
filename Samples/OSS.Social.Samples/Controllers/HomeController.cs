@@ -16,7 +16,6 @@ namespace OSS.Social.Samples.Controllers
         {
             //var token = api.GetAccessTokenAsync().WaitResult();
             //return Content($"accesstoken:{token.access_token}");
-
             //var path = AppContext.BaseDirectory;
             return View();
         }
