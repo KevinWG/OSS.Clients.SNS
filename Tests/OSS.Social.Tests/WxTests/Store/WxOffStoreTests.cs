@@ -48,6 +48,7 @@ namespace OSS.Social.Tests.WxTests.Store
 
             var res = m_Api.AddStoreAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
+            //{"errcode":0,"errmsg":"ok","poi_id":"467122530"}
         }
 
         [TestMethod]
@@ -57,6 +58,27 @@ namespace OSS.Social.Tests.WxTests.Store
             Assert.IsTrue(res.IsSuccess);
         }
 
+        [TestMethod]
+        public void GetStoreAsyncTest()
+        {
+            var res = m_Api.GetStoreAsync(467122530).WaitResult();
+            Assert.IsTrue(res.IsSuccess);
+        }
 
+    
+        [TestMethod]
+        public void GetStoreListAsyncTest()
+        {
+            var res = m_Api.GetStoreListAsync().WaitResult();
+            Assert.IsTrue(res.IsSuccess);
+        }
+
+
+        [TestMethod]
+        public void DeleteStoreAsyncTest()
+        {
+            var res = m_Api.DeleteStoreAsync(467122530).WaitResult();
+            Assert.IsTrue(res.IsSuccess);
+        }
     }
 }
