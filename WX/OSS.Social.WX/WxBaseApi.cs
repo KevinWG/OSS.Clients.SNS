@@ -44,11 +44,7 @@ namespace OSS.Social.WX
         {
             get
             {
-                if (_config != null)
-                {
-                    return _config;
-                }
-                return DefaultConfig;
+                return _config ?? DefaultConfig;
             }
         }
 
@@ -107,6 +103,7 @@ namespace OSS.Social.WX
             return t ?? new T() {Ret = 0};
         }
 
+        #region   全局错误处理
 
         /// <summary>
         /// 基本错误信息字典，基类中继续完善
@@ -285,17 +282,16 @@ namespace OSS.Social.WX
         /// <param name="message"></param>
         protected static void RegisteErrorCode(int code, string message) => m_DicErrMsg.TryAdd(code, message);
 
-
-
-
-
         /// <summary>
-        /// 
+        /// 获取错误信息
         /// </summary>
         /// <param name="errCode"></param>
         /// <returns></returns>
         protected static string GetErrMsg(int errCode)
             => m_DicErrMsg.ContainsKey(errCode) ? m_DicErrMsg[errCode] : string.Empty;
+
+        #endregion
+
 
     }
 
