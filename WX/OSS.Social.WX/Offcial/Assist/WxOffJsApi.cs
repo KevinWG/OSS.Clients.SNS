@@ -17,17 +17,22 @@ using OSS.Common.Modules;
 using OSS.Common.Modules.CacheModule;
 using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Assist.Mos;
-using OSS.Social.WX.SysUtils;
-using OSS.Social.WX.SysUtils.Mos;
+using OSS.Social.WX.SysTools;
+using OSS.Social.WX.SysTools.Mos;
 
 namespace OSS.Social.WX.Offcial.Assist
 {
     /// <summary>
     ///   微信公众号辅助接口
     /// </summary>
-    public partial class WxOffAssistApi : WxOffBaseApi
+    public class WxOffAssistApi : WxOffBaseApi
     {
-        public WxOffAssistApi(WxAppCoinfig config) : base(config)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
+        public WxOffAssistApi(WxAppCoinfig config=null) : base(config)
         {
         }
 

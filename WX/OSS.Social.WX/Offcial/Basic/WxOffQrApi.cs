@@ -22,8 +22,17 @@ namespace OSS.Social.WX.Offcial.Basic
     /// <summary>
     ///   二维码处理
     /// </summary>
-    public partial class WxOffBasicApi
+    public  class WxOffQrApi:WxOffBaseApi
     {
+        /// <summary>
+        /// 配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值
+        /// </summary>
+        /// <param name="config"></param>
+        public WxOffQrApi(WxAppCoinfig config=null):base(config)
+        {
+
+        }
+
         /// <summary>
         /// 获取二维码ticket
         /// </summary>

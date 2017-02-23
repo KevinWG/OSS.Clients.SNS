@@ -99,9 +99,9 @@
     <Compile Include="Sns\Mos\WxAuthMos.cs" />
     <Compile Include="Sns\WxAppUserApi.cs" />
     <Compile Include="Sns\WxOauthApi.cs" />
-    <Compile Include="SysUtils\Mos\CommonEnums.cs" />
-    <Compile Include="SysUtils\WxCacheKeysUtil.cs" />
-    <Compile Include="SysUtils\WxDictionaryUtil.cs" />
+    <Compile Include="SysTools\Mos\CommonEnums.cs" />
+    <Compile Include="SysTools\WxCacheKeysUtil.cs" />
+    <Compile Include="SysTools\WxDictionaryUtil.cs" />
     <Compile Include="WxBaseApi.cs" />
   </ItemGroup>
   <ItemGroup />

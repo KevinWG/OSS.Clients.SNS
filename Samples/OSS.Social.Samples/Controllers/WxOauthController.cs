@@ -2,7 +2,7 @@
 using OSS.Common.Extention;
 using OSS.Social.WX;
 using OSS.Social.WX.Sns;
-using OSS.Social.WX.SysUtils.Mos;
+using OSS.Social.WX.SysTools.Mos;
 
 namespace OSS.Social.Samples.Controllers
 {

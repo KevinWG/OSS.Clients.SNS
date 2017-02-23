@@ -28,7 +28,7 @@ namespace OSS.Social.WX
     /// <summary>
     /// 微信接口SDK基类
     /// </summary>
-    public class WxBaseApi
+    public abstract class WxBaseApi
     {
         /// <summary>
         ///   默认配置信息，如果实例中的配置为空会使用当前配置信息
@@ -56,7 +56,7 @@ namespace OSS.Social.WX
         /// 微信api接口地址
         /// </summary>
         protected const string m_ApiUrl = "https://api.weixin.qq.com";
-
+  
         /// <summary>
         /// 构造函数
         /// </summary>

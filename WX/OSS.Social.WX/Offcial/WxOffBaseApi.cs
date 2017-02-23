@@ -21,7 +21,7 @@ using OSS.Common.Modules;
 using OSS.Common.Modules.CacheModule;
 using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Basic.Mos;
-using OSS.Social.WX.SysUtils;
+using OSS.Social.WX.SysTools;
 
 namespace OSS.Social.WX.Offcial
 {
@@ -31,7 +31,7 @@ namespace OSS.Social.WX.Offcial
     public class WxOffBaseApi:WxBaseApi
     {
         private readonly string m_OffcialAccessTokenKey;
-   
+      
         /// <summary>
         /// 构造函数
         /// </summary>

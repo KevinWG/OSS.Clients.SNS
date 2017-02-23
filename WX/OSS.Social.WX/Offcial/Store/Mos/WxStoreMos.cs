@@ -12,7 +12,6 @@
 #endregion
 
 using System.Collections.Generic;
-using OSS.Social.WX.SysUtils.Mos;
 
 namespace OSS.Social.WX.Offcial.Store.Mos
 {

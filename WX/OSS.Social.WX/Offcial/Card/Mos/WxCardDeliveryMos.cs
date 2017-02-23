@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
 using OSS.Social.WX.Offcial.Basic.Mos;
-using OSS.Social.WX.SysUtils.Mos;
 
 namespace OSS.Social.WX.Offcial.Card.Mos
 {

@@ -14,7 +14,7 @@
 using System.Threading.Tasks;
 using OSS.Http.Mos;
 using OSS.Social.WX.Sns.Mos;
-using OSS.Social.WX.SysUtils.Mos;
+using OSS.Social.WX.SysTools.Mos;
 
 namespace OSS.Social.WX.Sns
 {
@@ -23,10 +23,11 @@ namespace OSS.Social.WX.Sns
     /// </summary>
     public class WxOauthApi:WxBaseApi
     {
+
         /// <summary>
         /// default constructor
         /// </summary>
-        /// <param name="config"></param>
+        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
         public WxOauthApi(WxAppCoinfig config=null) : base(config)
         {
         }

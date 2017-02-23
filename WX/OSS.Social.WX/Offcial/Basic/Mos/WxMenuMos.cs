@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using OSS.Social.WX.SysUtils.Mos;
+using OSS.Social.WX.SysTools.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic.Mos
 {

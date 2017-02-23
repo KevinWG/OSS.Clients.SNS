@@ -20,8 +20,16 @@ using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic
 {
-    public partial class WxOffBasicApi
+    public class WxOffMassApi:WxOffBaseApi
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
+        public WxOffMassApi(WxAppCoinfig config=null):base(config)
+        {
+        }
+
         #region  模板功能
 
         /// <summary>

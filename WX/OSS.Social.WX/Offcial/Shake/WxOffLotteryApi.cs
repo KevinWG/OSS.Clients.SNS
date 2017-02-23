@@ -23,7 +23,11 @@ namespace OSS.Social.WX.Offcial.Shake
     /// </summary>
     public partial class WxOffShakeApi : WxOffBaseApi
     {
-        public WxOffShakeApi(WxAppCoinfig config) : base(config)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
+        public WxOffShakeApi(WxAppCoinfig config=null) : base(config)
         {
         }
 

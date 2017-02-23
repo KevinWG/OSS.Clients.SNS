@@ -19,28 +19,24 @@ using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic
 {
-    /// <summary>
-    ///   用户管理，消息管理
-    /// </summary>
-    public partial class WxOffBasicApi : WxOffBaseApi
-    {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="config"></param>
-        public WxOffBasicApi(WxAppCoinfig config = null) : base(config)
-        {
-        }
-    }
+
 
 
 
     /// <summary>
     ///  公号用户管理接口类
     /// </summary>
-    public partial class WxOffBasicApi
+    public  class WxOffUserApi:WxOffBaseApi
     {
-    
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
+        public WxOffUserApi(WxAppCoinfig config = null) : base(config)
+        {
+
+        }
+
         #region  用户管理
 
         /// <summary>

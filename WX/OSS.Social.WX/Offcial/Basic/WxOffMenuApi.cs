@@ -28,11 +28,11 @@ namespace OSS.Social.WX.Offcial.Basic
 
         #region 正常菜单管理
 
-       /// <summary>
-       /// 构造函数
-       /// </summary>
-       /// <param name="config"></param>
-        public WxOffMenuApi(WxAppCoinfig config) : base(config)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
+        public WxOffMenuApi(WxAppCoinfig config=null) : base(config)
         {
         }
 

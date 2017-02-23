@@ -27,8 +27,8 @@ namespace OSS.Social.WX.Offcial.Card
         /// <summary>
         ///  构造函数
         /// </summary>
-        /// <param name="config"></param>
-        public WxOffCardApi(WxAppCoinfig config) : base(config)
+        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
+        public WxOffCardApi(WxAppCoinfig config=null) : base(config)
         {
         }
 

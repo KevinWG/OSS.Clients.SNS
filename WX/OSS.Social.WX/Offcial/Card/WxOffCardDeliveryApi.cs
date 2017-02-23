@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 using OSS.Common.ComModels.Enums;
 using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Card.Mos;
-using OSS.Social.WX.SysUtils.Mos;
+using OSS.Social.WX.SysTools.Mos;
 
 namespace OSS.Social.WX.Offcial.Card
 {
