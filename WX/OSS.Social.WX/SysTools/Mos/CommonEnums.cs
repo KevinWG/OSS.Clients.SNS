@@ -11,10 +11,9 @@
 
 #endregion
 
-using System.ComponentModel;
 using OSS.Common.Extention;
 
-namespace OSS.Social.WX.SysUtils.Mos
+namespace OSS.Social.WX.SysTools.Mos
 {
     /// <summary>
     ///  授权客户端类型
