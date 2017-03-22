@@ -32,7 +32,6 @@ namespace OSS.Social.WX.Sns
         {
         }
 
-
         /// <summary>
         /// 获取授权地址
         /// </summary>
@@ -79,8 +78,7 @@ namespace OSS.Social.WX.Sns
 
             return await RestCommon<WxGetAccessTokenResp>(request);
         }
-
-
+        
         /// <summary>
         /// 获取用户信息
         /// </summary>
