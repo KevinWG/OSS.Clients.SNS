@@ -1,116 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{23EBF56A-C748-4D3D-BCA0-1F40EC9F6A7B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OSS.Social.WX</RootNamespace>
-    <AssemblyName>OSS.Social.WX</AssemblyName>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <Authors>Kevin</Authors>
+    <Company>OSSCoder</Company>
+    <Product>OSS.Social</Product>
+    <Description>主要针对微信sdk的封装：消息会话，基础授权管理，高级功能</Description>
+    <PackageReleaseNotes>完成标准库移植</PackageReleaseNotes>
+    <PackageIconUrl>http://7xil4i.com1.z0.glb.clouddn.com/osscoder_icon.jpg</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/KevinWG/OSS.Social</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KevinWG/OSS.Social</RepositoryUrl>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\OSS.Social.WX.XML</DocumentationFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <None Include="project.json" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="OSS.Common" Version="1.1.2.8" />
+    <PackageReference Include="OSS.Http" Version="2.2.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BaseMos.cs" />
-    <Compile Include="Msg\Cryptography.cs" />
-    <Compile Include="Msg\Mos\BaseMos.cs" />
-    <Compile Include="Msg\Mos\RecEventMsgMos.cs" />
-    <Compile Include="Msg\Mos\RecMsgMos.cs" />
-    <Compile Include="Msg\Mos\ReplyMsgMos.cs" />
-    <Compile Include="Msg\Mos\WxMsgServerConfig.cs" />
-    <Compile Include="Msg\WxMsgBasicHandler.cs" />
-    <Compile Include="Msg\WxMsgHandler.cs" />
-    <Compile Include="Offcial\Assist\Mos\WxJsMos.cs" />
-    <Compile Include="Offcial\Assist\WxOffJsApi.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxBasicEnums.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxBasicMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxKFMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxMassMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxMediaMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxMenuMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxQrMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxTagMos.cs" />
-    <Compile Include="Offcial\Basic\Mos\WxUserMos.cs" />
-    <Compile Include="Offcial\Basic\WxOffKfApi.cs" />
-    <Compile Include="Offcial\Basic\WxOffMassApi.cs" />
-    <Compile Include="Offcial\Basic\WxOffMediaApi.cs" />
-    <Compile Include="Offcial\Basic\WxOffMenuApi.cs" />
-    <Compile Include="Offcial\Basic\WxOffQrApi.cs" />
-    <Compile Include="Offcial\Basic\WxOffUserApi.cs" />
-    <Compile Include="Offcial\Card\Mos\CardEnums.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardBaseMos.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardConsumeMos.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardDeliveryMos.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardManageMos.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardMemberMos.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardMemberUserMo.cs" />
-    <Compile Include="Offcial\Card\Mos\WxCardStatisticMos.cs" />
-    <Compile Include="Offcial\Card\WxOffCardConsumeApi.cs" />
-    <Compile Include="Offcial\Card\WxOffCardDeliveryApi.cs" />
-    <Compile Include="Offcial\Card\WxOffCardManageApi.cs" />
-    <Compile Include="Offcial\Card\WxOffCardMemberApi.cs" />
-    <Compile Include="Offcial\Card\WxOffCardStatisticApi.cs" />
-    <Compile Include="Offcial\Shake\Mos\WxLotteryMos.cs" />
-    <Compile Include="Offcial\Shake\WxOffLotteryApi.cs" />
-    <Compile Include="Offcial\SmallApp\WxOffAppQrApi.cs" />
-    <Compile Include="Offcial\Statistic\Mos\WxArticleStatMos.cs" />
-    <Compile Include="Offcial\Statistic\Mos\WxInterfaceStatMos.cs" />
-    <Compile Include="Offcial\Statistic\Mos\WxMsgStatMos.cs" />
-    <Compile Include="Offcial\Statistic\Mos\WxUserStatMos.cs" />
-    <Compile Include="Offcial\Statistic\WxOffArticleStatApi.cs" />
-    <Compile Include="Offcial\Statistic\WxOffInterfaceStatApi.cs" />
-    <Compile Include="Offcial\Statistic\WxOffMsgStatApi.cs" />
-    <Compile Include="Offcial\Statistic\WxOffUserStatApi.cs" />
-    <Compile Include="Offcial\Store\Mos\StoreEnums.cs" />
-    <Compile Include="Offcial\Store\Mos\WxStoreMos.cs" />
-    <Compile Include="Offcial\Store\WxOffStoreApi.cs" />
-    <Compile Include="Offcial\WxOffBaseApi.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sns\Mos\WxAppUserMos.cs" />
-    <Compile Include="Sns\Mos\WxAuthMos.cs" />
-    <Compile Include="Sns\WxAppUserApi.cs" />
-    <Compile Include="Sns\WxOauthApi.cs" />
-    <Compile Include="SysTools\Mos\CommonEnums.cs" />
-    <Compile Include="SysTools\WxCacheKeysUtil.cs" />
-    <Compile Include="SysTools\WxDictionaryUtil.cs" />
-    <Compile Include="WxBaseApi.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

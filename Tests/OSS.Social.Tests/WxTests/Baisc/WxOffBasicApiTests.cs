@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common.Extention;
+using OSS.Social.WX.Offcial;
 using OSS.Social.WX.Offcial.Basic;
 using OSS.Social.WX.Offcial.Basic.Mos;
 
@@ -13,7 +14,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
     [TestClass]
     public class WxOffBasicApiTests : WxBaseTests
     {
-        private static WxOffBasicApi m_Api = new WxOffBasicApi(m_Config);
+        private static WxOffUserApi  m_Api = new WxOffUserApi(m_Config);
 
         [TestMethod]
         public void GetAccessTokenTest()
@@ -86,6 +87,8 @@ namespace OSS.Social.Tests.WxTests.Baisc
         }
 
 
+        private static WxOffMediaApi m_MediaApi = new WxOffMediaApi(m_Config);
+
         [TestMethod]
         public void UploadTempMediaTest()
         {
@@ -98,7 +101,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
             req.file_name = "1.jpg";
             req.file_stream = imageFile;
 
-            var res = m_Api.UploadTempMediaAsync(req).WaitResult();
+            var res = m_MediaApi.UploadTempMediaAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
             //{ "type":"image","media_id":"w6q00gTWx6n6fsgBiM-VoKS32Uq-vNWhx5EpM85YyeG8IOk1FdPlJNo8bE7PFE6j","created_at":1487601780}
         }
@@ -106,7 +109,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         [TestMethod]
         public void GetTempMediaTest()
         {
-            var res = m_Api.DownloadTempMediaAsync("MrKJ-9MZ2EDTrVBM1D-dBcskHx6XcHlbx7JSi9J9MSpGvDMapQ9lYmg_p8R1ydDq").WaitResult();//MrKJ-9MZ2EDTrVBM1D-dBcskHx6XcHlbx7JSi9J9MSpGvDMapQ9lYmg_p8R1ydDq
+            var res = m_MediaApi.DownloadTempMediaAsync("MrKJ-9MZ2EDTrVBM1D-dBcskHx6XcHlbx7JSi9J9MSpGvDMapQ9lYmg_p8R1ydDq").WaitResult();//MrKJ-9MZ2EDTrVBM1D-dBcskHx6XcHlbx7JSi9J9MSpGvDMapQ9lYmg_p8R1ydDq
             Assert.IsTrue(res.IsSuccess);
         }
 
@@ -123,7 +126,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
             req.file_name = "1.jpg";
             req.file_stream = imageFile;
 
-            var res = m_Api.UploadFreeImageAsync(req).WaitResult();
+            var res = m_MediaApi.UploadFreeImageAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
             //http://mmbiz.qpic.cn/mmbiz_jpg/N3louEAebXzhBzgsstFNBicyF1j1ZFIGgV55uQHPXLGDwIIDkvxrcnhEVGsEphEicICPLQ7Fh5kubPJg59u0rtFA/0
         }
@@ -142,7 +145,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
             req.file_name = "1.jpg";
             req.file_stream = imageFile;
 
-            var res = m_Api.UploadMediaAsync(req).WaitResult();
+            var res = m_MediaApi.UploadMediaAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
 
             // 1xOBXsBtRgetSsO8INAcQ1x8rkSc5MGMXuFfWxkGRDg
@@ -165,7 +168,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
             req.introduction = "只是试一试好不好玩！";
             req.title = "只是个视频";
 
-            var res = m_Api.UploadMediaAsync(req).WaitResult();
+            var res = m_MediaApi.UploadMediaAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess);
 
             //{ "media_id":"zXOYSQS_A3op3R9ZW0EYKwbjgQ544KTICzLWYAUgpfU"}
@@ -174,7 +177,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         [TestMethod]
         public void GetVedioMediaUrlTest()
         {
-            var res = m_Api.GetMediaVedioUrlAsync("1xOBXsBtRgetSsO8INAcQxiKCT1JD-5toVEOzrnJ2r0").WaitResult();
+            var res = m_MediaApi.GetMediaVedioUrlAsync("1xOBXsBtRgetSsO8INAcQxiKCT1JD-5toVEOzrnJ2r0").WaitResult();
             Assert.IsTrue(res.IsSuccess);
         }
     }

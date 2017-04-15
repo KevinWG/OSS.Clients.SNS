@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common.Extention;
-using OSS.Social.WX;
 using OSS.Social.WX.Offcial.Basic;
 
 namespace OSS.Social.Tests.WxTests.Baisc
@@ -12,7 +11,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
     [TestClass]
     public class WxOffMassTests: WxBaseTests
     {
-        private static WxOffBasicApi m_Api = new WxOffBasicApi(m_Config);
+        private static WxOffMassApi m_Api = new WxOffMassApi(m_Config);
 
         /// <summary>
         /// 发送模板测试
