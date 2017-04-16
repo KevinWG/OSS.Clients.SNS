@@ -1,8 +1,9 @@
 # 快速了解
   当前项目主要是针对社交网站的接口封装，在项目前期主要以微信平台sdk开发为主，根据接口功能层次简单分类，归为一下三个组成部分（微信支付将在支付项目中独立开源）
-  此项目以标准库的形式提供服务，也就是可以同时支持.net framework(4.6及以上版本) 和 .net core
+  此项目以标准库的形式提供服务，也就是可以同时支持.Net Framework(4.6及以上版本) 和 .Net Core
 
 如果有问题，也可以在公众号(osscoder)中提问:
+
 ![osscoder](http://7xil4i.com1.z0.glb.clouddn.com/osscoder_icon.jpg)
 	
    一. **授权对接模块**  (sns)
