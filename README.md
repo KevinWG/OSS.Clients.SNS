@@ -120,12 +120,12 @@ private static WxAppCoinfig m_Config = new WxAppCoinfig()
    
 b. 声明一个实例：
 ```csharp
-    private static readonly WxOffBasicApi m_OffcialApi = new WxOffBasicApi(m_Config);
+    private static readonly WxOffMassApi m_OffcialApi = new WxOffMassApi(m_Config);
 ```
 
 c.  具体使用
 ```csharp
-  m_OffcialApi.SendTemplate("openid","templateId","url",new {})
+  m_OffcialApi.SendTemplateAsync("openid","templateId","url",new {})
 ```
 当前这部分接口框架逻辑部分已经处理完毕，公号主要功能已经完成，还差小店和设备管理（Offcial）等部分的接口完善，后续将很快更新，如果有需要的也可以自己实现或贡献过来，添加一个新接口只需要几行代码即可，详见贡献代码。
 
