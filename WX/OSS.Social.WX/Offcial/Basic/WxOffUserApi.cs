@@ -19,10 +19,6 @@ using OSS.Social.WX.Offcial.Basic.Mos;
 
 namespace OSS.Social.WX.Offcial.Basic
 {
-
-
-
-
     /// <summary>
     ///  公号用户管理接口类
     /// </summary>
