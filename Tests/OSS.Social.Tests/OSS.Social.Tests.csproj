@@ -69,6 +69,9 @@
     <Reference Include="OSS.Common, Version=1.1.2.8, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\OSS.Common.1.1.2.8\lib\netstandard1.3\OSS.Common.dll</HintPath>
     </Reference>
+    <Reference Include="OSS.Http, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OSS.Http.2.2.0\lib\netstandard1.1\OSS.Http.dll</HintPath>
+    </Reference>
     <Reference Include="StackExchange.Redis, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\StackExchange.Redis.1.2.1\lib\net46\StackExchange.Redis.dll</HintPath>
     </Reference>
@@ -139,6 +142,7 @@
     <Compile Include="WxTests\Baisc\WxOffMassTests.cs" />
     <Compile Include="WxTests\Baisc\WxOffMenuApiTests.cs" />
     <Compile Include="WxTests\Store\WxOffStoreTests.cs" />
+    <Compile Include="WxTests\WxAuthTest.cs" />
     <Compile Include="WxTests\WxBaseTests.cs" />
   </ItemGroup>
   <ItemGroup>

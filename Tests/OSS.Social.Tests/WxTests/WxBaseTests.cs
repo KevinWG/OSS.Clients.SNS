@@ -19,7 +19,14 @@ namespace OSS.Social.Tests.WxTests
         {
             // 可以在这里初始化appid 等配置信息，也可以在下边直接赋值
             // DirConfigUtil.SetDirConfig("my_weixin_appconfig",new TestConfigInfo(){})
-            var config = DirConfigUtil.GetDirConfig<TestConfigInfo>("my_weixin_appconfig");
+            var config =new TestConfigInfo()
+            {
+                WxConfig = new WxAppCoinfig()
+                {
+                    AppId = "wxaa9e6cb3f03afa97",
+                    AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
+                }
+            } ;
             if (config==null)
             {
                 throw new ArgumentException("请将下边的配置信息直接赋值，或者通过DirConfigUtil.SetDirConfig初始化一下基础配置信息");
@@ -28,7 +35,7 @@ namespace OSS.Social.Tests.WxTests
             
             OsConfig.CacheProvider=moduleName =>
             {
-                if (config!=null)
+                if (config!=null&&!string.IsNullOrEmpty(config.RedisConnectionStr))
                 {
                     return new RedisCache(0, config.RedisConnectionStr);
                 }

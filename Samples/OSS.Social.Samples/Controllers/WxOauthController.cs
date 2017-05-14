@@ -26,12 +26,12 @@ namespace OSS.Social.Samples.Controllers
 
         public ActionResult callback(string code, string state)
         {
-            var tokecRes = m_AuthApi.GetAuthAccessTokenAsync(code).WaitResult();
-            if (tokecRes.IsSuccess)
-            {
-                var userInfoRes = m_AuthApi.GetWxAuthUserInfoAsync(tokecRes.access_token, tokecRes.openid);
-                return Content("你已成功获取用户信息!");
-            }
+            //var tokecRes = m_AuthApi.GetAuthAccessTokenAsync(code).WaitResult();
+            //if (tokecRes.IsSuccess)
+            //{
+            //    var userInfoRes = m_AuthApi.GetWxAuthUserInfoAsync(tokecRes.access_token, tokecRes.openid);
+            //    return Content("你已成功获取用户信息!");
+            //}
             return Content("获取用户授权信息失败!");
         }
         
