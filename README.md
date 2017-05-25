@@ -10,7 +10,7 @@
 
 ![osscoder](http://7xil4i.com1.z0.glb.clouddn.com/osscoder_icon.jpg)
 	
-   一. **授权对接模块**  (sns)
+   一. **授权对接模块**  (Oauth)
    
    	用户授权（oauth2.0），用户授权基础信息
     
