@@ -1,4 +1,4 @@
-﻿using OSS.Common.Modules.LogModule;
+﻿using OSS.Common.Plugs.LogPlug;
 using OSS.Social.WX.Msg;
 using OSS.Social.WX.Msg.Mos;
 

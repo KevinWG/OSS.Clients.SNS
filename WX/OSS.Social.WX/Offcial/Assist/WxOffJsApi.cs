@@ -13,8 +13,9 @@
 
 using System;
 using System.Threading.Tasks;
+using OSS.Common.ComModels;
 using OSS.Common.Modules;
-using OSS.Common.Modules.CacheModule;
+using OSS.Common.Plugs.CachePlug;
 using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Assist.Mos;
 using OSS.Social.WX.SysTools;
@@ -32,7 +33,7 @@ namespace OSS.Social.WX.Offcial.Assist
         /// 
         /// </summary>
         /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
-        public WxOffAssistApi(WxAppCoinfig config=null) : base(config)
+        public WxOffAssistApi(AppConfig config=null) : base(config)
         {
         }
 

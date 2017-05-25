@@ -4,7 +4,7 @@ namespace OSS.Social.Samples.Controllers
 {
     public class HomeController : Controller
     {
-        //private static WxAppCoinfig m_Config = new WxAppCoinfig()
+        //private static AppConfig m_Config = new AppConfig()
         //{
         //    AppSource = "11",
         //    AppId = "wxaa9e6cb3f03afa97",

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using OSS.Common.Modules.DirConfigModule;
+using OSS.Common.Plugs.DirConfigPlug;
 using OSS.Social.Samples.Controllers.Codes;
 using OSS.Social.WX.Msg.Mos;
 

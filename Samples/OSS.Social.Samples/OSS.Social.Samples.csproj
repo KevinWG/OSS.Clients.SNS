@@ -14,7 +14,7 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.0.1" />
-    <PackageReference Include="OSS.Common" Version="1.1.2.8" />
+    <PackageReference Include="OSS.Common" Version="1.1.3.26" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />

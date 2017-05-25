@@ -12,6 +12,7 @@
 #endregion
 
 using System.Threading.Tasks;
+using OSS.Common.ComModels;
 using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Statistic.Mos;
 
@@ -27,7 +28,7 @@ namespace OSS.Social.WX.Offcial.Statistic
         /// 构造函数
         /// </summary>
         /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
-        public WxOffStatApi(WxAppCoinfig config=null) : base(config)
+        public WxOffStatApi(AppConfig config=null) : base(config)
        {
        }
     }

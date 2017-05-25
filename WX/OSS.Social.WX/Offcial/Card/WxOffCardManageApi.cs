@@ -14,6 +14,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using OSS.Common.ComModels;
 using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Card.Mos;
 
@@ -28,7 +29,7 @@ namespace OSS.Social.WX.Offcial.Card
         ///  构造函数
         /// </summary>
         /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
-        public WxOffCardApi(WxAppCoinfig config=null) : base(config)
+        public WxOffCardApi(AppConfig config=null) : base(config)
         {
         }
 

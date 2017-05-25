@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Social.WX;
 using OSS.Social.WX.Sns;
@@ -8,7 +9,7 @@ namespace OSS.Social.Samples.Controllers
 {
     public class wxOauthController : Controller
     {
-        private static WxAppCoinfig m_Config = new WxAppCoinfig()
+        private static AppConfig m_Config = new AppConfig()
         {
             AppSource = "11",
             AppId = "wxaa9e6cb3f03afa97",

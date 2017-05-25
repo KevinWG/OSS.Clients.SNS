@@ -35,7 +35,7 @@
 
 ```csharp
 	//声明配置信息
- private static WxAppCoinfig m_Config = new WxAppCoinfig()
+ private static AppConfig m_Config = new AppConfig()
   {
       AppSource = "11",
       AppId = "你的appId",
@@ -109,7 +109,7 @@ c. 调用时将当前请求的内容传入程序入口即可：
 a.  声明配置信息：
 ```csharp
 //声明配置信息
-private static WxAppCoinfig m_Config = new WxAppCoinfig()
+private static AppConfig m_Config = new AppConfig()
 {
       AppSource = "11",
       AppId = "你的appId",

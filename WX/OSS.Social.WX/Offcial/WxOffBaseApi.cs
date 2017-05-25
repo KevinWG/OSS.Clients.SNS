@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
 using OSS.Common.Modules;
-using OSS.Common.Modules.CacheModule;
+using OSS.Common.Plugs.CachePlug;
 using OSS.Http.Mos;
 using OSS.Social.WX.Offcial.Basic.Mos;
 using OSS.Social.WX.SysTools;
@@ -36,7 +36,7 @@ namespace OSS.Social.WX.Offcial
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxOffBaseApi(WxAppCoinfig config) : base(config)
+        public WxOffBaseApi(AppConfig config) : base(config)
         {
             m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAccessTokenKey, ApiConfig.AppId);
         }

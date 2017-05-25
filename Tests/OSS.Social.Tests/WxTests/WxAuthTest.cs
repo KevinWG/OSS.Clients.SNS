@@ -1,7 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Http;
+using OSS.Http.Extention;
 using OSS.Http.Mos;
 using OSS.Social.WX;
 using OSS.Social.WX.Sns;
@@ -11,7 +13,7 @@ namespace OSS.Social.Tests.WxTests
     [TestClass]
     public class WxAuthTest
     {
-        private static WxAppCoinfig m_Config = new WxAppCoinfig()
+        private static AppConfig m_Config = new AppConfig()
         {
             AppSource = "11",
             AppId = "wxaa9e6cb3f03afa97",

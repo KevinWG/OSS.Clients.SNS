@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common;
-using OSS.Common.Modules;
-using OSS.Common.Modules.DirConfigModule;
-using OSS.Social.WX;
+using OSS.Common.ComModels;
 
 namespace OSS.Social.Tests.WxTests
 {
@@ -13,7 +11,7 @@ namespace OSS.Social.Tests.WxTests
     [TestClass]
     public class WxBaseTests
     {
-        protected static WxAppCoinfig m_Config = null;
+        protected static AppConfig m_Config = null;
 
         static WxBaseTests()
         {
@@ -21,7 +19,7 @@ namespace OSS.Social.Tests.WxTests
             // DirConfigUtil.SetDirConfig("my_weixin_appconfig",new TestConfigInfo(){})
             var config =new TestConfigInfo()
             {
-                WxConfig = new WxAppCoinfig()
+                WxConfig = new AppConfig()
                 {
                     AppId = "wxaa9e6cb3f03afa97",
                     AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
@@ -88,7 +86,7 @@ namespace OSS.Social.Tests.WxTests
 
     public class TestConfigInfo
     {
-        public WxAppCoinfig WxConfig { get; set; }
+        public AppConfig WxConfig { get; set; }
         public string RedisConnectionStr { get; set; }
     }
 }

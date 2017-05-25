@@ -46,25 +46,5 @@ namespace OSS.Social.WX
     }
 
 
-    /// <summary>
-    /// 微信公众平台配置
-    /// </summary>
-    public class WxAppCoinfig
-    {
-        /// <summary>
-        ///   应用来源,自定义部分
-        /// 如果填写,授权回调时在state中会有赋值
-        /// </summary>
-        public string AppSource { get; set; }
-
-        /// <summary>
-        /// 公众账号AppId
-        /// </summary>
-        public string AppId { get; set; }
-
-        /// <summary>
-        /// 公众账号AppSecret
-        /// </summary>
-        public string AppSecret { get; set; }
-    }
+   
 }

@@ -12,6 +12,7 @@
 #endregion
 
 using System.Threading.Tasks;
+using OSS.Common.ComModels;
 using OSS.Http.Mos;
 using OSS.Social.WX.Sns.Mos;
 
@@ -22,7 +23,7 @@ namespace OSS.Social.WX.Sns
     /// </summary>
     public class WxAppUserApi:WxBaseApi
     {
-        public WxAppUserApi(WxAppCoinfig config) : base(config)
+        public WxAppUserApi(AppConfig config) : base(config)
         {
         }
 

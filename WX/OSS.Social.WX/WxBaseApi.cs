@@ -15,12 +15,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using OSS.Common.ComModels;
-using OSS.Common.ComModels.Enums;
 using OSS.Common.Modules;
-using OSS.Common.Modules.LogModule;
-using OSS.Http;
+using OSS.Http.Extention;
 using OSS.Http.Mos;
 
 namespace OSS.Social.WX
@@ -28,41 +25,19 @@ namespace OSS.Social.WX
     /// <summary>
     /// 微信接口SDK基类
     /// </summary>
-    public abstract class WxBaseApi
+    public class WxBaseApi:BaseRestApi<WxBaseApi>
     {
-        /// <summary>
-        ///   默认配置信息，如果实例中的配置为空会使用当前配置信息
-        /// </summary>
-        public static WxAppCoinfig DefaultConfig { get; set; }
-
-        private readonly WxAppCoinfig _config;
-
-        /// <summary>
-        /// 微信接口配置
-        /// </summary>
-        public WxAppCoinfig ApiConfig
+        public WxBaseApi():this(null)
         {
-            get
-            {
-                return _config ?? DefaultConfig;
-            }
-        }
 
-        /// <summary>
-        /// 微信api接口地址
-        /// </summary>
-        protected const string m_ApiUrl = "https://api.weixin.qq.com";
-  
+        }
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxBaseApi(WxAppCoinfig config)
+        public WxBaseApi(AppConfig config):base(config)
         {
-            if (config == null && DefaultConfig == null)
-                throw new ArgumentNullException("config",
-                    "构造函数中的config 和 全局DefaultConfig 配置信息同时为空，请通过构造函数赋值，或者在程序入口处给 DefaultConfig 赋值！");
-            _config = config;
+            ModuleName = ModuleNames.SocialCenter;
         }
 
         /// <summary>
@@ -72,35 +47,15 @@ namespace OSS.Social.WX
         /// <param name="request">远程请求组件的request基本信息</param>
         /// <param name="funcFormat">获取实体格式化方法</param>
         /// <returns>实体类型</returns>
-        public static async Task<T> RestCommon<T>(OsHttpRequest request,
+        public override async Task<T> RestCommon<T>(OsHttpRequest request,
             Func<HttpResponseMessage, Task<T>> funcFormat = null)
-            where T : ResultMo, new()
         {
-            T t = default(T);
-            try
-            {
-                var resp = await request.RestSend();
-                if (resp.IsSuccessStatusCode)
-                {
-                    if (funcFormat != null)
-                        t = await funcFormat(resp);
-                    else
-                    {
-                        var contentStr = await resp.Content.ReadAsStringAsync();
-                        t = JsonConvert.DeserializeObject<T>(contentStr);
-                    }
-                    if (!t.IsSuccess)
-                    {
-                        t.Message = GetErrMsg(t.Ret);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                t = new T() {Ret = (int) ResultTypes.InnerError, Message = ex.Message};
-                LogUtil.Error(string.Concat("基类请求出错，错误信息：", ex.Message), "RestCommon", ModuleNames.SocialCenter);
-            }
-            return t ?? new T() {Ret = 0};
+            var t = await base.RestCommon(request, funcFormat);
+
+            if (!t.IsSuccess)
+                t.Message = GetErrMsg(t.Ret);
+
+            return t;
         }
 
         #region   全局错误处理

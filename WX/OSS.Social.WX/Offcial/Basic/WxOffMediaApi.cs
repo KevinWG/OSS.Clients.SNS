@@ -26,7 +26,7 @@ namespace OSS.Social.WX.Offcial.Basic
         /// 
         /// </summary>
         /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
-        public WxOffMediaApi(WxAppCoinfig config=null):base(config)
+        public WxOffMediaApi(AppConfig config=null):base(config)
         {
         }
 

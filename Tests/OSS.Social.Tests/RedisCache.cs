@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using OSS.Common.Modules.CacheModule;
+using OSS.Common.Plugs.CachePlug;
 using StackExchange.Redis;
 
 namespace OSS.Social.Tests
