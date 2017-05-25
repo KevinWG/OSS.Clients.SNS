@@ -26,9 +26,9 @@
 	这一部分主要是运营管理，使用频率较低，需要技术支持的功能。
 	包括统计，卡券，门店，设备，客服等功能
 ```
-# OSS.Social.WX 使用
+# OSS.SocialSDK.WX 使用
 ### 一. 安装使用
-      nuget下安装命令：**Install-Package OSS.Social.WX**	
+      nuget下安装命令：**Install-Package OSS.SocialSDK.WX**	
 ### 二. 调用示例
 
 1.基础授权调用（sns文件夹下）
