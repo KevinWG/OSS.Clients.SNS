@@ -6,21 +6,22 @@
 
 如果有问题，也可以在公众号(osscoder)中提问:
 
-![osscoder](http://7xil4i.com1.z0.glb.clouddn.com/osscoder_icon.jpg)
+![osscoder](http://img1.static.osscoder.com/wei_qr.jpg)
 	
    一. **授权对接模块**  (Oauth)
 
-      nuget下安装命令：**Install-Package OSS.SnsSdk.Oauth**   
-   	用户授权（oauth2.0），用户授权基础信息
+    nuget下安装命令：**Install-Package OSS.SnsSdk.Oauth**   
+   	
+	用户授权（oauth2.0），用户授权基础信息
     
    二. **会话消息模块**   (msg)
 
-     nuget下安装命令：**Install-Package OSS.SnsSdk.Msg.Wx**
+    nuget下安装命令：**Install-Package OSS.SnsSdk.Msg.Wx**
 	会话管理，接收用户的会话信息，以及对应的响应
 
    三. **公号高级功能**  (offcial)
 
-      nuget下安装命令：**Install-Package OSS.SnsSdk.Official.Wx**
+    nuget下安装命令：**Install-Package OSS.SnsSdk.Official.Wx**
 
  ```
 	这个模块主要是对公众号内部的功能，像关注用户，标签，素材，统计，小店等功能的对接
@@ -35,9 +36,8 @@
 	包括统计，卡券，门店，设备，客服等功能
 ```
 # OSS.SocialSDK.WX 使用
-### 一. 安装使用
-      nuget下安装命令：**Install-Package OSS.SocialSDK.WX**	
-### 二. 调用示例
+
+### 一. 调用示例
 
 1.基础授权调用（sns文件夹下）
 
@@ -136,7 +136,7 @@ c.  具体使用
 ```
 当前这部分接口框架逻辑部分已经处理完毕，公号主要功能已经完成，还差小店和设备管理（Offcial）等部分的接口完善，后续将很快更新，如果有需要的也可以自己实现或贡献过来，添加一个新接口只需要几行代码即可，详见贡献代码。
 
-###  三.  贡献代码
+###  二.  贡献代码
 这个项目当前主要集中在微信sdk处理，微信部分主体框架部分已经完成，需要对接口进行补充，根据已经封装完毕的框架完成一个接口将非常简单（优雅？!）,以获取用户基本信息为例，简单分为以下两部步：
 
 1.声明对象实体
@@ -183,8 +183,8 @@ public void GetUserInfoTest()
 ```
 剩下的通过git提交即可。
 
-### 四. 实现模式介绍
+### 三. 实现模式介绍
      尽快完善
      
-### 五. 项目依赖
+### 四. 项目依赖
 当前项目依赖于我以前写的开源项目 [OSS.Common](https://github.com/KevinWG/OSS.Common)(全局错误实体，和模块注入)  和  [OSS.Http](https://github.com/KevinWG/OSS.Http)（http请求）   都比较简单小巧,只有几个class，不用担心臃肿
