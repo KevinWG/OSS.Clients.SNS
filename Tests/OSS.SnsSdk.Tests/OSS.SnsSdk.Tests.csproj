@@ -165,10 +165,6 @@
       <Project>{8fa57913-a48b-48ab-8f1d-2b25d59eed04}</Project>
       <Name>OSS.SnsSdk.Official.Wx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sns\Social\OSS.SnsSdk.Social.Wx\OSS.SnsSdk.Social.Wx.csproj">
-      <Project>{e92611a3-31f3-4049-8224-8bce2a320230}</Project>
-      <Name>OSS.SnsSdk.Social.Wx</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

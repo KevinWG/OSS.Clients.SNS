@@ -25,7 +25,6 @@
     <ProjectReference Include="..\..\Sns\Msg\OSS.SnsSdk.Msg.Wx\OSS.SnsSdk.Msg.Wx.csproj" />
     <ProjectReference Include="..\..\Sns\Oauth\OSS.SnsSdk.Oauth\OSS.SnsSdk.Oauth.csproj" />
     <ProjectReference Include="..\..\Sns\Official\OSS.SnsSdk.Official.Wx\OSS.SnsSdk.Official.Wx.csproj" />
-    <ProjectReference Include="..\..\Sns\Social\OSS.SnsSdk.Social.Wx\OSS.SnsSdk.Social.Wx.csproj" />
   </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="http://json.schemastore.org/pattern" /></VisualStudio></ProjectExtensions>
 

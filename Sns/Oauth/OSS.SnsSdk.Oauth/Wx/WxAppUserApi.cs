@@ -14,9 +14,9 @@
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Http.Mos;
-using OSS.SnsSdk.Social.Wx.Mos;
+using OSS.SnsSdk.Oauth.Wx.Mos;
 
-namespace OSS.SnsSdk.Social.Wx
+namespace OSS.SnsSdk.Oauth.Wx
 {
     /// <summary>
     ///  小程序用户相关接口

@@ -14,9 +14,9 @@
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Http.Mos;
-using OSS.SnsSdk.Oauth.Mos;
+using OSS.SnsSdk.Oauth.Wx.Mos;
 
-namespace OSS.SnsSdk.Oauth
+namespace OSS.SnsSdk.Oauth.Wx
 {
     /// <summary>
     /// oauth 授权接口
@@ -56,10 +56,13 @@ namespace OSS.SnsSdk.Oauth
         /// <returns></returns>
         public async Task<WxGetAccessTokenResp> GetAuthAccessTokenAsync(string code)
         {
-            var req=new OsHttpRequest();
+            var req = new OsHttpRequest
+            {
+                AddressUrl =
+                    $"{m_ApiUrl}/sns/oauth2/access_token?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&code={code}&grant_type=authorization_code",
+                HttpMothed = HttpMothed.GET
+            };
 
-            req.AddressUrl = $"{m_ApiUrl}/sns/oauth2/access_token?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&code={code}&grant_type=authorization_code";
-            req.HttpMothed=HttpMothed.GET;
 
             return await RestCommon<WxGetAccessTokenResp>(req);
         }
@@ -71,10 +74,13 @@ namespace OSS.SnsSdk.Oauth
         /// <returns></returns>
         public async Task<WxGetAccessTokenResp> RefreshAuthAccessTokenAsync(string accessToken)
         {
-            var request = new OsHttpRequest();
+            var request = new OsHttpRequest
+            {
+                AddressUrl =
+                    $"{m_ApiUrl}/sns/oauth2/refresh_token?appid={ApiConfig.AppId}&grant_type=refresh_token&refresh_token={accessToken}",
+                HttpMothed = HttpMothed.GET
+            };
 
-            request.AddressUrl = $"{m_ApiUrl}/sns/oauth2/refresh_token?appid={ApiConfig.AppId}&grant_type=refresh_token&refresh_token={accessToken}";
-            request.HttpMothed = HttpMothed.GET;
 
             return await RestCommon<WxGetAccessTokenResp>(request);
         }
@@ -87,9 +93,11 @@ namespace OSS.SnsSdk.Oauth
         /// <returns></returns>
         public async Task<WxGetAuthUserResp> GetWxAuthUserInfoAsync(string accessToken, string openId)
         {
-            var request = new OsHttpRequest();
-            request.AddressUrl = $"{m_ApiUrl}/sns/userinfo?access_token={accessToken}&openid={openId}";
-            request.HttpMothed = HttpMothed.GET;
+            var request = new OsHttpRequest
+            {
+                AddressUrl = $"{m_ApiUrl}/sns/userinfo?access_token={accessToken}&openid={openId}",
+                HttpMothed = HttpMothed.GET
+            };
 
             return await RestCommon<WxGetAuthUserResp>(request);
         }
@@ -106,9 +114,11 @@ namespace OSS.SnsSdk.Oauth
         {
             string url = $"{m_ApiUrl}/sns/auth?access_token={accessToken}&openid={openId}";
 
-            var request = new OsHttpRequest();
-            request.AddressUrl = url;
-            request.HttpMothed = HttpMothed.GET;
+            var request = new OsHttpRequest
+            {
+                AddressUrl = url,
+                HttpMothed = HttpMothed.GET
+            };
 
             return await RestCommon<WxBaseResp>(request);
         }

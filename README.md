@@ -1,7 +1,5 @@
 # 快速了解
 
-(待更新！)
-
 	当前项目主要是针对社交网站的接口封装，在项目前期主要以微信平台sdk开发为主，根据接口功能层次简单分类，
 	此项目以标准库的形式提供服务，也就是可以同时支持.Net Framework(4.6及以上版本) 和 .Net Core
 
@@ -11,14 +9,19 @@
 ![osscoder](http://7xil4i.com1.z0.glb.clouddn.com/osscoder_icon.jpg)
 	
    一. **授权对接模块**  (Oauth)
-   
+
+      nuget下安装命令：**Install-Package OSS.SnsSdk.Oauth**   
    	用户授权（oauth2.0），用户授权基础信息
     
    二. **会话消息模块**   (msg)
 
+     nuget下安装命令：**Install-Package OSS.SnsSdk.Msg.Wx**
 	会话管理，接收用户的会话信息，以及对应的响应
 
    三. **公号高级功能**  (offcial)
+
+      nuget下安装命令：**Install-Package OSS.SnsSdk.Official.Wx**
+
  ```
 	这个模块主要是对公众号内部的功能，像关注用户，标签，素材，统计，小店等功能的对接
 	这里根据接口使用频率以及使用对象 分为两个组成部分

@@ -4,6 +4,7 @@ using OSS.Common.Extention;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Oauth;
+using OSS.SnsSdk.Oauth.Wx;
 
 namespace OSS.Social.Tests.WxTests
 {

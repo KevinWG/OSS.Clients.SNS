@@ -13,7 +13,7 @@
 
 using System.Collections.Generic;
 
-namespace OSS.SnsSdk.Oauth.Mos
+namespace OSS.SnsSdk.Oauth.Wx.Mos
 {
     /// <summary>
     /// 获取wxaccesstoken 响应实体

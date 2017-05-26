@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Oauth", "Oauth", "{4DDBFA01
 		Sns\Oauth\ReadMe.md = Sns\Oauth\ReadMe.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Offical", "Offical", "{2E8E5A6E-F931-41F1-8DF5-F2F4E5E807FD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Official", "Official", "{2E8E5A6E-F931-41F1-8DF5-F2F4E5E807FD}"
 	ProjectSection(SolutionItems) = preProject
 		Sns\Official\ReadMe.md = Sns\Official\ReadMe.md
 	EndProjectSection
@@ -46,8 +46,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.SnsSdk.Oauth", "Sns\Oauth\OSS.SnsSdk.Oauth\OSS.SnsSdk.Oauth.csproj", "{B2F50A24-00DB-4BC4-9967-44505A2689EB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.SnsSdk.Official.Wx", "Sns\Official\OSS.SnsSdk.Official.Wx\OSS.SnsSdk.Official.Wx.csproj", "{8FA57913-A48B-48AB-8F1D-2B25D59EED04}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.SnsSdk.Social.Wx", "Sns\Social\OSS.SnsSdk.Social.Wx\OSS.SnsSdk.Social.Wx.csproj", "{E92611A3-31F3-4049-8224-8BCE2A320230}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,8 +75,8 @@ Global
 		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Debug|x64.Build.0 = Debug|Any CPU
 		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Debug|x86.Build.0 = Debug|Any CPU
-		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Release|x64.ActiveCfg = Release|Any CPU
 		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Release|x64.Build.0 = Release|Any CPU
 		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Release|x86.ActiveCfg = Release|Any CPU
@@ -119,18 +117,6 @@ Global
 		{8FA57913-A48B-48AB-8F1D-2B25D59EED04}.Release|x64.Build.0 = Release|Any CPU
 		{8FA57913-A48B-48AB-8F1D-2B25D59EED04}.Release|x86.ActiveCfg = Release|Any CPU
 		{8FA57913-A48B-48AB-8F1D-2B25D59EED04}.Release|x86.Build.0 = Release|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Debug|x64.Build.0 = Debug|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Debug|x86.Build.0 = Debug|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Release|x64.ActiveCfg = Release|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Release|x64.Build.0 = Release|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Release|x86.ActiveCfg = Release|Any CPU
-		{E92611A3-31F3-4049-8224-8BCE2A320230}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,6 +131,5 @@ Global
 		{36A5EDF8-A414-473C-A69A-6472A56B1417} = {2D82DBC8-6065-4D3C-972C-15A66363DAB4}
 		{B2F50A24-00DB-4BC4-9967-44505A2689EB} = {4DDBFA01-60B0-484D-87F1-A5576600D2A2}
 		{8FA57913-A48B-48AB-8F1D-2B25D59EED04} = {2E8E5A6E-F931-41F1-8DF5-F2F4E5E807FD}
-		{E92611A3-31F3-4049-8224-8BCE2A320230} = {C520EEBA-8198-4681-83A6-66C294129782}
 	EndGlobalSection
 EndGlobal

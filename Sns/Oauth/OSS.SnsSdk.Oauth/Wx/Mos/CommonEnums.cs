@@ -11,7 +11,7 @@
 
 #endregion
 
-namespace OSS.SnsSdk.Oauth.Mos
+namespace OSS.SnsSdk.Oauth.Wx.Mos
 {
     /// <summary>
     ///  授权客户端类型

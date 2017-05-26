@@ -2,6 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
+    <Version>0.9.0</Version>
+    <Authors>Kevin</Authors>
+    <Company>OSSCoder</Company>
+    <Description>微信公众号功能接口</Description>
+    <PackageLicenseUrl>https://github.com/KevinWG/OSS.SnsSdk/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/KevinWG/OSS.SnsSdk/tree/master/Sns/Official</PackageProjectUrl>
+    <PackageIconUrl>http://okwsur8oy.bkt.clouddn.com/logo.jpg</PackageIconUrl>
+    <RepositoryUrl>https://github.com/KevinWG/OSS.SnsSdk</RepositoryUrl>
+    <PackageReleaseNotes>公众号功能接口完善</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.3\OSS.SnsSdk.Official.Wx.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -13,7 +13,7 @@
 
 using OSS.Common.ComModels;
 
-namespace OSS.SnsSdk.Oauth
+namespace OSS.SnsSdk.Oauth.Wx.Mos
 {
  
 

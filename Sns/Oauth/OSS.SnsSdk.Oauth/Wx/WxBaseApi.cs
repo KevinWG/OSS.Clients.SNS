@@ -20,7 +20,7 @@ using OSS.Common.Modules;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
 
-namespace OSS.SnsSdk.Social.Wx
+namespace OSS.SnsSdk.Oauth.Wx
 {
     /// <summary>
     /// 微信接口SDK基类
@@ -66,7 +66,6 @@ namespace OSS.SnsSdk.Social.Wx
         /// </summary>
         protected static ConcurrentDictionary<int, string> m_DicErrMsg = new ConcurrentDictionary<int, string>();
         
-
         /// <summary>
         /// 注册错误码
         /// </summary>

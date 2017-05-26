@@ -11,7 +11,7 @@
 
 #endregion
 
-namespace OSS.SnsSdk.Social.Wx.Mos
+namespace OSS.SnsSdk.Oauth.Wx.Mos
 {
     public class WxGetSessionCodeResp : WxBaseResp
     {

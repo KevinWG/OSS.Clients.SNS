@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common.ComModels;
 using OSS.SnsSdk.Oauth;
-using OSS.SnsSdk.Oauth.Mos;
+using OSS.SnsSdk.Oauth.Wx;
+using OSS.SnsSdk.Oauth.Wx.Mos;
 
 namespace OSS.SnsSdk.Samples.Controllers
 {
