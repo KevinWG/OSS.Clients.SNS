@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.SnsSdk.Official.Wx.Basic;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
@@ -20,7 +21,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         public void AddKFAccountAsyncTest()
         {
             var res = m_Api.AddKfAccountAsync("kevin@kevin","kevin").WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         public void GetKFAccountListAsyncTest()
         {
             var res = m_Api.GetKFAccountListAsync().WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
             //{"kf_list":[{"kf_account":"kevin@kevin","kf_headimgurl":"","kf_id":2001,"kf_nick":"kevin"}]}
         }
 
@@ -42,7 +43,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         public void InviteKfWorkerTest()
         {
             var res = m_Api.InviteKfWorker("kevin@kevin","kevin_-_wang").WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
 
 
@@ -54,7 +55,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         public void GetKfSessionsByAccountTest()
         {
             var res = m_Api.GetKfSessionsByAccount("kevin@kevin").WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
 
 
@@ -65,7 +66,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         public void GetKfWaitUserListTest()
         {
             var res = m_Api.GetKfWaitUserList().WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
 
 
@@ -76,7 +77,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         public void SenKfMsgAsyncTest()
         {
             var res = m_Api.SenKfTextMsgAsync("oHoSOt2w5uuxWKeVQTwoZQDuZ-nM","只是测试").WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
         
 
@@ -92,7 +93,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
                 starttime = DateTime.Now.AddHours(-1).ToUtcSeconds()
                 ,number = 100
             }).WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
 
 
@@ -105,7 +106,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         {
            //图片
              var res = m_Api.SenKfMediaMsgAsync("oHoSOt2w5uuxWKeVQTwoZQDuZ-nM","image", "w6q00gTWx6n6fsgBiM-VoKS32Uq-vNWhx5EpM85YyeG8IOk1FdPlJNo8bE7PFE6j", "kevin@kevin").WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
 
 
@@ -118,7 +119,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
             // 视频
             var res = m_Api.SenKfVideoMsgSync("oHoSOt2w5uuxWKeVQTwoZQDuZ-nM", "zXOYSQS_A3op3R9ZW0EYKwbjgQ544KTICzLWYAUgpfU",
                     string.Empty, "视频标题", "视频描述", "kevin@kevin").WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
         
     }

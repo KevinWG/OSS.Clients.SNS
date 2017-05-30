@@ -16,7 +16,7 @@ using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
-using OSS.Common.Modules;
+using OSS.Common.Plugs;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
 
@@ -27,6 +27,13 @@ namespace OSS.SnsSdk.Official.Wx
     /// </summary>
     public class WxBaseApi:BaseRestApi<WxBaseApi>
     {
+
+        /// <summary>
+        /// 微信api接口地址
+        /// </summary>
+        protected const string m_ApiUrl = "https://api.weixin.qq.com";
+
+
         public WxBaseApi():this(null)
         {
 
@@ -53,8 +60,8 @@ namespace OSS.SnsSdk.Official.Wx
         {
             var t = await base.RestCommon(request, funcFormat);
 
-            if (!t.IsSuccess)
-                t.Message = GetErrMsg(t.Ret);
+            if (!t.IsSuccess())
+                t.message = GetErrMsg(t.ret);
 
             return t;
         }

@@ -41,7 +41,7 @@ namespace OSS.SnsSdk.Official.Wx.SmallApp
         public async Task<WxFileResp> DownloadMediaAsync(string path, int width)
         {
             var accessToken = await GetAccessTokenAsync();
-            if (!accessToken.IsSuccess)
+            if (!accessToken.IsSuccess())
                 return accessToken.ConvertToResult<WxFileResp>();
 
             var req = new OsHttpRequest

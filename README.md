@@ -63,7 +63,7 @@
   public ActionResult callback(string code, string state)
   {
       var tokecRes = m_AuthApi.GetAuthAccessToken(code);
-      if (tokecRes.IsSuccess)
+      if (tokecRes.IsSuccess())
       {
           var userInfoRes = m_AuthApi.GetWxAuthUserInfo(tokecRes.AccessToken, tokecRes.OpenId);
           return Content("你已成功获取用户信息!");
@@ -99,8 +99,8 @@ c. 调用时将当前请求的内容传入程序入口即可：
    try
    {
        var res = msgService.Process( requestXml, signature, timestamp, nonce,echostr);
-       if (res.IsSuccess)        
-           return Content(res.Data);
+       if (res.IsSuccess())        
+           return Content(res.data);
    }
    catch (Exception ex)
    {
@@ -177,8 +177,8 @@ public WxOffcialUserInfoResp GetUserInfo(WxOffcialUserInfoReq userReq)
 public void GetUserInfoTest()
 {
     var res = m_Api.GetUserInfo(new WxOffcialUserInfoReq() 
-									{openid = "o7gE1s6mygEKgopVWp7BBtEAqT-w" });
-    Assert.IsTrue(res.IsSuccess);
+			{openid = "o7gE1s6mygEKgopVWp7BBtEAqT-w" });
+    Assert.IsTrue(res.IsSuccess());
 }
 ```
 剩下的通过git提交即可。

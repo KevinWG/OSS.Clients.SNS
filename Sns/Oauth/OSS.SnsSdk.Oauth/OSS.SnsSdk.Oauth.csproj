@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
-    <Version>0.9.0</Version>
+    <Version>0.9.1</Version>
     <Authors>Kevin</Authors>
     <Company>OSSCoder</Company>
     <Description>主要社交网站Oauth授权接口</Description>
-    <PackageIconUrl>http://okwsur8oy.bkt.clouddn.com/logo.jpg</PackageIconUrl>
+    <PackageIconUrl>http://img1.static.osscoder.com/logo.jpg</PackageIconUrl>
     <PackageProjectUrl>https://github.com/KevinWG/OSS.SnsSdk/tree/master/Sns/Oauth</PackageProjectUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.SnsSdk</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/KevinWG/OSS.SnsSdk/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageReleaseNotes>微信的Oauth授权</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Http.Extention" Version="1.0.1" />
+    <PackageReference Include="OSS.Http.Extention" Version="1.0.2.2" />
   </ItemGroup>
 
 </Project>

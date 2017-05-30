@@ -156,18 +156,18 @@ namespace OSS.SnsSdk.Msg.Wx
             // 二.  正常消息处理
             {
                 var checkRes = ProcessBegin(contentXml, signature, timestamp, nonce);
-                if (!checkRes.IsSuccess)
+                if (!checkRes.IsSuccess())
                     return checkRes.ConvertToResultOnly<string>();
 
-                var contextRes = ProcessExecute(checkRes.Data);
-                if (!contextRes.IsSuccess)
+                var contextRes = ProcessExecute(checkRes.data);
+                if (!contextRes.IsSuccess())
                     return contextRes.ConvertToResultOnly<string>();
 
-                ProcessEnd(contextRes.Data);
+                ProcessEnd(contextRes.data);
 
-                var resultString = contextRes.Data.ReplyMsg.ToReplyXml();
+                var resultString = contextRes.data.ReplyMsg.ToReplyXml();
                 if (m_Config.SecurityType != WxSecurityType.None &&
-                     !string.IsNullOrEmpty(contextRes.Data.ReplyMsg.MsgType))
+                     !string.IsNullOrEmpty(contextRes.data.ReplyMsg.MsgType))
                 {
                     return WxMsgHelper.EncryptMsg(resultString, m_Config);
                 }
@@ -187,7 +187,7 @@ namespace OSS.SnsSdk.Msg.Wx
         {
             var checkSignRes = WxMsgHelper.CheckSignature(m_Config.Token, signature, timestamp, nonce);
             var resultRes = checkSignRes.ConvertToResultOnly<string>();
-            resultRes.Data = resultRes.IsSuccess ? echostr : string.Empty;
+            resultRes.data = resultRes.IsSuccess() ? echostr : string.Empty;
             return resultRes;
         }
 
@@ -210,7 +210,7 @@ namespace OSS.SnsSdk.Msg.Wx
                 return new ResultMo<string>(ResultTypes.ObjectNull, "接收的消息体为空！");
 
             var resCheck = WxMsgHelper.CheckSignature(m_Config.Token, signature, timestamp, nonce);
-            if (resCheck.IsSuccess)
+            if (resCheck.IsSuccess())
             {
                 if (m_Config.SecurityType != WxSecurityType.None)
                 {

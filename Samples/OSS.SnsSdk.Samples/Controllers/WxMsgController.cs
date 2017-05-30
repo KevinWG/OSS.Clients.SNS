@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using OSS.Common.ComModels;
 using OSS.Common.Plugs.DirConfigPlug;
 using OSS.SocialSDK.Samples.Controllers.Codes;
 using OSS.SocialSDK.WX.Msg.Mos;
@@ -35,8 +36,8 @@ namespace OSS.SocialSDK.Samples.Controllers
             try
             {
                 var res = _msgService.Process( requestXml, signature, timestamp, nonce,echostr);
-                if (res.IsSuccess)
-                    return Content(res.Data);
+                if (res.IsSuccess())
+                    return Content(res.data);
             }
             catch (Exception ex)
             {

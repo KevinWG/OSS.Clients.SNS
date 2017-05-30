@@ -17,7 +17,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
-using OSS.Common.Modules;
+using OSS.Common.Plugs;
 using OSS.Common.Plugs.CachePlug;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
@@ -74,7 +74,7 @@ namespace OSS.SnsSdk.Official.Wx
 
                 tokenResp =await RestCommon<WxOffAccessTokenResp>(req);
 
-                if (!tokenResp.IsSuccess)
+                if (!tokenResp.IsSuccess())
                     return tokenResp;
 
                 tokenResp.expires_date = DateTime.Now.AddSeconds(tokenResp.expires_in - 600);
@@ -97,7 +97,7 @@ namespace OSS.SnsSdk.Official.Wx
             where T : WxBaseResp, new()
         {
             var tokenRes = await GetAccessTokenAsync();
-            if (!tokenRes.IsSuccess)
+            if (!tokenRes.IsSuccess())
                 return tokenRes.ConvertToResult<T>();
 
             req.RequestSet = reqMsg => reqMsg.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");

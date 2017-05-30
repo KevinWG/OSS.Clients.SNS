@@ -14,7 +14,7 @@
 using System;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
-using OSS.Common.Modules;
+using OSS.Common.Plugs;
 using OSS.Common.Plugs.CachePlug;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Assist.Mos;
@@ -56,7 +56,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist
             req.AddressUrl = string.Concat(m_ApiUrl, string.Concat("cgi-bin/ticket/getticket?type=", type.ToString()));
 
             var ticketRes = await RestCommonOffcialAsync<WxGetJsTicketResp>(req);
-            if (ticketRes.IsSuccess)
+            if (ticketRes.IsSuccess())
             {
                 ticketRes.expires_time = DateTime.Now.AddSeconds(ticketRes.expires_in);
                 CacheUtil.AddOrUpdate(key, ticketRes, TimeSpan.FromSeconds(ticketRes.expires_in - 10), null,

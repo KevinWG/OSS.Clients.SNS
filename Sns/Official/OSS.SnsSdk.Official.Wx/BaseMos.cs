@@ -34,7 +34,7 @@ namespace OSS.SnsSdk.Official.Wx
                 m_errcode = value;
                 if (m_errcode != 0)
                 {
-                    Ret = m_errcode;
+                    ret = m_errcode;
                 }
             }
         }

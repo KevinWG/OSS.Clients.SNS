@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.SnsSdk.Official.Wx.Store;
 using OSS.SnsSdk.Official.Wx.Store.Mos;
@@ -47,7 +48,7 @@ namespace OSS.Social.Tests.WxTests.Store
             req.sid = "osss2";
 
             var res = m_Api.AddStoreAsync(req).WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
             //{"errcode":0,"errmsg":"ok","poi_id":"467122530"}
         }
 
@@ -55,14 +56,14 @@ namespace OSS.Social.Tests.WxTests.Store
         public void GetStoreCategoryAsyncTest()
         {
             var res = m_Api.GetStoreCategoryAsync().WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
 
         [TestMethod]
         public void GetStoreAsyncTest()
         {
             var res = m_Api.GetStoreAsync(467122530).WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
 
     
@@ -70,7 +71,7 @@ namespace OSS.Social.Tests.WxTests.Store
         public void GetStoreListAsyncTest()
         {
             var res = m_Api.GetStoreListAsync().WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
 
 
@@ -78,7 +79,7 @@ namespace OSS.Social.Tests.WxTests.Store
         public void DeleteStoreAsyncTest()
         {
             var res = m_Api.DeleteStoreAsync(467122530).WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
     }
 }

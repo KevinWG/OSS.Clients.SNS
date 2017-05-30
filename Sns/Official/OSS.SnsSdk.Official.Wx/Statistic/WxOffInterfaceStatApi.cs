@@ -36,7 +36,7 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
             var req=new OsHttpRequest();
 
             req.HttpMothed=HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/datacube/getinterfacesummary");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getinterfacesummary");
             req.CustomBody = GetRequestBody(statReq);
 
             return await RestCommonOffcialAsync<WxInterfaceStatResp>(req);
@@ -53,7 +53,7 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/datacube/getinterfacesummaryhour");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getinterfacesummaryhour");
             req.CustomBody = GetRequestBody(new WxStatReq() {begin_date = date, end_date = date});
 
             return await RestCommonOffcialAsync<WxInterfaceStatResp>(req);

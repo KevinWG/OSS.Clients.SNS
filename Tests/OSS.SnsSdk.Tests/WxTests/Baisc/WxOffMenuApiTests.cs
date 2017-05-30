@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.SnsSdk.Official.Wx.Basic;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
@@ -28,7 +29,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
             var list = new List<WxMenuButtonMo>(){menu1};
   
             var res = m_Api.AddOrUpdateMenuAsync(list).WaitResult();
-            Assert.IsTrue(res.IsSuccess);
+            Assert.IsTrue(res.IsSuccess());
         }
     }
 }

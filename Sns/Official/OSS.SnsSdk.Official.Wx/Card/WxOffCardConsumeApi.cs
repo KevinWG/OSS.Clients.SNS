@@ -35,7 +35,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/card/code/get");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/get");
             req.CustomBody = $"{{\"code\":\"{code}\",\"card_id\":\"{cardId}\",\"check_consume\":{checkConsume}}}";
 
             return await RestCommonOffcialAsync<WxGetCardCodeConsumeResp>(req);
@@ -55,7 +55,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/card/code/decrypt");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/decrypt");
             req.CustomBody = $"{{\"encrypt_code\":\"{encryptCode}\"}}";
 
             return await RestCommonOffcialAsync<WxCardCodeDecryptResp>(req);
@@ -73,7 +73,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/card/code/consume");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/consume");
             req.CustomBody = $"{{\"code\":\"{code}\",\"card_id\":\"{cardId}\"}}";
 
             return await RestCommonOffcialAsync<WxCardConsumeResp>(req);

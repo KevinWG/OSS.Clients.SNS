@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.SnsSdk.Official.Wx.Basic;
 
@@ -29,7 +30,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
                         money = new {value = "100.00￥"},
                         remark = new {value = "请点击查看详情"},
                     }).WaitResult();
-            Assert.IsTrue(res.IsSuccess );
+            Assert.IsTrue(res.IsSuccess() );
         }
     }
 }

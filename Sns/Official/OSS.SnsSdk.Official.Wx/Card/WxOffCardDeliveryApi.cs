@@ -54,7 +54,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         public async Task<WxCardQrCodeResp> CreateMultiCardQrCode(WxQrCodeType type, int expireSeconds, List<WxCardQrMo> cardList)
         {
             if (cardList == null || cardList.Count > 5)
-                return new WxCardQrCodeResp() { Ret = (int)ResultTypes.ParaNotMeet, Message = "卡券数目不和要求，请不要为空或超过五个！" };
+                return new WxCardQrCodeResp() { ret = (int)ResultTypes.ParaNotMeet, message = "卡券数目不和要求，请不要为空或超过五个！" };
 
             var actionInfo = new WxCreateCardQrReq()
             {
@@ -75,7 +75,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/card/qrcode/create");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/qrcode/create");
             req.CustomBody = JsonConvert.SerializeObject(actionInfo);
 
             return await RestCommonOffcialAsync<WxCardQrCodeResp>(req);
@@ -93,7 +93,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/card/code/deposit");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/deposit");
             req.CustomBody = JsonConvert.SerializeObject(new { card_id = cardId, code = codes });
 
             return await RestCommonOffcialAsync<WxImportCardCodeResp>(req);
@@ -108,7 +108,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/card/code/getdepositcount");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/getdepositcount");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
 
             return await RestCommonOffcialAsync<WxGetImportCodeCountResp>(req);
@@ -124,7 +124,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/card/code/getdepositcount");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/getdepositcount");
             req.CustomBody = JsonConvert.SerializeObject(new { card_id = cardId, code = codes });
 
             return await RestCommonOffcialAsync<WxCheckImportCodeResp>(req);
@@ -140,7 +140,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/card/mpnews/gethtml");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/mpnews/gethtml");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
 
             return await RestCommonOffcialAsync<WxGetCardArticleContentResp>(req);
@@ -157,7 +157,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/card/landingpage/create");
+            req.AddressUrl = string.Concat(m_ApiUrl, "/card/landingpage/create");
             req.CustomBody = JsonConvert.SerializeObject(pageReq);
 
             return await RestCommonOffcialAsync<WxCreateCardLandPageResp>(req);
@@ -180,7 +180,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
            var req = new OsHttpRequest();
 
            req.HttpMothed = HttpMothed.POST;
-           req.AddressUrl = string.Concat(BaseRestApi<WxBaseApi>.m_ApiUrl, "/card/testwhitelist/set");
+           req.AddressUrl = string.Concat(m_ApiUrl, "/card/testwhitelist/set");
            req.CustomBody = JsonConvert.SerializeObject(new {openid = openIds, username = names});
 
            return await RestCommonOffcialAsync<WxBaseResp>(req);
