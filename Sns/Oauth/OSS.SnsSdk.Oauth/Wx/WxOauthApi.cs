@@ -64,7 +64,7 @@ namespace OSS.SnsSdk.Oauth.Wx
             };
 
 
-            return await RestCommon<WxGetAccessTokenResp>(req);
+            return await RestCommonJson<WxGetAccessTokenResp>(req);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace OSS.SnsSdk.Oauth.Wx
             };
 
 
-            return await RestCommon<WxGetAccessTokenResp>(request);
+            return await RestCommonJson<WxGetAccessTokenResp>(request);
         }
         
         /// <summary>
@@ -99,7 +99,7 @@ namespace OSS.SnsSdk.Oauth.Wx
                 HttpMothed = HttpMothed.GET
             };
 
-            return await RestCommon<WxGetAuthUserResp>(request);
+            return await RestCommonJson<WxGetAuthUserResp>(request);
         }
 
 
@@ -120,7 +120,7 @@ namespace OSS.SnsSdk.Oauth.Wx
                 HttpMothed = HttpMothed.GET
             };
 
-            return await RestCommon<WxBaseResp>(request);
+            return await RestCommonJson<WxBaseResp>(request);
         }
 
     }

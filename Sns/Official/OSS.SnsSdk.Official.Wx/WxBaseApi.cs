@@ -53,12 +53,11 @@ namespace OSS.SnsSdk.Official.Wx
         /// </summary>
         /// <typeparam name="T">需要返回的实体类型</typeparam>
         /// <param name="request">远程请求组件的request基本信息</param>
-        /// <param name="funcFormat">获取实体格式化方法</param>
+        /// <param name="client">自定义HttpClient</param>
         /// <returns>实体类型</returns>
-        public override async Task<T> RestCommon<T>(OsHttpRequest request,
-            Func<HttpResponseMessage, Task<T>> funcFormat = null)
+        public override async Task<T> RestCommonJson<T>(OsHttpRequest request,HttpClient client=null)
         {
-            var t = await base.RestCommon(request, funcFormat);
+            var t = await base.RestCommonJson<T>(request, client);
 
             if (!t.IsSuccess())
                 t.message = GetErrMsg(t.ret);

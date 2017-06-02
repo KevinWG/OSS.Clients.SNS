@@ -41,7 +41,7 @@ namespace OSS.SnsSdk.Oauth.Wx
             req.HttpMothed = HttpMothed.GET;
             req.AddressUrl = string.Concat(m_ApiUrl, $"/sns/jscode2session?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&js_code={jsCode}&grant_type=authorization_code");
 
-            return await RestCommon<WxGetSessionCodeResp>(req);
+            return await RestCommonJson<WxGetSessionCodeResp>(req);
         }
 
         #endregion
