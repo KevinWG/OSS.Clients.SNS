@@ -55,9 +55,10 @@ namespace OSS.SnsSdk.Official.Wx
         /// <param name="request">远程请求组件的request基本信息</param>
         /// <param name="client">自定义HttpClient</param>
         /// <returns>实体类型</returns>
-        public override async Task<T> RestCommonJson<T>(OsHttpRequest request,HttpClient client=null)
+        public  async Task<T> RestCommonJson<T>(OsHttpRequest request,HttpClient client=null)
+            where T:ResultMo,new()
         {
-            var t = await base.RestCommonJson<T>(request, client);
+            var t = await request.RestCommonJson<T>(client);
 
             if (!t.IsSuccess())
                 t.message = GetErrMsg(t.ret);

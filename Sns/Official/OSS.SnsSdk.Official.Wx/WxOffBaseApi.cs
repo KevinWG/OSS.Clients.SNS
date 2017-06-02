@@ -48,10 +48,12 @@ namespace OSS.SnsSdk.Official.Wx
         /// <returns></returns>
         public async Task<WxIpListResp> GetWxIpListAsync()
         {
-            var req = new OsHttpRequest();
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.GET,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/getcallbackip")
+            };
 
-            req.HttpMothed = HttpMothed.GET;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/getcallbackip");
 
             return await RestCommonOffcialAsync<WxIpListResp>(req);
         }
@@ -66,24 +68,24 @@ namespace OSS.SnsSdk.Official.Wx
         {
             var tokenResp = CacheUtil.Get<WxOffAccessTokenResp>(m_OffcialAccessTokenKey, ModuleNames.SocialCenter);
 
-            if (tokenResp == null || tokenResp.expires_date < DateTime.Now)
+            if (tokenResp != null && tokenResp.expires_date >= DateTime.Now)
+                return tokenResp;
+
+            var req = new OsHttpRequest
             {
-                OsHttpRequest req = new OsHttpRequest();
+                AddressUrl =
+                    $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}",
+                HttpMothed = HttpMothed.GET
+            };
+            tokenResp = await RestCommonJson<WxOffAccessTokenResp>(req);
 
-                req.AddressUrl =
-                    $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}";
-                req.HttpMothed = HttpMothed.GET;
+            if (!tokenResp.IsSuccess())
+                return tokenResp;
 
-                tokenResp = await RestCommonJson<WxOffAccessTokenResp>(req);
+            tokenResp.expires_date = DateTime.Now.AddSeconds(tokenResp.expires_in - 600);
 
-                if (!tokenResp.IsSuccess())
-                    return tokenResp;
-
-                tokenResp.expires_date = DateTime.Now.AddSeconds(tokenResp.expires_in - 600);
-
-                CacheUtil.AddOrUpdate(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in),
-                    null, ModuleNames.SocialCenter);
-            }
+            CacheUtil.AddOrUpdate(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in),
+                null, ModuleNames.SocialCenter);
             return tokenResp;
         }
 

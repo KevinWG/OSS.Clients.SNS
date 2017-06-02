@@ -72,8 +72,8 @@
     <Reference Include="OSS.Http, Version=2.2.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\OSS.Http.2.2.0.3\lib\netstandard1.1\OSS.Http.dll</HintPath>
     </Reference>
-    <Reference Include="OSS.Http.Extention, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OSS.Http.Extention.1.0.3\lib\netstandard1.3\OSS.Http.Extention.dll</HintPath>
+    <Reference Include="OSS.Http.Extention, Version=1.0.3.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OSS.Http.Extention.1.0.3.1\lib\netstandard1.3\OSS.Http.Extention.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\StackExchange.Redis.1.2.1\lib\net46\StackExchange.Redis.dll</HintPath>
