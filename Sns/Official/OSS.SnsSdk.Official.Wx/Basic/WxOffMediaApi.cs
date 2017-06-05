@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
+using OSS.Http.Extention;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
 
@@ -22,6 +23,9 @@ using OSS.SnsSdk.Official.Wx.Basic.Mos;
 
 namespace OSS.SnsSdk.Official.Wx.Basic
 {
+    /// <summary>
+    ///  素材管理接口
+    /// </summary>
     public  class WxOffMediaApi:WxOffBaseApi
     {
         /// <summary>
@@ -41,10 +45,12 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxMediaTempUploadResp> UploadTempMediaAsync(WxMediaTempUploadReq request)
         {
-            var req = new OsHttpRequest();
-            
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/upload?type=", request.type.ToString());
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/upload?type=", request.type.ToString())
+            };
+
             req.FileParameters.Add(new FileParameter("media", request.file_stream, request.file_name,
                 request.content_type));
 
@@ -62,12 +68,14 @@ namespace OSS.SnsSdk.Official.Wx.Basic
             if (!accessToken.IsSuccess())
                 return accessToken.ConvertToResult<WxFileResp>();
 
-            var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.GET;
-            req.AddressUrl = string.Concat(m_ApiUrl,
-                $"/cgi-bin/media/get?access_token={accessToken.access_token}&media_id={mediaId}");
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.GET,
+                AddressUrl = string.Concat(m_ApiUrl,
+                    $"/cgi-bin/media/get?access_token={accessToken.access_token}&media_id={mediaId}")
+            };
 
-            return await RestCommon(req, resp => DownLoadFileAsync(resp));
+            return await req.RestCommon(DownLoadFileAsync);
         }
 
 
@@ -78,10 +86,11 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxMediaTempVideoUrlResp> GetTempMediaVedioUrlAsync(string mediaId)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.GET;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/get?media_id=", mediaId);
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.GET,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/get?media_id=", mediaId)
+            };
 
             return await RestCommonOffcialAsync<WxMediaTempVideoUrlResp>(req);
         }
@@ -168,10 +177,12 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxMediaUploadResp> UploadMediaAsync(WxMediaUploadReq mediaReq)
         {
-            var req = new OsHttpRequest();
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_material?type=", mediaReq.type.ToString())
+            };
 
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_material?type=", mediaReq.type.ToString());
             req.FileParameters.Add(new FileParameter("media", mediaReq.file_stream, mediaReq.file_name,
                 mediaReq.content_type));
 
@@ -190,11 +201,13 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxMediaVedioUrlResp> GetMediaVedioUrlAsync(string mediaId)
         {
-            var req = new OsHttpRequest();
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_material"),
+                CustomBody = $"{{\"media_id\":\"{mediaId}\"}}"
+            };
 
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_material");
-            req.CustomBody = $"{{\"media_id\":\"{mediaId}\"}}";
 
             return await RestCommonOffcialAsync<WxMediaVedioUrlResp>(req);
         }
@@ -212,13 +225,14 @@ namespace OSS.SnsSdk.Official.Wx.Basic
             if (!accessToken.IsSuccess())
                 return accessToken.ConvertToResult<WxFileResp>();
 
-            var req = new OsHttpRequest();
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl,
+                    $"/cgi-bin/material/get_material?access_token=", accessToken.access_token)
+            };
 
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl,
-                $"/cgi-bin/material/get_material?access_token=", accessToken.access_token);
-
-            return await RestCommon(req, resp => DownLoadFileAsync(resp));
+            return await req.RestCommon(DownLoadFileAsync);
         }
 
         /// <summary>
@@ -228,12 +242,13 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxBaseResp> DeleteMediaAsync(string mediaId)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/del_material");
-            req.CustomBody = $"{{\"media_id\":\"{mediaId}\"}}";
-
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/del_material"),
+                CustomBody = $"{{\"media_id\":\"{mediaId}\"}}"
+            };
+            
             return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
@@ -246,9 +261,11 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxMediaCountResp> GetMediaCountAsync()
         {
-            var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.GET;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_materialcount");
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.GET,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_materialcount")
+            };
 
             return await RestCommonOffcialAsync<WxMediaCountResp>(req);
         }
@@ -260,10 +277,12 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxGetMediaListResp> GetMediaListAsync(WxGetMediaListReq request)
         {
-            var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/batchget_material");
-            req.CustomBody = JsonConvert.SerializeObject(request);
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/batchget_material"),
+                CustomBody = JsonConvert.SerializeObject(request)
+            };
 
             return await RestCommonOffcialAsync<WxGetMediaListResp>(req);
         }

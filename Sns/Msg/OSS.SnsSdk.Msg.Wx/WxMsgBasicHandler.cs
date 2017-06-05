@@ -241,13 +241,13 @@ namespace OSS.SnsSdk.Msg.Wx
             var recMsgDirs = WxMsgHelper.ChangXmlToDir(recMsgXml,ref xmlDoc);
 
             if (!recMsgDirs.ContainsKey("MsgType"))
-                return new ResultMo<MsgContext>(ResultTypes.ParaNotMeet, "消息数据中未发现 消息类型（MsgType）字段！");
+                return new ResultMo<MsgContext>(ResultTypes.ParaError, "消息数据中未发现 消息类型（MsgType）字段！");
 
             string msgType = recMsgDirs["MsgType"].ToLower();
             if (msgType == "event")
             {
                 if (!recMsgDirs.ContainsKey("Event"))
-                    return new ResultMo<MsgContext>(ResultTypes.ParaNotMeet, "事件消息数据中未发现 事件类型（Event）字段！");
+                    return new ResultMo<MsgContext>(ResultTypes.ParaError, "事件消息数据中未发现 事件类型（Event）字段！");
             }
 
             var context = ProcessExecute_BasicMsg(xmlDoc, msgType, recMsgDirs)

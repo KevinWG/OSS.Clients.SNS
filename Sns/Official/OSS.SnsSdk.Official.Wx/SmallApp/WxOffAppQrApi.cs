@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
+using OSS.Http.Extention;
 
 namespace OSS.SnsSdk.Official.Wx.SmallApp
 {
@@ -52,8 +53,7 @@ namespace OSS.SnsSdk.Official.Wx.SmallApp
                 CustomBody = $"{{\"path\":\"{path}\",\"width\":{width}}}"
             };
 
-
-            return await RestCommon(req, resp => DownLoadFileAsync(resp));
+            return await req.RestCommon(DownLoadFileAsync);
         }
     }
 }
