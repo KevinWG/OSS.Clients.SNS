@@ -8,7 +8,7 @@ namespace OSS.Social.Tests
     /// <summary>
     /// redis缓存实现类
     /// </summary>
-    public class RedisCache : ICache
+    public class RedisCache : ICachePlug
     {
         //redis数据库连接字符串
         private readonly string ConnectionStr = null;

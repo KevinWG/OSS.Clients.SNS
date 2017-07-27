@@ -54,7 +54,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         public async Task<WxCardQrCodeResp> CreateMultiCardQrCode(WxQrCodeType type, int expireSeconds, List<WxCardQrMo> cardList)
         {
             if (cardList == null || cardList.Count > 5)
-                return new WxCardQrCodeResp() { ret = (int)ResultTypes.ParaError, message = "卡券数目不和要求，请不要为空或超过五个！" };
+                return new WxCardQrCodeResp() { ret = (int)ResultTypes.ParaError, msg = "卡券数目不和要求，请不要为空或超过五个！" };
 
             var actionInfo = new WxCreateCardQrReq()
             {

@@ -61,7 +61,7 @@ namespace OSS.SnsSdk.Official.Wx
             var t = await request.RestCommonJson<T>(client);
 
             if (!t.IsSuccess())
-                t.message = GetErrMsg(t.ret);
+                t.msg = GetErrMsg(t.ret);
 
             return t;
         }

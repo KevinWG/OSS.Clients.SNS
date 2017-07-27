@@ -120,7 +120,7 @@ namespace OSS.SnsSdk.Official.Wx
         protected static async Task<WxFileResp> DownLoadFileAsync(HttpResponseMessage resp)
         {
             if (!resp.IsSuccessStatusCode)
-                return new WxFileResp() {ret = (int) ResultTypes.ObjectStateError, message = "当前请求失败！"};
+                return new WxFileResp() {ret = (int) ResultTypes.ObjectStateError, msg = "当前请求失败！"};
 
             var contentStr = resp.Content.Headers.ContentType.MediaType;
             if (!contentStr.Contains("application/json"))
