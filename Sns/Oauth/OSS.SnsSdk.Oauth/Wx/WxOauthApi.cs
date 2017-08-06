@@ -40,13 +40,17 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <returns></returns>
         public string GetAuthorizeUrl(string redirectUri, AuthClientType type)
         {
-            if (type == AuthClientType.WxOffcial)
+
+            if (type == AuthClientType.PC)
             {
                 return
-                    $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_userinfo&state={ApiConfig.AppSource}#wechat_redirect";
+                    $"https://open.weixin.qq.com/connect/qrconnect?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_login&state={ApiConfig.AppSource}#wechat_redirect";
+
             }
+            var scope = type == AuthClientType.WxSilence ? "snsapi_base" : "snsapi_userinfo";
             return
-                $"https://open.weixin.qq.com/connect/qrconnect?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_login&state={ApiConfig.AppSource}#wechat_redirect";
+                $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope={scope}&state={ApiConfig.AppSource}#wechat_redirect";
+
         }
 
         /// <summary>

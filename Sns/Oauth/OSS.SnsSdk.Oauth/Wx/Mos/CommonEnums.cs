@@ -26,6 +26,11 @@ namespace OSS.SnsSdk.Oauth.Wx.Mos
         /// <summary>
         /// 微信公众号
         /// </summary>
-        WxOffcial = 2
+        WxOffcial = 2,
+
+        /// <summary>
+        /// 微信公号静默授权
+        /// </summary>
+        WxSilence=3
     }
 }
