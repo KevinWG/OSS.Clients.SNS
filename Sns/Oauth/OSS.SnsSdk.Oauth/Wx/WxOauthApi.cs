@@ -66,8 +66,7 @@ namespace OSS.SnsSdk.Oauth.Wx
                     $"{m_ApiUrl}/sns/oauth2/access_token?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&code={code}&grant_type=authorization_code",
                 HttpMothed = HttpMothed.GET
             };
-
-
+            
             return await RestCommonJson<WxGetOauthAccessTokenResp>(req);
         }
 
@@ -84,8 +83,7 @@ namespace OSS.SnsSdk.Oauth.Wx
                     $"{m_ApiUrl}/sns/oauth2/refresh_token?appid={ApiConfig.AppId}&grant_type=refresh_token&refresh_token={accessToken}",
                 HttpMothed = HttpMothed.GET
             };
-
-
+            
             return await RestCommonJson<WxGetOauthAccessTokenResp>(request);
         }
         

@@ -10,16 +10,16 @@ namespace OSS.SnsSdk.Samples.Controllers
         private static AppConfig m_Config = new AppConfig()
         {
             AppSource = "11",
-            AppId = "wx835d1fda838bb558",
-            AppSecret = "e238d7a478fe72645aa27c096366b889"
+            AppId = "wxaa9e6cb3f03afa97",
+            AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
         };
 
         private static WxOauthApi m_AuthApi = new WxOauthApi(m_Config);
         // GET: WxOauth
-        public ActionResult auth()
+        public ActionResult auth( int type)
         {
             //记得更换成自己的项目域名
-            var res = m_AuthApi.GetAuthorizeUrl("http://www.social.com/wxoauth/callback", AuthClientType.WxOffcial);
+            var res = m_AuthApi.GetAuthorizeUrl("http://www.social.com/wxoauth/callback", (AuthClientType)type);
             return Redirect(res);
         }
 
@@ -28,7 +28,7 @@ namespace OSS.SnsSdk.Samples.Controllers
             var tokecRes = m_AuthApi.GetOauthAccessTokenAsync(code).Result;
             if (tokecRes.IsSuccess())
             {
-                var userInfoRes = m_AuthApi.GetWxOauthUserInfoAsync(tokecRes.access_token, tokecRes.openid);
+                var userInfoRes = m_AuthApi.GetWxOauthUserInfoAsync(tokecRes.access_token, tokecRes.openid).Result;
                 return Content("你已成功获取用户信息!");
             }
 
