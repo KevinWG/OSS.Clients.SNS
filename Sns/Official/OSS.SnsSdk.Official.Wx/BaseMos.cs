@@ -28,7 +28,7 @@ namespace OSS.SnsSdk.Official.Wx
         /// </summary>
         public int errcode
         {
-            get { return m_errcode; }
+            get => m_errcode;
             set
             {
                 m_errcode = value;

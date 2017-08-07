@@ -45,10 +45,12 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxBaseResp> SendTemplateAsync(string openId, string templateId, string url, object data)
         {
-            var req = new OsHttpRequest();
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/template/send")
+            };
 
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/template/send");
             var param = new
             {
                 touser = openId,

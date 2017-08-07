@@ -21,7 +21,7 @@ namespace OSS.SnsSdk.Oauth.Wx
     /// <summary>
     /// oauth 授权接口
     /// </summary>
-    public class WxOauthApi:WxBaseApi
+    public class WxOauthApi:WxOauthBaseApi
     {
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// </summary>
         /// <param name="code">填写第一步获取的code参数</param>
         /// <returns></returns>
-        public async Task<WxGetAccessTokenResp> GetAuthAccessTokenAsync(string code)
+        public async Task<WxGetOauthAccessTokenResp> GetOauthAccessTokenAsync(string code)
         {
             var req = new OsHttpRequest
             {
@@ -68,7 +68,7 @@ namespace OSS.SnsSdk.Oauth.Wx
             };
 
 
-            return await RestCommonJson<WxGetAccessTokenResp>(req);
+            return await RestCommonJson<WxGetOauthAccessTokenResp>(req);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// </summary>
         /// <param name="accessToken">授权接口调用凭证</param>
         /// <returns></returns>
-        public async Task<WxGetAccessTokenResp> RefreshAuthAccessTokenAsync(string accessToken)
+        public async Task<WxGetOauthAccessTokenResp> RefreshOauthAccessTokenAsync(string accessToken)
         {
             var request = new OsHttpRequest
             {
@@ -86,7 +86,7 @@ namespace OSS.SnsSdk.Oauth.Wx
             };
 
 
-            return await RestCommonJson<WxGetAccessTokenResp>(request);
+            return await RestCommonJson<WxGetOauthAccessTokenResp>(request);
         }
         
         /// <summary>
@@ -95,7 +95,7 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <param name="accessToken">授权接口调用凭证</param>
         /// <param name="openId">用户的唯一标识</param>
         /// <returns></returns>
-        public async Task<WxGetAuthUserResp> GetWxAuthUserInfoAsync(string accessToken, string openId)
+        public async Task<WxGetOauthUserResp> GetWxOauthUserInfoAsync(string accessToken, string openId)
         {
             var request = new OsHttpRequest
             {
@@ -103,7 +103,7 @@ namespace OSS.SnsSdk.Oauth.Wx
                 HttpMothed = HttpMothed.GET
             };
 
-            return await RestCommonJson<WxGetAuthUserResp>(request);
+            return await RestCommonJson<WxGetOauthUserResp>(request);
         }
 
 
@@ -114,7 +114,7 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <param name="accessToken">授权接口调用凭证</param>
         /// <param name="openId">用户的唯一标识</param>
         /// <returns></returns>
-        public async Task<WxBaseResp> CheckAccessTokenAsync(string accessToken, string openId)
+        public async Task<WxBaseResp> CheckOauthAccessTokenAsync(string accessToken, string openId)
         {
             string url = $"{m_ApiUrl}/sns/auth?access_token={accessToken}&openid={openId}";
 

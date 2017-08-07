@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace OSS.SocialSDK.Samples
+namespace OSS.SnsSdk.Samples
 {
     public class Startup
     {

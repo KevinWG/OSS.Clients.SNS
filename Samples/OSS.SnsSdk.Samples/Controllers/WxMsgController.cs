@@ -6,7 +6,7 @@ using OSS.Common.Plugs.DirConfigPlug;
 using OSS.SocialSDK.Samples.Controllers.Codes;
 using OSS.SocialSDK.WX.Msg.Mos;
 
-namespace OSS.SocialSDK.Samples.Controllers
+namespace OSS.SnsSdk.Samples.Controllers
 {
     public class WxMsgController : Controller
     {

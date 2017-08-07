@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels.Enums;
-using OSS.Http.Extention;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Card.Mos;
 using OSS.SnsSdk.Official.Wx.SysTools.Mos;

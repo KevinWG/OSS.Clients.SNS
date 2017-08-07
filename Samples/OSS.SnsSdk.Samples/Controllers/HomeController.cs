@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace OSS.SocialSDK.Samples.Controllers
+namespace OSS.SnsSdk.Samples.Controllers
 {
     public class HomeController : Controller
     {

@@ -46,7 +46,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist
         public async Task<WxGetJsTicketResp> GetJsTicketAsync(WxJsTicketType type)
         {
             string key = string.Format(WxCacheKeysUtil.OffcialJsTicketKey, ApiConfig.AppId, type);
-            var ticket = CacheUtil.Get<WxGetJsTicketResp>(key,ModuleNames.SocialCenter);
+            var ticket = CacheUtil.Get<WxGetJsTicketResp>(key, ModuleName);
             if (ticket != null && ticket.expires_time > DateTime.Now)
                 return ticket;
 
@@ -60,7 +60,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist
             {
                 ticketRes.expires_time = DateTime.Now.AddSeconds(ticketRes.expires_in);
                 CacheUtil.AddOrUpdate(key, ticketRes, TimeSpan.FromSeconds(ticketRes.expires_in - 10), null,
-                    ModuleNames.SocialCenter);
+                    ModuleName);
             }
             return ticketRes;
         }

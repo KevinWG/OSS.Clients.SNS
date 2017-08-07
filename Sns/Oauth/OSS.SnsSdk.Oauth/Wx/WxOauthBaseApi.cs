@@ -25,9 +25,9 @@ namespace OSS.SnsSdk.Oauth.Wx
     /// <summary>
     /// 微信接口SDK基类
     /// </summary>
-    public class WxBaseApi:BaseRestApi<WxBaseApi>
+    public class WxOauthBaseApi:BaseRestApi<WxOauthBaseApi>
     {
-        public WxBaseApi():this(null)
+        public WxOauthBaseApi():this(null)
         {
 
         }
@@ -40,7 +40,7 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxBaseApi(AppConfig config):base(config)
+        public WxOauthBaseApi(AppConfig config):base(config)
         {
             ModuleName = ModuleNames.SocialCenter;
         }

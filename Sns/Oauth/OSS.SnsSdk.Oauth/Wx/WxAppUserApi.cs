@@ -21,7 +21,7 @@ namespace OSS.SnsSdk.Oauth.Wx
     /// <summary>
     ///  小程序用户相关接口
     /// </summary>
-    public class WxAppUserApi : WxBaseApi
+    public class WxAppUserApi : WxOauthBaseApi
     {
         public WxAppUserApi(AppConfig config) : base(config)
         {

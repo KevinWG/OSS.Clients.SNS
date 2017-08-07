@@ -18,7 +18,7 @@ namespace OSS.SnsSdk.Oauth.Wx.Mos
     /// <summary>
     /// 获取wxaccesstoken 响应实体
     /// </summary>
-    public class WxGetAccessTokenResp : WxBaseResp
+    public class WxGetOauthAccessTokenResp : WxBaseResp
     {
         /// <summary>
         /// 网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同
@@ -50,7 +50,7 @@ namespace OSS.SnsSdk.Oauth.Wx.Mos
     /// <summary>
     /// 获取授权用户信息
     /// </summary>
-    public class WxGetAuthUserResp : WxBaseResp
+    public class WxGetOauthUserResp : WxBaseResp
     {
         /// <summary>
         /// 第三方用户编号

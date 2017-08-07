@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
-    <Version>0.9.1.21</Version>
+    <Version>0.9.1.22</Version>
     <Authors>Kevin</Authors>
     <Company>OSSCoder</Company>
     <Description>微信公众号功能接口</Description>
@@ -10,9 +10,9 @@
     <PackageProjectUrl>https://github.com/KevinWG/OSS.SnsSdk/tree/master/Sns/Official</PackageProjectUrl>
     <PackageIconUrl>http://img1.static.osscoder.com/logo.jpg</PackageIconUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.SnsSdk</RepositoryUrl>
-    <PackageReleaseNotes>优化属性</PackageReleaseNotes>
-    <AssemblyVersion>0.9.1.21</AssemblyVersion>
-    <FileVersion>0.9.1.21</FileVersion>
+    <PackageReleaseNotes>优化基类</PackageReleaseNotes>
+    <AssemblyVersion>0.9.1.22</AssemblyVersion>
+    <FileVersion>0.9.1.22</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Http.Extention" Version="1.0.3.2" />
+    <PackageReference Include="OSS.Http.Extention" Version="1.0.3.6" />
   </ItemGroup>
 
 </Project>

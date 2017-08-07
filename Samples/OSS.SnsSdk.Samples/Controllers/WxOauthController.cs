@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common.ComModels;
-using OSS.SnsSdk.Oauth;
 using OSS.SnsSdk.Oauth.Wx;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 
@@ -11,8 +10,8 @@ namespace OSS.SnsSdk.Samples.Controllers
         private static AppConfig m_Config = new AppConfig()
         {
             AppSource = "11",
-            AppId = "wxaa9e6cb3f03afa97",
-            AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
+            AppId = "wx835d1fda838bb558",
+            AppSecret = "e238d7a478fe72645aa27c096366b889"
         };
 
         private static WxOauthApi m_AuthApi = new WxOauthApi(m_Config);
@@ -26,12 +25,13 @@ namespace OSS.SnsSdk.Samples.Controllers
 
         public ActionResult callback(string code, string state)
         {
-            //var tokecRes = m_AuthApi.GetAuthAccessTokenAsync(code).WaitResult();
-            //if (tokecRes.IsSuccess())
-            //{
-            //    var userInfoRes = m_AuthApi.GetWxAuthUserInfoAsync(tokecRes.access_token, tokecRes.openid);
-            //    return Content("你已成功获取用户信息!");
-            //}
+            var tokecRes = m_AuthApi.GetOauthAccessTokenAsync(code).Result;
+            if (tokecRes.IsSuccess())
+            {
+                var userInfoRes = m_AuthApi.GetWxOauthUserInfoAsync(tokecRes.access_token, tokecRes.openid);
+                return Content("你已成功获取用户信息!");
+            }
+
             return Content("获取用户授权信息失败!");
         }
         
