@@ -16,7 +16,7 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.0.1" />
-    <PackageReference Include="OSS.Common" Version="1.1.5.53" />
+    <PackageReference Include="OSS.Common" Version="1.1.5.58" />
     <PackageReference Include="OSS.Http.Extention" Version="1.0.3.6" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
   </ItemGroup>

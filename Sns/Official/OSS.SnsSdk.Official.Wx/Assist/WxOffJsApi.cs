@@ -53,7 +53,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist
             var req = new OsHttpRequest();
 
             req.HttpMothed = HttpMothed.GET;
-            req.AddressUrl = string.Concat(m_ApiUrl, string.Concat("cgi-bin/ticket/getticket?type=", type.ToString()));
+            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/ticket/getticket?type=", type.ToString());
 
             var ticketRes = await RestCommonOffcialAsync<WxGetJsTicketResp>(req);
             if (ticketRes.IsSuccess())

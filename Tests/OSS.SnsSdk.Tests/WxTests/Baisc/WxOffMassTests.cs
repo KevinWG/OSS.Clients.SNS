@@ -2,7 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
+using OSS.SnsSdk.Official.Wx.Assist;
 using OSS.SnsSdk.Official.Wx.Basic;
+using OSS.SnsSdk.Official.Wx.SysTools.Mos;
 
 namespace OSS.Social.Tests.WxTests.Baisc
 {
@@ -32,5 +34,17 @@ namespace OSS.Social.Tests.WxTests.Baisc
                     }).WaitResult();
             Assert.IsTrue(res.IsSuccess() );
         }
+
+        private static WxOffAssistApi m_AssistApi = new WxOffAssistApi(m_Config);
+
+        [TestMethod]
+        public void GetJsTicketTest()
+        {
+            var res =
+                m_AssistApi.GetJsTicketAsync(WxJsTicketType.jsapi).Result;
+            Assert.IsTrue(res.IsSuccess());
+        }
+
+        
     }
 }
