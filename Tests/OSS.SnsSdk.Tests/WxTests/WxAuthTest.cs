@@ -22,7 +22,7 @@ namespace OSS.Social.Tests.WxTests
         [TestMethod]
         public void AuthTest()
         {
-            var tokecRes = m_AuthApi.GetAuthAccessTokenAsync("ssss").WaitResult();
+            var tokecRes = m_AuthApi.GetOauthAccessTokenAsync("ssss").WaitResult();
             string token = tokecRes.access_token;
         }
 

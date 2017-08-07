@@ -21,7 +21,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         public void SendTemplateTest()
         {
             var res =
-                m_Api.SendTemplateAsync("o7gE1s6mygEKgopVWp-w", "4E7QKo8GhQ0pNHDAfE3Z-w7vEWULDT3ZflBJUMYpd7s",
+                m_Api.SendTemplateAsync("o7gE1s6mygEKgopVWp7BBtEAqT-w", "4E7QKo8GhQ0pNHDAfE3Z-w7vEWULDT3ZflBJUMYpd7s",
                     "http://www.osscoder.com",
                     new
                     {
