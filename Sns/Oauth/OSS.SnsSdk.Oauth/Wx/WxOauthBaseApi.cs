@@ -11,14 +11,13 @@
 
 #endregion
 
-using System;
-using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Common.Plugs;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
+using OSS.SnsSdk.Oauth.Wx.Mos;
 
 namespace OSS.SnsSdk.Oauth.Wx
 {
@@ -53,37 +52,37 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <param name="client">自定义 HttpClient </param>
         /// <returns>实体类型</returns>
         public async Task<T> RestCommonJson<T>(OsHttpRequest request, HttpClient client = null)
-             where T : ResultMo, new()
+             where T : WxBaseResp, new()
         {
             var t = await request.RestCommonJson<T>(client);
 
             if (!t.IsSuccess())
-                t.msg = GetErrMsg(t.ret);
+                t.msg =t.errmsg ;
 
             return t;
         }
         
         #region   全局错误处理
 
-        /// <summary>
-        /// 基本错误信息字典，基类中继续完善
-        /// </summary>
-        protected static ConcurrentDictionary<int, string> m_DicErrMsg = new ConcurrentDictionary<int, string>();
+        ///// <summary>
+        ///// 基本错误信息字典，基类中继续完善
+        ///// </summary>
+        //protected static ConcurrentDictionary<int, string> m_DicErrMsg = new ConcurrentDictionary<int, string>();
         
-        /// <summary>
-        /// 注册错误码
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="message"></param>
-        protected static void RegisteErrorCode(int code, string message) => m_DicErrMsg.TryAdd(code, message);
+        ///// <summary>
+        ///// 注册错误码
+        ///// </summary>
+        ///// <param name="code"></param>
+        ///// <param name="message"></param>
+        //protected static void RegisteErrorCode(int code, string message) => m_DicErrMsg.TryAdd(code, message);
 
-        /// <summary>
-        /// 获取错误信息
-        /// </summary>
-        /// <param name="errCode"></param>
-        /// <returns></returns>
-        protected static string GetErrMsg(int errCode)
-            => m_DicErrMsg.ContainsKey(errCode) ? m_DicErrMsg[errCode] : string.Empty;
+        ///// <summary>
+        ///// 获取错误信息
+        ///// </summary>
+        ///// <param name="errCode"></param>
+        ///// <returns></returns>
+        //protected static string GetErrMsg(int errCode)
+        //    => m_DicErrMsg.ContainsKey(errCode) ? m_DicErrMsg[errCode] : string.Empty;
 
         #endregion
         

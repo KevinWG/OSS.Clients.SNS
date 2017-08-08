@@ -9,7 +9,6 @@ namespace OSS.SnsSdk.Samples.Controllers
     {
         private static AppConfig m_Config = new AppConfig()
         {
-            AppSource = "11",
             AppId = "wxaa9e6cb3f03afa97",
             AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
         };

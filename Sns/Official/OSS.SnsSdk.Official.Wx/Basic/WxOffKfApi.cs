@@ -25,22 +25,22 @@ namespace OSS.SnsSdk.Official.Wx.Basic
 {
     public class WxOffKfApi:WxOffBaseApi
     {
-        static WxOffKfApi()
-        {
-            #region  客服全局错误码信息
+        //static WxOffKfApi()
+        //{
+        //    #region  客服全局错误码信息
 
-            RegisteErrorCode(65400, "API不可用，即没有开通或升级到新版客服功能");
-            RegisteErrorCode(65401, "无效客服帐号");
-            RegisteErrorCode(65402, "客服帐号尚未绑定微信号，不能投入使用");
-            RegisteErrorCode(65413, "不存在对应用户的会话信息");
-            RegisteErrorCode(65414, "粉丝正在被其他客服接待");
-            RegisteErrorCode(65415, "指定的客服不在线");
-            RegisteErrorCode(40003, "非法的openid");
-            RegisteErrorCode(65416, "查询参数不合法");
-            RegisteErrorCode(65417, "查询时间段超出限制");
+        //    RegisteErrorCode(65400, "API不可用，即没有开通或升级到新版客服功能");
+        //    RegisteErrorCode(65401, "无效客服帐号");
+        //    RegisteErrorCode(65402, "客服帐号尚未绑定微信号，不能投入使用");
+        //    RegisteErrorCode(65413, "不存在对应用户的会话信息");
+        //    RegisteErrorCode(65414, "粉丝正在被其他客服接待");
+        //    RegisteErrorCode(65415, "指定的客服不在线");
+        //    RegisteErrorCode(40003, "非法的openid");
+        //    RegisteErrorCode(65416, "查询参数不合法");
+        //    RegisteErrorCode(65417, "查询时间段超出限制");
 
-            #endregion
-        }
+        //    #endregion
+        //}
 
         #region  客服账号管理部分
         /// <summary>
