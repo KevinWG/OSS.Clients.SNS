@@ -36,20 +36,21 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// 获取授权地址
         /// </summary>
         /// <param name="redirectUri">授权后重定向的回调链接地址，请使用urlencode对链接进行处理</param>
+        /// <param name="state"> 需要回传的值 </param>
         /// <param name="type">授权客户端类型，如果是pc，则生成的是微信页面二维码授权页</param>
         /// <returns></returns>
-        public string GetAuthorizeUrl(string redirectUri, AuthClientType type)
+        public string GetAuthorizeUrl(string redirectUri,string state, AuthClientType type)
         {
 
             if (type == AuthClientType.PC)
             {
                 return
-                    $"https://open.weixin.qq.com/connect/qrconnect?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_login&state={ApiConfig.AppSource}#wechat_redirect";
+                    $"https://open.weixin.qq.com/connect/qrconnect?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_login&state={state}#wechat_redirect";
 
             }
             var scope = type == AuthClientType.WxSilence ? "snsapi_base" : "snsapi_userinfo";
             return
-                $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope={scope}&state={ApiConfig.AppSource}#wechat_redirect";
+                $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope={scope}&state={state}#wechat_redirect";
 
         }
 

@@ -18,7 +18,7 @@ namespace OSS.SnsSdk.Samples.Controllers
         public ActionResult auth( int type)
         {
             //记得更换成自己的项目域名
-            var res = m_AuthApi.GetAuthorizeUrl("http://www.social.com/wxoauth/callback", (AuthClientType)type);
+            var res = m_AuthApi.GetAuthorizeUrl("http://www.social.com/wxoauth/callback","1", (AuthClientType)type);
             return Redirect(res);
         }
 
