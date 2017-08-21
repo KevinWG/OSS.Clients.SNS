@@ -210,21 +210,19 @@ namespace OSS.SnsSdk.Msg.Wx
                 return new ResultMo<string>(ResultTypes.ObjectNull, "接收的消息体为空！");
 
             var resCheck = WxMsgHelper.CheckSignature(m_Config.Token, signature, timestamp, nonce);
-            if (resCheck.IsSuccess())
-            {
-                if (m_Config.SecurityType != WxSecurityType.None)
-                {
-                    XmlDocument xmlDoc = null;
-                    var dirs = WxMsgHelper.ChangXmlToDir(recXml,ref xmlDoc);
-                    if (dirs == null || !dirs.ContainsKey("Encrypt"))
-                        return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
+            if (!resCheck.IsSuccess())
+                return resCheck.ConvertToResultOnly<string>();
 
-                    var recMsgXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], m_Config.EncodingAesKey);
-                    return new ResultMo<string>(recMsgXml);
-                }
+            if (m_Config.SecurityType == WxSecurityType.None)
                 return new ResultMo<string>(recXml);
-            }
-            return resCheck.ConvertToResultOnly<string>();
+
+            XmlDocument xmlDoc = null;
+            var dirs = WxMsgHelper.ChangXmlToDir(recXml,ref xmlDoc);
+            if (dirs == null || !dirs.ContainsKey("Encrypt"))
+                return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
+
+            var recMsgXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], m_Config.EncodingAesKey);
+            return new ResultMo<string>(recMsgXml);
         }
 
         #endregion
@@ -243,7 +241,7 @@ namespace OSS.SnsSdk.Msg.Wx
             if (!recMsgDirs.ContainsKey("MsgType"))
                 return new ResultMo<MsgContext>(ResultTypes.ParaError, "消息数据中未发现 消息类型（MsgType）字段！");
 
-            string msgType = recMsgDirs["MsgType"].ToLower();
+            var msgType = recMsgDirs["MsgType"].ToLower();
             if (msgType == "event")
             {
                 if (!recMsgDirs.ContainsKey("Event"))
@@ -251,8 +249,8 @@ namespace OSS.SnsSdk.Msg.Wx
             }
 
             var context = ProcessExecute_BasicMsg(xmlDoc, msgType, recMsgDirs)
-                          ?? ProcessExecute_AdvancedMsg(xmlDoc, msgType, recMsgDirs)
-                          ?? ExecuteBasicMsgHandler(xmlDoc, recMsgDirs, UnknowHandler);
+                          ?? ProcessExecute_CustomHandler(xmlDoc, msgType, recMsgDirs)
+                          ?? ExecuteMsgHandler(xmlDoc, recMsgDirs,new BaseRecMsg(), UnknowHandler);
 
             return new ResultMo<MsgContext>(context);
         }
@@ -266,48 +264,56 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="msgType">消息类型</param>
         /// <param name="msgDirs">消息内容体字典</param>
         /// <returns></returns>
-        protected virtual MsgContext ProcessExecute_AdvancedMsg(XmlDocument recMsgXml, string msgType,
+        protected virtual MsgContext ProcessExecute_CustomHandler(XmlDocument recMsgXml, string msgType,
             Dictionary<string, string> msgDirs)
         {
-            return null;
+            var key = msgType == "event" ? string.Concat("event_", msgDirs["Event"].ToLower()) : msgType;
+            var handler = WxCustomHandlerProvider.GetHandler(key);
+
+            if(handler==null)
+                return null;  //  交由后续默认事件处理
+
+            var recMsg = handler.CreateInstance();
+
+            return ExecuteMsgHandler(recMsgXml, msgDirs, recMsg, handler.Excute);
         }
 
         /// <summary>
         ///  执行基础消息类型
         /// </summary>
-        /// <param name="recMsgXml"></param>
+        /// <param name="rMsg"></param>
         /// <param name="msgType"></param>
-        /// <param name="recMsgDirs"></param>
+        /// <param name="rDirs"></param>
         /// <returns>返回基础消息处理结果</returns>
-        private MsgContext ProcessExecute_BasicMsg(XmlDocument recMsgXml, string msgType,
-            Dictionary<string, string> recMsgDirs)
+        private MsgContext ProcessExecute_BasicMsg(XmlDocument rMsg, string msgType,
+            Dictionary<string, string> rDirs)
         {
             MsgContext context = null;
             switch (msgType.ToLower())
             {
                 case "event":
-                    context = ProcessExecute_BasicEventMsg(recMsgXml, recMsgDirs);
+                    context = ProcessExecute_BasicEventMsg(rMsg, rDirs);
                     break;
                 case "text":
-                    context = ExecuteBasicMsgHandler(recMsgXml, recMsgDirs, TextHandler);
+                    context = ExecuteMsgHandler(rMsg, rDirs,new TextRecMsg(), TextHandler);
                     break;
                 case "image":
-                    context = ExecuteBasicMsgHandler(recMsgXml, recMsgDirs, ImageHandler);
+                    context = ExecuteMsgHandler(rMsg, rDirs,new ImageRecMsg(), ImageHandler);
                     break;
                 case "voice":
-                    context = ExecuteBasicMsgHandler(recMsgXml, recMsgDirs, VoiceHandler);
+                    context = ExecuteMsgHandler(rMsg, rDirs,new VoiceRecMsg(), VoiceHandler);
                     break;
                 case "video":
-                    context = ExecuteBasicMsgHandler(recMsgXml, recMsgDirs, VideoHandler);
+                    context = ExecuteMsgHandler(rMsg, rDirs,new VideoRecMsg(), VideoHandler);
                     break;
                 case "shortvideo":
-                    context = ExecuteBasicMsgHandler(recMsgXml, recMsgDirs, VideoHandler);
+                    context = ExecuteMsgHandler(rMsg, rDirs,new VideoRecMsg(), VideoHandler);
                     break;
                 case "location":
-                    context = ExecuteBasicMsgHandler(recMsgXml, recMsgDirs, LocationHandler);
+                    context = ExecuteMsgHandler(rMsg, rDirs,new LocationRecMsg(), LocationHandler);
                     break;
                 case "link":
-                    context = ExecuteBasicMsgHandler(recMsgXml, recMsgDirs, LinkHandler);
+                    context = ExecuteMsgHandler(rMsg, rDirs,new LinkRecMsg(), LinkHandler);
                     break;
             }
             return context;
@@ -317,32 +323,32 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <summary>
         ///  执行基础事件消息类型
         /// </summary>
-        /// <param name="recEventMsg"></param>
-        /// <param name="recEventDirs"></param>
+        /// <param name="reMsg"></param>
+        /// <param name="reDirs"></param>
         /// <returns>返回基础事件消息处理结果</returns>
-        private MsgContext ProcessExecute_BasicEventMsg(XmlDocument recEventMsg, Dictionary<string, string> recEventDirs)
+        private MsgContext ProcessExecute_BasicEventMsg(XmlDocument reMsg, Dictionary<string, string> reDirs)
         {
-            string eventType = recEventDirs["Event"].ToLower();
+            var eventType = reDirs["Event"].ToLower();
             MsgContext context = null;
             switch (eventType)
             {
                 case "subscribe":
-                    context = ExecuteBasicMsgHandler(recEventMsg, recEventDirs, SubscribeEventHandler);
+                    context = ExecuteMsgHandler(reMsg, reDirs,new SubscribeRecEventMsg(), SubscribeEventHandler);
                     break;
                 case "unsubscribe":
-                    context = ExecuteBasicMsgHandler(recEventMsg, recEventDirs, SubscribeEventHandler);
+                    context = ExecuteMsgHandler(reMsg, reDirs,new SubscribeRecEventMsg(), SubscribeEventHandler);
                     break;
                 case "scan":
-                    context = ExecuteBasicMsgHandler(recEventMsg, recEventDirs, ScanEventHandler);
+                    context = ExecuteMsgHandler(reMsg, reDirs,new SubscribeRecEventMsg(), ScanEventHandler);
                     break;
                 case "location":
-                    context = ExecuteBasicMsgHandler(recEventMsg, recEventDirs, LocationEventHandler);
+                    context = ExecuteMsgHandler(reMsg, reDirs,new LocationRecEventMsg(), LocationEventHandler);
                     break;
                 case "click":
-                    context = ExecuteBasicMsgHandler(recEventMsg, recEventDirs, ClickEventHandler);
+                    context = ExecuteMsgHandler(reMsg, reDirs,new ClickRecEventMsg(), ClickEventHandler);
                     break;
                 case "view":
-                    context = ExecuteBasicMsgHandler(recEventMsg, recEventDirs, ViewEventHandler);
+                    context = ExecuteMsgHandler(reMsg, reDirs,new ViewRecEventMsg(), ViewEventHandler);
                     break;
             }
             return context;
@@ -354,15 +360,16 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <typeparam name="TRecMsg"></typeparam>
         /// <param name="recMsgXml"></param>
         /// <param name="recMsgDirs"></param>
+        /// <param name="recMsg"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        private static MsgContext ExecuteBasicMsgHandler<TRecMsg>(XmlDocument recMsgXml,
-            IDictionary<string, string> recMsgDirs, Func<TRecMsg, BaseReplyMsg> func)
+        private static MsgContext ExecuteMsgHandler<TRecMsg>(XmlDocument recMsgXml,
+            IDictionary<string, string> recMsgDirs, TRecMsg recMsg, Func<TRecMsg, BaseReplyMsg> func)
             where TRecMsg : BaseRecMsg, new()
         {
             var msgContext = new MsgContext();
 
-            var recMsg = WxMsgHelper.GetMsg<TRecMsg>(recMsgDirs);
+            recMsg.SetMsgDirs(recMsgDirs);
             recMsg.RecMsgXml = recMsgXml;
 
             msgContext.ReplyMsg = ExecuteHandler(recMsg, func);
@@ -406,11 +413,9 @@ namespace OSS.SnsSdk.Msg.Wx
         internal static ResultMo CheckSignature(string token, string signature,
             string timestamp, string nonce)
         {
-            if (signature == GenerateSignature(token, timestamp, nonce))
-            {
-                return new ResultMo();
-            }
-            return new ResultMo(ResultTypes.UnAuthorize, "签名验证失败！");
+            return signature == GenerateSignature(token, timestamp, nonce)
+                ? new ResultMo() 
+                : new ResultMo(ResultTypes.UnAuthorize, "签名验证失败！");
         }
 
 
@@ -425,10 +430,10 @@ namespace OSS.SnsSdk.Msg.Wx
         internal static string GenerateSignature(string token,
             string timestamp, string nonce, string strEncryptMsg = "")
         {
-            List<string> strList = new List<string>() { token, timestamp, nonce, strEncryptMsg };
+            var strList = new List<string>() { token, timestamp, nonce, strEncryptMsg };
             strList.Sort();
 
-            string waitEncropyStr = string.Join(string.Empty, strList);
+            var waitEncropyStr = string.Join(string.Empty, strList);
             return Sha1.Encrypt(waitEncropyStr, Encoding.ASCII);
         }
 
@@ -442,7 +447,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <returns></returns>
         internal static ResultMo<string> EncryptMsg(string sReplyMsg, WxMsgServerConfig config)
         {
-            string raw = "";
+            string raw;
             try
             {
                 raw = Cryptography.AesEncrypt(sReplyMsg, config.EncodingAesKey, config.AppId);
@@ -457,22 +462,23 @@ namespace OSS.SnsSdk.Msg.Wx
             var sNonce = date.ToString("yyyyMMddHHssff");
 
 
-            string msgSigature = GenerateSignature(config.Token, sTimeStamp, sNonce, raw);
+            var msgSigature = GenerateSignature(config.Token, sTimeStamp, sNonce, raw);
             if (string.IsNullOrEmpty(msgSigature))
             {
                 return new ResultMo<string>(ResultTypes.InnerError, "生成签名信息出错！");
             }
 
-            StringBuilder sEncryptMsg = new StringBuilder();
+            var sEncryptMsg = new StringBuilder();
 
-            string EncryptLabelHead = "<Encrypt><![CDATA[";
-            string EncryptLabelTail = "]]></Encrypt>";
-            string MsgSigLabelHead = "<MsgSignature><![CDATA[";
-            string MsgSigLabelTail = "]]></MsgSignature>";
-            string TimeStampLabelHead = "<TimeStamp><![CDATA[";
-            string TimeStampLabelTail = "]]></TimeStamp>";
-            string NonceLabelHead = "<Nonce><![CDATA[";
-            string NonceLabelTail = "]]></Nonce>";
+            const string EncryptLabelHead = "<Encrypt><![CDATA[";
+            const string EncryptLabelTail = "]]></Encrypt>";
+            const string MsgSigLabelHead = "<MsgSignature><![CDATA[";
+            const string MsgSigLabelTail = "]]></MsgSignature>";
+            const string TimeStampLabelHead = "<TimeStamp><![CDATA[";
+
+            const string TimeStampLabelTail = "]]></TimeStamp>";
+            const string NonceLabelHead = "<Nonce><![CDATA[";
+            const string NonceLabelTail = "]]></Nonce>";
 
             sEncryptMsg.Append("<xml>").Append(EncryptLabelHead).Append(raw).Append(EncryptLabelTail);
             sEncryptMsg.Append(MsgSigLabelHead).Append(msgSigature).Append(MsgSigLabelTail);
@@ -485,22 +491,9 @@ namespace OSS.SnsSdk.Msg.Wx
 
 
         #endregion
-        
+
         #region  消息内容辅助类
-
-        /// <summary>
-        /// 获取消息实体
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dirs"></param>
-        /// <returns></returns>
-        internal static T GetMsg<T>(IDictionary<string, string> dirs) where T : BaseRecMsg, new()
-        {
-            T t = new T();
-            t.SetMsgDirs(dirs);
-            return t;
-        }
-
+        
         /// <summary>
         /// 把xml文本转化成字典对象
         /// </summary>
@@ -517,12 +510,12 @@ namespace OSS.SnsSdk.Msg.Wx
 
             xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);
-            XmlNode xmlNode = xmlDoc.FirstChild;
-            XmlNodeList nodes = xmlNode.ChildNodes;
+            var xmlNode = xmlDoc.FirstChild;
+            var nodes = xmlNode.ChildNodes;
 
             foreach (XmlNode xn in nodes)
             {
-                XmlElement xe = (XmlElement)xn;
+                var xe = (XmlElement)xn;
                 dirs[xe.Name] = xe.InnerText;
             }
 

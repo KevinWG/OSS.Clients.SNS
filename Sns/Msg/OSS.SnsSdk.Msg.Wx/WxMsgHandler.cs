@@ -13,50 +13,114 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Xml;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.SnsSdk.Msg.Wx.Mos;
-using OSS.SocialSDK.WX.Msg.Mos;
 
 namespace OSS.SnsSdk.Msg.Wx
 {
-    /// <summary>
-    ///  消息对话事件句柄，被动消息处理
-    /// </summary>
-    public class WxMsgHandler:WxMsgBasicHandler
+    ///// <summary>
+    /////  消息对话事件句柄，被动消息处理
+    ///// </summary>
+    //public class WxMsgHandler:WxMsgBasicHandler
+    //{
+    //    /// <summary>
+    //    /// 构造函数
+    //    /// </summary>
+    //    /// <param name="config"></param>
+    //    public WxMsgHandler(WxMsgServerConfig config):base(config)
+    //    {
+    //    }
+        
+    //    private static readonly ConcurrentDictionary<string,Tuple<Type, Func<BaseRecMsg, BaseReplyMsg>> > m_MsgHandlerDir 
+    //        = new ConcurrentDictionary<string, Tuple<Type, Func<BaseRecMsg, BaseReplyMsg>>>();
+
+    //    /// <summary>
+    //    /// 注册消息处理委托
+    //    /// </summary>
+    //    /// <param name="msgType">消息类型</param>
+    //    /// <param name="recMsgType">消息实体类型</param>
+    //    /// <param name="handler">消息处理委托</param>
+    //    protected static ResultMo RegisterMsgHandler(string msgType,Type recMsgType, Func<BaseRecMsg, BaseReplyMsg> handler)
+    //    {
+    //        string key = msgType.ToLower();
+    //        if (!m_MsgHandlerDir.ContainsKey(key))
+    //        {
+    //            var isTrue= m_MsgHandlerDir.TryAdd(key, Tuple.Create(recMsgType, handler));
+    //            if (isTrue)
+    //            {
+    //                return new ResultMo();
+    //            }
+    //        }
+    //        return new ResultMo(ResultTypes.ObjectExsit,"已存在相同的消息处理类型！");
+    //    }
+
+    //    /// <summary>
+    //    /// 注册事件消息处理委托
+    //    /// </summary>
+    //    /// <param name="eventName">事件名称</param>
+    //    /// <param name="recMsgEventType">事件消息实体类型</param>
+    //    /// <param name="handler">事件处理委托</param>
+    //    protected static ResultMo RegisterEventMsgHandler(string eventName, Type recMsgEventType, Func<BaseRecMsg, BaseReplyMsg> handler)
+    //    {
+    //        string key =string.Concat("event_", eventName);
+
+    //        return RegisterMsgHandler(key, recMsgEventType, handler);
+    //    }
+
+    //    /// <summary>
+    //    /// 执行高级消息事件类型
+    //    /// </summary>
+    //    /// <param name="recMsgXml">接收到的消息内容体</param>
+    //    /// <param name="msgType">消息类型</param>
+    //    /// <param name="msgDirs">消息内容体字典</param>
+    //    /// <returns></returns>
+    //    protected override MsgContext ProcessExecute_AdvancedMsg(XmlDocument recMsgXml, string msgType, Dictionary<string, string> msgDirs)
+    //    {
+    //        string key = msgType == "event" ? string.Concat("event_", msgDirs["Event"].ToLower()) : msgType;
+    //        if (!m_MsgHandlerDir.ContainsKey(key))
+    //            return null;  //  交由后续默认事件处理
+
+    //        var tupleItem = m_MsgHandlerDir[key];
+
+    //        //    反射生成消息实体实例
+    //        var msg = Activator.CreateInstance(tupleItem.Item1) as BaseRecMsg;
+    //        if (msg != null)
+    //        {
+    //            msg.SetMsgDirs(msgDirs);
+    //            msg.RecMsgXml = recMsgXml;
+    //        }
+
+    //        var replyMsg = ExecuteHandler(msg, tupleItem.Item2);
+    //        return new MsgContext() {RecMsg = msg,ReplyMsg = replyMsg};
+    //    }
+    //}
+    
+    public static class WxCustomHandlerProvider
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="config"></param>
-        public WxMsgHandler(WxMsgServerConfig config):base(config)
+        private static readonly ConcurrentDictionary<string, BaseHandler> m_HandlerDirs =
+            new ConcurrentDictionary<string, BaseHandler>();
+
+        public static void Register<TRecMsg>(string name, Func<TRecMsg, BaseReplyMsg> func)
+            where TRecMsg : BaseRecMsg, new()
         {
         }
-
-
-        private static readonly ConcurrentDictionary<string,Tuple<Type, Func<BaseRecMsg, BaseReplyMsg>> > m_MsgHandlerDir 
-            = new ConcurrentDictionary<string, Tuple<Type, Func<BaseRecMsg, BaseReplyMsg>>>();
 
         /// <summary>
         /// 注册消息处理委托
         /// </summary>
         /// <param name="msgType">消息类型</param>
         /// <param name="recMsgType">消息实体类型</param>
-        /// <param name="handler">消息处理委托</param>
-        protected static ResultMo RegisterMsgHandler(string msgType,Type recMsgType, Func<BaseRecMsg, BaseReplyMsg> handler)
+        /// <param name="func"></param>
+        public static ResultMo RegisterMsgHandler<TRecMsg>(string msgType, Type recMsgType, Func<TRecMsg, BaseReplyMsg> func)
+            where TRecMsg : BaseRecMsg, new()
         {
-            string key = msgType.ToLower();
-            if (!m_MsgHandlerDir.ContainsKey(key))
-            {
-                var isTrue= m_MsgHandlerDir.TryAdd(key, Tuple.Create(recMsgType, handler));
-                if (isTrue)
-                {
-                    return new ResultMo();
-                }
-            }
-            return new ResultMo(ResultTypes.ObjectExsit,"已存在相同的消息处理类型！");
+            var key = msgType.ToLower();
+            if (m_HandlerDirs.ContainsKey(key))
+                return new ResultMo(ResultTypes.ObjectExsit, "已存在相同的消息处理类型！");
+
+            var handler = new BaseHandler<TRecMsg> { Handler = func };
+            return m_HandlerDirs.TryAdd(key, handler) ? new ResultMo() : new ResultMo(ResultTypes.ObjectExsit, "注册消息处理句柄失败！");
         }
 
         /// <summary>
@@ -64,42 +128,49 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="recMsgEventType">事件消息实体类型</param>
-        /// <param name="handler">事件处理委托</param>
-        protected static ResultMo RegisterEventMsgHandler(string eventName, Type recMsgEventType, Func<BaseRecMsg, BaseReplyMsg> handler)
+        /// <param name="func"></param>
+        public static ResultMo RegisterEventMsgHandler<TRecMsg>(string eventName, Type recMsgEventType, Func<TRecMsg, BaseReplyMsg> func)
+            where TRecMsg : BaseRecMsg, new()
         {
-            string key =string.Concat("event_", eventName);
+            var key = string.Concat("event_", eventName);
 
-            return RegisterMsgHandler(key, recMsgEventType, handler);
+            return RegisterMsgHandler(key, recMsgEventType, func);
+        }
+        
+        public static BaseHandler GetHandler(string name)
+        {
+            m_HandlerDirs.TryGetValue(name, out BaseHandler handler);
+            return handler ?? new BaseHandler();
+        }
+    }
+
+    public  class BaseHandler
+    {
+        public virtual BaseReplyMsg Excute(BaseRecMsg msg)
+        {
+            return new NoneReplyMsg();
         }
 
-        /// <summary>
-        /// 执行高级消息事件类型
-        /// </summary>
-        /// <param name="recMsgXml">接收到的消息内容体</param>
-        /// <param name="msgType">消息类型</param>
-        /// <param name="msgDirs">消息内容体字典</param>
-        /// <returns></returns>
-        protected override MsgContext ProcessExecute_AdvancedMsg(XmlDocument recMsgXml, string msgType, Dictionary<string, string> msgDirs)
+        public virtual BaseRecMsg CreateInstance()
         {
-            string key = msgType == "event" ? string.Concat("event_", msgDirs["Event"].ToLower()) : msgType;
-            if (!m_MsgHandlerDir.ContainsKey(key))
-                return null;  //  交由后续默认事件处理
-
-            var tupleItem = m_MsgHandlerDir[key];
-
-            //    反射生成消息实体实例
-            var msg = Activator.CreateInstance(tupleItem.Item1) as BaseRecMsg;
-            if (msg != null)
-            {
-                msg.SetMsgDirs(msgDirs);
-                msg.RecMsgXml = recMsgXml;
-            }
-
-            var replyMsg = ExecuteHandler(msg, tupleItem.Item2);
-            return new MsgContext() {RecMsg = msg,ReplyMsg = replyMsg};
+            return null;
+        }
+    }
+    
+    public  class BaseHandler<TRecMsg>: BaseHandler
+        where TRecMsg : BaseRecMsg, new()
+    {
+        public override BaseReplyMsg Excute(BaseRecMsg msg)
+        {
+            return Handler(msg as TRecMsg);
+        }
+        
+        public override BaseRecMsg CreateInstance()
+        {
+            return new TRecMsg();
         }
 
-
+        internal Func<TRecMsg, BaseReplyMsg> Handler { get; set; }
     }
 
 

@@ -81,8 +81,7 @@ namespace OSS.SnsSdk.Official.Wx
                 HttpMothed = HttpMothed.GET,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/getcallbackip")
             };
-
-
+            
             return await RestCommonOffcialAsync<WxIpListResp>(req);
         }
 
