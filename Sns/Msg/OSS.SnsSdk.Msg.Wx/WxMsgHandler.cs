@@ -27,7 +27,7 @@ namespace OSS.SnsSdk.Msg.Wx
     /// <summary>
     /// 消息处理基类
     ///  </summary>
-    public class WxMsgBasicHandler
+    public class WxMsgHandler
     {
         protected readonly WxMsgServerConfig m_Config;
 
@@ -35,7 +35,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// 构造函数
         /// </summary>
         /// <param name="mConfig"></param>
-        protected WxMsgBasicHandler(WxMsgServerConfig mConfig)
+        protected WxMsgHandler(WxMsgServerConfig mConfig)
         {
             m_Config = mConfig;
         }
