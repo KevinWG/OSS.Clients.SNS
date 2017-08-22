@@ -27,7 +27,7 @@ namespace OSS.SnsSdk.Msg.Wx
     /// <summary>
     /// 消息处理基类
     ///  </summary>
-    public abstract class WxMsgBasicHandler
+    public class WxMsgBasicHandler
     {
         protected readonly WxMsgServerConfig m_Config;
 
@@ -119,7 +119,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="res"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        protected static BaseReplyMsg ExecuteHandler<TRecMsg>(TRecMsg res, Func<TRecMsg, BaseReplyMsg> func)
+        private static BaseReplyMsg ExecuteHandler<TRecMsg>(TRecMsg res, Func<TRecMsg, BaseReplyMsg> func)
             where TRecMsg : BaseRecMsg, new()
         {
             var baseRep = func?.Invoke(res) ?? new NoneReplyMsg();
@@ -233,7 +233,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// 核心执行方法   ==  执行方法
         /// </summary>
         /// <param name="recMsgXml">传入消息的xml</param>
-        protected ResultMo<MsgContext> ProcessExecute(string recMsgXml)
+        private ResultMo<MsgContext> ProcessExecute(string recMsgXml)
         {
             XmlDocument xmlDoc = null;
             var recMsgDirs = WxMsgHelper.ChangXmlToDir(recMsgXml,ref xmlDoc);
@@ -264,7 +264,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="msgType">消息类型</param>
         /// <param name="msgDirs">消息内容体字典</param>
         /// <returns></returns>
-        protected virtual MsgContext ProcessExecute_CustomHandler(XmlDocument recMsgXml, string msgType,
+        private MsgContext ProcessExecute_CustomHandler(XmlDocument recMsgXml, string msgType,
             Dictionary<string, string> msgDirs)
         {
             var key = msgType == "event" ? string.Concat("event_", msgDirs["Event"].ToLower()) : msgType;
