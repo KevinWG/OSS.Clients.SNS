@@ -6,7 +6,7 @@ using OSS.SocialSDK.WX.Msg.Mos;
 
 namespace OSS.SocialSDK.Samples.Controllers.Codes
 {
-    public class WxBasicMsgService: WxMsgBasicHandler
+    public class WxBasicMsgService: WxMsgHandler
     {
         public WxBasicMsgService(WxMsgServerConfig mConfig) : base(mConfig)
         {

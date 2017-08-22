@@ -27,11 +27,6 @@ namespace OSS.SnsSdk.Msg.Wx
         private static readonly ConcurrentDictionary<string, WxMsgCustomBaseHandler> m_HandlerDirs =
             new ConcurrentDictionary<string, WxMsgCustomBaseHandler>();
 
-        public static void Register<TRecMsg>(string name, Func<TRecMsg, BaseReplyMsg> func)
-            where TRecMsg : BaseRecMsg, new()
-        {
-        }
-
         /// <summary>
         /// 注册消息处理委托
         /// </summary>
@@ -46,7 +41,7 @@ namespace OSS.SnsSdk.Msg.Wx
             if (m_HandlerDirs.ContainsKey(key))
                 return new ResultMo(ResultTypes.ObjectExsit, "已存在相同的消息处理类型！");
 
-            var handler = new WxCustomBaseHandler<TRecMsg> {Handler = func};
+            var handler = new WxCustomHandler<TRecMsg> {Handler = func};
             return m_HandlerDirs.TryAdd(key, handler)
                 ? new ResultMo()
                 : new ResultMo(ResultTypes.ObjectExsit, "注册消息处理句柄失败！");
@@ -100,7 +95,7 @@ namespace OSS.SnsSdk.Msg.Wx
     /// 
     /// </summary>
     /// <typeparam name="TRecMsg"></typeparam>
-    internal class WxCustomBaseHandler<TRecMsg> : WxMsgCustomBaseHandler
+    internal class WxCustomHandler<TRecMsg> : WxMsgCustomBaseHandler
         where TRecMsg : BaseRecMsg, new()
     {
         public override BaseReplyMsg Excute(BaseRecMsg msg)
