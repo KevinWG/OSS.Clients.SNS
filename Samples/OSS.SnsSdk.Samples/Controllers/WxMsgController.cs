@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.ComModels;
 using OSS.SnsSdk.Msg.Wx;
 using OSS.SnsSdk.Msg.Wx.Mos;
-using OSS.SocialSDK.Samples.Controllers.Codes;
+using OSS.SnsSdk.Samples.Controllers.Codes;
 using OSS.SocialSDK.WX.Msg.Mos;
 
 namespace OSS.SnsSdk.Samples.Controllers
@@ -18,54 +17,44 @@ namespace OSS.SnsSdk.Samples.Controllers
             Token = "2DMEMYU9Zrv8C4jam7zvTghlUf2Z60s3",
             EncodingAesKey = string.Empty,
         };
-        // DirConfigUtil.GetDirConfig<WxMsgServerConfig>("my_wxmsg_config");
+        private static readonly WxMsgService _msgService;
+
 
         static WxMsgController()
         {
+            _msgService = new WxMsgService(config);
+
+            //  用户可以自定义消息处理委托，也可以通过 RegisterEventMsgHandler 自定义事件处理委托
             WxCustomMsgHandlerProvider.RegisterMsgHandler<TextRecMsg>("test_msg", recMsg =>
             {
-                return new NoneReplyMsg();
+                return new TextReplyMsg() {Content = " test_msg 类型消息返回 "};
             });
-
-
-            if (config == null)
-            {
-                throw new ArgumentException("请给config 直接赋值，或者通过 DirConfigUtil.SetDirConfig(\"my_wxmsg_config\", config) 放入配置管理当中");
-            }
-            _msgService = new WxBasicMsgService(config);
         }
 
         #region   微信消息接口模块
 
-        private static readonly WxBasicMsgService _msgService;
 
+        /// <summary>
+        ///   在微信端配置的地址（包含微信第一次Get验证
+        /// </summary>
+        /// <param name="signature"></param>
+        /// <param name="timestamp"></param>
+        /// <param name="nonce"></param>
+        /// <param name="echostr"></param>
+        /// <returns></returns>
         public ContentResult Msg(string signature, string timestamp, string nonce, string echostr)
         {
-
             string requestXml;
-            using (StreamReader reader = new StreamReader(Request.Body))
+            using (var reader = new StreamReader(Request.Body))
             {
                 requestXml = reader.ReadToEnd();
             }
-            try
-            {
-                var res = _msgService.Process(requestXml, signature, timestamp, nonce, echostr);
-                if (res.IsSuccess())
-                    return Content(res.data);
-            }
-            catch (Exception ex)
-            {
-            }
-            return Content("success");
+
+            var res = _msgService.Process(requestXml, signature, timestamp, nonce, echostr);
+            return Content(res.IsSuccess() ? res.data : "success");
         }
 
         #endregion
-
-
-        public ActionResult Index()
-        {
-            return View();
-        }
 
     }
 
