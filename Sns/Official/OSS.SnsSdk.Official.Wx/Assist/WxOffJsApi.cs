@@ -45,7 +45,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist
         /// <returns></returns>
         public async Task<WxGetJsTicketResp> GetJsTicketAsync(WxJsTicketType type)
         {
-            string key = string.Format(WxCacheKeysUtil.OffcialJsTicketKey, ApiConfig.AppId, type);
+            var key = string.Format(WxCacheKeysUtil.OffcialJsTicketKey, ApiConfig.AppId, type);
             var ticket = CacheUtil.Get<WxGetJsTicketResp>(key, ModuleName);
             if (ticket != null && ticket.expires_time > DateTime.Now)
                 return ticket;

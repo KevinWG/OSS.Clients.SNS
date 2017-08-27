@@ -32,8 +32,6 @@ namespace OSS.SnsSdk.Official.Wx
     /// </summary>
     public class WxOffBaseApi : BaseConfigProvider<AppConfig>
     {
-        private readonly string m_OffcialAccessTokenKey;
-
         /// <summary>
         /// 微信api接口地址
         /// </summary>
@@ -48,7 +46,6 @@ namespace OSS.SnsSdk.Official.Wx
         public WxOffBaseApi(AppConfig config) : base(config)
         {
             ModuleName = ModuleNames.SocialCenter;
-            m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAccessTokenKey, ApiConfig.AppId);
         }
 
         #endregion
@@ -69,15 +66,14 @@ namespace OSS.SnsSdk.Official.Wx
             
             return await RestCommonOffcialAsync<WxIpListResp>(req);
         }
-
-
-
+        
         /// <summary>
         ///   获取公众号的AccessToken
         /// </summary>
         /// <returns></returns>
         public async Task<WxOffAccessTokenResp> GetAccessTokenAsync()
         {
+            var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAccessTokenKey, ApiConfig.AppId);
             var tokenResp = CacheUtil.Get<WxOffAccessTokenResp>(m_OffcialAccessTokenKey, ModuleName);
 
             if (tokenResp != null && tokenResp.expires_date >= DateTime.Now)
