@@ -30,7 +30,7 @@ namespace OSS.SnsSdk.Official.Wx
     /// <summary>
     /// 微信公号接口基类
     /// </summary>
-    public class WxOffBaseApi : BaseRestApi<WxOffBaseApi>
+    public class WxOffBaseApi : BaseConfigProvider<AppConfig>
     {
         private readonly string m_OffcialAccessTokenKey;
 
@@ -40,32 +40,17 @@ namespace OSS.SnsSdk.Official.Wx
         protected const string m_ApiUrl = "https://api.weixin.qq.com";
 
         #region 构造函数
-
-        /// <summary>
-        ///   构造函数
-        /// </summary>
-        public WxOffBaseApi() : this(null)
-        {
-
-        }
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
         public WxOffBaseApi(AppConfig config) : base(config)
         {
+            ModuleName = ModuleNames.SocialCenter;
             m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAccessTokenKey, ApiConfig.AppId);
         }
 
-        /// <summary>
-        ///   静态构造函数
-        /// </summary>
-        static WxOffBaseApi()
-        {
-            ModuleName = ModuleNames.SocialCenter;
-            // InitailGlobalErrorCode();
-        }
         #endregion
 
         #region  基础方法

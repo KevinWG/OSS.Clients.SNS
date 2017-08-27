@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>Kevin</Authors>
     <Company>OSSCoder</Company>
     <Description>公众号消息对话功能接口</Description>
@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/KevinWG/OSS.SnsSdk/tree/master/Sns/Msg</PackageProjectUrl>
     <PackageIconUrl>http://img1.static.osscoder.com/logo.jpg</PackageIconUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.SnsSdk</RepositoryUrl>
-    <PackageReleaseNotes>升级.Net Standard 2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>升级用户自定义消息类型处理机制</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Common" Version="1.2.1" />
+    <PackageReference Include="OSS.Common" Version="1.2.2" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
   </ItemGroup>
 

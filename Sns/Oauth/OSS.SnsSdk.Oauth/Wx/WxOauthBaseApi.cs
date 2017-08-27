@@ -24,15 +24,8 @@ namespace OSS.SnsSdk.Oauth.Wx
     /// <summary>
     /// 微信接口SDK基类
     /// </summary>
-    public class WxOauthBaseApi:BaseRestApi<WxOauthBaseApi>
+    public class WxOauthBaseApi: BaseConfigProvider<AppConfig>
     {
-        /// <summary>
-        ///  构造函数
-        /// </summary>
-        public WxOauthBaseApi() : this(null)
-        {
-
-        }
         /// <summary>
         /// 微信api接口地址
         /// </summary>
