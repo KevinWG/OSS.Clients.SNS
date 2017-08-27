@@ -1,7 +1,7 @@
 ﻿#region Copyright (C) 2016  Kevin  （OS系列开源项目）
 
 /***************************************************************************
-*　　	文件功能描述：消息对话事件句柄，被动消息处理类
+*　　	文件功能描述：自定义消息处理实现
 *
 *　　	创建人： Kevin
 *       创建人Email：1985088337@qq.com
@@ -12,73 +12,15 @@
 #endregion
 
 using System;
-using System.Collections.Concurrent;
-using OSS.Common.ComModels;
-using OSS.Common.ComModels.Enums;
 using OSS.SnsSdk.Msg.Wx.Mos;
 
 namespace OSS.SnsSdk.Msg.Wx
 {
+  
     /// <summary>
-    ///  用户自定义消息处理句柄
+    ///  自定义消息处理Handler基类
     /// </summary>
-    public static class WxCustomHandlerProvider
-    {
-        private static readonly ConcurrentDictionary<string, WxMsgCustomBaseHandler> m_HandlerDirs =
-            new ConcurrentDictionary<string, WxMsgCustomBaseHandler>();
-
-        /// <summary>
-        /// 注册消息处理委托
-        /// </summary>
-        /// <param name="msgType">消息类型</param>
-        /// <param name="recMsgType">消息实体类型</param>
-        /// <param name="func"></param>
-        public static ResultMo RegisterMsgHandler<TRecMsg>(string msgType, Type recMsgType,
-            Func<TRecMsg, BaseReplyMsg> func)
-            where TRecMsg : BaseRecMsg, new()
-        {
-            var key = msgType.ToLower();
-            if (m_HandlerDirs.ContainsKey(key))
-                return new ResultMo(ResultTypes.ObjectExsit, "已存在相同的消息处理类型！");
-
-            var handler = new WxCustomHandler<TRecMsg> {Handler = func};
-            return m_HandlerDirs.TryAdd(key, handler)
-                ? new ResultMo()
-                : new ResultMo(ResultTypes.ObjectExsit, "注册消息处理句柄失败！");
-        }
-
-        /// <summary>
-        /// 注册事件消息处理委托
-        /// </summary>
-        /// <param name="eventName">事件名称</param>
-        /// <param name="recMsgEventType">事件消息实体类型</param>
-        /// <param name="func"></param>
-        public static ResultMo RegisterEventMsgHandler<TRecMsg>(string eventName, Type recMsgEventType,
-            Func<TRecMsg, BaseReplyMsg> func)
-            where TRecMsg : BaseRecMsg, new()
-        {
-            var key = string.Concat("event_", eventName);
-
-            return RegisterMsgHandler(key, recMsgEventType, func);
-        }
-
-
-        /// <summary>
-        ///  获取自定义的句柄
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        internal static WxMsgCustomBaseHandler GetHandler(string name)
-        {
-            m_HandlerDirs.TryGetValue(name, out WxMsgCustomBaseHandler handler);
-            return handler ?? new WxMsgCustomBaseHandler();
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    internal class WxMsgCustomBaseHandler
+    internal class WxMsgCustomMsgBaseHandler
     {
         public virtual BaseReplyMsg Excute(BaseRecMsg msg)
         {
@@ -91,11 +33,12 @@ namespace OSS.SnsSdk.Msg.Wx
         }
     }
 
+    /// <inheritdoc />
     /// <summary>
-    /// 
+    ///   自定义消息类型处理Handler
     /// </summary>
     /// <typeparam name="TRecMsg"></typeparam>
-    internal class WxCustomHandler<TRecMsg> : WxMsgCustomBaseHandler
+    internal class WxCustomMsgHandler<TRecMsg> : WxMsgCustomMsgBaseHandler
         where TRecMsg : BaseRecMsg, new()
     {
         public override BaseReplyMsg Excute(BaseRecMsg msg)

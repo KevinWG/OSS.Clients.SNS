@@ -27,111 +27,17 @@ namespace OSS.SnsSdk.Msg.Wx
     /// <summary>
     /// 消息处理基类
     ///  </summary>
-    public class WxMsgHandler
+    public class WxMsgHandler: WxBaseMsg
     {
-        protected readonly WxMsgServerConfig m_Config;
-
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="mConfig"></param>
-        protected WxMsgHandler(WxMsgServerConfig mConfig)
+        public WxMsgHandler(WxMsgServerConfig mConfig=null):base(mConfig)
         {
-            m_Config = mConfig;
+           
         }
-
-        #region   基础消息的事件列表
-
-        #region 事件列表  普通消息
-
-        /// <summary>
-        /// 处理未知类型消息
-        /// </summary>
-        protected event Func<BaseRecMsg, BaseReplyMsg> UnknowHandler;
-
-        /// <summary>
-        /// 处理文本消息
-        /// </summary>
-        protected event Func<TextRecMsg, BaseReplyMsg> TextHandler;
-
-        /// <summary>
-        /// 处理图像消息
-        /// </summary>
-        protected event Func<ImageRecMsg, BaseReplyMsg> ImageHandler;
-
-        /// <summary>
-        /// 处理语音消息
-        /// </summary>
-        protected event Func<VoiceRecMsg, BaseReplyMsg> VoiceHandler;
-
-        /// <summary>
-        /// 处理视频/小视频消息
-        /// </summary>
-        protected event Func<VideoRecMsg, BaseReplyMsg> VideoHandler;
-
-        /// <summary>
-        /// 处理地理位置消息
-        /// </summary>
-        protected event Func<LocationRecMsg, BaseReplyMsg> LocationHandler;
-
-        /// <summary>
-        /// 处理链接消息
-        /// </summary>
-        protected event Func<LinkRecMsg, BaseReplyMsg> LinkHandler;
-
-        #endregion
-
-        #region 事件列表  动作事件消息
-
-
-        /// <summary>
-        /// 处理关注/取消关注事件
-        /// </summary>
-        protected event Func<SubscribeRecEventMsg, BaseReplyMsg> SubscribeEventHandler;
-
-        /// <summary>
-        /// 处理扫描带参数二维码事件
-        /// </summary>
-        protected event Func<SubscribeRecEventMsg, BaseReplyMsg> ScanEventHandler;
-
-        /// <summary>
-        /// 处理上报地理位置事件
-        /// 不需要回复任何消息
-        /// </summary>
-        protected event Func<LocationRecEventMsg, NoneReplyMsg> LocationEventHandler;
-
-        /// <summary>
-        /// 处理点击菜单拉取消息时的事件推送
-        /// </summary>
-        protected event Func<ClickRecEventMsg, BaseReplyMsg> ClickEventHandler;
-
-        /// <summary>
-        /// 处理点击菜单跳转链接时的事件推送 
-        /// </summary>
-        protected event Func<ViewRecEventMsg, BaseReplyMsg> ViewEventHandler;
-
-        #endregion
-
-        /// <summary>
-        /// 执行事件对应委托方法，如果对应的方法存在则执行
-        /// </summary>
-        /// <typeparam name="TRecMsg"></typeparam>
-        /// <param name="res"></param>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        private static BaseReplyMsg ExecuteHandler<TRecMsg>(TRecMsg res, Func<TRecMsg, BaseReplyMsg> func)
-            where TRecMsg : BaseRecMsg, new()
-        {
-            var baseRep = func?.Invoke(res) ?? new NoneReplyMsg();
-
-            baseRep.ToUserName = res.FromUserName;
-            baseRep.FromUserName = res.ToUserName;
-            baseRep.CreateTime = DateTime.Now.ToLocalSeconds();
-
-            return baseRep;
-        }
-
-        #endregion
+        
 
         #region 消息处理入口，出口（分为开始，处理，结束部分）
 
@@ -166,10 +72,10 @@ namespace OSS.SnsSdk.Msg.Wx
                 ProcessEnd(contextRes.data);
 
                 var resultString = contextRes.data.ReplyMsg.ToReplyXml();
-                if (m_Config.SecurityType != WxSecurityType.None &&
+                if (ApiConfig.SecurityType != WxSecurityType.None &&
                      !string.IsNullOrEmpty(contextRes.data.ReplyMsg.MsgType))
                 {
-                    return WxMsgHelper.EncryptMsg(resultString, m_Config);
+                    return WxMsgHelper.EncryptMsg(resultString, ApiConfig);
                 }
                 return new ResultMo<string>(resultString);
             }
@@ -185,7 +91,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <returns></returns>
         public ResultMo<string> CheckServerValid(string signature, string timestamp, string nonce, string echostr)
         {
-            var checkSignRes = WxMsgHelper.CheckSignature(m_Config.Token, signature, timestamp, nonce);
+            var checkSignRes = WxMsgHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
             var resultRes = checkSignRes.ConvertToResultOnly<string>();
             resultRes.data = resultRes.IsSuccess() ? echostr : string.Empty;
             return resultRes;
@@ -203,17 +109,17 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
         /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        protected ResultMo<string> ProcessBegin(string recXml, string signature,
+        private ResultMo<string> ProcessBegin(string recXml, string signature,
             string timestamp, string nonce)
         {
             if (string.IsNullOrEmpty(recXml))
                 return new ResultMo<string>(ResultTypes.ObjectNull, "接收的消息体为空！");
 
-            var resCheck = WxMsgHelper.CheckSignature(m_Config.Token, signature, timestamp, nonce);
+            var resCheck = WxMsgHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
             if (!resCheck.IsSuccess())
                 return resCheck.ConvertToResultOnly<string>();
 
-            if (m_Config.SecurityType == WxSecurityType.None)
+            if (ApiConfig.SecurityType == WxSecurityType.None)
                 return new ResultMo<string>(recXml);
 
             XmlDocument xmlDoc = null;
@@ -221,7 +127,7 @@ namespace OSS.SnsSdk.Msg.Wx
             if (dirs == null || !dirs.ContainsKey("Encrypt"))
                 return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
 
-            var recMsgXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], m_Config.EncodingAesKey);
+            var recMsgXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], ApiConfig.EncodingAesKey);
             return new ResultMo<string>(recMsgXml);
         }
 
@@ -250,7 +156,7 @@ namespace OSS.SnsSdk.Msg.Wx
 
             var context = ProcessExecute_BasicMsg(xmlDoc, msgType, recMsgDirs)
                           ?? ProcessExecute_CustomHandler(xmlDoc, msgType, recMsgDirs)
-                          ?? ExecuteMsgHandler(xmlDoc, recMsgDirs,new BaseRecMsg(), UnknowHandler);
+                          ?? ExecuteHandler(xmlDoc, recMsgDirs,new BaseRecMsg(), ProcessUnknowHandler);
 
             return new ResultMo<MsgContext>(context);
         }
@@ -268,116 +174,17 @@ namespace OSS.SnsSdk.Msg.Wx
             Dictionary<string, string> msgDirs)
         {
             var key = msgType == "event" ? string.Concat("event_", msgDirs["Event"].ToLower()) : msgType;
-            var handler = WxCustomHandlerProvider.GetHandler(key);
+            var handler = WxCustomMsgHandlerProvider.GetHandler(key);
 
             if(handler==null)
                 return null;  //  交由后续默认事件处理
 
             var recMsg = handler.CreateInstance();
 
-            return ExecuteMsgHandler(recMsgXml, msgDirs, recMsg, handler.Excute);
+            return ExecuteHandler(recMsgXml, msgDirs, recMsg, handler.Excute);
         }
 
-        /// <summary>
-        ///  执行基础消息类型
-        /// </summary>
-        /// <param name="rMsg"></param>
-        /// <param name="msgType"></param>
-        /// <param name="rDirs"></param>
-        /// <returns>返回基础消息处理结果</returns>
-        private MsgContext ProcessExecute_BasicMsg(XmlDocument rMsg, string msgType,
-            Dictionary<string, string> rDirs)
-        {
-            MsgContext context = null;
-            switch (msgType.ToLower())
-            {
-                case "event":
-                    context = ProcessExecute_BasicEventMsg(rMsg, rDirs);
-                    break;
-                case "text":
-                    context = ExecuteMsgHandler(rMsg, rDirs,new TextRecMsg(), TextHandler);
-                    break;
-                case "image":
-                    context = ExecuteMsgHandler(rMsg, rDirs,new ImageRecMsg(), ImageHandler);
-                    break;
-                case "voice":
-                    context = ExecuteMsgHandler(rMsg, rDirs,new VoiceRecMsg(), VoiceHandler);
-                    break;
-                case "video":
-                    context = ExecuteMsgHandler(rMsg, rDirs,new VideoRecMsg(), VideoHandler);
-                    break;
-                case "shortvideo":
-                    context = ExecuteMsgHandler(rMsg, rDirs,new VideoRecMsg(), VideoHandler);
-                    break;
-                case "location":
-                    context = ExecuteMsgHandler(rMsg, rDirs,new LocationRecMsg(), LocationHandler);
-                    break;
-                case "link":
-                    context = ExecuteMsgHandler(rMsg, rDirs,new LinkRecMsg(), LinkHandler);
-                    break;
-            }
-            return context;
-        }
-
-
-        /// <summary>
-        ///  执行基础事件消息类型
-        /// </summary>
-        /// <param name="reMsg"></param>
-        /// <param name="reDirs"></param>
-        /// <returns>返回基础事件消息处理结果</returns>
-        private MsgContext ProcessExecute_BasicEventMsg(XmlDocument reMsg, Dictionary<string, string> reDirs)
-        {
-            var eventType = reDirs["Event"].ToLower();
-            MsgContext context = null;
-            switch (eventType)
-            {
-                case "subscribe":
-                    context = ExecuteMsgHandler(reMsg, reDirs,new SubscribeRecEventMsg(), SubscribeEventHandler);
-                    break;
-                case "unsubscribe":
-                    context = ExecuteMsgHandler(reMsg, reDirs,new SubscribeRecEventMsg(), SubscribeEventHandler);
-                    break;
-                case "scan":
-                    context = ExecuteMsgHandler(reMsg, reDirs,new SubscribeRecEventMsg(), ScanEventHandler);
-                    break;
-                case "location":
-                    context = ExecuteMsgHandler(reMsg, reDirs,new LocationRecEventMsg(), LocationEventHandler);
-                    break;
-                case "click":
-                    context = ExecuteMsgHandler(reMsg, reDirs,new ClickRecEventMsg(), ClickEventHandler);
-                    break;
-                case "view":
-                    context = ExecuteMsgHandler(reMsg, reDirs,new ViewRecEventMsg(), ViewEventHandler);
-                    break;
-            }
-            return context;
-        }
-
-        /// <summary>
-        ///  根据具体的消息类型执行相关的消息委托方法(基础消息)
-        /// </summary>
-        /// <typeparam name="TRecMsg"></typeparam>
-        /// <param name="recMsgXml"></param>
-        /// <param name="recMsgDirs"></param>
-        /// <param name="recMsg"></param>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        private static MsgContext ExecuteMsgHandler<TRecMsg>(XmlDocument recMsgXml,
-            IDictionary<string, string> recMsgDirs, TRecMsg recMsg, Func<TRecMsg, BaseReplyMsg> func)
-            where TRecMsg : BaseRecMsg, new()
-        {
-            var msgContext = new MsgContext();
-
-            recMsg.SetMsgDirs(recMsgDirs);
-            recMsg.RecMsgXml = recMsgXml;
-
-            msgContext.ReplyMsg = ExecuteHandler(recMsg, func);
-            msgContext.RecMsg = recMsg;
-
-            return msgContext;
-        }
-
+      
 
         #endregion
 

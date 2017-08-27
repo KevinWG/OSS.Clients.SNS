@@ -25,7 +25,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     public abstract class BaseMsg
     {
         /// <summary>
-        /// 接收方帐号
+        /// 接收方帐号  
         /// </summary>
         public string ToUserName { get; set; }
 

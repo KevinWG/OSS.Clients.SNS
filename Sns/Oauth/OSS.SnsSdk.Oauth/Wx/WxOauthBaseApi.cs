@@ -26,7 +26,10 @@ namespace OSS.SnsSdk.Oauth.Wx
     /// </summary>
     public class WxOauthBaseApi:BaseRestApi<WxOauthBaseApi>
     {
-        public WxOauthBaseApi():this(null)
+        /// <summary>
+        ///  构造函数
+        /// </summary>
+        public WxOauthBaseApi() : this(null)
         {
 
         }
