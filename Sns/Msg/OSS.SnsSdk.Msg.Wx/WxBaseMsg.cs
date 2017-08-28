@@ -186,8 +186,11 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <returns></returns>
         protected static MsgContext ExecuteHandler<TRecMsg>(XmlDocument recMsgXml,
             IDictionary<string, string> recMsgDirs, TRecMsg recMsg, Func<TRecMsg, BaseReplyMsg> func)
-            where TRecMsg : BaseRecMsg, new()
+            where TRecMsg : BaseRecMsg,new ()
         {
+            if (recMsg==null)
+                recMsg = new TRecMsg();
+            
             var msgContext = new MsgContext();
 
             recMsg.SetMsgDirs(recMsgDirs);
@@ -208,7 +211,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="func"></param>
         /// <returns></returns>
         private static BaseReplyMsg ExecuteHandlerDelegate<TRecMsg>(TRecMsg res, Func<TRecMsg, BaseReplyMsg> func)
-            where TRecMsg : BaseRecMsg, new()
+            where TRecMsg : BaseRecMsg
         {
             var baseRep = func?.Invoke(res) ?? new NoneReplyMsg();
 

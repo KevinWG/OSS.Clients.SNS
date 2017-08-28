@@ -173,18 +173,26 @@ namespace OSS.SnsSdk.Msg.Wx
         private MsgContext ProcessExecute_CustomHandler(XmlDocument recMsgXml, string msgType,
             Dictionary<string, string> msgDirs)
         {
-            var key = msgType == "event" ? string.Concat("event_", msgDirs["Event"].ToLower()) : msgType;
-            var handler = WxCustomMsgHandlerProvider.GetHandler(key);
+            var handler = GetCustomMsgHandler(msgType,
+                msgDirs.TryGetValue("Event", out var eName) ? eName : string.Empty);
+
+            if (handler == null)
+            {
+                var key = msgType == "event" ? string.Concat("event_", eName ?? string.Empty) : msgType;
+                 handler = WxCustomMsgHandlerProvider.GetHandler(key);
+            }
 
             if(handler==null)
                 return null;  //  交由后续默认事件处理
 
-            var recMsg = handler.CreateInstance();
-
+            var recMsg = handler.CreateNewInstance();
             return ExecuteHandler(recMsgXml, msgDirs, recMsg, handler.Excute);
         }
 
-      
+        protected virtual WxMsgCustomMsgHandler GetCustomMsgHandler(string msgType,string eventName=null) 
+        {
+            return null;
+        }
 
         #endregion
 

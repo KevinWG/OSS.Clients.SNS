@@ -26,8 +26,8 @@ namespace OSS.SnsSdk.Msg.Wx
     /// </summary>
     public static class WxCustomMsgHandlerProvider
     {
-        private static readonly ConcurrentDictionary<string, WxMsgCustomMsgBaseHandler> m_HandlerDirs =
-            new ConcurrentDictionary<string, WxMsgCustomMsgBaseHandler>();
+        private static readonly ConcurrentDictionary<string, WxMsgCustomMsgHandler> m_HandlerDirs =
+            new ConcurrentDictionary<string, WxMsgCustomMsgHandler>();
 
         /// <summary>
         /// 注册消息处理委托
@@ -41,7 +41,7 @@ namespace OSS.SnsSdk.Msg.Wx
             if (m_HandlerDirs.ContainsKey(key))
                 return new ResultMo(ResultTypes.ObjectExsit, "已存在相同的消息处理类型！");
 
-            var handler = new WxCustomMsgHandler<TRecMsg> { Handler = func };
+            var handler = new WxCustomMsgDirHandler<TRecMsg> { Handler = func };
             return m_HandlerDirs.TryAdd(key, handler)
                 ? new ResultMo()
                 : new ResultMo(ResultTypes.ObjectExsit, "注册消息处理句柄失败！");
@@ -65,10 +65,10 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        internal static WxMsgCustomMsgBaseHandler GetHandler(string name)
+        internal static WxMsgCustomMsgHandler GetHandler(string name)
         {
-            m_HandlerDirs.TryGetValue(name, out WxMsgCustomMsgBaseHandler handler);
-            return handler ?? new WxMsgCustomMsgBaseHandler();
+            m_HandlerDirs.TryGetValue(name, out WxMsgCustomMsgHandler handler);
+            return handler ?? new WxMsgCustomMsgHandler();
         }
     }
 
