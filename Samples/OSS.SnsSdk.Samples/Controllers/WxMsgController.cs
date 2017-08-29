@@ -4,13 +4,12 @@ using OSS.Common.ComModels;
 using OSS.SnsSdk.Msg.Wx;
 using OSS.SnsSdk.Msg.Wx.Mos;
 using OSS.SnsSdk.Samples.Controllers.Codes;
-using OSS.SocialSDK.WX.Msg.Mos;
 
 namespace OSS.SnsSdk.Samples.Controllers
 {
     public class WxMsgController : Controller
     {
-        private static readonly WxMsgServerConfig config = new WxMsgServerConfig()
+        private static readonly WxMsgConfig config = new WxMsgConfig()
         {
             AppId = "wx835d1fda838bb558",
             SecurityType = WxSecurityType.None,
@@ -24,24 +23,22 @@ namespace OSS.SnsSdk.Samples.Controllers
 
         // 【二】 在构造函数中动态设置配置信息
         private static readonly WxMsgService _msgDynService = new WxMsgService();
-
         public WxMsgController()
         {
             _msgDynService.SetContextConfig(config);
         }
-
-
+        
         #region  【A】 高级自定义方法实现
 
         static WxMsgController()
         {
             //  用户可以自定义消息处理委托，也可以通过 RegisterEventMsgHandler 自定义事件处理委托
-            WxMsgProcessorProvider.RegisteProcessor<TextRecMsg>("test_msg", ProcessTestMsg);
+            WxMsgProcessorProvider.RegisteProcessor<WxTextRecMsg>("test_msg", ProcessTestMsg);
         }
 
-        private static TextReplyMsg ProcessTestMsg(TextRecMsg msg)
+        private static WxTextReplyMsg ProcessTestMsg(WxTextRecMsg msg)
         {
-            return new TextReplyMsg() { Content = " test_msg 类型消息返回 " };
+            return new WxTextReplyMsg() { Content = " test_msg 类型消息返回 " };
         }
 
         #endregion
@@ -49,8 +46,7 @@ namespace OSS.SnsSdk.Samples.Controllers
         
 
         #region   微信消息接口模块
-
-
+        
         /// <summary>
         ///   在微信端配置的地址（包含微信第一次Get验证
         /// </summary>
@@ -75,8 +71,6 @@ namespace OSS.SnsSdk.Samples.Controllers
 
     }
 
-
-
-
     
+
 }

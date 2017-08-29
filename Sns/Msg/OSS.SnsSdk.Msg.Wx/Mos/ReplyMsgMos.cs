@@ -19,9 +19,9 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 无回复信息
     /// </summary>
-    public class NoneReplyMsg : BaseReplyMsg
+    public class WxNoneReplyMsg : WxBaseReplyMsg
     {
-        public NoneReplyMsg()
+        public WxNoneReplyMsg()
         {
             MsgType = String.Empty;
         }
@@ -34,9 +34,9 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 回复文本消息
     /// </summary>
-    public class TextReplyMsg : BaseReplyMsg
+    public class WxTextReplyMsg : WxBaseReplyMsg
     {
-        public TextReplyMsg()
+        public WxTextReplyMsg()
         {
             MsgType = "text";
         }
@@ -55,9 +55,9 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 回复图片消息
     /// </summary>
-    public class ImageReplyMsg : BaseReplyMsg
+    public class WxImageReplyMsg : WxBaseReplyMsg
     {
-        public ImageReplyMsg()
+        public WxImageReplyMsg()
         {
             MsgType = "image";
         }
@@ -79,9 +79,9 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 回复语音消息
     /// </summary>
-    public class VoiceReplyMsg : BaseReplyMsg
+    public class WxVoiceReplyMsg : WxBaseReplyMsg
     {
-        public VoiceReplyMsg()
+        public WxVoiceReplyMsg()
         {
             MsgType = "voice";
         }
@@ -107,9 +107,9 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 回复视频消息
     /// </summary>
-    public class VideoReplyMsg : BaseReplyMsg
+    public class WxVideoReplyMsg : WxBaseReplyMsg
     {
-        public VideoReplyMsg()
+        public WxVideoReplyMsg()
         {
             MsgType = "video";
         }
@@ -143,9 +143,9 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 回复音乐消息
     /// </summary>
-    public class MusicReplyMsg : BaseReplyMsg
+    public class WxMusicReplyMsg : WxBaseReplyMsg
     {
-        public MusicReplyMsg()
+        public WxMusicReplyMsg()
         {
             MsgType = "music";
         }
@@ -177,13 +177,15 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
 
         protected override void FormatXml()
         {
-            var music = new List<Tuple<string, object>>();
+            var music = new List<Tuple<string, object>>
+            {
+                Tuple.Create("Title", (object) Title),
+                Tuple.Create("Description", (object) Description),
+                Tuple.Create("MusicURL", (object) MusicURL),
+                Tuple.Create("HQMusicUrl", (object) HQMusicUrl),
+                Tuple.Create("ThumbMediaId", (object) ThumbMediaId)
+            };
 
-            music.Add(Tuple.Create("Title", (object)Title));
-            music.Add(Tuple.Create("Description", (object)Description));
-            music.Add(Tuple.Create("MusicURL", (object)MusicURL));
-            music.Add(Tuple.Create("HQMusicUrl", (object)HQMusicUrl));
-            music.Add(Tuple.Create("ThumbMediaId", (object)ThumbMediaId));
 
             SetReplyXmlValue("Music", music);
         }
@@ -192,12 +194,12 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 回复图文消息
     /// </summary>
-    public class NewsReplyMsg : BaseReplyMsg
+    public class WxNewsReplyMsg : WxBaseReplyMsg
     {
-        public NewsReplyMsg()
+        public WxNewsReplyMsg()
         {
             MsgType = "news";
-            Items = new List<ArticleItem>();
+            Items = new List<WxArticleItem>();
         }
 
         /// <summary>
@@ -208,7 +210,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// <summary>
         /// 图文列表
         /// </summary>
-        public List<ArticleItem> Items { get; set; }
+        public List<WxArticleItem> Items { get; set; }
 
         protected override void FormatXml()
         {
@@ -228,7 +230,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
             SetReplyXmlValue("Articles", items);
         }
 
-        public class ArticleItem
+        public class WxArticleItem
         {
             /// <summary>
             /// 图文消息标题

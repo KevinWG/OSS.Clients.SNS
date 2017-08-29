@@ -21,7 +21,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     ///  基础消息实体
     /// </summary>
-    public abstract class BaseMsg
+    public abstract class WxBaseMsg
     {
         /// <summary>
         /// 接收方帐号  
@@ -48,7 +48,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 基础接收消息实体
     /// </summary>
-    public class BaseRecMsg : BaseMsg
+    public class WxBaseRecMsg : WxBaseMsg
     {
         private IDictionary<string, string> m_PropertyDirs;
         
@@ -105,7 +105,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 基础事件接收消息实体
     /// </summary>
-    public class BaseRecEventMsg : BaseRecMsg
+    public class WxBaseRecEventMsg : WxBaseRecMsg
     {
         /// <summary>
         /// 事件类型
@@ -130,7 +130,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 被动回复
     /// </summary>
-    public class BaseReplyMsg : BaseMsg
+    public class WxBaseReplyMsg : WxBaseMsg
     {
         
         private List<Tuple<string, object>> _propertyList;
@@ -215,17 +215,17 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 当前请求的上下文
     /// </summary>
-    public class MsgContext
+    public class WxMsgContext
     {
         /// <summary>
         /// 接收内容
         /// </summary>
-        public BaseRecMsg RecMsg { get; set; }
+        public WxBaseRecMsg RecMsg { get; set; }
 
         /// <summary>
         /// 被动回复内容
         /// </summary>
-        public BaseReplyMsg ReplyMsg { get; internal set; }
+        public WxBaseReplyMsg ReplyMsg { get; internal set; }
 
     }
 }

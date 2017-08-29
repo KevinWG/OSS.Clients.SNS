@@ -19,20 +19,19 @@ using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
 using OSS.Common.Plugs;
 using OSS.SnsSdk.Msg.Wx.Mos;
-using OSS.SocialSDK.WX.Msg.Mos;
 
 namespace OSS.SnsSdk.Msg.Wx
 {
     /// <summary>
     ///   消息处理的基类
     /// </summary>
-    public abstract class WxMsgBaseHandler:BaseConfigProvider<WxMsgServerConfig>
+    public class WxMsgBaseHandler:BaseConfigProvider<WxMsgConfig>
     {
         /// <summary>
         /// 消息处理基类
         /// </summary>
         /// <param name="config"></param>
-        protected WxMsgBaseHandler(WxMsgServerConfig config=null):base(config)
+        protected WxMsgBaseHandler(WxMsgConfig config=null):base(config)
         {
             ModuleName = ModuleNames.SocialCenter;
         }
@@ -136,16 +135,17 @@ namespace OSS.SnsSdk.Msg.Wx
         #region   消息处理具体执行部分，高级部分可以覆盖
 
         /// <summary>
-        /// 核心执行方法
+        /// 核心执行方法,将传入文本处理返回结果
         /// </summary>
         /// <param name="recMsgXml">传入消息的xml</param>
-        protected virtual ResultMo<MsgContext> Execute(string recMsgXml)
+        /// <returns></returns>
+        protected virtual ResultMo<WxMsgContext> Execute(string recMsgXml)
         {
             XmlDocument xmlDoc = null;
             var recMsgDirs = WxMsgHelper.ChangXmlToDir(recMsgXml, ref xmlDoc);
 
             if (!recMsgDirs.ContainsKey("MsgType"))
-                return new ResultMo<MsgContext>(ResultTypes.ParaError, "消息数据中未发现 消息类型（MsgType）字段！");
+                return new ResultMo<WxMsgContext>(ResultTypes.ParaError, "消息数据中未发现 消息类型（MsgType）字段！");
 
             var msgType = recMsgDirs["MsgType"].ToLower();
             var eventName = string.Empty;
@@ -153,17 +153,18 @@ namespace OSS.SnsSdk.Msg.Wx
             if (msgType == "event")
             {
                 if (!recMsgDirs.TryGetValue("Event", out eventName))
-                    return new ResultMo<MsgContext>(ResultTypes.ParaError, "事件消息数据中未发现 事件类型（Event）字段！");
+                    return new ResultMo<WxMsgContext>(ResultTypes.ParaError, "事件消息数据中未发现 事件类型（Event）字段！");
             }
 
-            var processor = GetMsgProcessor(msgType, eventName) 
-                ?? GetBasicMsgProcessor(msgType, eventName);
+            var processor = GetBasicMsgProcessor(msgType, eventName) 
+                ?? GetCustomProcessor(msgType, eventName)
+                ?? GetRegProcessor(msgType, eventName);
 
             var context = processor != null
                 ? ExecuteHandler(xmlDoc, recMsgDirs, processor.CreateNewInstance(), processor.Execute)
-                : ExecuteHandler(xmlDoc, recMsgDirs, new BaseRecMsg(), ExecuteUnknowProcessor);
+                : ExecuteHandler(xmlDoc, recMsgDirs, new WxBaseRecMsg(), ExecuteUnknowProcessor);
 
-            return new ResultMo<MsgContext>(context);
+            return new ResultMo<WxMsgContext>(context);
         }
 
 
@@ -171,9 +172,9 @@ namespace OSS.SnsSdk.Msg.Wx
         ///   执行处理未知消息
         /// </summary>
         /// <returns></returns>
-        protected virtual BaseReplyMsg ExecuteUnknowProcessor(BaseRecMsg msg)
+        protected virtual WxBaseReplyMsg ExecuteUnknowProcessor(WxBaseRecMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         /// <summary>
@@ -182,17 +183,24 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         /// <param name="msgType"></param>
         /// <param name="eventName"></param>
-        /// <returns></returns>
-        protected virtual WxMsgProcessor GetMsgProcessor(string msgType, string eventName)
+        /// <returns>WxMsgProcessor&lt;TRecMsg&gt;或其子类，如果没有定义对应的消息类型，请返回空</returns>
+        protected virtual WxMsgProcessor GetCustomProcessor(string msgType, string eventName)
         {
             return null;
         }
 
         internal virtual WxMsgProcessor GetBasicMsgProcessor(string msgType, string eventName)
         {
+            return null;
+        }
+
+
+        private static WxMsgProcessor GetRegProcessor(string msgType, string eventName)
+        {
             var key = msgType == "event" ? string.Concat("event_", eventName ?? string.Empty) : msgType;
             return WxMsgProcessorProvider.GetProcessor(key);
         }
+
         #endregion
 
         #region  消息处理 == end  当前消息处理结束触发
@@ -201,7 +209,7 @@ namespace OSS.SnsSdk.Msg.Wx
         ///  执行结束方法
         /// </summary>
         /// <param name="msgContext"></param>
-        protected virtual void ExecuteEnd(MsgContext msgContext)
+        protected virtual void ExecuteEnd(WxMsgContext msgContext)
         {
 
         }
@@ -219,14 +227,14 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="recMsg"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        private static MsgContext ExecuteHandler<TRecMsg>(XmlDocument recMsgXml,
-            IDictionary<string, string> recMsgDirs, TRecMsg recMsg, Func<TRecMsg, BaseReplyMsg> func)
-            where TRecMsg : BaseRecMsg, new()
+        private static WxMsgContext ExecuteHandler<TRecMsg>(XmlDocument recMsgXml,
+            IDictionary<string, string> recMsgDirs, TRecMsg recMsg, Func<TRecMsg, WxBaseReplyMsg> func)
+            where TRecMsg : WxBaseRecMsg, new()
         {
             if (recMsg == null)
                 recMsg = new TRecMsg();
 
-            var msgContext = new MsgContext();
+            var msgContext = new WxMsgContext();
 
             recMsg.LoadMsgDirs(recMsgDirs);
             recMsg.RecMsgXml = recMsgXml;
@@ -234,7 +242,7 @@ namespace OSS.SnsSdk.Msg.Wx
             msgContext.RecMsg = recMsg;
 
 
-            var reply= func?.Invoke(recMsg) ?? new NoneReplyMsg();
+            var reply= func?.Invoke(recMsg) ?? new WxNoneReplyMsg();
 
             reply.ToUserName = recMsg.FromUserName;
             reply.FromUserName = recMsg.ToUserName;

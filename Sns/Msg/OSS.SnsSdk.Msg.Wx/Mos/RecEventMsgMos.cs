@@ -17,7 +17,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 关注/取消关注/扫描带参数二维码事件
     /// </summary>
-    public class SubscribeRecEventMsg : BaseRecEventMsg
+    public class WxSubscribeRecEventMsg : WxBaseRecEventMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -43,7 +43,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 上报地理位置事件
     /// </summary>
-    public class LocationRecEventMsg : BaseRecEventMsg
+    public class WxLocationRecEventMsg : WxBaseRecEventMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -76,7 +76,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 点击菜单拉取消息时的事件推送
     /// </summary>
-    public class ClickRecEventMsg : BaseRecEventMsg
+    public class WxClickRecEventMsg : WxBaseRecEventMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -97,7 +97,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 点击菜单跳转链接时的事件推送 
     /// </summary>
-    public class ViewRecEventMsg : BaseRecEventMsg
+    public class WxViewRecEventMsg : WxBaseRecEventMsg
     {
         /// <summary>
         /// 格式化自身属性部分

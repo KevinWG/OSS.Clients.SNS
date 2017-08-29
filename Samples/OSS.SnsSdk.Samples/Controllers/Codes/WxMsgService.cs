@@ -1,39 +1,38 @@
 ﻿using OSS.SnsSdk.Msg.Wx;
 using OSS.SnsSdk.Msg.Wx.Mos;
-using OSS.SocialSDK.WX.Msg.Mos;
 
 namespace OSS.SnsSdk.Samples.Controllers.Codes
 {
     public class WxMsgService: WxMsgHandler
     {
-        public WxMsgService(WxMsgServerConfig mConfig = null) : base(mConfig)
+        public WxMsgService(WxMsgConfig mConfig = null) : base(mConfig)
         {
 
         }
 
-
-        protected override WxMsgProcessor GetCustomMsgHandler(string msgType, string eventName = null)
+        protected override WxMsgProcessor GetCustomProcessor(string msgType, string eventName)
         {
-            return base.GetCustomMsgHandler(msgType, eventName);
+            if (msgType == "test_msg")
+            {
+                return new WxMsgProcessor<WxTestRecMsg>()
+                {
+                    RecMsgInsCreater = () => new WxTestRecMsg(),
+                    ProcessFunc = (msg) => new WxTextReplyMsg() {Content = "test" + msg.Test}
+                };
+            }
+            return null;
         }
-
-
-        protected override BaseReplyMsg ProcessTextHandler(TextRecMsg msg)
-        {
-            return msg.Content == "oss"
-                ? new TextReplyMsg() { Content = "欢迎关注.Net开源世界！" }
-                : null;
-        }
-
-        protected override void ExecuteEnd(MsgContext msgContext)
-        {
-            // 消息处理结束时必经方法，可以在这里进行一些全局性的操作
-        }
-
-
-
-
-
-
     }
+
+    public class WxTestRecMsg : WxBaseRecMsg
+    {
+        public string Test { get; set; }
+
+        protected override void FormatPropertiesFromMsg()
+        {
+            Test = this["Test"];
+            base.FormatPropertiesFromMsg();
+        }
+    }
+
 }

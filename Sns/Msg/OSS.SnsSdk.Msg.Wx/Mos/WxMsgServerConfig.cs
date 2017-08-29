@@ -1,6 +1,9 @@
-﻿namespace OSS.SocialSDK.WX.Msg.Mos
+﻿namespace OSS.SnsSdk.Msg.Wx.Mos
 {
-    public class WxMsgServerConfig
+    /// <summary>
+    /// 微信消息配置信息
+    /// </summary>
+    public class WxMsgConfig
     {
         /// <summary>
         /// 当前应用Id

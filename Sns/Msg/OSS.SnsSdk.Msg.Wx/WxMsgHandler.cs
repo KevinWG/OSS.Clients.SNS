@@ -20,7 +20,6 @@ using OSS.Common.ComModels.Enums;
 using OSS.Common.Encrypt;
 using OSS.Common.Extention;
 using OSS.SnsSdk.Msg.Wx.Mos;
-using OSS.SocialSDK.WX.Msg.Mos;
 
 namespace OSS.SnsSdk.Msg.Wx
 {
@@ -34,7 +33,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// 构造函数
         /// </summary>
         /// <param name="mConfig"></param>
-        public WxMsgHandler(WxMsgServerConfig mConfig=null):base(mConfig)
+        public WxMsgHandler(WxMsgConfig mConfig=null):base(mConfig)
         {
            
         }
@@ -46,49 +45,49 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <summary>
         /// 处理文本消息
         /// </summary>
-        protected virtual BaseReplyMsg ProcessTextMsg(TextRecMsg msg)
+        protected virtual WxBaseReplyMsg ProcessTextMsg(WxTextRecMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         /// <summary>
         /// 处理图像消息
         /// </summary>
-        protected virtual BaseReplyMsg ProcessImageMsg(ImageRecMsg msg)
+        protected virtual WxBaseReplyMsg ProcessImageMsg(WxImageRecMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         /// <summary>
         /// 处理语音消息
         /// </summary>
-        protected virtual BaseReplyMsg ProcessVoiceMsg(VoiceRecMsg msg)
+        protected virtual WxBaseReplyMsg ProcessVoiceMsg(WxVoiceRecMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         /// <summary>
         /// 处理视频/小视频消息
         /// </summary>
-        protected virtual BaseReplyMsg ProcessVideoMsg(VideoRecMsg msg)
+        protected virtual WxBaseReplyMsg ProcessVideoMsg(WxVideoRecMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         /// <summary>
         /// 处理地理位置消息
         /// </summary>
-        protected virtual BaseReplyMsg ProcessLocationMsg(LocationRecMsg msg)
+        protected virtual WxBaseReplyMsg ProcessLocationMsg(WxLocationRecMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         /// <summary>
         /// 处理链接消息
         /// </summary>
-        protected virtual BaseReplyMsg ProcessLinkMsg(LinkRecMsg msg)
+        protected virtual WxBaseReplyMsg ProcessLinkMsg(WxLinkRecMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
 
@@ -99,42 +98,42 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <summary>
         /// 处理关注/取消关注事件
         /// </summary>
-        protected virtual BaseReplyMsg ProcessSubscribeEventMsg(SubscribeRecEventMsg msg)
+        protected virtual WxBaseReplyMsg ProcessSubscribeEventMsg(WxSubscribeRecEventMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         /// <summary>
         /// 处理扫描带参数二维码事件
         /// </summary>
-        protected virtual BaseReplyMsg ProcessScanEventMsg(SubscribeRecEventMsg msg)
+        protected virtual WxBaseReplyMsg ProcessScanEventMsg(WxSubscribeRecEventMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         /// <summary>
         /// 处理上报地理位置事件
         /// 不需要回复任何消息
         /// </summary>
-        protected virtual NoneReplyMsg ProcessLocationEventMsg(LocationRecEventMsg msg)
+        protected virtual WxNoneReplyMsg ProcessLocationEventMsg(WxLocationRecEventMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         /// <summary>
         /// 处理点击菜单拉取消息时的事件推送
         /// </summary>
-        protected virtual BaseReplyMsg ProcessClickEventMsg(ClickRecEventMsg msg)
+        protected virtual WxBaseReplyMsg ProcessClickEventMsg(WxClickRecEventMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         /// <summary>
         /// 处理点击菜单跳转链接时的事件推送 
         /// </summary>
-        protected virtual BaseReplyMsg ProcessViewEventMsg(ViewRecEventMsg msg)
+        protected virtual WxBaseReplyMsg ProcessViewEventMsg(WxViewRecEventMsg msg)
         {
-            return new NoneReplyMsg();
+            return new WxNoneReplyMsg();
         }
 
         #endregion
@@ -150,32 +149,32 @@ namespace OSS.SnsSdk.Msg.Wx
                     processor = GetBasicEventMsgProcessor(eventName);
                     break;
                 case "text":
-                    processor = new WxMsgInternalProcessor<TextRecMsg>()
-                        {CreateInstance = () => new TextRecMsg(), Processor = ProcessTextMsg};
+                    processor = new WxMsgProcessor<WxTextRecMsg>()
+                        {RecMsgInsCreater = () => new WxTextRecMsg(), ProcessFunc = ProcessTextMsg};
                     break;
                 case "image":
-                    processor = new WxMsgInternalProcessor<ImageRecMsg>()
-                        {CreateInstance = () => new ImageRecMsg(), Processor = ProcessImageMsg};
+                    processor = new WxMsgProcessor<WxImageRecMsg>()
+                        {RecMsgInsCreater = () => new WxImageRecMsg(), ProcessFunc = ProcessImageMsg};
                     break;
                 case "voice":
-                    processor = new WxMsgInternalProcessor<VoiceRecMsg>()
-                        {CreateInstance = () => new VoiceRecMsg(), Processor = ProcessVoiceMsg};
+                    processor = new WxMsgProcessor<WxVoiceRecMsg>()
+                        {RecMsgInsCreater = () => new WxVoiceRecMsg(), ProcessFunc = ProcessVoiceMsg};
                     break;
                 case "video":
-                    processor = new WxMsgInternalProcessor<VideoRecMsg>()
-                        {CreateInstance = () => new VideoRecMsg(), Processor = ProcessVideoMsg};
+                    processor = new WxMsgProcessor<WxVideoRecMsg>()
+                        {RecMsgInsCreater = () => new WxVideoRecMsg(), ProcessFunc = ProcessVideoMsg};
                     break;
                 case "shortvideo":
-                    processor = new WxMsgInternalProcessor<VideoRecMsg>()
-                        {CreateInstance = () => new VideoRecMsg(), Processor = ProcessVideoMsg};
+                    processor = new WxMsgProcessor<WxVideoRecMsg>()
+                        {RecMsgInsCreater = () => new WxVideoRecMsg(), ProcessFunc = ProcessVideoMsg};
                     break;
                 case "location":
-                    processor = new WxMsgInternalProcessor<LocationRecMsg>()
-                        {CreateInstance = () => new LocationRecMsg(), Processor = ProcessLocationMsg};
+                    processor = new WxMsgProcessor<WxLocationRecMsg>()
+                        {RecMsgInsCreater = () => new WxLocationRecMsg(), ProcessFunc = ProcessLocationMsg};
                     break;
                 case "link":
-                    processor = new WxMsgInternalProcessor<LinkRecMsg>()
-                        {CreateInstance = () => new LinkRecMsg(), Processor = ProcessLinkMsg};
+                    processor = new WxMsgProcessor<WxLinkRecMsg>()
+                        {RecMsgInsCreater = () => new WxLinkRecMsg(), ProcessFunc = ProcessLinkMsg};
                     break;
             }
             return processor ?? base.GetBasicMsgProcessor(msgType, eventName);
@@ -187,33 +186,32 @@ namespace OSS.SnsSdk.Msg.Wx
             switch (eventName)
             {
                 case "subscribe":
-                    processor = new WxMsgInternalProcessor<SubscribeRecEventMsg>()
-                        { CreateInstance = () => new SubscribeRecEventMsg(), Processor = ProcessSubscribeEventMsg };
+                    processor = new WxMsgProcessor<WxSubscribeRecEventMsg>()
+                        { RecMsgInsCreater = () => new WxSubscribeRecEventMsg(), ProcessFunc = ProcessSubscribeEventMsg };
                     break;
                 case "unsubscribe":
-                    processor = new WxMsgInternalProcessor<SubscribeRecEventMsg>()
-                        { CreateInstance = () => new SubscribeRecEventMsg(), Processor = ProcessSubscribeEventMsg };
+                    processor = new WxMsgProcessor<WxSubscribeRecEventMsg>()
+                        { RecMsgInsCreater = () => new WxSubscribeRecEventMsg(), ProcessFunc = ProcessSubscribeEventMsg };
                       break;
                 case "scan":
-                    processor = new WxMsgInternalProcessor<SubscribeRecEventMsg>()
-                        { CreateInstance = () => new SubscribeRecEventMsg(), Processor = ProcessScanEventMsg };
+                    processor = new WxMsgProcessor<WxSubscribeRecEventMsg>()
+                        { RecMsgInsCreater = () => new WxSubscribeRecEventMsg(), ProcessFunc = ProcessScanEventMsg };
                     break;
                 case "location":
-                    processor = new WxMsgInternalProcessor<LocationRecEventMsg>()
-                        { CreateInstance = () => new LocationRecEventMsg(), Processor = ProcessLocationEventMsg };
+                    processor = new WxMsgProcessor<WxLocationRecEventMsg>()
+                        { RecMsgInsCreater = () => new WxLocationRecEventMsg(), ProcessFunc = ProcessLocationEventMsg };
                     break;
                 case "click":
-                    processor = new WxMsgInternalProcessor<ClickRecEventMsg>()
-                        { CreateInstance = () => new ClickRecEventMsg(), Processor = ProcessClickEventMsg };
+                    processor = new WxMsgProcessor<WxClickRecEventMsg>()
+                        { RecMsgInsCreater = () => new WxClickRecEventMsg(), ProcessFunc = ProcessClickEventMsg };
                     break;
                 case "view":
-                    processor = new WxMsgInternalProcessor<ViewRecEventMsg>()
-                        { CreateInstance = () => new ViewRecEventMsg(), Processor = ProcessViewEventMsg };
+                    processor = new WxMsgProcessor<WxViewRecEventMsg>()
+                        { RecMsgInsCreater = () => new WxViewRecEventMsg(), ProcessFunc = ProcessViewEventMsg };
                     break;
             }
             return processor;
         }
-
     }
 
 
@@ -264,7 +262,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="sReplyMsg"></param>
         /// <param name="config"></param>
         /// <returns></returns>
-        internal static ResultMo<string> EncryptMsg(string sReplyMsg, WxMsgServerConfig config)
+        internal static ResultMo<string> EncryptMsg(string sReplyMsg, WxMsgConfig config)
         {
             string raw;
             try

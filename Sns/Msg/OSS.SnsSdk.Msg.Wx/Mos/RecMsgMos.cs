@@ -17,7 +17,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 文本消息
     /// </summary>
-    public class TextRecMsg : BaseRecMsg
+    public class WxTextRecMsg : WxBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -38,7 +38,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 图片消息
     /// </summary>
-    public class ImageRecMsg : BaseRecMsg
+    public class WxImageRecMsg : WxBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -65,7 +65,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 语音消息
     /// </summary>
-    public class VoiceRecMsg : BaseRecMsg
+    public class WxVoiceRecMsg : WxBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -97,7 +97,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 视频/小视频消息
     /// </summary>
-    public class VideoRecMsg : BaseRecMsg
+    public class WxVideoRecMsg : WxBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -124,7 +124,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 地理位置消息
     /// </summary>
-    public class LocationRecMsg : BaseRecMsg
+    public class WxLocationRecMsg : WxBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -163,7 +163,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 链接消息
     /// </summary>
-    public class LinkRecMsg : BaseRecMsg
+    public class WxLinkRecMsg : WxBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
