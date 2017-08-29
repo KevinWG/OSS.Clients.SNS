@@ -12,7 +12,6 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using System.Xml;
 using OSS.Common.Extention;
@@ -45,6 +44,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         public long CreateTime { get; internal set; }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// 基础接收消息实体
     /// </summary>
@@ -56,7 +56,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         ///  把消息的
         /// </summary>
         /// <param name="contentDirs"></param>
-        public void SetMsgDirs(IDictionary<string, string> contentDirs)
+        internal void LoadMsgDirs(IDictionary<string, string> contentDirs)
         {
             m_PropertyDirs = contentDirs;
 
@@ -85,8 +85,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         {
             get
             {
-                string value;
-                m_PropertyDirs.TryGetValue(key, out value);
+                m_PropertyDirs.TryGetValue(key, out var value);
                 return value ?? string.Empty;
             }
         }
@@ -152,7 +151,10 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// <returns></returns>
         protected void SetReplyXmlValue(string key, object value)
         {
-            _propertyList.Add(Tuple.Create(key, value));
+            if (value!=null)
+            {
+                _propertyList.Add(Tuple.Create(key, value));
+            }
         }
 
         /// <summary>
@@ -177,26 +179,21 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
             return xml.ToString();
         }
 
-        private string ProduceXml(List<Tuple<string, object>> list)
+        private static string ProduceXml(List<Tuple<string, object>> list)
         {
-            StringBuilder xml = new StringBuilder();
+            var xml = new StringBuilder();
 
-            foreach (Tuple<string, object> item in list)
+            foreach (var item in list)
             {
-                //字段值不能为null，会影响后续流程
-                if (string.IsNullOrEmpty(item.Item2?.ToString()))
-                    continue;
+                var valueType = item.Item2.GetType();
 
-                if (item.Item2 is int
-                    || item.Item2 is Int64
-                    || item.Item2 is double
-                    || item.Item2 is float)
+                if (valueType.IsValueType)
                 {
                     xml.Append("<").Append(item.Item1).Append(">")
                         .Append(item.Item2)
                         .Append("</").Append(item.Item1).Append(">");
                 }
-                else if (item.Item2.GetType().GetTypeInfo().IsGenericType)
+                else if (valueType.IsGenericType)
                 {
                     xml.Append("<").Append(item.Item1).Append(">")
                         .Append(ProduceXml((List<Tuple<string, object>>)item.Item2))

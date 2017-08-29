@@ -38,6 +38,182 @@ namespace OSS.SnsSdk.Msg.Wx
         {
            
         }
+
+        #region   基础消息的事件列表
+
+        #region 事件列表  普通消息
+
+        /// <summary>
+        /// 处理文本消息
+        /// </summary>
+        protected virtual BaseReplyMsg ProcessTextMsg(TextRecMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+        /// <summary>
+        /// 处理图像消息
+        /// </summary>
+        protected virtual BaseReplyMsg ProcessImageMsg(ImageRecMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+        /// <summary>
+        /// 处理语音消息
+        /// </summary>
+        protected virtual BaseReplyMsg ProcessVoiceMsg(VoiceRecMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+        /// <summary>
+        /// 处理视频/小视频消息
+        /// </summary>
+        protected virtual BaseReplyMsg ProcessVideoMsg(VideoRecMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+        /// <summary>
+        /// 处理地理位置消息
+        /// </summary>
+        protected virtual BaseReplyMsg ProcessLocationMsg(LocationRecMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+        /// <summary>
+        /// 处理链接消息
+        /// </summary>
+        protected virtual BaseReplyMsg ProcessLinkMsg(LinkRecMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+
+        #endregion
+        
+        #region 事件列表  动作事件消息
+
+        /// <summary>
+        /// 处理关注/取消关注事件
+        /// </summary>
+        protected virtual BaseReplyMsg ProcessSubscribeEventMsg(SubscribeRecEventMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+        /// <summary>
+        /// 处理扫描带参数二维码事件
+        /// </summary>
+        protected virtual BaseReplyMsg ProcessScanEventMsg(SubscribeRecEventMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+        /// <summary>
+        /// 处理上报地理位置事件
+        /// 不需要回复任何消息
+        /// </summary>
+        protected virtual NoneReplyMsg ProcessLocationEventMsg(LocationRecEventMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+        /// <summary>
+        /// 处理点击菜单拉取消息时的事件推送
+        /// </summary>
+        protected virtual BaseReplyMsg ProcessClickEventMsg(ClickRecEventMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+        /// <summary>
+        /// 处理点击菜单跳转链接时的事件推送 
+        /// </summary>
+        protected virtual BaseReplyMsg ProcessViewEventMsg(ViewRecEventMsg msg)
+        {
+            return new NoneReplyMsg();
+        }
+
+        #endregion
+
+        #endregion
+        
+        internal override WxMsgProcessor GetBasicMsgProcessor(string msgType, string eventName)
+        {
+            WxMsgProcessor processor = null;
+            switch (msgType.ToLower())
+            {
+                case "event":
+                    processor = GetBasicEventMsgProcessor(eventName);
+                    break;
+                case "text":
+                    processor = new WxMsgInternalProcessor<TextRecMsg>()
+                        {CreateInstance = () => new TextRecMsg(), Processor = ProcessTextMsg};
+                    break;
+                case "image":
+                    processor = new WxMsgInternalProcessor<ImageRecMsg>()
+                        {CreateInstance = () => new ImageRecMsg(), Processor = ProcessImageMsg};
+                    break;
+                case "voice":
+                    processor = new WxMsgInternalProcessor<VoiceRecMsg>()
+                        {CreateInstance = () => new VoiceRecMsg(), Processor = ProcessVoiceMsg};
+                    break;
+                case "video":
+                    processor = new WxMsgInternalProcessor<VideoRecMsg>()
+                        {CreateInstance = () => new VideoRecMsg(), Processor = ProcessVideoMsg};
+                    break;
+                case "shortvideo":
+                    processor = new WxMsgInternalProcessor<VideoRecMsg>()
+                        {CreateInstance = () => new VideoRecMsg(), Processor = ProcessVideoMsg};
+                    break;
+                case "location":
+                    processor = new WxMsgInternalProcessor<LocationRecMsg>()
+                        {CreateInstance = () => new LocationRecMsg(), Processor = ProcessLocationMsg};
+                    break;
+                case "link":
+                    processor = new WxMsgInternalProcessor<LinkRecMsg>()
+                        {CreateInstance = () => new LinkRecMsg(), Processor = ProcessLinkMsg};
+                    break;
+            }
+            return processor ?? base.GetBasicMsgProcessor(msgType, eventName);
+        }
+
+        private WxMsgProcessor GetBasicEventMsgProcessor(string eventName)
+        {
+            WxMsgProcessor processor = null;
+            switch (eventName)
+            {
+                case "subscribe":
+                    processor = new WxMsgInternalProcessor<SubscribeRecEventMsg>()
+                        { CreateInstance = () => new SubscribeRecEventMsg(), Processor = ProcessSubscribeEventMsg };
+                    break;
+                case "unsubscribe":
+                    processor = new WxMsgInternalProcessor<SubscribeRecEventMsg>()
+                        { CreateInstance = () => new SubscribeRecEventMsg(), Processor = ProcessSubscribeEventMsg };
+                      break;
+                case "scan":
+                    processor = new WxMsgInternalProcessor<SubscribeRecEventMsg>()
+                        { CreateInstance = () => new SubscribeRecEventMsg(), Processor = ProcessScanEventMsg };
+                    break;
+                case "location":
+                    processor = new WxMsgInternalProcessor<LocationRecEventMsg>()
+                        { CreateInstance = () => new LocationRecEventMsg(), Processor = ProcessLocationEventMsg };
+                    break;
+                case "click":
+                    processor = new WxMsgInternalProcessor<ClickRecEventMsg>()
+                        { CreateInstance = () => new ClickRecEventMsg(), Processor = ProcessClickEventMsg };
+                    break;
+                case "view":
+                    processor = new WxMsgInternalProcessor<ViewRecEventMsg>()
+                        { CreateInstance = () => new ViewRecEventMsg(), Processor = ProcessViewEventMsg };
+                    break;
+            }
+            return processor;
+        }
+
     }
 
 
@@ -113,20 +289,19 @@ namespace OSS.SnsSdk.Msg.Wx
 
             var sEncryptMsg = new StringBuilder();
 
-            const string EncryptLabelHead = "<Encrypt><![CDATA[";
-            const string EncryptLabelTail = "]]></Encrypt>";
-            const string MsgSigLabelHead = "<MsgSignature><![CDATA[";
-            const string MsgSigLabelTail = "]]></MsgSignature>";
-            const string TimeStampLabelHead = "<TimeStamp><![CDATA[";
+            const string encryptLabelHead = "<Encrypt><![CDATA[";
+            const string encryptLabelTail = "]]></Encrypt>";
+            const string msgSigLabelHead = "<MsgSignature><![CDATA[";
+            const string timeStampLabelHead = "<TimeStamp><![CDATA[";
 
-            const string TimeStampLabelTail = "]]></TimeStamp>";
-            const string NonceLabelHead = "<Nonce><![CDATA[";
-            const string NonceLabelTail = "]]></Nonce>";
+            const string timeStampLabelTail = "]]></TimeStamp>";
+            const string nonceLabelHead = "<Nonce><![CDATA[";
+            const string nonceLabelTail = "]]></Nonce>";
 
-            sEncryptMsg.Append("<xml>").Append(EncryptLabelHead).Append(raw).Append(EncryptLabelTail);
-            sEncryptMsg.Append(MsgSigLabelHead).Append(msgSigature).Append(MsgSigLabelTail);
-            sEncryptMsg.Append(TimeStampLabelHead).Append(sTimeStamp).Append(TimeStampLabelTail);
-            sEncryptMsg.Append(NonceLabelHead).Append(sNonce).Append(NonceLabelTail);
+            sEncryptMsg.Append("<xml>").Append(encryptLabelHead).Append(raw).Append(encryptLabelTail);
+            sEncryptMsg.Append(msgSigLabelHead).Append(msgSigature).Append("]]></MsgSignature>");
+            sEncryptMsg.Append(timeStampLabelHead).Append(sTimeStamp).Append(timeStampLabelTail);
+            sEncryptMsg.Append(nonceLabelHead).Append(sNonce).Append(nonceLabelTail);
             sEncryptMsg.Append("</xml>");
 
             return new ResultMo<string>(sEncryptMsg.ToString());
@@ -149,12 +324,14 @@ namespace OSS.SnsSdk.Msg.Wx
             {
                 return null;
             }
-            var dirs = new Dictionary<string, string>();
+
 
             xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);
             var xmlNode = xmlDoc.FirstChild;
             var nodes = xmlNode.ChildNodes;
+
+            var dirs = new Dictionary<string, string>(nodes.Count);
 
             foreach (XmlNode xn in nodes)
             {

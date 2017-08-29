@@ -25,7 +25,7 @@ namespace OSS.SnsSdk.Msg.Wx
     /// </summary>
     public static class WxMsgProcessorProvider
     {
-        private static readonly ConcurrentDictionary<string, WxMsgProcessor> m_HandlerDirs =
+        private static readonly ConcurrentDictionary<string, WxMsgProcessor> processorDirs =
             new ConcurrentDictionary<string, WxMsgProcessor>();
 
         /// <summary>
@@ -37,11 +37,11 @@ namespace OSS.SnsSdk.Msg.Wx
             where TRecMsg : BaseRecMsg, new()
         {
             var key = msgType.ToLower();
-            if (m_HandlerDirs.ContainsKey(key))
+            if (processorDirs.ContainsKey(key))
                 return new ResultMo(ResultTypes.ObjectExsit, "已存在相同的消息处理类型！");
 
-            var handler = new WxMsgRegProcessor<TRecMsg> { Handler = func };
-            return m_HandlerDirs.TryAdd(key, handler)
+            var handler = new WxMsgInternalProcessor<TRecMsg> { Processor = func };
+            return processorDirs.TryAdd(key, handler)
                 ? new ResultMo()
                 : new ResultMo(ResultTypes.ObjectExsit, "注册消息处理句柄失败！");
         }
@@ -64,38 +64,13 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        internal static WxMsgProcessor GetHandler(string name)
+        internal static WxMsgProcessor GetProcessor(string name)
         {
-            m_HandlerDirs.TryGetValue(name, out WxMsgProcessor handler);
-            return handler ?? new WxMsgProcessor();
+            processorDirs.TryGetValue(name, out var processor);
+            return processor;
         }
     }
 
 
-    #region 通过字典全局自定义消息实现
-
-
-    /// <inheritdoc />
-    /// <summary>
-    ///   自定义消息类型处理Handler
-    /// </summary>
-    /// <typeparam name="TRecMsg"></typeparam>
-    internal class WxMsgRegProcessor<TRecMsg> : WxMsgProcessor
-        where TRecMsg : BaseRecMsg, new()
-    {
-        protected internal override BaseReplyMsg Execute(BaseRecMsg msg)
-        {
-            return Handler?.Invoke(msg as TRecMsg);
-        }
-
-        public override BaseRecMsg CreateNewInstance()
-        {
-            return new TRecMsg();
-        }
-
-        public Func<TRecMsg, BaseReplyMsg> Handler { get; set; }
-    }
-
-    #endregion
 
 }

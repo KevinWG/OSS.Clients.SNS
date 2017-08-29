@@ -11,6 +11,7 @@
 
 #endregion
 
+using System;
 using OSS.SnsSdk.Msg.Wx.Mos;
 
 namespace OSS.SnsSdk.Msg.Wx
@@ -65,5 +66,32 @@ namespace OSS.SnsSdk.Msg.Wx
     }
 
 
- 
+    #region 内部自定义消息实现
+
+
+    /// <inheritdoc />
+    /// <summary>
+    ///   内部自定义消息类型处理Processor
+    /// </summary>
+    /// <typeparam name="TRecMsg"></typeparam>
+    internal class WxMsgInternalProcessor<TRecMsg> : WxMsgProcessor
+        where TRecMsg : BaseRecMsg, new()
+    {
+        internal Func<TRecMsg, BaseReplyMsg> Processor { get; set; }
+        protected internal override BaseReplyMsg Execute(BaseRecMsg msg)
+        {
+            return Processor?.Invoke(msg as TRecMsg);
+        }
+
+
+        internal Func<TRecMsg> CreateInstance { get; set; }
+
+        public override BaseRecMsg CreateNewInstance()
+        {
+            return CreateInstance?.Invoke() ?? new TRecMsg();
+        }
+    }
+
+    #endregion
+
 }
