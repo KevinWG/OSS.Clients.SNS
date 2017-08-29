@@ -17,19 +17,36 @@ namespace OSS.SnsSdk.Samples.Controllers
             Token = "2DMEMYU9Zrv8C4jam7zvTghlUf2Z60s3",
             EncodingAesKey = string.Empty,
         };
-        private static readonly WxMsgService _msgService;
 
+        // 【一】 直接在初始化中指定配置信息
+        private static readonly WxMsgService _msgService = new WxMsgService(config);
+        
+
+        // 【二】 在构造函数中动态设置配置信息
+        private static readonly WxMsgService _msgDynService = new WxMsgService();
+
+        public WxMsgController()
+        {
+            _msgDynService.SetContextConfig(config);
+        }
+
+
+        #region  【A】 高级自定义方法实现
 
         static WxMsgController()
         {
-            _msgService = new WxMsgService(config);
-
             //  用户可以自定义消息处理委托，也可以通过 RegisterEventMsgHandler 自定义事件处理委托
-            WxCustomMsgHandlerProvider.RegisterMsgHandler<TextRecMsg>("test_msg", recMsg =>
-            {
-                return new TextReplyMsg() {Content = " test_msg 类型消息返回 "};
-            });
+            WxMsgProcessorProvider.RegisteProcessor<TextRecMsg>("test_msg", ProcessTestMsg);
         }
+
+        private static TextReplyMsg ProcessTestMsg(TextRecMsg msg)
+        {
+            return new TextReplyMsg() { Content = " test_msg 类型消息返回 " };
+        }
+
+        #endregion
+
+        
 
         #region   微信消息接口模块
 

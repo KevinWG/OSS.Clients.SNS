@@ -71,7 +71,7 @@ namespace OSS.Social.Tests.WxTests
 
 
             //var handler = HandlerProvider.Get("adds");
-            //var content = handler.Excute(new LinkRecMsg());
+            //var content = handler.Process(new LinkRecMsg());
             //
             // TODO:  在此处添加测试逻辑
             //

@@ -90,11 +90,11 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
                 return value ?? string.Empty;
             }
         }
-        
+
         /// <summary>
         /// 消息实体
         /// </summary>
-        public XmlDocument RecMsgXml { get;internal set; }
+        public XmlDocument RecMsgXml { get; internal set; }
 
         /// <summary>
         ///   消息id

@@ -11,10 +11,10 @@ namespace OSS.Social.Tests
     public class RedisCache : ICachePlug
     {
         //redis数据库连接字符串
-        private readonly string ConnectionStr = null;
+        private readonly string ConnectionStr;
         
 
-        private int _db = 0;
+        private int _db;
         //  静态变量  保证  sns_center模块  和 其他模块使用的是不同实例的相同链接
         private static ConnectionMultiplexer connection;
 
@@ -46,10 +46,7 @@ namespace OSS.Social.Tests
         /// <summary>
         /// 缓存数据库
         /// </summary>
-        public IDatabase CacheRedis
-        {
-            get { return CacheConnection.GetDatabase(_db); }
-        }
+        public IDatabase CacheRedis => CacheConnection.GetDatabase(_db);
 
         /// <summary>
         /// 添加缓存，已存在不更新
@@ -103,7 +100,7 @@ namespace OSS.Social.Tests
             if (string.IsNullOrEmpty(value))
                 return default(T);
 
-            T result = JsonConvert.DeserializeObject<T>(value);
+            var result = JsonConvert.DeserializeObject<T>(value);
             return result;
         }
 
