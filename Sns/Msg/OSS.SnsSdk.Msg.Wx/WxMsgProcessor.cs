@@ -22,6 +22,9 @@ namespace OSS.SnsSdk.Msg.Wx
     /// </summary>
     public class WxMsgProcessor
     {
+
+        internal bool CanExecute { get; set; }
+
         /// <summary>
         ///  执行方法
         /// </summary>
@@ -50,11 +53,20 @@ namespace OSS.SnsSdk.Msg.Wx
     public class WxMsgProcessor<TRecMsg> : WxMsgProcessor
         where TRecMsg : WxBaseRecMsg, new()
     {
+        private Func<TRecMsg, WxBaseReplyMsg> _processFunc;
 
         /// <summary>
         /// 处理方法实现
         /// </summary>
-        public Func<TRecMsg, WxBaseReplyMsg> ProcessFunc { get; set; }
+        public Func<TRecMsg, WxBaseReplyMsg> ProcessFunc
+        {
+            get => _processFunc;
+            set
+            {
+                CanExecute = true;
+                _processFunc = value;
+            }
+        }
 
         protected internal override WxBaseReplyMsg Execute(WxBaseRecMsg msg)
         {

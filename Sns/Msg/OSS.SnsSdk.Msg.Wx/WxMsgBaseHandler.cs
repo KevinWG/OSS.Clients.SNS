@@ -156,13 +156,18 @@ namespace OSS.SnsSdk.Msg.Wx
                     return new ResultMo<WxMsgContext>(ResultTypes.ParaError, "事件消息数据中未发现 事件类型（Event）字段！");
             }
 
-            var processor = GetBasicMsgProcessor(msgType, eventName) 
-                ?? GetCustomProcessor(msgType, eventName)
-                ?? GetRegProcessor(msgType, eventName);
+            var processor = GetBasicMsgProcessor(msgType, eventName);
+            if (!(processor?.CanExecute).HasValue)
+            {
+                processor = GetCustomProcessor(msgType, eventName);
+                if (!(processor?.CanExecute).HasValue)
+                    processor = GetRegProcessor(msgType, eventName);
+            }
 
-            var context = processor != null
-                ? ExecuteHandler(xmlDoc, recMsgDirs, processor.CreateNewInstance(), processor.Execute)
-                : ExecuteHandler(xmlDoc, recMsgDirs, new WxBaseRecMsg(), ExecuteUnknowProcessor);
+
+            var context = processor != null && processor.CanExecute
+                ? ExecuteProcessor(xmlDoc, recMsgDirs, processor.CreateNewInstance(), processor.Execute)
+                : ExecuteProcessor(xmlDoc, recMsgDirs, new WxBaseRecMsg(), ExecuteUnknowProcessor);
 
             return new ResultMo<WxMsgContext>(context);
         }
@@ -183,7 +188,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         /// <param name="msgType"></param>
         /// <param name="eventName"></param>
-        /// <returns>WxMsgProcessor&lt;TRecMsg&gt;或其子类，如果没有定义对应的消息类型，请返回空</returns>
+        /// <returns>WxMsgProcessor&lt;TRecMsg&gt;或其子类，如果没有定义对应的消息类型，返回Null即可</returns>
         protected virtual WxMsgProcessor GetCustomProcessor(string msgType, string eventName)
         {
             return null;
@@ -193,7 +198,6 @@ namespace OSS.SnsSdk.Msg.Wx
         {
             return null;
         }
-
 
         private static WxMsgProcessor GetRegProcessor(string msgType, string eventName)
         {
@@ -215,9 +219,7 @@ namespace OSS.SnsSdk.Msg.Wx
         }
 
         #endregion
-
-
-
+        
         /// <summary>
         ///  根据具体的消息类型执行相关的消息委托方法(基础消息)
         /// </summary>
@@ -227,7 +229,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="recMsg"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        private static WxMsgContext ExecuteHandler<TRecMsg>(XmlDocument recMsgXml,
+        private static WxMsgContext ExecuteProcessor<TRecMsg>(XmlDocument recMsgXml,
             IDictionary<string, string> recMsgDirs, TRecMsg recMsg, Func<TRecMsg, WxBaseReplyMsg> func)
             where TRecMsg : WxBaseRecMsg, new()
         {
