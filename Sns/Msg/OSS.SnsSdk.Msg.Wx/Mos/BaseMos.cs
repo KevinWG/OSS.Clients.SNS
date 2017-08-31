@@ -133,27 +133,29 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     public class WxBaseReplyMsg : WxBaseMsg
     {
         
-        private List<Tuple<string, object>> _propertyList;
+        private IDictionary<string, object> _propertyList;
 
         /// <summary>
         /// 
         /// </summary>
-        protected virtual void FormatXml()
+        protected virtual void SetValueToXml()
         {
            
         }
 
+
         /// <summary>
-        /// 设置属性信息
+        /// 自定义索引，获取指定字段的值
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected void SetReplyXmlValue(string key, object value)
+        public object this[string key]
         {
-            if (value!=null)
+            set
             {
-                _propertyList.Add(Tuple.Create(key, value));
+                if (value != null)
+                {
+                    _propertyList[key]= value;
+                }
             }
         }
 
@@ -163,49 +165,49 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// <returns></returns>
         public virtual string ToReplyXml()
         {
-            _propertyList = new List<Tuple<string, object>>();
+            _propertyList = new Dictionary<string, object>();
 
-            SetReplyXmlValue("ToUserName", ToUserName);
-            SetReplyXmlValue("FromUserName", FromUserName);
-            SetReplyXmlValue("MsgType", MsgType);
-            SetReplyXmlValue("CreateTime", CreateTime);
+            this["ToUserName"] = ToUserName;
+            this["FromUserName"] = FromUserName;
+            this["MsgType"] = MsgType;
+            this["CreateTime"] = CreateTime;
 
-            FormatXml();
+            SetValueToXml();
 
-            StringBuilder xml = new StringBuilder("<xml>");
+            var xml = new StringBuilder("<xml>");
             xml.Append(ProduceXml(_propertyList));
             xml.Append("</xml>");
-            
+
             return xml.ToString();
         }
 
-        private static string ProduceXml(List<Tuple<string, object>> list)
+        private static string ProduceXml(IDictionary<string, object> list)
         {
             var xml = new StringBuilder();
 
             foreach (var item in list)
             {
-                var valueType = item.Item2.GetType();
+                var valueType = item.Value.GetType();
 
                 if (valueType.IsValueType)
                 {
-                    xml.Append("<").Append(item.Item1).Append(">")
-                        .Append(item.Item2)
-                        .Append("</").Append(item.Item1).Append(">");
+                    xml.Append("<").Append(item.Key).Append(">")
+                        .Append(item.Value)
+                        .Append("</").Append(item.Key).Append(">");
                 }
                 else if (valueType.IsGenericType)
                 {
-                    xml.Append("<").Append(item.Item1).Append(">")
-                        .Append(ProduceXml((List<Tuple<string, object>>)item.Item2))
-                        .Append("</").Append(item.Item1).Append(">");
+                    xml.Append("<").Append(item.Key).Append(">")
+                        .Append(ProduceXml(item.Value as IDictionary<string, object>))
+                        .Append("</").Append(item.Key).Append(">");
                 }
                 else
                 {
-                    xml.Append("<").Append(item.Item1).Append(">")
+                    xml.Append("<").Append(item.Key).Append(">")
                         .Append("<![CDATA[")
-                        .Append(item.Item2)
+                        .Append(item.Value)
                         .Append("]]>")
-                        .Append("</").Append(item.Item1).Append(">");
+                        .Append("</").Append(item.Key).Append(">");
                 }
             }
             return xml.ToString();

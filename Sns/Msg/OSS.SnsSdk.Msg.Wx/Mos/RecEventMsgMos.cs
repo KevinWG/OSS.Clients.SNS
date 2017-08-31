@@ -97,7 +97,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 点击菜单跳转链接时的事件推送 
     /// </summary>
-    public class WxViewRecEventMsg : WxBaseRecEventMsg
+    public class WxVidewRecEventMsg : WxBaseRecEventMsg
     {
         /// <summary>
         /// 格式化自身属性部分

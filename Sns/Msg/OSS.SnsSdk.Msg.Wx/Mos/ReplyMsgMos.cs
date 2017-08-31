@@ -23,7 +23,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     {
         public WxNoneReplyMsg()
         {
-            MsgType = String.Empty;
+            MsgType = string.Empty;
         }
         /// <summary>
         ///  缺省情况下直接回复 success
@@ -46,9 +46,9 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// </summary>
         public string Content { get; set; }
 
-        protected override void FormatXml()
+        protected override void SetValueToXml()
         {
-            SetReplyXmlValue("Content", Content);
+            this["Content"]= Content;
         }
     }
 
@@ -57,6 +57,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// </summary>
     public class WxImageReplyMsg : WxBaseReplyMsg
     {
+        /// <inheritdoc />
         public WxImageReplyMsg()
         {
             MsgType = "image";
@@ -67,12 +68,12 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// </summary>
         public string MediaId { get; set; }
 
-        protected override void FormatXml()
+        /// <inheritdoc />
+        protected override void SetValueToXml()
         {
-            var image = new List<Tuple<string, object>>();
-            image.Add(Tuple.Create("MediaId", (object)MediaId));
+            var image = new Dictionary<string, object> {{"MediaId", MediaId}};
 
-            SetReplyXmlValue("Image", image);
+            this["Image"]= image;
         }
     }
 
@@ -95,12 +96,11 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// <summary>
         /// 
         /// </summary>
-        protected override void FormatXml()
+        protected override void SetValueToXml()
         {
-            var voice = new List<Tuple<string, object>>();
-            voice.Add(Tuple.Create("MediaId", (object)MediaId));
+            var voice = new Dictionary<string, object> {{"MediaId", MediaId}};
 
-            SetReplyXmlValue("Voice", voice);
+            this["Voice"]= voice;
         }
     }
 
@@ -129,14 +129,16 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// </summary>
         public string Description { get; set; }
 
-        protected override void FormatXml()
+        protected override void SetValueToXml()
         {
-            var video = new List<Tuple<string, object>>();
-            video.Add(Tuple.Create("MediaId", (object)MediaId));
-            video.Add(Tuple.Create("Title", (object)Title));
-            video.Add(Tuple.Create("Description", (object)Description));
+            var video = new Dictionary<string, object>
+            {
+                {"MediaId", MediaId},
+                {"Title", Title},
+                {"Description", Description}
+            };
 
-            SetReplyXmlValue("Video", video);
+            this["Video"]= video;
         }
     }
 
@@ -175,19 +177,19 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// </summary>
         public string HQMusicUrl { get; set; }
 
-        protected override void FormatXml()
+        protected override void SetValueToXml()
         {
-            var music = new List<Tuple<string, object>>
+            var music = new Dictionary<string, object>()
             {
-                Tuple.Create("Title", (object) Title),
-                Tuple.Create("Description", (object) Description),
-                Tuple.Create("MusicURL", (object) MusicURL),
-                Tuple.Create("HQMusicUrl", (object) HQMusicUrl),
-                Tuple.Create("ThumbMediaId", (object) ThumbMediaId)
+                {"Title", Title},
+                {"Description", Description},
+                {"MusicURL", MusicURL},
+                {"HQMusicUrl", HQMusicUrl},
+                {"ThumbMediaId", ThumbMediaId}
             };
 
 
-            SetReplyXmlValue("Music", music);
+            this["Music"]= music;
         }
     }
 
@@ -212,22 +214,24 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// </summary>
         public List<WxArticleItem> Items { get; set; }
 
-        protected override void FormatXml()
+        /// <inheritdoc />
+        protected override void SetValueToXml()
         {
-            SetReplyXmlValue("ArticleCount", Items.Count);
+            this["ArticleCount"]= Items.Count;
 
-            var items = new List<Tuple<string, object>>();
+            var items = new Dictionary<string, object>();
             foreach (var item in Items)
             {
-                var itemDetails = new List<Tuple<string, object>>();
-                itemDetails.Add(Tuple.Create("Title", (object)item.Title));
-                itemDetails.Add(Tuple.Create("Description", (object)item.Description));
-                itemDetails.Add(Tuple.Create("PicUrl", (object)item.PicUrl));
-                itemDetails.Add(Tuple.Create("Url", (object)item.Url));
-
-                items.Add(Tuple.Create("item", (object)itemDetails));
+                var itemDetails = new Dictionary<string, object>
+                {
+                    {"Title", item.Title},
+                    {"Description", item.Description},
+                    {"PicUrl", item.PicUrl},
+                    {"Url", item.Url}
+                };
+                items.Add("item", itemDetails);
             }
-            SetReplyXmlValue("Articles", items);
+            this["Articles"]= items;
         }
 
         public class WxArticleItem
