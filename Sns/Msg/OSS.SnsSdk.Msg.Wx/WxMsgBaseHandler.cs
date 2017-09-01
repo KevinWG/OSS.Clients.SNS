@@ -164,10 +164,7 @@ namespace OSS.SnsSdk.Msg.Wx
             XmlDocument xmlDoc = null;
             var recMsgDirs = WxMsgHelper.ChangXmlToDir(recMsgXml, ref xmlDoc);
 
-            if (!recMsgDirs.ContainsKey("MsgType"))
-                return new ResultMo<WxMsgContext>(ResultTypes.ParaError, "消息数据中未发现 消息类型（MsgType）字段！");
-
-            var msgType = recMsgDirs["MsgType"].ToLower();
+            recMsgDirs.TryGetValue("MsgType", out var msgType);// recMsgDirs["MsgType"].ToLower();
             var eventName = string.Empty;
 
             if (msgType == "event")
