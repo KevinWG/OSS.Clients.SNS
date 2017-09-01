@@ -41,7 +41,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         public void GetJsTicketTest()
         {
             var res =
-                m_AssistApi.GetJsTicketAsync(WxJsTicketType.jsapi).Result;
+                m_AssistApi.GetJsTicketFromCacheAsync(WxJsTicketType.jsapi).Result;
             Assert.IsTrue(res.IsSuccess());
         }
 

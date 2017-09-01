@@ -12,6 +12,9 @@
 #endregion
 namespace OSS.SnsSdk.Official.Wx.SysTools
 {
+    /// <summary>
+    ///   缓存相关Key
+    /// </summary>
     public static class WxCacheKeysUtil
     {
         /// <summary>

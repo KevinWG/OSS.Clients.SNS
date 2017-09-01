@@ -25,7 +25,7 @@ namespace OSS.SnsSdk.Official.Wx.SmallApp
     public class WxOffAppApi:WxOffBaseApi
     {
         /// <summary>
-        /// 
+        /// 小程序接口
         /// </summary>
         /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WxBaseApi.DefaultConfig 属性赋值</param>
         public WxOffAppApi(AppConfig config=null) : base(config)
@@ -41,7 +41,7 @@ namespace OSS.SnsSdk.Official.Wx.SmallApp
         /// <returns></returns>
         public async Task<WxFileResp> DownloadMediaAsync(string path, int width)
         {
-            var accessToken = await GetAccessTokenAsync();
+            var accessToken = await GetAccessTokenFromCacheAsync();
             if (!accessToken.IsSuccess())
                 return accessToken.ConvertToResult<WxFileResp>();
 

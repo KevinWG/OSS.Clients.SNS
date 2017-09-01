@@ -18,11 +18,11 @@ namespace OSS.SnsSdk.Samples.Controllers
         };
 
         // 【一】 直接在初始化中指定配置信息
-        private static readonly WxMsgService _msgService = new WxMsgService(config);
+        private static readonly WxCustomMsgHandler _msgService = new WxCustomMsgHandler(config);
         
 
         // 【二】 在构造函数中动态设置配置信息
-        private static readonly WxMsgService _msgDynService = new WxMsgService();
+        private static readonly WxCustomMsgHandler _msgDynService = new WxCustomMsgHandler();
         public WxMsgController()
         {
             _msgDynService.SetContextConfig(config);
@@ -43,27 +43,22 @@ namespace OSS.SnsSdk.Samples.Controllers
 
         #endregion
 
-        
+
 
         #region   微信消息接口模块
-        
+
         /// <summary>
         ///   在微信端配置的地址（包含微信第一次Get验证
         /// </summary>
+        /// <param name="appid"> 如果是平台提供者，此参数为 授权的公众号AppId</param>
         /// <param name="signature"></param>
         /// <param name="timestamp"></param>
         /// <param name="nonce"></param>
         /// <param name="echostr"></param>
         /// <returns></returns>
-        public ContentResult Msg(string signature, string timestamp, string nonce, string echostr)
+        public ContentResult Msg(string appid,string signature, string timestamp, string nonce, string echostr)
         {
-            string requestXml;
-            using (var reader = new StreamReader(Request.Body))
-            {
-                requestXml = reader.ReadToEnd();
-            }
-
-            var res = _msgService.Process(requestXml, signature, timestamp, nonce, echostr);
+            var res = _msgService.Process(Request.Body, signature, timestamp, nonce, echostr);
             return Content(res.IsSuccess() ? res.data : "success");
         }
 

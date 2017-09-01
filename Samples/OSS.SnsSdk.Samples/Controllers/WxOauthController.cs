@@ -25,13 +25,11 @@ namespace OSS.SnsSdk.Samples.Controllers
         public ActionResult callback(string code, string state)
         {
             var tokecRes = m_AuthApi.GetOauthAccessTokenAsync(code).Result;
-            if (tokecRes.IsSuccess())
-            {
-                var userInfoRes = m_AuthApi.GetWxOauthUserInfoAsync(tokecRes.access_token, tokecRes.openid).Result;
-                return Content("你已成功获取用户信息!");
-            }
+            if (!tokecRes.IsSuccess())
+                return Content("获取用户授权信息失败!");
 
-            return Content("获取用户授权信息失败!");
+            var userInfoRes = m_AuthApi.GetWxOauthUserInfoAsync(tokecRes.access_token, tokecRes.openid).Result;
+            return Content($"你已成功获取用户:{userInfoRes.nickname} 信息!");
         }
         
     }

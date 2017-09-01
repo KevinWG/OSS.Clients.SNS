@@ -19,7 +19,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         [TestMethod]
         public void GetAccessTokenTest()
         {
-            var res = m_Api.GetAccessTokenAsync().WaitResult();
+            var res = m_Api.GetAccessTokenFromCacheAsync().WaitResult();
             Assert.IsTrue(res.IsSuccess());
         }
 

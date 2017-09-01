@@ -64,7 +64,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxFileResp> DownloadTempMediaAsync(string mediaId)
         {
-            var accessToken = await GetAccessTokenAsync();
+            var accessToken = await GetAccessTokenFromCacheAsync();
             if (!accessToken.IsSuccess())
                 return accessToken.ConvertToResult<WxFileResp>();
 
@@ -221,7 +221,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxFileResp> DownloadMediaAsync(string mediaId)
         {
-            var accessToken = await GetAccessTokenAsync();
+            var accessToken = await GetAccessTokenFromCacheAsync();
             if (!accessToken.IsSuccess())
                 return accessToken.ConvertToResult<WxFileResp>();
 

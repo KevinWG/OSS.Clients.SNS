@@ -66,12 +66,13 @@ namespace OSS.SnsSdk.Official.Wx
             
             return await RestCommonOffcialAsync<WxIpListResp>(req);
         }
-        
+
         /// <summary>
         ///   获取公众号的AccessToken
+        ///     【首先从缓存中获取，如果没有再从远程获取】
         /// </summary>
         /// <returns></returns>
-        public async Task<WxOffAccessTokenResp> GetAccessTokenAsync()
+        public virtual async Task<WxOffAccessTokenResp> GetAccessTokenFromCacheAsync()
         {
             var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAccessTokenKey, ApiConfig.AppId);
             var tokenResp = CacheUtil.Get<WxOffAccessTokenResp>(m_OffcialAccessTokenKey, ModuleName);
@@ -79,13 +80,7 @@ namespace OSS.SnsSdk.Official.Wx
             if (tokenResp != null && tokenResp.expires_date >= DateTime.Now)
                 return tokenResp;
 
-            var req = new OsHttpRequest
-            {
-                AddressUrl =
-                    $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}",
-                HttpMothed = HttpMothed.GET
-            };
-            tokenResp = await RestCommonJson<WxOffAccessTokenResp>(req);
+            tokenResp = await GetAccessTokenFromWxAsync();
 
             if (!tokenResp.IsSuccess())
                 return tokenResp;
@@ -94,7 +89,23 @@ namespace OSS.SnsSdk.Official.Wx
 
             CacheUtil.AddOrUpdate(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in),
                 null, ModuleName);
+
             return tokenResp;
+        }
+
+        /// <summary>
+        /// 从微信服务器获取AccessToken，请注意访问速率控制，正常情况请访问： 【GetAccessTokenFromCacheAsync】
+        /// </summary>
+        /// <returns></returns>
+        public async Task<WxOffAccessTokenResp> GetAccessTokenFromWxAsync()
+        {
+            var req = new OsHttpRequest
+            {
+                AddressUrl =
+                    $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}",
+                HttpMothed = HttpMothed.GET
+            };
+            return await RestCommonJson<WxOffAccessTokenResp>(req);
         }
 
         /// <summary>
@@ -109,7 +120,7 @@ namespace OSS.SnsSdk.Official.Wx
             HttpClient client = null)
             where T : WxBaseResp, new()
         {
-            var tokenRes = await GetAccessTokenAsync();
+            var tokenRes = await GetAccessTokenFromCacheAsync();
             if (!tokenRes.IsSuccess())
                 return tokenRes.ConvertToResult<T>();
 

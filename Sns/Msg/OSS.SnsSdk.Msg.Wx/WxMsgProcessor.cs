@@ -18,7 +18,7 @@ namespace OSS.SnsSdk.Msg.Wx
 {
     /// <summary>
     ///  自定义消息处理Handler基类
-    /// 【用户自定义请继承：WxMsgCustomMsgHandler&lt;TRecMsg&gt;】
+    /// 【用户自定义请返回：WxMsgCustomMsgHandler&lt;TRecMsg&gt;或其子类】
     /// </summary>
     public class WxMsgProcessor
     {

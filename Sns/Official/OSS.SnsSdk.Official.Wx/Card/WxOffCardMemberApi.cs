@@ -47,12 +47,13 @@ namespace OSS.SnsSdk.Official.Wx.Card
         /// <returns></returns>
         public async Task<WxBaseResp> SetActiveFormAsync(WxSetActiveFormReq setReq)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/activateuserform/set");
-            req.CustomBody = JsonConvert.SerializeObject(setReq);
-
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/activateuserform/set"),
+                CustomBody = JsonConvert.SerializeObject(setReq)
+            };
+            
             return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
@@ -64,11 +65,12 @@ namespace OSS.SnsSdk.Official.Wx.Card
         /// <returns></returns>
         public async Task<WxGetMemberCardUserInfoResp> GetMemberCardUserInfoAsync(string code,string cardId)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/userinfo/get");
-            req.CustomBody = $"{{\"card_id\":\"{cardId}\",\"code\":\"{code}\"}}";
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/userinfo/get"),
+                CustomBody = $"{{\"card_id\":\"{cardId}\",\"code\":\"{code}\"}}"
+            };
 
             return await RestCommonOffcialAsync<WxGetMemberCardUserInfoResp>(req);
         }
@@ -80,11 +82,12 @@ namespace OSS.SnsSdk.Official.Wx.Card
         /// <returns></returns>
         public async Task<WxGetActiveTempInfoResp> GetMemberActiveTempInfoAsync(string activateTicket)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/userinfo/get");
-            req.CustomBody = $"{{\"activate_ticket\":\"{activateTicket}\"}}";
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/userinfo/get"),
+                CustomBody = $"{{\"activate_ticket\":\"{activateTicket}\"}}"
+            };
 
             return await RestCommonOffcialAsync<WxGetActiveTempInfoResp>(req);
         }
@@ -97,11 +100,12 @@ namespace OSS.SnsSdk.Official.Wx.Card
         /// <returns></returns>
         public async Task<WxUpdateMemberCardUserInfoResp> UpdateMemberCardUserInfoAsync(WxUpdateMemberCardUserInfoReq updateReq)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/updateuser");
-            req.CustomBody = JsonConvert.SerializeObject(updateReq);
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/updateuser"),
+                CustomBody = JsonConvert.SerializeObject(updateReq)
+            };
 
             return await RestCommonOffcialAsync<WxUpdateMemberCardUserInfoResp>(req);
         }

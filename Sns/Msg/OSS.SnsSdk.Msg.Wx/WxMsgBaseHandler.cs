@@ -1,4 +1,4 @@
-﻿#region Copyright (C) 2016  Kevin  （OS系列开源项目）
+﻿#region Copyright (C) 2016  Kevin  （OSS系列开源项目）
 
 /***************************************************************************
 *　　	文件功能描述：消息模块基类  -   主要处理配置信息相关
@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
@@ -55,6 +56,25 @@ namespace OSS.SnsSdk.Msg.Wx
 
             return resultRes;
         }
+        /// <summary>
+        /// 核心执行方法
+        /// </summary>
+        /// <param name="reqStream">内容的数据流</param>
+        /// <param name="signature">签名信息</param>
+        /// <param name="timestamp">时间戳</param>
+        /// <param name="nonce">随机字符创</param>
+        /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
+        /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
+        public ResultMo<string> Process(Stream reqStream, string signature, string timestamp, string nonce,
+            string echostr)
+        {
+            string contentXml;
+            using (var reader = new StreamReader(reqStream))
+            {
+                contentXml = reader.ReadToEnd();
+            }
+            return Process(contentXml, signature, timestamp, nonce, echostr);
+        }
 
         /// <summary>
         /// 核心执行方法
@@ -63,7 +83,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="signature">签名信息</param>
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机字符创</param>
-        /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果Data中返回</param>
+        /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
         public ResultMo<string> Process(string contentXml, string signature, string timestamp, string nonce,
             string echostr)
@@ -159,7 +179,7 @@ namespace OSS.SnsSdk.Msg.Wx
             var processor = GetBasicMsgProcessor(msgType, eventName);
             if (!(processor?.CanExecute).HasValue)
             {
-                processor = GetCustomProcessor(msgType, eventName);
+                processor = GetCustomProcessor(msgType, eventName, recMsgDirs);
                 if (!(processor?.CanExecute).HasValue)
                     processor = GetRegProcessor(msgType, eventName);
             }
@@ -171,8 +191,7 @@ namespace OSS.SnsSdk.Msg.Wx
 
             return new ResultMo<WxMsgContext>(context);
         }
-
-
+        
         /// <summary>
         ///   执行处理未知消息
         /// </summary>
@@ -186,10 +205,11 @@ namespace OSS.SnsSdk.Msg.Wx
         ///  获取消息处理Processor
         ///   【返回对象需继承：WxMsgProcessor&lt;TRecMsg&gt;】
         /// </summary>
-        /// <param name="msgType"></param>
-        /// <param name="eventName"></param>
+        /// <param name="msgType">消息类型</param>
+        /// <param name="eventName">事件名称</param>
+        /// <param name="msgInfo">对应消息的键值对</param>
         /// <returns>WxMsgProcessor&lt;TRecMsg&gt;或其子类，如果没有定义对应的消息类型，返回Null即可</returns>
-        protected virtual WxMsgProcessor GetCustomProcessor(string msgType, string eventName)
+        protected virtual WxMsgProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
         {
             return null;
         }

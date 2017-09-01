@@ -21,6 +21,11 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// </summary>
     public class WxNoneReplyMsg : WxBaseReplyMsg
     {
+        /// <summary>
+        ///  默认none对象
+        /// </summary>
+        public static WxNoneReplyMsg None => new WxNoneReplyMsg();
+
         public WxNoneReplyMsg()
         {
             MsgType = string.Empty;
