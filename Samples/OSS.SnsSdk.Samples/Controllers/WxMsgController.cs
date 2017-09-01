@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common.ComModels;
 using OSS.SnsSdk.Msg.Wx;
 using OSS.SnsSdk.Msg.Wx.Mos;
@@ -11,7 +10,7 @@ namespace OSS.SnsSdk.Samples.Controllers
     {
         private static readonly WxMsgConfig config = new WxMsgConfig()
         {
-            AppId = "wx835d1fda838bb558",
+            AppId = "wxd93108c6bf360bv9",
             SecurityType = WxSecurityType.None,
             Token = "2DMEMYU9Zrv8C4jam7zvTghlUf2Z60s3",
             EncodingAesKey = string.Empty,
@@ -32,18 +31,16 @@ namespace OSS.SnsSdk.Samples.Controllers
 
         static WxMsgController()
         {
-            //  用户可以自定义消息处理委托，也可以通过 RegisterEventMsgHandler 自定义事件处理委托
+            //  用户可以自定义消息处理委托，
+            //   也可以通过 RegisterEventMsgHandler 自定义事件处理委托
             WxMsgProcessorProvider.RegisteProcessor<WxTextRecMsg>("test_msg", ProcessTestMsg);
         }
-
         private static WxTextReplyMsg ProcessTestMsg(WxTextRecMsg msg)
         {
             return new WxTextReplyMsg() { Content = " test_msg 类型消息返回 " };
         }
 
         #endregion
-
-
 
         #region   微信消息接口模块
 

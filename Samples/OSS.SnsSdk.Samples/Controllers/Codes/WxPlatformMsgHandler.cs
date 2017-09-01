@@ -22,7 +22,8 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
                     RecMsgInsCreater=() => new VerifComponentTicketRecMsg(),
                     ProcessFunc = msg =>
                     {
-                        DirConfigUtil.SetDirConfig($"{ApiConfig.AppId}_component_verify_ticket",msg);
+                        var res= DirConfigUtil.SetDirConfig<TicketMo>($"{ApiConfig.AppId}_component_verify_ticket",
+                            new TicketMo{ticket = msg.ComponentVerifyTicket });
 
                         return WxNoneReplyMsg.None;
                     }
@@ -33,13 +34,13 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
 
         protected override void ExecuteEnd(WxMsgContext msgContext)
         {
-            LogUtil.Info(msgContext.RecMsg.RecMsgXml.InnerText,"PlatformMsg");
+            LogUtil.Info(msgContext.RecMsg.RecMsgXml.InnerXml,"PlatformMsg");
             base.ExecuteEnd(msgContext);
         }
     }
 
 
-
+    
 
     public class VerifComponentTicketRecMsg : WxBaseRecMsg
     {
@@ -55,5 +56,13 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
             ComponentVerifyTicket = this["ComponentVerifyTicket"];
             base.FormatPropertiesFromMsg();
         }
+    }
+
+
+
+
+    public class TicketMo
+    {
+        public string ticket { get; set; }
     }
 }

@@ -12,17 +12,15 @@ namespace OSS.SnsSdk.Samples.Controllers
     /// <summary>
     /// 主要是微信开放平台接口
     /// </summary>
-    public class wxController : Controller
+    public class WxController : Controller
     {
         private static readonly WxMsgConfig config = new WxMsgConfig()
         {
-            AppId = "wxe93108c5bf320bc9",
+            AppId = "wxd93108c6bf360bv9",
             SecurityType = WxSecurityType.None,
-            Token = "2DkmMYU9Zrv8C4jam7zvTghlUf2Z60s3",
+            Token = "2DkmMYU9Zrv3C4jam7zvTghlUf2Z60s3",
             EncodingAesKey = "2DkmMYU9Zrv8C4jam7zvTghlUf2Z60s3ghlUf2Z60s3",
         };
-
-
         private static WxPlatformMsgHandler pHandler = new WxPlatformMsgHandler(config);
 
         // GET: /<controller>/
@@ -31,16 +29,7 @@ namespace OSS.SnsSdk.Samples.Controllers
             var res = pHandler.Process(Request.Body, signature, timestamp, nonce, echostr);
             return Content(res.IsSuccess() ? res.data : "success");
         }
-
         
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <returns></returns>
-        //public async Task<IActionResult> msg(string app)
-        //{
-
-        //}
     }
 
 
