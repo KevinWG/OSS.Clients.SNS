@@ -17,7 +17,7 @@ namespace OSS.SnsSdk.Samples.Controllers
         private static readonly WxMsgConfig config = new WxMsgConfig()
         {
             AppId = "wxe93108c5bf320bc9",
-            SecurityType = WxSecurityType.Safe,
+            SecurityType = WxSecurityType.None,
             Token = "2DkmMYU9Zrv8C4jam7zvTghlUf2Z60s3",
             EncodingAesKey = "2DkmMYU9Zrv8C4jam7zvTghlUf2Z60s3ghlUf2Z60s3",
         };
