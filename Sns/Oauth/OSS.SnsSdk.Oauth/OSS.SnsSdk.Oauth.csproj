@@ -20,8 +20,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Common" Version="1.2.2.3" />
-    <PackageReference Include="OSS.Http.Extention" Version="1.2.3.2" />
+    <PackageReference Include="OSS.Common" Version="1.2.3.2" />
+    <PackageReference Include="OSS.Http.Extention" Version="1.2.3.3" />
   </ItemGroup>
 
 </Project>
