@@ -195,7 +195,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <returns></returns>
         protected virtual WxBaseReplyMsg ExecuteUnknowProcessor(WxBaseRecMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>
@@ -259,9 +259,8 @@ namespace OSS.SnsSdk.Msg.Wx
             recMsg.RecMsgXml = recMsgXml;
 
             msgContext.RecMsg = recMsg;
-
-
-            var reply= func?.Invoke(recMsg) ?? new WxNoneReplyMsg();
+            
+            var reply= func?.Invoke(recMsg) ?? WxNoneReplyMsg.None;
 
             reply.ToUserName = recMsg.FromUserName;
             reply.FromUserName = recMsg.ToUserName;

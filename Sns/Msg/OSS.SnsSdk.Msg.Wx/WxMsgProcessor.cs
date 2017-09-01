@@ -32,7 +32,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <returns></returns>
         protected internal virtual WxBaseReplyMsg Execute(WxBaseRecMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>

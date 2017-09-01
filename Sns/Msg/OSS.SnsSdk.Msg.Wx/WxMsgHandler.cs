@@ -39,7 +39,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessTextMsg(WxTextRecMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessImageMsg(WxImageRecMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessVoiceMsg(WxVoiceRecMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessVideoMsg(WxVideoRecMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessLocationMsg(WxLocationRecMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessLinkMsg(WxLinkRecMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
 
@@ -92,7 +92,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessSubscribeEventMsg(WxSubscribeRecEventMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessScanEventMsg(WxSubscribeRecEventMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxNoneReplyMsg ProcessLocationEventMsg(WxLocationRecEventMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessClickEventMsg(WxClickRecEventMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessViewEventMsg(WxViewRecEventMsg msg)
         {
-            return new WxNoneReplyMsg();
+            return WxNoneReplyMsg.None;
         }
 
         #endregion
