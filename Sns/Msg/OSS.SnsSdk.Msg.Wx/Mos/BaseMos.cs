@@ -56,7 +56,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         ///  把消息的
         /// </summary>
         /// <param name="contentDirs"></param>
-        internal void LoadMsgDirs(IDictionary<string, string> contentDirs)
+        internal virtual void LoadMsgDirs(IDictionary<string, string> contentDirs)
         {
             m_PropertyDirs = contentDirs;
 
@@ -111,14 +111,10 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// 事件类型
         /// </summary>
         public string Event { get; internal set; }
-
-
-        /// <summary>
-        /// 格式化自身属性部分
-        /// </summary>
-        protected override void FormatPropertiesFromMsg()
+        
+        internal override void LoadMsgDirs(IDictionary<string, string> contentDirs)
         {
-            base.FormatPropertiesFromMsg();
+            base.LoadMsgDirs(contentDirs);
             Event = this["Event"];
         }
     }
@@ -134,16 +130,11 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     {
         
         private IDictionary<string, object> _propertyList;
-
-        /// <summary>
-        /// 
-        /// </summary>
+        
         protected virtual void SetValueToXml()
         {
-           
         }
-
-
+        
         /// <summary>
         /// 自定义索引，获取指定字段的值
         /// </summary>

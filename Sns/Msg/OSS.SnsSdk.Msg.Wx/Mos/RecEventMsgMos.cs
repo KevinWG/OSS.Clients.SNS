@@ -24,7 +24,6 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// </summary>
         protected override void FormatPropertiesFromMsg()
         {
-            base.FormatPropertiesFromMsg();
             EventKey = this["EventKey"];
             Ticket = this["Ticket"];
         }
