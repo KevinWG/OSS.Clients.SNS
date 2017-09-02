@@ -15,10 +15,8 @@ namespace OSS.SnsSdk.Samples.Controllers
             Token = "2DMEMYU9Zrv8C4jam7zvTghlUf2Z60s3",
             EncodingAesKey = string.Empty,
         };
-
         // 【一】 直接在初始化中指定配置信息
         private static readonly WxCustomMsgHandler _msgService = new WxCustomMsgHandler(config);
-        
 
         // 【二】 在构造函数中动态设置配置信息
         private static readonly WxCustomMsgHandler _msgDynService = new WxCustomMsgHandler();
