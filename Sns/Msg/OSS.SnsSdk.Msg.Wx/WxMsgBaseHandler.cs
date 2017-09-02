@@ -169,11 +169,11 @@ namespace OSS.SnsSdk.Msg.Wx
                 if (!(processor?.CanExecute).HasValue)
                     processor = GetRegProcessor(msgType, eventName);
             }
-            
-            var context = processor != null && processor.CanExecute
-                ? ExecuteProcessor(xmlDoc, recMsgDirs, processor.CreateNewInstance(), processor.Execute,Executing)
-                : ExecuteProcessor(xmlDoc, recMsgDirs, new WxBaseRecMsg(), ExecuteUnknowProcessor, Executing);
 
+            var context = processor != null && processor.CanExecute
+                ? ExecuteProcessor(xmlDoc, recMsgDirs, processor.CreateNewInstance(), processor.Execute)
+                : ExecuteProcessor(xmlDoc, recMsgDirs, new WxBaseRecMsg(), null);
+            
             ExecuteEnd(context);
 
             return new ResultMo<WxMsgContext>(context);
@@ -240,8 +240,8 @@ namespace OSS.SnsSdk.Msg.Wx
         ///  根据具体的消息类型执行相关的消息委托方法(基础消息)
         /// </summary>
         /// <returns></returns>
-        private static WxMsgContext ExecuteProcessor<TRecMsg>(XmlDocument recMsgXml,
-            IDictionary<string, string> recMsgDirs, TRecMsg recMsg, Func<TRecMsg, WxBaseReplyMsg> func,Action<WxMsgContext> executing)
+        private WxMsgContext ExecuteProcessor<TRecMsg>(XmlDocument recMsgXml,
+            IDictionary<string, string> recMsgDirs, TRecMsg recMsg, Func<TRecMsg, WxBaseReplyMsg> func)
             where TRecMsg : WxBaseRecMsg, new()
         {
             if (recMsg == null)
@@ -250,10 +250,13 @@ namespace OSS.SnsSdk.Msg.Wx
             recMsg.RecMsgXml = recMsgXml;
             
             var msgContext = new WxMsgContext {RecMsg = recMsg};
-            executing(msgContext);
+            Executing(msgContext);
 
-            if (msgContext.ReplyMsg==null)
-                msgContext.ReplyMsg = func?.Invoke(recMsg) ?? WxNoneReplyMsg.None;
+            if (msgContext.ReplyMsg == null)
+                msgContext.ReplyMsg = func?.Invoke(recMsg);
+
+            if (msgContext.ReplyMsg == null)
+                msgContext.ReplyMsg = ExecuteUnknowProcessor(recMsg);
 
             msgContext.ReplyMsg.ToUserName = recMsg.FromUserName;
             msgContext.ReplyMsg.FromUserName = recMsg.ToUserName;

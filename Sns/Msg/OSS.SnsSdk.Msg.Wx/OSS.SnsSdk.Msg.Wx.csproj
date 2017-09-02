@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.1.0.0</Version>
+    <Version>2.1.2</Version>
     <Authors>Kevin</Authors>
     <Company>OSSCoder</Company>
     <Description>公众号消息对话功能接口</Description>
@@ -10,9 +10,9 @@
     <PackageProjectUrl>https://github.com/KevinWG/OSS.SnsSdk/tree/master/Sns/Msg</PackageProjectUrl>
     <PackageIconUrl>http://img1.static.osscoder.com/logo.jpg</PackageIconUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.SnsSdk</RepositoryUrl>
-    <PackageReleaseNotes>优化底层属性及性能</PackageReleaseNotes>
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <FileVersion>2.1.0.0</FileVersion>
+    <PackageReleaseNotes>修改Unknow消息处理事件范围</PackageReleaseNotes>
+    <AssemblyVersion>2.1.1.0</AssemblyVersion>
+    <FileVersion>2.1.1.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
