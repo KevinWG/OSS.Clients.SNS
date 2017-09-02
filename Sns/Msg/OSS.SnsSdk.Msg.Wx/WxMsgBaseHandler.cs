@@ -256,7 +256,7 @@ namespace OSS.SnsSdk.Msg.Wx
                 msgContext.ReplyMsg = func?.Invoke(recMsg);
 
             if (msgContext.ReplyMsg == null)
-                msgContext.ReplyMsg = ExecuteUnknowProcessor(recMsg);
+                msgContext.ReplyMsg = ExecuteUnknowProcessor(recMsg) ?? WxNoneReplyMsg.None;
 
             msgContext.ReplyMsg.ToUserName = recMsg.FromUserName;
             msgContext.ReplyMsg.FromUserName = recMsg.ToUserName;

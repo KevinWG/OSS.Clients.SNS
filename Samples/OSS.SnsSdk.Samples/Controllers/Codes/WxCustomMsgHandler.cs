@@ -11,6 +11,12 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
 
         }
 
+        protected override WxBaseReplyMsg ProcessTextMsg(WxTextRecMsg msg)
+        {
+            return WxNoneReplyMsg.None;
+        }
+
+
         protected override WxMsgProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
         {
             if (msgType == "test_msg")

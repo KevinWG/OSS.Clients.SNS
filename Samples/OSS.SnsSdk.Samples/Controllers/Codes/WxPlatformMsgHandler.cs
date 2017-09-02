@@ -12,6 +12,9 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
         {
             
         }
+        //var res = DirConfigUtil.SetDirConfig<TicketMo>($"{ApiConfig.AppId}_component_verify_ticket",
+        //    new TicketMo { ticket = msg.ComponentVerifyTicket });
+
 
         protected override WxMsgProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
         {
@@ -20,22 +23,18 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
                 return new WxMsgProcessor<VerifComponentTicketRecMsg>()
                 {
                     RecInsCreater=() => new VerifComponentTicketRecMsg(),
-                    ProcessFunc = msg =>
-                    {
-                        var res= DirConfigUtil.SetDirConfig<TicketMo>($"{ApiConfig.AppId}_component_verify_ticket",
-                            new TicketMo{ticket = msg.ComponentVerifyTicket });
-
-                        return WxNoneReplyMsg.None;
-                    }
+                    ProcessFunc = msg => WxNoneReplyMsg.None
                 };
             }
-            return base.GetCustomProcessor(msgType, eventName, msgInfo);
+            return null;
         }
 
         protected override void ExecuteEnd(WxMsgContext msgContext)
         {
-            LogUtil.Info(msgContext.RecMsg.RecMsgXml.InnerXml,"PlatformMsg");
+            LogUtil.Info(msgContext.RecMsg.RecMsgXml.InnerXml, "PlatformMsg");
         }
+
+
     }
 
 
