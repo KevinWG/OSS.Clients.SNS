@@ -19,7 +19,7 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
             {
                 return new WxMsgProcessor<VerifComponentTicketRecMsg>()
                 {
-                    RecMsgInsCreater=() => new VerifComponentTicketRecMsg(),
+                    RecInsCreater=() => new VerifComponentTicketRecMsg(),
                     ProcessFunc = msg =>
                     {
                         var res= DirConfigUtil.SetDirConfig<TicketMo>($"{ApiConfig.AppId}_component_verify_ticket",
@@ -35,7 +35,6 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
         protected override void ExecuteEnd(WxMsgContext msgContext)
         {
             LogUtil.Info(msgContext.RecMsg.RecMsgXml.InnerXml,"PlatformMsg");
-            base.ExecuteEnd(msgContext);
         }
     }
 

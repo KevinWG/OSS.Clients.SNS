@@ -17,7 +17,7 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
             {
                 return new WxMsgProcessor<WxTestRecMsg>()
                 {
-                    RecMsgInsCreater = () => new WxTestRecMsg(),
+                    RecInsCreater = () => new WxTestRecMsg(),
                     ProcessFunc = (msg) => new WxTextReplyMsg {Content = "test" + msg.Test}
                 };
             }
