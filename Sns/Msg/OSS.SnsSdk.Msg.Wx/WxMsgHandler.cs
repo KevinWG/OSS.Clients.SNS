@@ -39,7 +39,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessTextMsg(WxTextRecMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessImageMsg(WxImageRecMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessVoiceMsg(WxVoiceRecMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessVideoMsg(WxVideoRecMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessLocationMsg(WxLocationRecMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessLinkMsg(WxLinkRecMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
 
@@ -92,7 +92,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessSubscribeEventMsg(WxSubscribeRecEventMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessScanEventMsg(WxSubscribeRecEventMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxNoneReplyMsg ProcessLocationEventMsg(WxLocationRecEventMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessClickEventMsg(WxClickRecEventMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         protected virtual WxBaseReplyMsg ProcessViewEventMsg(WxViewRecEventMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         #endregion
@@ -142,31 +142,31 @@ namespace OSS.SnsSdk.Msg.Wx
                     break;
                 case "text":
                     processor = new WxMsgProcessor<WxTextRecMsg>()
-                        {RecMsgInsCreater = () => new WxTextRecMsg(), ProcessFunc = ProcessTextMsg};
+                        {RecInsCreater = () => new WxTextRecMsg(), ProcessFunc = ProcessTextMsg};
                     break;
                 case "image":
                     processor = new WxMsgProcessor<WxImageRecMsg>()
-                        {RecMsgInsCreater = () => new WxImageRecMsg(), ProcessFunc = ProcessImageMsg};
+                        {RecInsCreater = () => new WxImageRecMsg(), ProcessFunc = ProcessImageMsg};
                     break;
                 case "voice":
                     processor = new WxMsgProcessor<WxVoiceRecMsg>()
-                        {RecMsgInsCreater = () => new WxVoiceRecMsg(), ProcessFunc = ProcessVoiceMsg};
+                        {RecInsCreater = () => new WxVoiceRecMsg(), ProcessFunc = ProcessVoiceMsg};
                     break;
                 case "video":
                     processor = new WxMsgProcessor<WxVideoRecMsg>()
-                        {RecMsgInsCreater = () => new WxVideoRecMsg(), ProcessFunc = ProcessVideoMsg};
+                        {RecInsCreater = () => new WxVideoRecMsg(), ProcessFunc = ProcessVideoMsg};
                     break;
                 case "shortvideo":
                     processor = new WxMsgProcessor<WxVideoRecMsg>()
-                        {RecMsgInsCreater = () => new WxVideoRecMsg(), ProcessFunc = ProcessVideoMsg};
+                        {RecInsCreater = () => new WxVideoRecMsg(), ProcessFunc = ProcessVideoMsg};
                     break;
                 case "location":
                     processor = new WxMsgProcessor<WxLocationRecMsg>()
-                        {RecMsgInsCreater = () => new WxLocationRecMsg(), ProcessFunc = ProcessLocationMsg};
+                        {RecInsCreater = () => new WxLocationRecMsg(), ProcessFunc = ProcessLocationMsg};
                     break;
                 case "link":
                     processor = new WxMsgProcessor<WxLinkRecMsg>()
-                        {RecMsgInsCreater = () => new WxLinkRecMsg(), ProcessFunc = ProcessLinkMsg};
+                        {RecInsCreater = () => new WxLinkRecMsg(), ProcessFunc = ProcessLinkMsg};
                     break;
             }
             return processor;
@@ -179,27 +179,27 @@ namespace OSS.SnsSdk.Msg.Wx
             {
                 case "subscribe":
                     processor = new WxMsgProcessor<WxSubscribeRecEventMsg>()
-                        { RecMsgInsCreater = () => new WxSubscribeRecEventMsg(), ProcessFunc = ProcessSubscribeEventMsg };
+                        { RecInsCreater = () => new WxSubscribeRecEventMsg(), ProcessFunc = ProcessSubscribeEventMsg };
                     break;
                 case "unsubscribe":
                     processor = new WxMsgProcessor<WxSubscribeRecEventMsg>()
-                        { RecMsgInsCreater = () => new WxSubscribeRecEventMsg(), ProcessFunc = ProcessSubscribeEventMsg };
+                        { RecInsCreater = () => new WxSubscribeRecEventMsg(), ProcessFunc = ProcessSubscribeEventMsg };
                       break;
                 case "scan":
                     processor = new WxMsgProcessor<WxSubscribeRecEventMsg>()
-                        { RecMsgInsCreater = () => new WxSubscribeRecEventMsg(), ProcessFunc = ProcessScanEventMsg };
+                        { RecInsCreater = () => new WxSubscribeRecEventMsg(), ProcessFunc = ProcessScanEventMsg };
                     break;
                 case "location":
                     processor = new WxMsgProcessor<WxLocationRecEventMsg>()
-                        { RecMsgInsCreater = () => new WxLocationRecEventMsg(), ProcessFunc = ProcessLocationEventMsg };
+                        { RecInsCreater = () => new WxLocationRecEventMsg(), ProcessFunc = ProcessLocationEventMsg };
                     break;
                 case "click":
                     processor = new WxMsgProcessor<WxClickRecEventMsg>()
-                        { RecMsgInsCreater = () => new WxClickRecEventMsg(), ProcessFunc = ProcessClickEventMsg };
+                        { RecInsCreater = () => new WxClickRecEventMsg(), ProcessFunc = ProcessClickEventMsg };
                     break;
                 case "view":
                     processor = new WxMsgProcessor<WxViewRecEventMsg>()
-                        { RecMsgInsCreater = () => new WxViewRecEventMsg(), ProcessFunc = ProcessViewEventMsg };
+                        { RecInsCreater = () => new WxViewRecEventMsg(), ProcessFunc = ProcessViewEventMsg };
                     break;
             }
             return processor;

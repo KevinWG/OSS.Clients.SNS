@@ -138,14 +138,14 @@ namespace OSS.SnsSdk.Msg.Wx
 
             if (ApiConfig.SecurityType == WxSecurityType.None)
                 return new ResultMo<string>(recXml);
+            
+            var dirs = WxMsgHelper.ChangXmlToDir(recXml, out XmlDocument xmlDoc);
 
-            XmlDocument xmlDoc = null;
-            var dirs = WxMsgHelper.ChangXmlToDir(recXml, ref xmlDoc);
-
-            if (dirs == null || !dirs.ContainsKey("Encrypt"))
+            if (dirs == null || !dirs.TryGetValue("Encrypt",out var encryStr)
+                || string.IsNullOrEmpty(encryStr))
                 return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
 
-            var recMsgXml = Cryptography.WxAesDecrypt(dirs["Encrypt"], ApiConfig.EncodingAesKey);
+            var recMsgXml = Cryptography.WxAesDecrypt(encryStr, ApiConfig.EncodingAesKey);
 
             return new ResultMo<string>(recMsgXml);
         }
@@ -161,11 +161,10 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <returns></returns>
         protected virtual ResultMo<WxMsgContext> Execute(string recMsgXml)
         {
-            XmlDocument xmlDoc = null;
-            var recMsgDirs = WxMsgHelper.ChangXmlToDir(recMsgXml, ref xmlDoc);
+            var recMsgDirs = WxMsgHelper.ChangXmlToDir(recMsgXml, out XmlDocument xmlDoc);
 
             recMsgDirs.TryGetValue("MsgType", out var msgType);// recMsgDirs["MsgType"].ToLower();
-            var eventName = string.Empty;
+            string eventName =null;
 
             if (msgType == "event")
             {
@@ -180,11 +179,10 @@ namespace OSS.SnsSdk.Msg.Wx
                 if (!(processor?.CanExecute).HasValue)
                     processor = GetRegProcessor(msgType, eventName);
             }
-
-
+            
             var context = processor != null && processor.CanExecute
-                ? ExecuteProcessor(xmlDoc, recMsgDirs, processor.CreateNewInstance(), processor.Execute)
-                : ExecuteProcessor(xmlDoc, recMsgDirs, new WxBaseRecMsg(), ExecuteUnknowProcessor);
+                ? ExecuteProcessor(xmlDoc, recMsgDirs, processor.CreateNewInstance(), processor.Execute,Executing)
+                : ExecuteProcessor(xmlDoc, recMsgDirs, new WxBaseRecMsg(), ExecuteUnknowProcessor, Executing);
 
             return new ResultMo<WxMsgContext>(context);
         }
@@ -195,7 +193,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <returns></returns>
         protected virtual WxBaseReplyMsg ExecuteUnknowProcessor(WxBaseRecMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -227,49 +225,50 @@ namespace OSS.SnsSdk.Msg.Wx
         #region  消息处理 == end  当前消息处理结束触发
 
         /// <summary>
+        ///  执行过程中，业务执行前
+        ///     如果对 ReplyMsg 赋值，则后续
+        /// </summary>
+        /// <param name="context"></param>
+        protected virtual void Executing(WxMsgContext context)
+        {
+        }
+
+        /// <summary>
         ///  执行结束方法
         /// </summary>
         /// <param name="msgContext"></param>
         protected virtual void ExecuteEnd(WxMsgContext msgContext)
         {
-
         }
 
         #endregion
-        
+
         /// <summary>
         ///  根据具体的消息类型执行相关的消息委托方法(基础消息)
         /// </summary>
-        /// <typeparam name="TRecMsg"></typeparam>
-        /// <param name="recMsgXml"></param>
-        /// <param name="recMsgDirs"></param>
-        /// <param name="recMsg"></param>
-        /// <param name="func"></param>
         /// <returns></returns>
         private static WxMsgContext ExecuteProcessor<TRecMsg>(XmlDocument recMsgXml,
-            IDictionary<string, string> recMsgDirs, TRecMsg recMsg, Func<TRecMsg, WxBaseReplyMsg> func)
+            IDictionary<string, string> recMsgDirs, TRecMsg recMsg, Func<TRecMsg, WxBaseReplyMsg> func,Action<WxMsgContext> executing)
             where TRecMsg : WxBaseRecMsg, new()
         {
             if (recMsg == null)
                 recMsg = new TRecMsg();
-
-            var msgContext = new WxMsgContext();
-
             recMsg.LoadMsgDirs(recMsgDirs);
             recMsg.RecMsgXml = recMsgXml;
-
-            msgContext.RecMsg = recMsg;
             
-            var reply= func?.Invoke(recMsg) ?? WxNoneReplyMsg.None;
+            var msgContext = new WxMsgContext {RecMsg = recMsg};
+            executing(msgContext);
 
-            reply.ToUserName = recMsg.FromUserName;
-            reply.FromUserName = recMsg.ToUserName;
-            reply.CreateTime = DateTime.Now.ToLocalSeconds();
+            if (msgContext.ReplyMsg==null)
+                msgContext.ReplyMsg = func?.Invoke(recMsg) ?? WxNoneReplyMsg.None;
 
-            msgContext.ReplyMsg = reply;
-
+            msgContext.ReplyMsg.ToUserName = recMsg.FromUserName;
+            msgContext.ReplyMsg.FromUserName = recMsg.ToUserName;
+            msgContext.ReplyMsg.CreateTime = DateTime.Now.ToLocalSeconds();
+            
             return msgContext;
         }
+
 
     }
 }

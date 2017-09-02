@@ -32,7 +32,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <returns></returns>
         protected internal virtual WxBaseReplyMsg Execute(WxBaseRecMsg msg)
         {
-            return WxNoneReplyMsg.None;
+            return null;
         }
 
         /// <summary>
@@ -77,11 +77,11 @@ namespace OSS.SnsSdk.Msg.Wx
         ///  对应的接受消息创建实例方法
         ///    如果不设置，会通过反射创建
         /// </summary>
-        public Func<TRecMsg> RecMsgInsCreater { get; set; }
-
+        public Func<TRecMsg> RecInsCreater { get; set; }
+        
         protected internal override WxBaseRecMsg CreateNewInstance()
         {
-            return RecMsgInsCreater?.Invoke() ?? new TRecMsg();
+            return RecInsCreater?.Invoke() ?? new TRecMsg();
         }
     }
 

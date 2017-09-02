@@ -124,14 +124,13 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="xml"></param>
         /// <param name="xmlDoc">返回格式化后的xml对象</param>
         /// <returns></returns>
-        internal static Dictionary<string, string> ChangXmlToDir(string xml,ref XmlDocument xmlDoc)
+        internal static Dictionary<string, string> ChangXmlToDir(string xml,out XmlDocument xmlDoc)
         {
             if (string.IsNullOrEmpty(xml))
             {
+                xmlDoc = null;
                 return null;
             }
-
-
             xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);
             var xmlNode = xmlDoc.FirstChild;
