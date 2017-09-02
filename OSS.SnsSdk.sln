@@ -16,9 +16,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{55E2C793-B2A5-47E8-8E4E-E5AF87A695B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Msg", "Msg", "{2D82DBC8-6065-4D3C-972C-15A66363DAB4}"
-	ProjectSection(SolutionItems) = preProject
-		Sns\Msg\ReadMe.md = Sns\Msg\ReadMe.md
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Social", "Social", "{C520EEBA-8198-4681-83A6-66C294129782}"
 	ProjectSection(SolutionItems) = preProject
