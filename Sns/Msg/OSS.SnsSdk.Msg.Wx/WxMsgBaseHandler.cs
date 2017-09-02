@@ -111,39 +111,8 @@ namespace OSS.SnsSdk.Msg.Wx
             }
             return new ResultMo<string>(resultString);
         }
-
-        /// <summary>
-        /// 核心执行 过程的  验签和解密
-        /// </summary>
-        /// <param name="recXml">消息内容</param>
-        /// <param name="signature">微信加密签名</param>
-        /// <param name="timestamp">时间戳</param>
-        /// <param name="nonce">随机数</param>
-        /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        private ResultMo<string> PrepareExecute(string recXml, string signature,
-            string timestamp, string nonce)
-        {
-            if (string.IsNullOrEmpty(recXml))
-                return new ResultMo<string>(ResultTypes.ObjectNull, "接收的消息体为空！");
-
-            var resCheck = WxMsgHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
-            if (!resCheck.IsSuccess())
-                return resCheck.ConvertToResultOnly<string>();
-
-            if (ApiConfig.SecurityType == WxSecurityType.None)
-                return new ResultMo<string>(recXml);
-            
-            var dirs = WxMsgHelper.ChangXmlToDir(recXml, out XmlDocument xmlDoc);
-
-            if (dirs == null || !dirs.TryGetValue("Encrypt",out var encryStr)
-                || string.IsNullOrEmpty(encryStr))
-                return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
-
-            var recMsgXml = Cryptography.WxAesDecrypt(encryStr, ApiConfig.EncodingAesKey);
-
-            return new ResultMo<string>(recMsgXml);
-        }
-
+        #endregion
+        
         /// <summary>
         /// 核心执行方法 过程中的 委托方代码执行
         /// </summary>
@@ -178,7 +147,7 @@ namespace OSS.SnsSdk.Msg.Wx
 
             return new ResultMo<WxMsgContext>(context);
         }
-        #endregion
+    
 
         #region  消息执行时生命周期的关键事件
 
@@ -237,7 +206,39 @@ namespace OSS.SnsSdk.Msg.Wx
         #endregion
         
         /// <summary>
-        ///  根据具体的消息类型执行相关的消息委托方法(基础消息)
+        /// 核心执行 过程的  验签和解密
+        /// </summary>
+        /// <param name="recXml">消息内容</param>
+        /// <param name="signature">微信加密签名</param>
+        /// <param name="timestamp">时间戳</param>
+        /// <param name="nonce">随机数</param>
+        /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
+        private ResultMo<string> PrepareExecute(string recXml, string signature,
+            string timestamp, string nonce)
+        {
+            if (string.IsNullOrEmpty(recXml))
+                return new ResultMo<string>(ResultTypes.ObjectNull, "接收的消息体为空！");
+
+            var resCheck = WxMsgHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
+            if (!resCheck.IsSuccess())
+                return resCheck.ConvertToResultOnly<string>();
+
+            if (ApiConfig.SecurityType == WxSecurityType.None)
+                return new ResultMo<string>(recXml);
+
+            var dirs = WxMsgHelper.ChangXmlToDir(recXml, out XmlDocument xmlDoc);
+
+            if (dirs == null || !dirs.TryGetValue("Encrypt", out var encryStr)
+                || string.IsNullOrEmpty(encryStr))
+                return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
+
+            var recMsgXml = Cryptography.WxAesDecrypt(encryStr, ApiConfig.EncodingAesKey);
+
+            return new ResultMo<string>(recMsgXml);
+        }
+
+        /// <summary>
+        ///  执行具体消息处理委托
         /// </summary>
         /// <returns></returns>
         private WxMsgContext ExecuteProcessor<TRecMsg>(XmlDocument recMsgXml,
