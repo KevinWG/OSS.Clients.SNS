@@ -57,7 +57,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return resultRes;
         }
         /// <summary>
-        /// 核心执行方法
+        ///    消息处理入口
         /// </summary>
         /// <param name="reqStream">内容的数据流</param>
         /// <param name="signature">签名信息</param>
@@ -77,7 +77,7 @@ namespace OSS.SnsSdk.Msg.Wx
         }
 
         /// <summary>
-        /// 核心执行方法
+        /// 消息处理入口
         /// </summary>
         /// <param name="contentXml">内容信息</param>
         /// <param name="signature">签名信息</param>
@@ -103,8 +103,6 @@ namespace OSS.SnsSdk.Msg.Wx
             if (!contextRes.IsSuccess())
                 return contextRes.ConvertToResultOnly<string>();
 
-            ExecuteEnd(contextRes.data);
-
             var resultString = contextRes.data.ReplyMsg.ToReplyXml();
             if (ApiConfig.SecurityType != WxSecurityType.None &&
                 !string.IsNullOrEmpty(contextRes.data.ReplyMsg.MsgType))
@@ -114,12 +112,8 @@ namespace OSS.SnsSdk.Msg.Wx
             return new ResultMo<string>(resultString);
         }
 
-        #endregion
-        
-        #region 消息处理 == start   验证消息参数以及加解密部分
-
         /// <summary>
-        /// 核心执行方法    ==    验证签名和消息体信息解密处理部分
+        /// 核心执行 过程的  验签和解密
         /// </summary>
         /// <param name="recXml">消息内容</param>
         /// <param name="signature">微信加密签名</param>
@@ -150,12 +144,8 @@ namespace OSS.SnsSdk.Msg.Wx
             return new ResultMo<string>(recMsgXml);
         }
 
-        #endregion
-
-        #region   消息处理具体执行部分，高级部分可以覆盖
-
         /// <summary>
-        /// 核心执行方法,将传入文本处理返回结果
+        /// 核心执行方法 过程中的 委托方代码执行
         /// </summary>
         /// <param name="recMsgXml">传入消息的xml</param>
         /// <returns></returns>
@@ -184,9 +174,23 @@ namespace OSS.SnsSdk.Msg.Wx
                 ? ExecuteProcessor(xmlDoc, recMsgDirs, processor.CreateNewInstance(), processor.Execute,Executing)
                 : ExecuteProcessor(xmlDoc, recMsgDirs, new WxBaseRecMsg(), ExecuteUnknowProcessor, Executing);
 
+            ExecuteEnd(context);
+
             return new ResultMo<WxMsgContext>(context);
         }
-        
+        #endregion
+
+        #region  消息执行时生命周期的关键事件
+
+        /// <summary>
+        ///  执行过程中，业务执行前
+        ///     如果对 ReplyMsg 赋值，则后续
+        /// </summary>
+        /// <param name="context"></param>
+        protected virtual void Executing(WxMsgContext context)
+        {
+        }
+
         /// <summary>
         ///   执行处理未知消息
         /// </summary>
@@ -196,6 +200,17 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
 
+        /// <summary>
+        ///  执行结束方法
+        /// </summary>
+        /// <param name="msgContext"></param>
+        protected virtual void ExecuteEnd(WxMsgContext msgContext)
+        {
+        }
+
+        #endregion
+
+        #region  获取 Processor
         /// <summary>
         ///  获取消息处理Processor
         ///   【返回对象需继承：WxMsgProcessor&lt;TRecMsg&gt;】
@@ -219,30 +234,8 @@ namespace OSS.SnsSdk.Msg.Wx
             var key = msgType == "event" ? string.Concat("event_", eventName ?? string.Empty) : msgType;
             return WxMsgProcessorProvider.GetProcessor(key);
         }
-
         #endregion
-
-        #region  消息处理 == end  当前消息处理结束触发
-
-        /// <summary>
-        ///  执行过程中，业务执行前
-        ///     如果对 ReplyMsg 赋值，则后续
-        /// </summary>
-        /// <param name="context"></param>
-        protected virtual void Executing(WxMsgContext context)
-        {
-        }
-
-        /// <summary>
-        ///  执行结束方法
-        /// </summary>
-        /// <param name="msgContext"></param>
-        protected virtual void ExecuteEnd(WxMsgContext msgContext)
-        {
-        }
-
-        #endregion
-
+        
         /// <summary>
         ///  根据具体的消息类型执行相关的消息委托方法(基础消息)
         /// </summary>
@@ -268,7 +261,5 @@ namespace OSS.SnsSdk.Msg.Wx
             
             return msgContext;
         }
-
-
     }
 }
