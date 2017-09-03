@@ -17,7 +17,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// <summary>
     /// 关注/取消关注/扫描带参数二维码事件
     /// </summary>
-    public class WxSubscribeRecEventMsg : WxBaseRecEventMsg
+    public class WxSubScanRecEventMsg : WxBaseRecEventMsg
     {
         /// <summary>
         /// 格式化自身属性部分
