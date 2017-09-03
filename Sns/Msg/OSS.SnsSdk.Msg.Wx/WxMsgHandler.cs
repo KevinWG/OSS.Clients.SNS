@@ -24,8 +24,15 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <summary>
         /// 构造函数
         /// </summary>
+        public WxMsgHandler() : this(null)
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         /// <param name="mConfig"></param>
-        public WxMsgHandler(WxMsgConfig mConfig=null):base(mConfig)
+        public WxMsgHandler(WxMsgConfig mConfig):base(mConfig)
         {
             textPro = new WxMsgProcessor<WxTextRecMsg> {RecInsCreater = () => new WxTextRecMsg(), ProcessFunc = ProcessTextMsg};
             imagePro= new WxMsgProcessor<WxImageRecMsg> { RecInsCreater = () => new WxImageRecMsg(), ProcessFunc = ProcessImageMsg };
@@ -49,7 +56,7 @@ namespace OSS.SnsSdk.Msg.Wx
 
         #region 事件列表  普通消息
 
-        private static WxMsgProcessor<WxTextRecMsg> textPro;
+        private readonly WxMsgProcessor<WxTextRecMsg> textPro;
         /// <summary>
         /// 处理文本消息
         /// </summary>
@@ -59,7 +66,7 @@ namespace OSS.SnsSdk.Msg.Wx
         }
 
 
-        private static WxMsgProcessor<WxImageRecMsg> imagePro;
+        private readonly WxMsgProcessor<WxImageRecMsg> imagePro;
         /// <summary>
         /// 处理图像消息
         /// </summary>
@@ -68,7 +75,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
 
-        private static WxMsgProcessor<WxVoiceRecMsg> voicePro;
+        private readonly WxMsgProcessor<WxVoiceRecMsg> voicePro;
         /// <summary>
         /// 处理语音消息
         /// </summary>
@@ -77,7 +84,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
 
-        private static WxMsgProcessor<WxVideoRecMsg> videoPro;
+        private readonly WxMsgProcessor<WxVideoRecMsg> videoPro;
         /// <summary>
         /// 处理视频消息
         /// </summary>
@@ -86,7 +93,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
 
-        private static WxMsgProcessor<WxVideoRecMsg> shortVideoPro;
+        private readonly WxMsgProcessor<WxVideoRecMsg> shortVideoPro;
         /// <summary>
         /// 处理小视频消息
         /// </summary>
@@ -95,7 +102,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
 
-        private static WxMsgProcessor<WxLocationRecMsg> locationPro;
+        private readonly WxMsgProcessor<WxLocationRecMsg> locationPro;
         /// <summary>
         /// 处理地理位置消息
         /// </summary>
@@ -104,7 +111,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
 
-        private static WxMsgProcessor<WxLinkRecMsg> linkPro;
+        private readonly WxMsgProcessor<WxLinkRecMsg> linkPro;
         /// <summary>
         /// 处理链接消息
         /// </summary>
@@ -118,7 +125,7 @@ namespace OSS.SnsSdk.Msg.Wx
 
         #region 事件列表  动作事件消息
 
-        private static WxMsgProcessor<WxSubScanRecEventMsg> subEventPro;
+        private readonly WxMsgProcessor<WxSubScanRecEventMsg> subEventPro;
         /// <summary>
         /// 处理关注事件
         /// </summary>
@@ -127,7 +134,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
         
-        private static WxMsgProcessor<WxSubScanRecEventMsg> unsubEventPro;
+        private readonly WxMsgProcessor<WxSubScanRecEventMsg> unsubEventPro;
         /// <summary>
         /// 处理取消关注事件
         /// </summary>
@@ -136,7 +143,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
 
-        private static WxMsgProcessor<WxSubScanRecEventMsg> scanEventPro;
+        private readonly WxMsgProcessor<WxSubScanRecEventMsg> scanEventPro;
         /// <summary>
         /// 处理扫描带参数二维码事件
         /// </summary>
@@ -145,7 +152,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
 
-        private static WxMsgProcessor<WxLocationRecEventMsg> locationEventPro;
+        private readonly WxMsgProcessor<WxLocationRecEventMsg> locationEventPro;
         /// <summary>
         /// 处理上报地理位置事件
         /// 不需要回复任何消息
@@ -155,7 +162,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
 
-        private static WxMsgProcessor<WxClickRecEventMsg> clickEventPro;
+        private readonly WxMsgProcessor<WxClickRecEventMsg> clickEventPro;
         /// <summary>
         /// 处理点击菜单拉取消息时的事件推送
         /// </summary>
@@ -164,7 +171,7 @@ namespace OSS.SnsSdk.Msg.Wx
             return null;
         }
 
-        private static WxMsgProcessor<WxViewRecEventMsg> viewEventPro;
+        private readonly WxMsgProcessor<WxViewRecEventMsg> viewEventPro;
         /// <summary>
         /// 处理点击菜单跳转链接时的事件推送 
         /// </summary>

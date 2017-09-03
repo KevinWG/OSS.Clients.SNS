@@ -42,8 +42,7 @@ namespace OSS.SnsSdk.Msg.Wx
                 ? new ResultMo() 
                 : new ResultMo(ResultTypes.UnAuthorize, "签名验证失败！");
         }
-
-
+        
         /// <summary>
         /// 验证签名方法
         /// </summary>
