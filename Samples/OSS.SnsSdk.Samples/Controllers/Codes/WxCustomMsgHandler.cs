@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using OSS.Common.Plugs.LogPlug;
 using OSS.SnsSdk.Msg.Wx;
 using OSS.SnsSdk.Msg.Wx.Mos;
 
@@ -28,6 +29,12 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
                 };
             }
             return null;
+        }
+
+
+        protected override void Executing(WxMsgContext context)
+        {
+            LogUtil.Info($"当前消息正文：{context.RecMsg.RecMsgXml.InnerXml}", "Executing");
         }
     }
 

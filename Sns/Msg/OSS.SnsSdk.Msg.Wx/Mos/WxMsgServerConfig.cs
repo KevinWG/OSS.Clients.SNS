@@ -38,10 +38,10 @@
         /// </summary>
         None,
 
-        /// <summary>
-        /// 兼容模式
-        /// </summary>
-        Compitable,
+        ///// <summary>
+        ///// 兼容模式
+        ///// </summary>
+        //Compitable,
 
         /// <summary>
         /// 安全模式

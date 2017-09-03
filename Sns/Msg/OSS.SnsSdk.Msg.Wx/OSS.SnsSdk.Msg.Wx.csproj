@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.1.3</Version>
+    <Version>2.1.3.1</Version>
     <Authors>Kevin</Authors>
     <Company>OSSCoder</Company>
     <Description>公众号消息对话功能接口</Description>
@@ -11,8 +11,8 @@
     <PackageIconUrl>http://img1.static.osscoder.com/logo.jpg</PackageIconUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.SnsSdk</RepositoryUrl>
     <PackageReleaseNotes>基础事件抽出单独的取消订阅和短视频事件</PackageReleaseNotes>
-    <AssemblyVersion>2.1.3.0</AssemblyVersion>
-    <FileVersion>2.1.3.0</FileVersion>
+    <AssemblyVersion>2.1.3.1</AssemblyVersion>
+    <FileVersion>2.1.3.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
