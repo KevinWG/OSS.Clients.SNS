@@ -138,7 +138,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <summary>
         /// 处理取消关注事件
         /// </summary>
-        protected virtual WxBaseReplyMsg ProcessUnsubscribeEventMsg(WxSubScanRecEventMsg msg)
+        protected virtual WxNoneReplyMsg ProcessUnsubscribeEventMsg(WxSubScanRecEventMsg msg)
         {
             return null;
         }
