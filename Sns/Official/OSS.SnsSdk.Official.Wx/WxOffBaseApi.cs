@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
+using OSS.Common.Extention;
 using OSS.Common.Plugs;
 using OSS.Common.Plugs.CachePlug;
 using OSS.Http.Extention;
@@ -77,7 +78,7 @@ namespace OSS.SnsSdk.Official.Wx
             var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAccessTokenKey, ApiConfig.AppId);
             var tokenResp = CacheUtil.Get<WxOffAccessTokenResp>(m_OffcialAccessTokenKey, ModuleName);
 
-            if (tokenResp != null && tokenResp.expires_date >= DateTime.Now)
+            if (tokenResp != null && tokenResp.expires_date >= DateTime.Now.ToUtcSeconds())
                 return tokenResp;
 
             tokenResp = await GetAccessTokenFromWxAsync();
@@ -85,7 +86,7 @@ namespace OSS.SnsSdk.Official.Wx
             if (!tokenResp.IsSuccess())
                 return tokenResp;
 
-            tokenResp.expires_date = DateTime.Now.AddSeconds(tokenResp.expires_in - 600);
+            tokenResp.expires_date = DateTime.Now.ToUtcSeconds() + tokenResp.expires_in - 600;
 
             CacheUtil.AddOrUpdate(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in),
                 null, ModuleName);

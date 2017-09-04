@@ -10,11 +10,8 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
     {
         public WxPlatformMsgHandler(WxMsgConfig config):base(config)
         {
-            
         }
     
-
-
         protected override WxMsgProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
         {
             if (msgInfo.ContainsKey("ComponentVerifyTicket"))
