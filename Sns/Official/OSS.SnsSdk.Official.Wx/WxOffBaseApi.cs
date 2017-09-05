@@ -19,7 +19,6 @@ using Newtonsoft.Json;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
-using OSS.Common.Plugs;
 using OSS.Common.Plugs.CachePlug;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
@@ -29,15 +28,52 @@ using OSS.SnsSdk.Official.Wx.SysTools;
 namespace OSS.SnsSdk.Official.Wx
 {
     /// <summary>
-    /// 微信公号接口基类
+    ///  基类
     /// </summary>
-    public class WxOffBaseApi : BaseConfigProvider<AppConfig>
+    public class WxBaseApi : BaseConfigProvider<AppConfig>
     {
         /// <summary>
         /// 微信api接口地址
         /// </summary>
         protected const string m_ApiUrl = "https://api.weixin.qq.com";
 
+        #region 构造函数
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="config"></param>
+        public WxBaseApi(AppConfig config) : base(config)
+        {
+            ModuleName = WxOffConfigProvider.ModuleName;
+        }
+        
+        #endregion
+
+        /// <summary>
+        /// 处理远程请求方法，并返回需要的实体
+        /// </summary>
+        /// <typeparam name="T">需要返回的实体类型</typeparam>
+        /// <param name="request">远程请求组件的request基本信息</param>
+        /// <param name="client">自定义HttpClient</param>
+        /// <returns>实体类型</returns>
+        public async Task<T> RestCommonJson<T>(OsHttpRequest request, HttpClient client = null)
+            where T : WxBaseResp, new()
+        {
+            var t = await request.RestCommonJson<T>(client);
+
+            if (!t.IsSuccess())
+                t.msg = t.errmsg;
+
+            return t;
+        }
+    }
+
+    /// <summary>
+    /// 微信公号接口基类
+    /// </summary>
+    public class WxOffBaseApi : WxBaseApi
+    {
         #region 构造函数
         
         /// <summary>
@@ -46,7 +82,6 @@ namespace OSS.SnsSdk.Official.Wx
         /// <param name="config"></param>
         public WxOffBaseApi(AppConfig config) : base(config)
         {
-            ModuleName = ModuleNames.SocialCenter;
         }
 
         #endregion
@@ -75,6 +110,12 @@ namespace OSS.SnsSdk.Official.Wx
         /// <returns></returns>
         public virtual async Task<WxOffAccessTokenResp> GetAccessTokenFromCacheAsync()
         {
+            if (ApiConfig.OperateMode==AppOperateMode.ByAgent)
+            {
+                return WxOffConfigProvider.AccessTokenFromAgentMethod?.Invoke(ApiConfig) ??
+                       new WxOffAccessTokenResp() {ret = (int) ResultTypes.UnAuthorize, msg = "未发现代理公号下的AccessToken，请确保 WxOffConfigProvider.AccessTokenFromAgentMethod 已设置并返回正确。" };
+            }
+
             var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAccessTokenKey, ApiConfig.AppId);
             var tokenResp = CacheUtil.Get<WxOffAccessTokenResp>(m_OffcialAccessTokenKey, ModuleName);
 
@@ -132,9 +173,7 @@ namespace OSS.SnsSdk.Official.Wx
 
             return await RestCommonJson<T>(req, client);
         }
-
-
-
+        
         /// <summary>
         ///   下载文件方法
         /// </summary>
@@ -154,23 +193,6 @@ namespace OSS.SnsSdk.Official.Wx
         }
 
         #endregion
-        
-        /// <summary>
-        /// 处理远程请求方法，并返回需要的实体
-        /// </summary>
-        /// <typeparam name="T">需要返回的实体类型</typeparam>
-        /// <param name="request">远程请求组件的request基本信息</param>
-        /// <param name="client">自定义HttpClient</param>
-        /// <returns>实体类型</returns>
-        public async Task<T> RestCommonJson<T>(OsHttpRequest request, HttpClient client = null)
-            where T : WxBaseResp, new()
-        {
-            var t = await request.RestCommonJson<T>(client);
-
-            if (!t.IsSuccess())
-                t.msg = t.errmsg;
-
-            return t;
-        }
+  
     }
 }
