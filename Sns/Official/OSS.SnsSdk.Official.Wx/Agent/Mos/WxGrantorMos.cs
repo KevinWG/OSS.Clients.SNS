@@ -19,7 +19,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent.Mos
     /// <summary>
     ///   获取授权
     /// </summary>
-    public class WxGetOffGrantorInfoResp : WxBaseResp
+    public class WxGetGrantorInfoResp : WxBaseResp
     {
         /// <summary>
         ///  授权权限的信息
@@ -75,6 +75,8 @@ namespace OSS.SnsSdk.Official.Wx.Agent.Mos
 
     #endregion
 
+
+    #region  授权账号信息
     /// <summary>
     /// 授权者信息
     /// </summary>
@@ -128,6 +130,16 @@ namespace OSS.SnsSdk.Official.Wx.Agent.Mos
         ///   二维码图片的URL，开发者最好自行也进行保存
         /// </summary>  
         public string qrcode_url { get; set; }
+
+        /// <summary>   
+        ///   帐号介绍[小程序]
+        /// </summary>  
+        public string signature { get; set; }
+
+        /// <summary>
+        ///  小程序信息，公众号没有此信息
+        /// </summary>
+        public WxSmallProgramMo MiniProgramInfo { get; set; }
     }
 
 
@@ -161,7 +173,48 @@ namespace OSS.SnsSdk.Official.Wx.Agent.Mos
         ///   是否开通微信摇一摇功能
         /// </summary>  
         public bool open_shake { get; set; }
-
-
     }
+
+    public class WxSmallProgramMo
+    {
+        public WxSmallAppNetworkMo network { get; set; }
+        public List<WxSmallAppCategorItemMo> categories { get; set; }
+        public int  visit_status { get; set; }
+    }
+
+    /// <summary>
+    ///  小程序网络设置模块
+    /// </summary>
+    public class WxSmallAppNetworkMo
+    {
+        /// <summary>   
+        ///   接口域名
+        /// </summary>  
+        public string RequestDomain { get; set; }
+        /// <summary>   
+        ///   websocket域名
+        /// </summary>  
+        public string WsRequestDomain { get; set; }
+        /// <summary>   
+        ///   上传域名
+        /// </summary>  
+        public string UploadDomain { get; set; }
+        /// <summary>   
+        ///   下载域名
+        /// </summary>  
+        public string DownloadDomain { get; set; }
+    }
+
+
+    public class WxSmallAppCategorItemMo
+    { 
+        public string first { get; set; } 
+        public string second { get; set; }
+    }
+
+    #endregion
+
+
+
+
 }

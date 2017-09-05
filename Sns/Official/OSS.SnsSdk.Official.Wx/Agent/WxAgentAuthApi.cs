@@ -94,7 +94,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         /// <param name="grantorAppId"></param>
         /// <param name="verifyTicket"></param>
         /// <returns></returns>
-        public async Task<WxGetOffGrantorInfoResp> GetOffGrantorInfo(string grantorAppId, string verifyTicket)
+        public async Task<WxGetGrantorInfoResp> GetGrantorInfo(string grantorAppId, string verifyTicket)
         {
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
@@ -107,7 +107,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WxGetOffGrantorInfoResp>(req, verifyTicket);
+            return await RestCommonAgentAsync<WxGetGrantorInfoResp>(req, verifyTicket);
         }
 
 

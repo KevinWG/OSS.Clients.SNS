@@ -15,7 +15,6 @@ using OSS.Common.ComModels;
 
 namespace OSS.SnsSdk.Official.Wx
 {
- 
 
     /// <summary>
     /// 接口返回基础实例
