@@ -214,7 +214,29 @@ namespace OSS.SnsSdk.Official.Wx.Agent.Mos
 
     #endregion
 
+    #region 授权选项相关信息
+    /// <summary>
+    /// 获取授权方的选项设置信息响应实体
+    /// </summary>
+    public class WxGetGrantorOptionResp : WxBaseResp
+    {
+        /// <summary>   
+        ///   授权公众号或小程序的appid
+        /// </summary>  
+        public string authorizer_appid { get; set; }
 
+        /// <summary>   
+        ///   选项名称
+        /// </summary>  
+        public string option_name { get; set; }
+
+        /// <summary>   
+        ///   选项值
+        /// </summary>  
+        public string option_value { get; set; }
+    }
+
+    #endregion
 
 
 }
