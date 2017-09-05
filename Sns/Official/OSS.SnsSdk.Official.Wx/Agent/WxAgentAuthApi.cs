@@ -131,7 +131,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         /// <param name="optionName">选项名称</param>
         /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <returns></returns>
-        public async Task<WxGetGrantorOptionResp> GetGrantorInfo(string grantorAppId,string optionName, string verifyTicket)
+        public async Task<WxGetGrantorOptionResp> GetGrantorOption(string grantorAppId,string optionName, string verifyTicket)
         {
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
@@ -159,12 +159,12 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <param name="optionValue">设置的选项值</param>
         /// <returns></returns>
-        public async Task<WxBaseResp> GetGrantorInfo(string grantorAppId, string optionName,string optionValue ,string verifyTicket)
+        public async Task<WxBaseResp> SetGrantorOption(string grantorAppId, string optionName,string optionValue ,string verifyTicket)
         {
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
-            strContent.Append("\"option_name\":\"").Append(optionName).Append("\"}");
+            strContent.Append("\"option_name\":\"").Append(optionName).Append("\",");
             strContent.Append("\"option_value\":\"").Append(optionValue).Append("\"}");
 
             var req = new OsHttpRequest
