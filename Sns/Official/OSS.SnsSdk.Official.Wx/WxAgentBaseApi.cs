@@ -51,7 +51,7 @@ namespace OSS.SnsSdk.Official.Wx
             if (tokenResp != null && tokenResp.expires_date >= DateTime.Now.ToUtcSeconds())
                 return tokenResp;
 
-            tokenResp = await GetPlatformAccessTokenFromWxAsync(verifyTicket);
+            tokenResp = await GetAgentAccessTokenFromWxAsync(verifyTicket);
 
             if (!tokenResp.IsSuccess())
                 return tokenResp;
@@ -69,7 +69,7 @@ namespace OSS.SnsSdk.Official.Wx
         /// </summary>
         /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <returns></returns>
-        public async Task<WxGetAgentAccessTokenResp> GetPlatformAccessTokenFromWxAsync(string verifyTicket)
+        public async Task<WxGetAgentAccessTokenResp> GetAgentAccessTokenFromWxAsync(string verifyTicket)
         {
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
