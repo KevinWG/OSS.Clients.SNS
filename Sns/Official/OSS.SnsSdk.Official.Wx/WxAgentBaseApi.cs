@@ -79,7 +79,7 @@ namespace OSS.SnsSdk.Official.Wx
             var req = new OsHttpRequest
             {
                 AddressUrl =$"{m_ApiUrl}/cgi-bin/component/api_component_token",
-                HttpMothed = HttpMothed.GET,
+                HttpMothed = HttpMothed.POST,
                 CustomBody = strContent.ToString()
             };
 

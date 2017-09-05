@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Text;
 using System.Threading.Tasks;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Agent.Mos;
@@ -33,14 +34,58 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             var req = new OsHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_create_preauthcode",
-                HttpMothed = HttpMothed.GET,
+                HttpMothed = HttpMothed.POST,
                 CustomBody = $"{{\"component_appid\":\"{ApiConfig.AppId}\"}}"
             };
 
             return await RestCommonAgentAsync<WxGetPreAuthCodeResp>(req, verifyTicket);
         }
 
+        /// <summary>
+        /// 获取平台下当前授权账号的AccessToken响应实体
+        /// </summary>
+        /// <param name="authorizationCode">授权code,会在授权成功时返回给第三方平台</param>
+        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
+        /// <returns></returns>
+        public async Task<WxGetGrantedAccessTokenResp> GetGrantorAccessToken(string authorizationCode, string verifyTicket)
+        {
+            var strContent = new StringBuilder();
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("\"authorization_code\":\"").Append(authorizationCode).Append("\" }");
 
+            var req = new OsHttpRequest
+            {
+                AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_query_auth",
+                HttpMothed = HttpMothed.POST,
+                CustomBody = $"{{\"component_appid\":\"{ApiConfig.AppId}\"}}"
+            };
+
+            return await RestCommonAgentAsync<WxGetGrantedAccessTokenResp>(req, verifyTicket);
+        }
+
+        /// <summary>
+        /// 获取平台下当前授权账号的AccessToken响应实体
+        /// </summary>
+        /// <param name="grantorRefreshToken">授权者的刷新Token</param>
+        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
+        /// <param name="grantorAppId">授权者的Appid</param>
+        /// <returns></returns>
+        public async Task<WxRefreshGrantedAccessTokenResp> RefreshGrantorAccessToken(string grantorAppId,string grantorRefreshToken, string verifyTicket)
+        {
+            var strContent = new StringBuilder();
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
+            strContent.Append("\"authorizer_refresh_token\":\"").Append(grantorRefreshToken).Append("\" }");
+
+            var req = new OsHttpRequest
+            {
+                AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_authorizer_token",
+                HttpMothed = HttpMothed.POST,
+                CustomBody = $"{{\"component_appid\":\"{ApiConfig.AppId}\"}}"
+            };
+
+            return await RestCommonAgentAsync<WxRefreshGrantedAccessTokenResp>(req, verifyTicket);
+        }
 
 
 
