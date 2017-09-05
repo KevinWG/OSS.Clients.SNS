@@ -57,7 +57,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_query_auth",
                 HttpMothed = HttpMothed.POST,
-                CustomBody = $"{{\"component_appid\":\"{ApiConfig.AppId}\"}}"
+                CustomBody = strContent.ToString()
             };
 
             return await RestCommonAgentAsync<WxGetGrantedAccessTokenResp>(req, verifyTicket);
@@ -81,10 +81,33 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_authorizer_token",
                 HttpMothed = HttpMothed.POST,
-                CustomBody = $"{{\"component_appid\":\"{ApiConfig.AppId}\"}}"
+                CustomBody = strContent.ToString()
             };
 
             return await RestCommonAgentAsync<WxRefreshGrantedAccessTokenResp>(req, verifyTicket);
+        }
+
+
+        /// <summary>
+        ///  获取公号的授权（账号+权限）信息
+        /// </summary>
+        /// <param name="grantorAppId"></param>
+        /// <param name="verifyTicket"></param>
+        /// <returns></returns>
+        public async Task<WxGetOffGrantorInfoResp> GetOffGrantorInfo(string grantorAppId, string verifyTicket)
+        {
+            var strContent = new StringBuilder();
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\"}");
+
+            var req = new OsHttpRequest
+            {
+                AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_get_authorizer_info",
+                HttpMothed = HttpMothed.POST,
+                CustomBody = strContent.ToString()
+            };
+
+            return await RestCommonAgentAsync<WxGetOffGrantorInfoResp>(req, verifyTicket);
         }
 
 
