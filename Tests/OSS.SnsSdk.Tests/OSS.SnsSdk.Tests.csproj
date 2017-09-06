@@ -68,13 +68,13 @@
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OSS.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OSS.Common.1.2.3\lib\net46\OSS.Common.dll</HintPath>
+      <HintPath>..\..\packages\OSS.Common.1.2.3.8\lib\net46\OSS.Common.dll</HintPath>
     </Reference>
     <Reference Include="OSS.Http, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\OSS.Http.2.3.3\lib\net46\OSS.Http.dll</HintPath>
     </Reference>
     <Reference Include="OSS.Http.Extention, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OSS.Http.Extention.1.2.3.2\lib\net46\OSS.Http.Extention.dll</HintPath>
+      <HintPath>..\..\packages\OSS.Http.Extention.1.2.3.3\lib\net46\OSS.Http.Extention.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\StackExchange.Redis.1.2.6\lib\net46\StackExchange.Redis.dll</HintPath>
