@@ -6,9 +6,9 @@ using OSS.SnsSdk.Msg.Wx.Mos;
 
 namespace OSS.SnsSdk.Samples.Controllers.Codes
 {
-    public class WxPlatformMsgHandler:WxMsgBaseHandler
+    public class WxAgentController : WxMsgBaseHandler
     {
-        public WxPlatformMsgHandler(WxMsgConfig config):base(config)
+        public WxAgentController(WxMsgConfig config):base(config)
         {
         }
     
@@ -34,12 +34,7 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
         {
             LogUtil.Info(msgContext.RecMsg.RecMsgXml.InnerXml, "PlatformMsg");
         }
-
-
     }
-
-
-    
 
     public class VerifComponentTicketRecMsg : WxBaseRecMsg
     {
@@ -56,10 +51,7 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
             base.FormatPropertiesFromMsg();
         }
     }
-
-
-
-
+    
     public class TicketMo
     {
         public string ticket { get; set; }

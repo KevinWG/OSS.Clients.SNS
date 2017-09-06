@@ -7,8 +7,6 @@ using OSS.SnsSdk.Samples.Controllers.Codes;
 
 namespace OSS.SnsSdk.Samples.Controllers
 {
-
-
     /// <summary>
     /// 主要是微信开放平台接口
     /// </summary>
@@ -29,11 +27,5 @@ namespace OSS.SnsSdk.Samples.Controllers
             var res = pHandler.Process(Request.Body, signature, timestamp, nonce, echostr);
             return Content(res.IsSuccess() ? res.data : "success");
         }
-        
     }
-
-
-
-
-
 }
