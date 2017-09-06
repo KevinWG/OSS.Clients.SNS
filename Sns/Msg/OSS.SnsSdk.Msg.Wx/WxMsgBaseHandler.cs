@@ -18,7 +18,6 @@ using System.Xml;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
-using OSS.Common.Plugs;
 using OSS.SnsSdk.Msg.Wx.Mos;
 
 namespace OSS.SnsSdk.Msg.Wx
@@ -26,7 +25,7 @@ namespace OSS.SnsSdk.Msg.Wx
     /// <summary>
     ///   消息处理的基类
     /// </summary>
-    public class WxMsgBaseHandler:BaseConfigProvider<WxMsgConfig>
+    public class WxMsgBaseHandler:BaseConfigProvider<WxMsgConfig, WxMsgBaseHandler>
     {
         /// <summary>
         /// 消息处理基类
@@ -34,7 +33,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="config"></param>
         protected WxMsgBaseHandler(WxMsgConfig config=null):base(config)
         {
-            ModuleName = ModuleNames.SocialCenter;
+            ModuleName = WxMsgConfigProvider.ModuleName;
         }
         
         #region 消息处理入口，出口（分为开始，处理，结束部分）
@@ -264,6 +263,13 @@ namespace OSS.SnsSdk.Msg.Wx
             msgContext.ReplyMsg.CreateTime = DateTime.Now.ToLocalSeconds();
             
             return msgContext;
+        }
+
+
+        /// <inheritdoc />
+        protected override WxMsgConfig GetDefaultConfig()
+        {
+            return WxMsgConfigProvider.DefaultConfig;
         }
     }
 }

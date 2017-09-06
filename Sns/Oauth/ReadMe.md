@@ -1,1 +1,1 @@
-2017-7-8   修改Oauth相关方法名称
+WxOauthConfigProvider 可以设置DefaultConfig默认全局设置

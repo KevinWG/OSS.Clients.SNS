@@ -32,11 +32,9 @@ namespace OSS.SnsSdk.Official.Wx.Basic.Mos
         public int expires_in { get; set; }
 
         /// <summary>
-        /// 【UTC】过期时间，接口获取数据后根据expires_in 计算的值( 扣除十分钟，作为中间的缓冲值)
+        /// 【UTC】过期时间，接口获取数据后根据expires_in 计算的值(可以扣除十分钟，作为中间的缓冲值)
         /// </summary>
         public long expires_date { get; set; }
-
-
     }
 
 

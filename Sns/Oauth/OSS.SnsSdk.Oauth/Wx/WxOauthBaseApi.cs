@@ -11,6 +11,7 @@
 
 #endregion
 
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
@@ -24,7 +25,7 @@ namespace OSS.SnsSdk.Oauth.Wx
     /// <summary>
     /// 微信接口SDK基类
     /// </summary>
-    public class WxOauthBaseApi: BaseConfigProvider<AppConfig>
+    public class WxOauthBaseApi: BaseConfigProvider<AppConfig, WxOauthBaseApi>
     {
         /// <summary>
         /// 微信api接口地址
@@ -37,7 +38,7 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <param name="config"></param>
         public WxOauthBaseApi(AppConfig config):base(config)
         {
-            ModuleName = ModuleNames.SocialCenter;
+            ModuleName = WxOauthConfigProvider.ModuleName;
         }
 
         /// <summary>
@@ -57,33 +58,29 @@ namespace OSS.SnsSdk.Oauth.Wx
 
             return t;
         }
-        
-        #region   全局错误处理
 
-        ///// <summary>
-        ///// 基本错误信息字典，基类中继续完善
-        ///// </summary>
-        //protected static ConcurrentDictionary<int, string> m_DicErrMsg = new ConcurrentDictionary<int, string>();
-        
-        ///// <summary>
-        ///// 注册错误码
-        ///// </summary>
-        ///// <param name="code"></param>
-        ///// <param name="message"></param>
-        //protected static void RegisteErrorCode(int code, string message) => m_DicErrMsg.TryAdd(code, message);
-
-        ///// <summary>
-        ///// 获取错误信息
-        ///// </summary>
-        ///// <param name="errCode"></param>
-        ///// <returns></returns>
-        //protected static string GetErrMsg(int errCode)
-        //    => m_DicErrMsg.ContainsKey(errCode) ? m_DicErrMsg[errCode] : string.Empty;
-
-        #endregion
-        
+        /// <inheritdoc />
+        protected override AppConfig GetDefaultConfig()
+        {
+            return WxOauthConfigProvider.DefaultConfig;
+        }
     }
 
+    /// <summary>
+    ///  Oauth相关配置信息
+    /// </summary>
+    public static class WxOauthConfigProvider
+    {
+        /// <summary>
+        ///   当前模块名称
+        /// </summary>
+        public static string ModuleName { get; set; } = ModuleNames.SocialCenter;
+
+        /// <summary>
+        /// 默认的配置AppKey信息
+        /// </summary>
+        public static AppConfig DefaultConfig { get; set; }
+    }
 
 
 

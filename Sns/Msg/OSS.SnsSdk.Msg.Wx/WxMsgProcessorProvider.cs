@@ -16,6 +16,7 @@ using System;
 using System.Collections.Concurrent;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
+using OSS.Common.Plugs;
 using OSS.SnsSdk.Msg.Wx.Mos;
 
 namespace OSS.SnsSdk.Msg.Wx
@@ -72,5 +73,21 @@ namespace OSS.SnsSdk.Msg.Wx
     }
 
 
+    /// <summary>
+    ///  消息模块配置相关
+    /// </summary>
+    public static class WxMsgConfigProvider
+    {
+
+        /// <summary>
+        /// 默认的配置AppKey信息
+        /// </summary>
+        public static WxMsgConfig DefaultConfig { get; set; }
+
+        /// <summary>
+        ///   当前模块名称
+        /// </summary>
+        public static string ModuleName { get; set; } = ModuleNames.SocialCenter;
+    }
 
 }
