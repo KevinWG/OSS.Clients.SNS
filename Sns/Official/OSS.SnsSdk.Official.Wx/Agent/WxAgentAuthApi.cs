@@ -111,6 +111,31 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         }
 
 
+        /// <summary>
+        ///  获取授权者列表
+        /// </summary>
+        /// <param name="grantorAppId"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
+        /// <param name="verifyTicket"></param>
+        /// <returns></returns>
+        public async Task<WxGetGrantorListResp> GetGrantorList(string grantorAppId, int offset, int count,
+            string verifyTicket)
+        {
+            var strContent = new StringBuilder();
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("\"offset\":\"").Append(offset).Append("\",");
+            strContent.Append("\"count\":\"").Append(count).Append("\"}");
+
+            var req = new OsHttpRequest
+            {
+                AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_get_authorizer_list",
+                HttpMothed = HttpMothed.POST,
+                CustomBody = strContent.ToString()
+            };
+
+            return await RestCommonAgentAsync<WxGetGrantorListResp>(req, verifyTicket);
+        }
 
     }
 }

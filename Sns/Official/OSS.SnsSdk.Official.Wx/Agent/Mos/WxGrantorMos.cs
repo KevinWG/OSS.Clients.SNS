@@ -139,7 +139,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent.Mos
         /// <summary>
         ///  小程序信息，公众号没有此信息
         /// </summary>
-        public WxSmallProgramMo MiniProgramInfo { get; set; }
+        public WxSmallProgramMo miniprograminfo { get; set; }
     }
 
 
@@ -177,7 +177,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent.Mos
 
     public class WxSmallProgramMo
     {
-        public WxSmallAppNetworkMo network { get; set; }
+        public WxSmallAppNetSettingMo network { get; set; }
         public List<WxSmallAppCategorItemMo> categories { get; set; }
         public int  visit_status { get; set; }
     }
@@ -185,24 +185,24 @@ namespace OSS.SnsSdk.Official.Wx.Agent.Mos
     /// <summary>
     ///  小程序网络设置模块
     /// </summary>
-    public class WxSmallAppNetworkMo
+    public class WxSmallAppNetSettingMo
     {
         /// <summary>   
         ///   接口域名
         /// </summary>  
-        public string RequestDomain { get; set; }
+        public List<string> requestdomain { get; set; }
         /// <summary>   
         ///   websocket域名
         /// </summary>  
-        public string WsRequestDomain { get; set; }
+        public List<string> wsrequestdomain { get; set; }
         /// <summary>   
         ///   上传域名
         /// </summary>  
-        public string UploadDomain { get; set; }
+        public List<string> uploaddomain { get; set; }
         /// <summary>   
         ///   下载域名
         /// </summary>  
-        public string DownloadDomain { get; set; }
+        public List<string> downloaddomain { get; set; }
     }
 
 

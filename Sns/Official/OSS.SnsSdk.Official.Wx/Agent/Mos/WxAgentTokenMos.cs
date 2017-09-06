@@ -133,4 +133,39 @@ namespace OSS.SnsSdk.Official.Wx.Agent.Mos
         public string authorizer_refresh_token { get; set; }
 
     }
+
+
+    /// <summary>
+    ///  获取授权账号列表
+    /// </summary>
+    public class WxGetGrantorListResp : WxBaseResp
+    {
+        /// <summary>
+        ///  授权总数量
+        /// </summary>
+        public int total_count { get; set; }
+
+        /// <summary>
+        ///  授权账号信息
+        /// </summary>
+        public List<WxGrantorListItemMo> list { get; set; }
+    }
+
+    public class WxGrantorListItemMo
+    {
+        /// <summary>   
+        ///   
+        /// </summary>  
+        public string authorizer_appid { get; set; }
+
+        /// <summary>   
+        ///   
+        /// </summary>  
+        public string refresh_token { get; set; }
+
+        /// <summary>   
+        ///   
+        /// </summary>  
+        public string auth_time { get; set; }
+    }
 }

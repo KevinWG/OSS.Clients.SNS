@@ -42,11 +42,12 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxQrCodeResp> GetQrCodeTicketAsync(WxCreateSenceQrReq req)
         {
-            var reqest = new OsHttpRequest();
-
-            reqest.HttpMothed = HttpMothed.POST;
-            reqest.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/qrcode/create");
-            reqest.CustomBody = JsonConvert.SerializeObject(req);
+            var reqest = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/qrcode/create"),
+                CustomBody = JsonConvert.SerializeObject(req)
+            };
 
             return await RestCommonOffcialAsync<WxQrCodeResp>(reqest);
         }
@@ -69,10 +70,12 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxShortUrlResp> GetShortUrl(string longUrl)
         {
-            var req=new OsHttpRequest();
-            req.HttpMothed=HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/shorturl");
-            req.CustomBody = $"{{\"action\":\"long2short\",\"long_url\":\"{longUrl}\"}}";
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/shorturl"),
+                CustomBody = $"{{\"action\":\"long2short\",\"long_url\":\"{longUrl}\"}}"
+            };
 
             return await RestCommonOffcialAsync<WxShortUrlResp>(req);
         }
