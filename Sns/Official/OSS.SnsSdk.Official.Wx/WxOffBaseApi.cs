@@ -30,7 +30,7 @@ namespace OSS.SnsSdk.Official.Wx
     /// <summary>
     ///  基类
     /// </summary>
-    public class WxBaseApi : BaseConfigProvider<AppConfig>
+    public class WxBaseApi : BaseConfigProvider<AppConfig, WxBaseApi>
     {
         /// <summary>
         /// 微信api接口地址
@@ -45,7 +45,7 @@ namespace OSS.SnsSdk.Official.Wx
         /// <param name="config"></param>
         public WxBaseApi(AppConfig config) : base(config)
         {
-            ModuleName = WxOffConfigProvider.ModuleName;
+            ModuleName = WxOfficialConfigProvider.ModuleName;
         }
         
         #endregion
@@ -66,6 +66,12 @@ namespace OSS.SnsSdk.Official.Wx
                 t.msg = t.errmsg;
 
             return t;
+        }
+
+        /// <inheritdoc />
+        protected override AppConfig GetDefaultConfig()
+        {
+            return WxOfficialConfigProvider.DefaultConfig;
         }
     }
 
@@ -112,7 +118,7 @@ namespace OSS.SnsSdk.Official.Wx
         {
             if (ApiConfig.OperateMode==AppOperateMode.ByAgent)
             {
-                return WxOffConfigProvider.AccessTokenFromAgentMethod?.Invoke(ApiConfig) ??
+                return WxOfficialConfigProvider.AccessTokenFromAgentMethod?.Invoke(ApiConfig) ??
                        new WxOffAccessTokenResp() {ret = (int) ResultTypes.UnAuthorize, msg = "未发现代理公号下的AccessToken，请确保 WxOffConfigProvider.AccessTokenFromAgentMethod 已设置并返回正确。" };
             }
 

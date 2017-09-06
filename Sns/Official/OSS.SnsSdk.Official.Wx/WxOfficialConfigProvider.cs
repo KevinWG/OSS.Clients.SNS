@@ -6,10 +6,15 @@ using OSS.SnsSdk.Official.Wx.Basic.Mos;
 namespace OSS.SnsSdk.Official.Wx
 {
     /// <summary>
-    ///  公众号配置模块
+    ///  公众号配置相关信息
     /// </summary>
-    public static class WxOffConfigProvider
+    public static class WxOfficialConfigProvider
     {
+        /// <summary>
+        /// 默认的配置AppKey信息
+        /// </summary>
+        public static AppConfig DefaultConfig { get; set; }
+
         /// <summary>
         ///   当前模块名称
         /// </summary>
