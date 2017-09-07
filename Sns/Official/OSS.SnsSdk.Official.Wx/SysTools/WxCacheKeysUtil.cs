@@ -25,7 +25,7 @@ namespace OSS.SnsSdk.Official.Wx.SysTools
         /// <summary>
         ///  公众号第三方平台的AccessToken 缓存 key   {0}=appid
         /// </summary>
-        public const string OffcialPlatformAccessTokenKey = "social_wx_offcial_platform_accesstoken_{0}";
+        public const string OffcialAgentAccessTokenKey = "social_wx_offcial_agent_accesstoken_{0}";
 
         /// <summary>
         ///  公众号jsticket  缓存key

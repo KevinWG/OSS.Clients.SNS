@@ -136,7 +136,7 @@ namespace OSS.SnsSdk.Official.Wx
 
             tokenResp.expires_date = DateTime.Now.ToUtcSeconds() + tokenResp.expires_in - 600;
 
-            CacheUtil.AddOrUpdate(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in),
+            CacheUtil.AddOrUpdate(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in-600),
                 null, ModuleName);
 
             return tokenResp;

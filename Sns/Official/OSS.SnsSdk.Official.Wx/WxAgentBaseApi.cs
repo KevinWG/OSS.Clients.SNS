@@ -45,7 +45,7 @@ namespace OSS.SnsSdk.Official.Wx
         /// <returns></returns>
         public virtual async Task<WxGetAgentAccessTokenResp> GetAgentAccessTokenFromCacheAsync(string verifyTicket)
         {
-            var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialPlatformAccessTokenKey, ApiConfig.AppId);
+            var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAgentAccessTokenKey, ApiConfig.AgentAppId);
             var tokenResp = CacheUtil.Get<WxGetAgentAccessTokenResp>(m_OffcialAccessTokenKey, ModuleName);
 
             if (tokenResp != null && tokenResp.expires_date >= DateTime.Now.ToUtcSeconds())
@@ -72,7 +72,7 @@ namespace OSS.SnsSdk.Official.Wx
         public async Task<WxGetAgentAccessTokenResp> GetAgentAccessTokenFromWxAsync(string verifyTicket)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
             strContent.Append("\"component_appsecret\":\"").Append(ApiConfig.AppSecret).Append("\",");
             strContent.Append("\"component_verify_ticket\":\"").Append(verifyTicket).Append("\" }");
 

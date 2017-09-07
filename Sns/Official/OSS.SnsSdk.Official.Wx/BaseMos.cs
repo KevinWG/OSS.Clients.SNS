@@ -43,7 +43,4 @@ namespace OSS.SnsSdk.Official.Wx
         /// </summary>
         public string errmsg { get; set; }
     }
-
-
-   
 }

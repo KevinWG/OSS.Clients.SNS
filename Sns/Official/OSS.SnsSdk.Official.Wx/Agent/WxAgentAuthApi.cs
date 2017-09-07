@@ -14,6 +14,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
+using OSS.Common.Extention;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Agent.Mos;
 
@@ -39,16 +40,37 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         /// </summary>
         /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <returns></returns>
-        public async Task<WxGetPreAuthCodeResp> GetPreAuthCode(string verifyTicket)
+        private async Task<WxGetPreAuthCodeResp> GetPreAuthCode(string verifyTicket)
         {
             var req = new OsHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_create_preauthcode",
                 HttpMothed = HttpMothed.POST,
-                CustomBody = $"{{\"component_appid\":\"{ApiConfig.AppId}\"}}"
+                CustomBody = $"{{\"component_appid\":\"{ApiConfig.AgentAppId}\"}}"
             };
 
             return await RestCommonAgentAsync<WxGetPreAuthCodeResp>(req, verifyTicket);
+        }
+
+        /// <summary>
+        /// 获取公众号/小程序授权地址
+        /// </summary>
+        /// <param name="redirectUrl">回调地址</param>
+        /// <param name="verifyTicket"></param>
+        /// <returns></returns>
+        public async Task<ResultMo<string>> GetPreAuthUrl(string redirectUrl,string verifyTicket)
+        {
+            var preAuthCodeRes = await GetPreAuthCode(verifyTicket);
+
+            if (!preAuthCodeRes.IsSuccess())
+                return preAuthCodeRes.ConvertToResultOnly<string>();
+
+            if (redirectUrl.Contains("://"))
+                redirectUrl = redirectUrl.UrlEncode();
+            
+            var authUrl=
+                $"https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid={ApiConfig.AgentAppId}&pre_auth_code={preAuthCodeRes.pre_auth_code}&redirect_uri={redirectUrl}";
+            return new ResultMo<string>(authUrl);
         }
 
         /// <summary>
@@ -60,7 +82,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxGetGrantedAccessTokenResp> GetGrantorAccessToken(string authorizationCode, string verifyTicket)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
             strContent.Append("\"authorization_code\":\"").Append(authorizationCode).Append("\" }");
 
             var req = new OsHttpRequest
@@ -83,7 +105,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxRefreshGrantedAccessTokenResp> RefreshGrantorAccessToken(string grantorAppId,string grantorRefreshToken, string verifyTicket)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
             strContent.Append("\"authorizer_refresh_token\":\"").Append(grantorRefreshToken).Append("\" }");
 
@@ -107,7 +129,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxGetGrantorInfoResp> GetGrantorInfo(string grantorAppId, string verifyTicket)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\"}");
 
             var req = new OsHttpRequest
@@ -134,7 +156,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxGetGrantorOptionResp> GetGrantorOption(string grantorAppId,string optionName, string verifyTicket)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
             strContent.Append("\"option_name\":\"").Append(optionName).Append("\"}");
 
@@ -162,7 +184,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxBaseResp> SetGrantorOption(string grantorAppId, string optionName,string optionValue ,string verifyTicket)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
             strContent.Append("\"option_name\":\"").Append(optionName).Append("\",");
             strContent.Append("\"option_value\":\"").Append(optionValue).Append("\"}");
@@ -188,7 +210,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             string verifyTicket)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
             strContent.Append("\"offset\":\"").Append(offset).Append("\",");
             strContent.Append("\"count\":\"").Append(count).Append("\"}");
 
