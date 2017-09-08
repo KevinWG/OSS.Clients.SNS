@@ -200,7 +200,6 @@ namespace OSS.SnsSdk.Official.Wx
         }
 
         #endregion
-  
     }
 
 
@@ -223,5 +222,15 @@ namespace OSS.SnsSdk.Official.Wx
         /// 当 OperateMode = ByAgent 时， 通过授权的公众号的 AccessToken 获取调用此方法
         /// </summary>
         public static Func<AppConfig, WxOffAccessTokenResp> AccessTokenFromAgentMethod { get; set; }
+
+        /// <summary>
+        ///  设置上下文配置信息
+        /// </summary>
+        /// <param name="config"></param>
+        public static void SetContextConfig(AppConfig config)
+        {
+            WxBaseApi.SetContextConfig(config);
+        }
+
     }
 }

@@ -22,10 +22,9 @@ namespace OSS.SnsSdk.Samples.Controllers
         private static readonly WxCustomMsgHandler _msgService = new WxCustomMsgHandler(config);
 
         // 【二】 在构造函数中动态设置配置信息
-        private static readonly WxCustomMsgHandler _msgDynService = new WxCustomMsgHandler();
         public WxMsgController()
         {
-            _msgDynService.SetContextConfig(config);
+           WxMsgConfigProvider.SetContextConfig(config);
         }
 
         #region  【A】 高级自定义方法实现
@@ -34,7 +33,7 @@ namespace OSS.SnsSdk.Samples.Controllers
         {
             //  用户可以自定义消息处理委托，
             //   也可以通过 RegisterEventMsgHandler 自定义事件处理委托
-            WxMsgProcessorProvider.RegisteProcessor<WxTextRecMsg>("test_msg", ProcessTestMsg);
+            WxMsgConfigProvider.RegisteProcessor<WxTextRecMsg>("test_msg", ProcessTestMsg);
         }
         private static WxBaseReplyMsg ProcessTestMsg(WxTextRecMsg msg)
         {

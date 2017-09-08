@@ -80,6 +80,17 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// 默认的配置AppKey信息
         /// </summary>
         public static AppConfig DefaultConfig { get; set; }
+        
+
+        /// <summary>
+        ///  设置上下文配置信息
+        /// </summary>
+        /// <param name="config"></param>
+        public static void SetContextConfig(AppConfig config)
+        {
+            WxOauthBaseApi.SetContextConfig(config);
+        }
+
     }
 
 

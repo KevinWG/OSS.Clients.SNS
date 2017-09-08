@@ -24,7 +24,7 @@ namespace OSS.SnsSdk.Msg.Wx
     /// <summary>
     ///  用户自定义消息处理句柄
     /// </summary>
-    public static class WxMsgProcessorProvider
+    public static class WxMsgConfigProvider
     {
         private static readonly ConcurrentDictionary<string, WxMsgProcessor> processorDirs =
             new ConcurrentDictionary<string, WxMsgProcessor>();
@@ -70,14 +70,6 @@ namespace OSS.SnsSdk.Msg.Wx
             processorDirs.TryGetValue(name, out var processor);
             return processor;
         }
-    }
-
-
-    /// <summary>
-    ///  消息模块配置相关
-    /// </summary>
-    public static class WxMsgConfigProvider
-    {
 
         /// <summary>
         /// 默认的配置AppKey信息
@@ -88,6 +80,18 @@ namespace OSS.SnsSdk.Msg.Wx
         ///   当前模块名称
         /// </summary>
         public static string ModuleName { get; set; } = ModuleNames.SocialCenter;
+
+        /// <summary>
+        ///  设置上下文配置信息
+        /// </summary>
+        /// <param name="config"></param>
+        public static void SetContextConfig(WxMsgConfig config)
+        {
+            WxMsgBaseHandler.SetContextConfig(config);
+        }
+
     }
+
+
 
 }

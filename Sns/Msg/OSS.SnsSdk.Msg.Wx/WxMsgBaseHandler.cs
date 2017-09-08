@@ -200,7 +200,7 @@ namespace OSS.SnsSdk.Msg.Wx
         private static WxMsgProcessor GetRegProcessor(string msgType, string eventName)
         {
             var key = msgType == "event" ? string.Concat("event_", eventName ?? string.Empty) : msgType;
-            return WxMsgProcessorProvider.GetProcessor(key);
+            return WxMsgConfigProvider.GetProcessor(key);
         }
         #endregion
         

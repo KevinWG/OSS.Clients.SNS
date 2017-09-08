@@ -19,7 +19,7 @@ namespace OSS.SnsSdk.Samples.Controllers
             Token = "2DkmMYU9Zrv3C4jam7zvTghlUf2Z60s3",
             EncodingAesKey = "2DkmMYU9Zrv8C4jam7zvTghlUf2Z60s3ghlUf2Z60s3",
         };
-        private static WxPlatformMsgHandler pHandler = new WxPlatformMsgHandler(config);
+        private static WxAgentController pHandler = new WxAgentController(config);
 
         // GET: /<controller>/
         public IActionResult pauth(string signature, string timestamp, string nonce, string echostr)
