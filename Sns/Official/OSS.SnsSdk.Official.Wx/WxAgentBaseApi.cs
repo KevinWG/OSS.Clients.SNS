@@ -33,7 +33,7 @@ namespace OSS.SnsSdk.Official.Wx
         /// 构造函数
         /// </summary>
         /// <param name="config"></param>
-        public WxAgentBaseApi(AppConfig config=null) : base(config)
+        public WxAgentBaseApi(AppConfig config) : base(config)
         {
         }
 
@@ -41,9 +41,8 @@ namespace OSS.SnsSdk.Official.Wx
         ///   获取公众号的AccessToken
         ///     【首先从缓存中获取，如果没有再从远程获取】
         /// </summary>
-        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <returns></returns>
-        public virtual async Task<WxGetAgentAccessTokenResp> GetAgentAccessTokenFromCacheAsync(string verifyTicket)
+        public virtual async Task<WxGetAgentAccessTokenResp> GetAgentAccessTokenFromCacheAsync()
         {
             var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAgentAccessTokenKey, ApiConfig.AgentAppId);
             var tokenResp = CacheUtil.Get<WxGetAgentAccessTokenResp>(m_OffcialAccessTokenKey, ModuleName);
@@ -51,7 +50,7 @@ namespace OSS.SnsSdk.Official.Wx
             if (tokenResp != null && tokenResp.expires_date >= DateTime.Now.ToUtcSeconds())
                 return tokenResp;
 
-            tokenResp = await GetAgentAccessTokenFromWxAsync(verifyTicket);
+            tokenResp = await GetAgentAccessTokenFromWxAsync();
 
             if (!tokenResp.IsSuccess())
                 return tokenResp;
@@ -67,10 +66,15 @@ namespace OSS.SnsSdk.Official.Wx
         /// <summary>
         /// 从微信服务器获取AccessToken，请注意访问速率控制，正常情况请访问： 【GetAgentAccessTokenFromCacheAsync】
         /// </summary>
-        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <returns></returns>
-        public async Task<WxGetAgentAccessTokenResp> GetAgentAccessTokenFromWxAsync(string verifyTicket)
+        public async Task<WxGetAgentAccessTokenResp> GetAgentAccessTokenFromWxAsync()
         {
+            var verifyTicket = WxOfficialConfigProvider.AgentVerifyTicketGetFunc?.Invoke(ApiConfig);
+            if (string.IsNullOrEmpty(verifyTicket))
+            {
+                throw new ArgumentNullException("verifyticket", "verifyticket未发现，请检查 WxOfficialConfigProvider 下 AgentVerifyTicketGetFunc 委托是否为空或者返回值不正确！");
+            }
+
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
             strContent.Append("\"component_appsecret\":\"").Append(ApiConfig.AppSecret).Append("\",");
@@ -85,21 +89,20 @@ namespace OSS.SnsSdk.Official.Wx
 
             return await RestCommonJson<WxGetAgentAccessTokenResp>(req);
         }
-        
+
         /// <summary>
         ///   第三方代理平台的请求方法
         ///      预处理component_access_token赋值
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="req"></param>
-        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <param name="client">自定义 HttpClient </param>
         /// <returns></returns>
-        protected async Task<T> RestCommonAgentAsync<T>(OsHttpRequest req,string verifyTicket,
+        protected async Task<T> RestCommonAgentAsync<T>(OsHttpRequest req,
             HttpClient client = null)
             where T : WxBaseResp, new()
         {
-            var tokenRes = await GetAgentAccessTokenFromCacheAsync(verifyTicket);
+            var tokenRes = await GetAgentAccessTokenFromCacheAsync();
 
             if (!tokenRes.IsSuccess())
                 return tokenRes.ConvertToResult<T>();

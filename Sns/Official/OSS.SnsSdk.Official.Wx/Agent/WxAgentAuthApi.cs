@@ -30,17 +30,15 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         ///  构造函数
         /// </summary>
         /// <param name="config">第三方代理的配置信息</param>
-        public WxAgentAuthApi(AppConfig config) : base(config)
+        public WxAgentAuthApi(AppConfig config=null) : base(config)
         {
         }
-
-
+        
         /// <summary>
         ///  获取预授权码pre_auth_code
         /// </summary>
-        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <returns></returns>
-        private async Task<WxGetPreAuthCodeResp> GetPreAuthCode(string verifyTicket)
+        private async Task<WxGetPreAuthCodeResp> GetPreAuthCode()
         {
             var req = new OsHttpRequest
             {
@@ -49,18 +47,17 @@ namespace OSS.SnsSdk.Official.Wx.Agent
                 CustomBody = $"{{\"component_appid\":\"{ApiConfig.AgentAppId}\"}}"
             };
 
-            return await RestCommonAgentAsync<WxGetPreAuthCodeResp>(req, verifyTicket);
+            return await RestCommonAgentAsync<WxGetPreAuthCodeResp>(req);
         }
 
         /// <summary>
         /// 获取公众号/小程序授权地址
         /// </summary>
         /// <param name="redirectUrl">回调地址</param>
-        /// <param name="verifyTicket"></param>
         /// <returns></returns>
-        public async Task<ResultMo<string>> GetPreAuthUrl(string redirectUrl,string verifyTicket)
+        public async Task<ResultMo<string>> GetPreAuthUrl(string redirectUrl)
         {
-            var preAuthCodeRes = await GetPreAuthCode(verifyTicket);
+            var preAuthCodeRes = await GetPreAuthCode();
 
             if (!preAuthCodeRes.IsSuccess())
                 return preAuthCodeRes.ConvertToResultOnly<string>();
@@ -77,9 +74,8 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         /// 获取平台下当前授权账号的AccessToken响应实体
         /// </summary>
         /// <param name="authorizationCode">授权code,会在授权成功时返回给第三方平台</param>
-        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <returns></returns>
-        public async Task<WxGetGrantedAccessTokenResp> GetGrantorAccessToken(string authorizationCode, string verifyTicket)
+        public async Task<WxGetGrantedAccessTokenResp> GetGrantorAccessToken(string authorizationCode)
         {
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
@@ -92,17 +88,16 @@ namespace OSS.SnsSdk.Official.Wx.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WxGetGrantedAccessTokenResp>(req, verifyTicket);
+            return await RestCommonAgentAsync<WxGetGrantedAccessTokenResp>(req);
         }
 
         /// <summary>
         /// 获取平台下当前授权账号的AccessToken响应实体
         /// </summary>
         /// <param name="grantorRefreshToken">授权者的刷新Token</param>
-        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <param name="grantorAppId">授权者的Appid</param>
         /// <returns></returns>
-        public async Task<WxRefreshGrantedAccessTokenResp> RefreshGrantorAccessToken(string grantorAppId,string grantorRefreshToken, string verifyTicket)
+        public async Task<WxRefreshGrantedAccessTokenResp> RefreshGrantorAccessToken(string grantorAppId,string grantorRefreshToken)
         {
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
@@ -116,7 +111,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WxRefreshGrantedAccessTokenResp>(req, verifyTicket);
+            return await RestCommonAgentAsync<WxRefreshGrantedAccessTokenResp>(req);
         }
 
 
@@ -124,9 +119,8 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         ///  获取公号的授权（账号+权限）信息
         /// </summary>
         /// <param name="grantorAppId"></param>
-        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <returns></returns>
-        public async Task<WxGetGrantorInfoResp> GetGrantorInfo(string grantorAppId, string verifyTicket)
+        public async Task<WxGetGrantorInfoResp> GetGrantorInfo(string grantorAppId)
         {
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
@@ -139,7 +133,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WxGetGrantorInfoResp>(req, verifyTicket);
+            return await RestCommonAgentAsync<WxGetGrantorInfoResp>(req);
         }
 
 
@@ -151,9 +145,8 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         /// </summary>
         /// <param name="grantorAppId">授权公众号或小程序的appid</param>
         /// <param name="optionName">选项名称</param>
-        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <returns></returns>
-        public async Task<WxGetGrantorOptionResp> GetGrantorOption(string grantorAppId,string optionName, string verifyTicket)
+        public async Task<WxGetGrantorOptionResp> GetGrantorOption(string grantorAppId,string optionName)
         {
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
@@ -167,7 +160,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WxGetGrantorOptionResp>(req, verifyTicket);
+            return await RestCommonAgentAsync<WxGetGrantorOptionResp>(req);
         }
 
         /// <summary>
@@ -178,10 +171,9 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         /// </summary>
         /// <param name="grantorAppId">授权公众号或小程序的appid</param>
         /// <param name="optionName">选项名称</param>
-        /// <param name="verifyTicket">微信后台推送的ticket，此ticket会定时推送</param>
         /// <param name="optionValue">设置的选项值</param>
         /// <returns></returns>
-        public async Task<WxBaseResp> SetGrantorOption(string grantorAppId, string optionName,string optionValue ,string verifyTicket)
+        public async Task<WxBaseResp> SetGrantorOption(string grantorAppId, string optionName,string optionValue )
         {
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
@@ -196,18 +188,17 @@ namespace OSS.SnsSdk.Official.Wx.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WxBaseResp>(req, verifyTicket);
+            return await RestCommonAgentAsync<WxBaseResp>(req);
         }
+
         /// <summary>
         ///  获取授权者列表
         /// </summary>
         /// <param name="grantorAppId"></param>
         /// <param name="offset"></param>
         /// <param name="count"></param>
-        /// <param name="verifyTicket"></param>
         /// <returns></returns>
-        public async Task<WxGetGrantorListResp> GetGrantorList(string grantorAppId, int offset, int count,
-            string verifyTicket)
+        public async Task<WxGetGrantorListResp> GetGrantorList(string grantorAppId, int offset, int count)
         {
             var strContent = new StringBuilder();
             strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
@@ -221,7 +212,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WxGetGrantorListResp>(req, verifyTicket);
+            return await RestCommonAgentAsync<WxGetGrantorListResp>(req);
         }
 
     }

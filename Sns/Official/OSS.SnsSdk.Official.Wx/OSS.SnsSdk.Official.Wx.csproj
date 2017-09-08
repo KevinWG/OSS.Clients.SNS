@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.2.6</Version>
+    <Version>1.0.2.7</Version>
     <Authors>Kevin</Authors>
     <Company>OSSCoder</Company>
     <Description>微信公众号功能接口</Description>
@@ -10,9 +10,9 @@
     <PackageProjectUrl>https://github.com/KevinWG/OSS.SnsSdk/tree/master/Sns/Official</PackageProjectUrl>
     <PackageIconUrl>http://img1.static.osscoder.com/logo.jpg</PackageIconUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.SnsSdk</RepositoryUrl>
-    <PackageReleaseNotes>修改上下文配置方法到Provider中</PackageReleaseNotes>
-    <AssemblyVersion>1.0.2.6</AssemblyVersion>
-    <FileVersion>1.0.2.6</FileVersion>
+    <PackageReleaseNotes>提取VerifyTicket方法作为Provider的委托</PackageReleaseNotes>
+    <AssemblyVersion>1.0.2.7</AssemblyVersion>
+    <FileVersion>1.0.2.7</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

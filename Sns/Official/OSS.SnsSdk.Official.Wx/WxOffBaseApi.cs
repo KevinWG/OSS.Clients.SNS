@@ -117,10 +117,15 @@ namespace OSS.SnsSdk.Official.Wx
         /// <returns></returns>
         public virtual async Task<WxOffAccessTokenResp> GetAccessTokenFromCacheAsync()
         {
-            if (ApiConfig.OperateMode==AppOperateMode.ByAgent)
+            if (ApiConfig.OperateMode == AppOperateMode.ByAgent)
             {
-                return WxOfficialConfigProvider.AccessTokenFromAgentMethod?.Invoke(ApiConfig) ??
-                       new WxOffAccessTokenResp() {ret = (int) ResultTypes.UnAuthorize, msg = "未发现代理公号下的AccessToken，请确保 WxOffConfigProvider.AccessTokenFromAgentMethod 已设置并返回正确。" };
+                var atoken = WxOfficialConfigProvider.AccessTokenFromAgentFunc?.Invoke(ApiConfig);
+                if (string.IsNullOrEmpty(atoken))
+                {
+                    throw new ArgumentNullException("access_token",
+                        "access_token值未发现，请检查 WxOfficialConfigProvider 下 AccessTokenFromAgentFunc 委托是否为空或者返回值不正确！");
+                }
+                return new WxOffAccessTokenResp() {access_token = atoken};
             }
 
             var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAccessTokenKey, ApiConfig.AppId);
@@ -214,16 +219,6 @@ namespace OSS.SnsSdk.Official.Wx
         public static AppConfig DefaultConfig { get; set; }
 
         /// <summary>
-        ///   当前模块名称
-        /// </summary>
-        public static string ModuleName { get; set; } = ModuleNames.SocialCenter;
-
-        /// <summary>
-        /// 当 OperateMode = ByAgent 时， 通过授权的公众号的 AccessToken 获取调用此方法
-        /// </summary>
-        public static Func<AppConfig, WxOffAccessTokenResp> AccessTokenFromAgentMethod { get; set; }
-
-        /// <summary>
         ///  设置上下文配置信息
         /// </summary>
         /// <param name="config"></param>
@@ -231,6 +226,23 @@ namespace OSS.SnsSdk.Official.Wx
         {
             WxBaseApi.SetContextConfig(config);
         }
+        
+        /// <summary>
+        ///   当前模块名称
+        /// </summary>
+        public static string ModuleName { get; set; } = ModuleNames.SocialCenter;
+
+        /// <summary>
+        /// 当 OperateMode = ByAgent 时，
+        ///   获取通过第三方代理的 公众号AccessToken 调用此委托
+        ///   如果过期请自行调用RefreshToken方法，此方法需要返回可用的AccessToken
+        /// </summary>
+        public static Func<AppConfig, string> AccessTokenFromAgentFunc { get; set; }
+
+        /// <summary>
+        /// 获取第三方Agent的VerifyTicket（由微信推送过来）调用的委托
+        /// </summary>
+        public static Func<AppConfig, string> AgentVerifyTicketGetFunc { get; set; }
 
     }
 }
