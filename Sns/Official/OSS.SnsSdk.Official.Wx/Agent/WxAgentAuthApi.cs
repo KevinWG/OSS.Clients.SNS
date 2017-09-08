@@ -44,7 +44,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_create_preauthcode",
                 HttpMothed = HttpMothed.POST,
-                CustomBody = $"{{\"component_appid\":\"{ApiConfig.AgentAppId}\"}}"
+                CustomBody = $"{{\"component_appid\":\"{ApiConfig.AppId}\"}}"
             };
 
             return await RestCommonAgentAsync<WxGetPreAuthCodeResp>(req);
@@ -66,7 +66,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
                 redirectUrl = redirectUrl.UrlEncode();
             
             var authUrl=
-                $"https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid={ApiConfig.AgentAppId}&pre_auth_code={preAuthCodeRes.pre_auth_code}&redirect_uri={redirectUrl}";
+                $"https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid={ApiConfig.AppId}&pre_auth_code={preAuthCodeRes.pre_auth_code}&redirect_uri={redirectUrl}";
             return new ResultMo<string>(authUrl);
         }
 
@@ -78,7 +78,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxGetGrantedAccessTokenResp> GetGrantorAccessToken(string authorizationCode)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
             strContent.Append("\"authorization_code\":\"").Append(authorizationCode).Append("\" }");
 
             var req = new OsHttpRequest
@@ -100,7 +100,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxRefreshGrantedAccessTokenResp> RefreshGrantorAccessToken(string grantorAppId,string grantorRefreshToken)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
             strContent.Append("\"authorizer_refresh_token\":\"").Append(grantorRefreshToken).Append("\" }");
 
@@ -123,7 +123,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxGetGrantorInfoResp> GetGrantorInfo(string grantorAppId)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\"}");
 
             var req = new OsHttpRequest
@@ -149,7 +149,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxGetGrantorOptionResp> GetGrantorOption(string grantorAppId,string optionName)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
             strContent.Append("\"option_name\":\"").Append(optionName).Append("\"}");
 
@@ -176,7 +176,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxBaseResp> SetGrantorOption(string grantorAppId, string optionName,string optionValue )
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
             strContent.Append("\"option_name\":\"").Append(optionName).Append("\",");
             strContent.Append("\"option_value\":\"").Append(optionValue).Append("\"}");
@@ -201,7 +201,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         public async Task<WxGetGrantorListResp> GetGrantorList(string grantorAppId, int offset, int count)
         {
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AgentAppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
             strContent.Append("\"offset\":\"").Append(offset).Append("\",");
             strContent.Append("\"count\":\"").Append(count).Append("\"}");
 
