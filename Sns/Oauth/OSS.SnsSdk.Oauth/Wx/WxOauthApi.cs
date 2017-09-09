@@ -24,7 +24,6 @@ namespace OSS.SnsSdk.Oauth.Wx
     /// </summary>
     public class WxOauthApi:WxOauthBaseApi
     {
-
         /// <summary>
         /// default constructor
         /// </summary>

@@ -21,19 +21,15 @@ namespace OSS.Social.Tests.WxTests
             {
                 WxConfig = new AppConfig()
                 {
-                    AppId = "wxaa9e6cb3f03afa97",
+                    AppId = "wxaa7e6cb3f03afa87",
                     AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
                 }
             } ;
-            if (config==null)
-            {
-                throw new ArgumentException("请将下边的配置信息直接赋值，或者通过DirConfigUtil.SetDirConfig初始化一下基础配置信息");
-            }
-            m_Config = config.WxConfig;
+            m_Config = config?.WxConfig ?? throw new ArgumentException("请将下边的配置信息直接赋值，或者通过DirConfigUtil.SetDirConfig初始化一下基础配置信息");
             
             OsConfig.CacheProvider=moduleName =>
             {
-                if (config!=null&&!string.IsNullOrEmpty(config.RedisConnectionStr))
+                if (!string.IsNullOrEmpty(config.RedisConnectionStr))
                 {
                     return new RedisCache(0, config.RedisConnectionStr);
                 }
