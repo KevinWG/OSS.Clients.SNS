@@ -14,6 +14,7 @@ WxOfficialConfigProvider中提供了
 	从缓存获取AccessToken方法（如果缓存不存在，内部自动调用上边的方法，并设置缓存
 	系统内自动补全Token的地方调用此方法，内部实现了缓存调用，如果没有设置对应的缓存策略，则默认使用系统缓存
 
+
 类似：
 GetJsTicketFromCacheAsync
 GetJsTicketFromWxAsync
