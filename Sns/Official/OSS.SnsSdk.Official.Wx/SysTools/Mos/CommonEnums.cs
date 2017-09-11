@@ -15,7 +15,7 @@ using OSS.Common.Extention;
 
 namespace OSS.SnsSdk.Official.Wx.SysTools.Mos
 {
-  
+
     /// <summary>
     /// 微信性别枚举
     /// </summary>
@@ -24,13 +24,12 @@ namespace OSS.SnsSdk.Official.Wx.SysTools.Mos
         /// <summary>
         ///   男
         /// </summary>
-        [OSDescript("男")]
-        MALE=1,
+        [OSDescript("男")] MALE = 1,
+
         /// <summary>
         /// 女
         /// </summary>
-        [OSDescript("女")]
-        FEMALE=2
+        [OSDescript("女")] FEMALE = 2
     }
 
     /// <summary>
@@ -41,17 +40,19 @@ namespace OSS.SnsSdk.Official.Wx.SysTools.Mos
         /// <summary>
         /// 
         /// </summary>
-        IOS=1,
+        IOS = 1,
+
         /// <summary>
         /// 
         /// </summary>
-        Android=2,
+        Android = 2,
+
         /// <summary>
         /// 
         /// </summary>
-        Others=3
+        Others = 3
     }
-    
+
     /// <summary>
     /// 二维码类型枚举
     /// </summary>
@@ -60,50 +61,46 @@ namespace OSS.SnsSdk.Official.Wx.SysTools.Mos
         /// <summary>
         /// 临时二维码
         /// </summary>
-        [OSDescript("临时二维码")]
-        QR_SCENE=10,
+        [OSDescript("临时二维码")] QR_SCENE = 10,
 
         /// <summary>
         /// 永久二维码-值
         /// </summary>
 
-        [OSDescript("永久二维码-值")]
-        QR_LIMIT_SCENE=20,
+        [OSDescript("永久二维码-值")] QR_LIMIT_SCENE = 20,
 
         /// <summary>
         /// 永久二维码-字符
         /// </summary>
-        [OSDescript("永久二维码-字符")]
-        QR_LIMIT_STR_SCENE=21,
+        [OSDescript("永久二维码-字符")] QR_LIMIT_STR_SCENE = 21,
 
         /// <summary>
         /// 卡券二维码
         /// </summary>
-        [OSDescript("卡券二维码")]
-        QR_CARD=30,
+        [OSDescript("卡券二维码")] QR_CARD = 30,
 
         /// <summary>
         /// 卡券二维码（多）
         /// </summary>
-        [OSDescript("卡券二维码（多）")]
-        QR_MULTIPLE_CARD=31
+        [OSDescript("卡券二维码（多）")] QR_MULTIPLE_CARD = 31
 
     }
 
+
+    /// <summary>
+    ///  jsticket 类型
+    /// </summary>
     public enum WxJsTicketType
     {
         /// <summary>
         /// 卡券接口
         /// </summary>
-        [OSDescript("卡券接口")]
-        wx_card = 10,
+        [OSDescript("卡券接口")] wx_card = 10,
 
         /// <summary>
         /// 正常js接口
         /// </summary>
-        [OSDescript("正常js接口")]
-        jsapi = 20
+        [OSDescript("正常js接口")] jsapi = 20
     }
-
 
 }
