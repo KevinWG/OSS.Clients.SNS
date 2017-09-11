@@ -29,7 +29,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         /// <summary>
         ///  构造函数
         /// </summary>
-        /// <param name="config">第三方代理的配置信息</param>
+        /// <param name="config">第三方代理的配置信息（上下文也需要设置代理相关的配置信息）</param>
         public WxAgentAuthApi(AppConfig config=null) : base(config)
         {
         }
