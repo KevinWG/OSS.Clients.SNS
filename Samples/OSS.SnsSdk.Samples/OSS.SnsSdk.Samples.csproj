@@ -24,9 +24,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Sns\Msg\OSS.SnsSdk.Msg.Wx\OSS.SnsSdk.Msg.Wx.csproj" />
-    <ProjectReference Include="..\..\Sns\Oauth\OSS.SnsSdk.Oauth\OSS.SnsSdk.Oauth.csproj" />
-    <ProjectReference Include="..\..\Sns\Official\OSS.SnsSdk.Official.Wx\OSS.SnsSdk.Official.Wx.csproj" />
+    <ProjectReference Include="..\..\Msg\OSS.SnsSdk.Msg.Wx\OSS.SnsSdk.Msg.Wx.csproj" />
+    <ProjectReference Include="..\..\Oauth\OSS.SnsSdk.Oauth\OSS.SnsSdk.Oauth.csproj" />
+    <ProjectReference Include="..\..\Official\OSS.SnsSdk.Official.Wx\OSS.SnsSdk.Official.Wx.csproj" />
   </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="http://json.schemastore.org/pattern" /></VisualStudio></ProjectExtensions>
 

@@ -158,16 +158,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Sns\Msg\OSS.SnsSdk.Msg.Wx\OSS.SnsSdk.Msg.Wx.csproj">
-      <Project>{36a5edf8-a414-473c-a69a-6472a56b1417}</Project>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Msg\OSS.SnsSdk.Msg.Wx\OSS.SnsSdk.Msg.Wx.csproj">
+      <Project>{38de999b-1264-4460-bae6-8c1da382d44a}</Project>
       <Name>OSS.SnsSdk.Msg.Wx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sns\Oauth\OSS.SnsSdk.Oauth\OSS.SnsSdk.Oauth.csproj">
-      <Project>{b2f50a24-00db-4bc4-9967-44505a2689eb}</Project>
+    <ProjectReference Include="..\..\Oauth\OSS.SnsSdk.Oauth\OSS.SnsSdk.Oauth.csproj">
+      <Project>{12de392e-5356-4533-bf73-7f67ed47444d}</Project>
       <Name>OSS.SnsSdk.Oauth</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sns\Official\OSS.SnsSdk.Official.Wx\OSS.SnsSdk.Official.Wx.csproj">
-      <Project>{8fa57913-a48b-48ab-8f1d-2b25d59eed04}</Project>
+    <ProjectReference Include="..\..\Official\OSS.SnsSdk.Official.Wx\OSS.SnsSdk.Official.Wx.csproj">
+      <Project>{2fe174f2-c797-4bf4-90f8-822f9185a62a}</Project>
       <Name>OSS.SnsSdk.Official.Wx</Name>
     </ProjectReference>
   </ItemGroup>
