@@ -1,0 +1,1 @@
+WxOauthConfigProvider 可以设置DefaultConfig默认全局设置

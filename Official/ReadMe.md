@@ -1,0 +1,24 @@
+
+WxOfficialConfigProvider中提供了
+	ModuleName 属性，可以修改其值，并在程序入口处注册对应的缓存策略实现
+
+	AccessTokenFromAgentFunc 属性的委托方法，获取通过平台授权后生成AccessToken方法
+	AgentVerifyTicketGetFunc 属性委托方法，获取微信推送过来的VerifyTicket
+
+设置ModuleName 对应的缓存实现，对应生效系统中的 公众号AccessToken，JsTicket 和开放平台代理下的CompenoentAccessToken 缓存
+
+获取公众号AccessToken，系统提供两个方法：
+ GetAccessTokenFromWxAsync
+	直接从微信获取Token，受微信方调用频率限制，
+ GetAccessTokenFromCacheAsync  
+	从缓存获取AccessToken方法（如果缓存不存在，内部自动调用上边的方法，并设置缓存
+	系统内自动补全Token的地方调用此方法，内部实现了缓存调用，如果没有设置对应的缓存策略，则默认使用系统缓存
+
+
+类似：
+GetJsTicketFromCacheAsync
+GetJsTicketFromWxAsync
+
+
+GetAgentAccessTokenFromCacheAsync
+GetAgentAccessTokenFromWxAsync
