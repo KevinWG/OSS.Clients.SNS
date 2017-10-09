@@ -234,8 +234,8 @@ namespace OSS.SnsSdk.Official.Wx
 
         /// <summary>
         /// 当 OperateMode = ByAgent 时，
-        ///   获取通过第三方代理的 公众号AccessToken 调用此委托
-        ///   如果过期请自行调用RefreshToken方法，此方法需要返回可用的AccessToken
+        ///   调用此委托 获取通过第三方代理的 公众号AccessToken 【注：是被代理的公众号token】
+        ///   接口位于： WxAgentAuthApi 中， 如果过期请自行调用RefreshToken方法，此方法需要返回可用的AccessToken
         /// </summary>
         public static Func<AppConfig, string> AccessTokenFromAgentFunc { get; set; }
 

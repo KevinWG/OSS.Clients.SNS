@@ -42,7 +42,7 @@ namespace OSS.SnsSdk.Official.Wx
         ///     【首先从缓存中获取，如果没有再从远程获取】
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<WxGetAgentAccessTokenResp> GetAgentAccessTokenFromCacheAsync()
+        public async Task<WxGetAgentAccessTokenResp> GetAgentAccessTokenFromCacheAsync()
         {
             var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAgentAccessTokenKey, ApiConfig.AppId);
             var tokenResp = CacheUtil.Get<WxGetAgentAccessTokenResp>(m_OffcialAccessTokenKey, ModuleName);

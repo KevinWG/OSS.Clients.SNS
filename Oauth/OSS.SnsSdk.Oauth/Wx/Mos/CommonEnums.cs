@@ -21,16 +21,16 @@ namespace OSS.SnsSdk.Oauth.Wx.Mos
         /// <summary>
         /// PC网页版
         /// </summary>
-        PC = 1,
+        Web = 1,
 
         /// <summary>
-        /// 微信公众号
+        /// 官方应用内浏览器页面授权【微信公号，支付宝生活号】
         /// </summary>
-        WxOffcial = 2,
+        InnerWeb = 2,
 
         /// <summary>
-        /// 微信公号静默授权
+        /// 应用内静默授权
         /// </summary>
-        WxSilence=4
+        InnerSilence = 4
     }
 }

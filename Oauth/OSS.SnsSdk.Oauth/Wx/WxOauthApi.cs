@@ -11,6 +11,8 @@
 
 #endregion
 
+using System;
+using System.Text;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
@@ -38,21 +40,38 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <param name="redirectUri">授权后重定向的回调链接地址</param>
         /// <param name="state"> 需要回传的值 </param>
         /// <param name="type">授权客户端类型，如果是pc，则生成的是微信页面二维码授权页</param>
-        /// <returns></returns>
+        /// <returns>授权的地址【如果 ApiConfig.OperateMode==AppOperateMode.ByAgent 回调除了 code 和 state 参数，还会有appid 】</returns>
         public string GetAuthorizeUrl(string redirectUri,string state, AuthClientType type)
         {
             if (redirectUri.Contains("://"))
                 redirectUri = redirectUri.UrlEncode();
 
-            if (type == AuthClientType.PC)
-            {
-                return
-                    $"https://open.weixin.qq.com/connect/qrconnect?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope=snsapi_login&state={state}#wechat_redirect";
+            var authUrl=new StringBuilder("https://open.weixin.qq.com/connect/");
+       
 
+            if (type == AuthClientType.Web)
+            {
+                authUrl.Append("qrconnect?appid=").Append(ApiConfig.AppId)
+                    .Append("&redirect_uri=").Append(redirectUri)
+                    .Append("&response_type=code&scope=snsapi_login");
             }
-            var scope = type == AuthClientType.WxSilence ? "snsapi_base" : "snsapi_userinfo";
-            return
-                $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={ApiConfig.AppId}&redirect_uri={redirectUri}&response_type=code&scope={scope}&state={state}#wechat_redirect";
+            else
+            {
+                var scope = type == AuthClientType.InnerSilence ? "snsapi_base" : "snsapi_userinfo";
+
+                authUrl.Append("oauth2/authorize?appid=").Append(ApiConfig.AppId)
+                    .Append("&redirect_uri=").Append(redirectUri)
+                    .Append("&response_type=code&scope=").Append(scope);
+            }
+            authUrl.Append("&state=").Append(state);
+
+            if (ApiConfig.OperateMode==AppOperateMode.ByAgent)
+            {
+                authUrl.Append("&component_appid=").Append(ApiConfig.ByAppId);
+            }
+
+            authUrl.Append("#wechat_redirect");
+            return authUrl.ToString();
         }
 
         /// <summary>
@@ -62,10 +81,31 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <returns></returns>
         public async Task<WxGetOauthAccessTokenResp> GetOauthAccessTokenAsync(string code)
         {
+            var reqUrl=new StringBuilder(m_ApiUrl);
+            if (ApiConfig.OperateMode == AppOperateMode.ByAgent)
+            {
+                var comAccessToken = WxOauthConfigProvider.AgentAccessTokenFunc?.Invoke(ApiConfig);
+                if (string.IsNullOrEmpty(comAccessToken))
+                {
+                    throw new ArgumentNullException("AgentAccessToken", "AgentAccessToken未发现，请检查 WxOauthConfigProvider 下 AgentAccessTokenFunc 委托是否为空或者返回值不正确！");
+                }
+                reqUrl.Append("/sns/oauth2/component/access_token?appid=").Append(ApiConfig.AppId)
+                    .Append("&code=").Append(code)
+                    .Append("&grant_type=authorization_code")
+                    .Append("&component_appid=").Append(ApiConfig.ByAppId)
+                    .Append("&component_access_token=").Append(comAccessToken);
+            }
+            else
+            {
+                reqUrl.Append("/sns/oauth2/access_token?appid=").Append(ApiConfig.AppId)
+                    .Append("&secret=").Append(ApiConfig.AppSecret)
+                    .Append("&code=").Append(code)
+                    .Append("&grant_type=authorization_code");
+            }
+
             var req = new OsHttpRequest
             {
-                AddressUrl =
-                    $"{m_ApiUrl}/sns/oauth2/access_token?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&code={code}&grant_type=authorization_code",
+                AddressUrl = reqUrl.ToString(),
                 HttpMothed = HttpMothed.GET
             };
             
@@ -75,14 +115,34 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <summary>
         ///   刷新当前用户授权Token
         /// </summary>
-        /// <param name="accessToken">授权接口调用凭证</param>
+        /// <param name="refreshToken">授权接口刷新调用凭证</param>
         /// <returns></returns>
-        public async Task<WxGetOauthAccessTokenResp> RefreshOauthAccessTokenAsync(string accessToken)
+        public async Task<WxGetOauthAccessTokenResp> RefreshOauthAccessTokenAsync(string refreshToken)
         {
+            var reqUrl = new StringBuilder(m_ApiUrl);
+            if (ApiConfig.OperateMode == AppOperateMode.ByAgent)
+            {
+                var comAccessToken = WxOauthConfigProvider.AgentAccessTokenFunc?.Invoke(ApiConfig);
+                if (string.IsNullOrEmpty(comAccessToken))
+                {
+                    throw new ArgumentNullException("AgentAccessToken", "AgentAccessToken未发现，请检查 WxOauthConfigProvider 下 AgentAccessTokenFunc 委托是否为空或者返回值不正确！");
+                }
+                reqUrl.Append("/sns/oauth2/component/refresh_token?appid=").Append(ApiConfig.AppId)
+                    .Append("&grant_type=refresh_token")
+                    .Append("&component_appid=").Append(ApiConfig.ByAppId) 
+                    .Append("&component_access_token=").Append(comAccessToken);
+            }
+            else
+            {
+                reqUrl.Append("/sns/oauth2/refresh_token?appid=").Append(ApiConfig.AppId)
+                          .Append("&grant_type=refresh_token");
+            }
+            reqUrl.Append("&refresh_token=").Append(refreshToken);
+
+
             var request = new OsHttpRequest
             {
-                AddressUrl =
-                    $"{m_ApiUrl}/sns/oauth2/refresh_token?appid={ApiConfig.AppId}&grant_type=refresh_token&refresh_token={accessToken}",
+                AddressUrl = reqUrl.ToString(),
                 HttpMothed = HttpMothed.GET
             };
             
