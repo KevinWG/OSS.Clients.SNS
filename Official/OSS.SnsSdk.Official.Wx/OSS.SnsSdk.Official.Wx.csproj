@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/KevinWG/OSS.SnsSdk/tree/master/Sns/Official</PackageProjectUrl>
     <PackageIconUrl>http://img1.static.osscoder.com/logo.jpg</PackageIconUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.SnsSdk</RepositoryUrl>
-    <PackageReleaseNotes>消除配置属性歧义字段</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <AssemblyVersion>1.0.2.8</AssemblyVersion>
     <FileVersion>1.0.2.8</FileVersion>
   </PropertyGroup>
@@ -20,8 +20,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Common" Version="1.2.3.10" />
-    <PackageReference Include="OSS.Http.Extention" Version="1.2.3.3" />
+    <PackageReference Include="OSS.Common" Version="1.2.3.12" />
+    <PackageReference Include="OSS.Http.Extention" Version="1.2.6" />
   </ItemGroup>
 
 </Project>
