@@ -12,8 +12,12 @@
 #endregion
 
 using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
+using OSS.Common.Encrypt;
+using OSS.Common.Extention;
 using OSS.Common.Plugs.CachePlug;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Assist.Mos;
@@ -76,6 +80,66 @@ namespace OSS.SnsSdk.Official.Wx.Assist
             };
 
             return await RestCommonOffcialAsync<WxGetJsTicketResp>(req);
+        }
+
+        /// <summary>
+        ///  获取jssdk签名信息
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public async  Task<WxJsSdkSignatureResp> GetJsSdkSignature(string url)
+        {
+            var ticketRes = await GetJsTicketFromCacheAsync(WxJsTicketType.jsapi);
+            if (!ticketRes.IsSuccess())
+            {
+                return ticketRes.ConvertToResult<WxJsSdkSignatureResp>();
+            }
+
+            var resp = new WxJsSdkSignatureResp
+            {
+                app_id = ApiConfig.AppId,
+                noncestr = GenerateNonceStr(),
+                timestamp = DateTime.Now.ToLocalSeconds()
+            };
+
+
+            var signStr= new StringBuilder();
+            signStr.Append("jsapi_ticket=").Append(ticketRes.ticket);
+            signStr.Append("&noncestr=").Append(resp.noncestr);
+            signStr.Append("&timestamp=").Append(resp.timestamp);
+            if (!string.IsNullOrEmpty(url))
+            {
+                signStr.Append("&url=").Append(url);
+            }
+            
+            resp.signature= Sha1.Encrypt(signStr.ToString());
+
+            return resp;
+        }
+
+
+
+        private static readonly Random _rnd = new Random();
+        private static readonly char[] _arrChar = {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'a', 'b', 'd', 'c', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 'q', 's', 't', 'u', 'v',
+            'w', 'z', 'y', 'x',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Q', 'P', 'R', 'T', 'S', 'V', 'U',
+            'W', 'X', 'Y', 'Z'
+        };
+        /// <summary>
+        /// 生成随机串
+        /// </summary>
+        /// <returns></returns>
+        private static string GenerateNonceStr()
+        {
+            var num = new StringBuilder();
+
+            for (var i = 0; i < 8; i++)
+            {
+                num.Append(_arrChar[_rnd.Next(0, 59)].ToString());
+            }
+            return num.ToString();
         }
     }
 }
