@@ -178,8 +178,16 @@ namespace OSS.SnsSdk.Official.Wx
             if (!tokenRes.IsSuccess())
                 return tokenRes.ConvertToResult<T>();
 
-            req.RequestSet = reqMsg => reqMsg.Content.Headers.ContentType =
-                new MediaTypeHeaderValue("application/json");
+            req.RequestSet = r =>
+            {
+                r.Headers.Add("Accept", "application/json");
+
+                if (r.Content != null)
+                {
+                    r.Content.Headers.ContentType =
+                        new MediaTypeHeaderValue("application/json") { CharSet = "UTF-8" };
+                }
+            };
             req.AddressUrl = string.Concat(req.AddressUrl, req.AddressUrl.IndexOf('?') > 0 ? "&" : "?", "access_token=",
                 tokenRes.access_token);
 
