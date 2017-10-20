@@ -19,8 +19,6 @@ using OSS.Common.ComModels;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
 
-
-
 namespace OSS.SnsSdk.Official.Wx.Basic
 {
     /// <summary>
@@ -72,9 +70,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
             return await RestCommonOffcialAsync<WxGetTemplateIndustryResp>(req);
         }
 
-
-
-
+        
         /// <summary>
         /// 添加模板
         /// </summary>
@@ -110,7 +106,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
 
 
         /// <summary>
-        /// 获取模板列表
+        /// 获取公众号下模板列表
         /// </summary>
         /// <returns></returns>
         public async Task<WxGetTemplateListResp> GetTemplateList()

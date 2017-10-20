@@ -45,6 +45,14 @@ namespace OSS.Social.Tests.WxTests.Baisc
             Assert.IsTrue(res.IsSuccess());
         }
 
-        
+        [TestMethod]
+        public void TempleteTest()
+        {
+            var res = m_Api.GetTemplateIndustry().Result;
+
+            var resList = m_Api.GetTemplateList().Result;
+
+
+        }
     }
 }
