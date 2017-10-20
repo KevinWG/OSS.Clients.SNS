@@ -12,6 +12,7 @@
 #endregion
 
 
+using System.Collections.Generic;
 
 namespace OSS.SnsSdk.Official.Wx.Basic.Mos
 {
@@ -45,5 +46,97 @@ namespace OSS.SnsSdk.Official.Wx.Basic.Mos
         ///    消息发送后的状态，SEND_SUCCESS表示发送成功
         /// </summary>  
         public string msg_status { get; set; }
+    }
+
+    #region 模板行业相关实体
+    /// <summary>
+    ///  获取行业设置信息
+    /// </summary>
+    public class WxGetTemplateIndustryResp : WxBaseResp
+    {
+        /// <summary>
+        /// 帐号设置的主营行业
+        /// </summary>
+        public WxTemplateIndustryItem primary_industry { get; set; }
+        /// <summary>
+        /// 帐号设置的副营行业
+        /// </summary>
+        public WxTemplateIndustryItem secondary_industry { get; set; }
+    }
+
+
+    /// <summary>
+    ///  行业设置信息
+    /// </summary>
+    public class WxTemplateIndustryItem
+    {
+        /// <summary>
+        ///  
+        /// </summary>
+        public string first_class { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string second_class { get; set; }
+    }
+    #endregion
+
+    /// <summary>
+    ///  添加微信模板响应实体
+    /// </summary>
+    public class WxAddTemplateResp : WxBaseResp
+    {
+        /// <summary>
+        ///  模板Id
+        /// </summary>
+        public string template_id { get; set; }
+    }
+
+    /// <summary>
+    ///  获取模板列表
+    /// </summary>
+    public class WxGetTemplateListResp : WxBaseResp
+    {
+        /// <summary>
+        /// 模板列表
+        /// </summary>
+        public List<WxTemplateMo> template_list { get; set; }
+    }
+
+    /// <summary>
+    ///  模板信息
+    /// </summary>
+    public class WxTemplateMo
+    {
+        /// <summary>   
+        ///     必填  模板ID
+        /// </summary>  
+        public string template_id { get; set; }
+
+        /// <summary>   
+        ///     必填  模板标题
+        /// </summary>  
+        public string title { get; set; }
+
+        /// <summary>   
+        ///     必填  模板所属行业的一级行业
+        /// </summary>  
+        public string primary_industry { get; set; }
+
+        /// <summary>   
+        ///     必填  模板所属行业的二级行业
+        /// </summary>  
+        public string deputy_industry { get; set; }
+
+        /// <summary>   
+        ///     必填  模板内容
+        /// </summary>  
+        public string content { get; set; }
+
+        /// <summary>   
+        ///     必填  模板示例
+        /// </summary>  
+        public string example { get; set; }
     }
 }

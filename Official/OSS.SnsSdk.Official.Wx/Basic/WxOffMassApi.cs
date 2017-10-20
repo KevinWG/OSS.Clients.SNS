@@ -23,6 +23,9 @@ using OSS.SnsSdk.Official.Wx.Basic.Mos;
 
 namespace OSS.SnsSdk.Official.Wx.Basic
 {
+    /// <summary>
+    /// 消息相关接口
+    /// </summary>
     public class WxOffMassApi:WxOffBaseApi
     {
         /// <summary>
@@ -34,6 +37,91 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         }
 
         #region  模板功能
+
+        /// <summary>
+        /// 设置所属行业
+        /// 行业编码查询：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277
+        /// </summary>
+        /// <param name="industryId1">必选-公众号模板消息所属行业编号1</param>
+        /// <param name="industryId2">必选-公众号模板消息所属行业编号2</param>
+        /// <returns></returns>
+        public async Task<WxBaseResp> SetTemplateIndustry(int industryId1, int industryId2)
+        {
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/template/api_set_industry"),
+                CustomBody = $"{{\"industry_id1\":\"{industryId1}\",\"industry_id2\":\"{industryId2}\"}}"
+            };
+            return await RestCommonOffcialAsync<WxBaseResp>(req);
+        }
+
+        //WxGetTemplateIndustryResp
+
+        /// <summary>
+        /// 获取设置的行业信息
+        /// </summary>
+        /// <returns></returns>
+        public async Task<WxGetTemplateIndustryResp> GetTemplateIndustry()
+        {
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.GET,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/template/get_industry")
+            };
+            return await RestCommonOffcialAsync<WxGetTemplateIndustryResp>(req);
+        }
+
+
+
+
+        /// <summary>
+        /// 添加模板
+        /// </summary>
+        /// <param name="shortTemplateId">模板库中模板的编号，有“TM**”和“OPENTMTM**”等形式</param>
+        /// <returns></returns>
+        public async Task<WxAddTemplateResp> AddTemplate(string shortTemplateId)
+        {
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/template/api_add_template"),
+                CustomBody = $"{{\"template_id_short\":\"{shortTemplateId}\"}}"
+            };
+            return await RestCommonOffcialAsync<WxAddTemplateResp>(req);
+        }
+
+
+        /// <summary>
+        /// 删除模板
+        /// </summary>
+        /// <param name="templateId">公众帐号下模板消息ID</param>
+        /// <returns></returns>
+        public async Task<WxAddTemplateResp> DeleteTemplate(string templateId)
+        {
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.POST,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/template/del_private_template"),
+                CustomBody = $"{{\"template_id\":\"{templateId}\"}}"
+            };
+            return await RestCommonOffcialAsync<WxAddTemplateResp>(req);
+        }
+
+
+        /// <summary>
+        /// 获取模板列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<WxGetTemplateListResp> GetTemplateList()
+        {
+            var req = new OsHttpRequest
+            {
+                HttpMothed = HttpMothed.GET,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/template/get_all_private_template")
+            };
+            return await RestCommonOffcialAsync<WxGetTemplateListResp>(req);
+        }
 
         /// <summary>
         /// 发送模板消息
