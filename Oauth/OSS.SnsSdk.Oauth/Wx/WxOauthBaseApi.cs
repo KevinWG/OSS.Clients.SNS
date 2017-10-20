@@ -80,11 +80,12 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// 默认的配置AppKey信息
         /// </summary>
         public static AppConfig DefaultConfig { get; set; }
-        
+
         /// <summary>
         /// 当 OperateMode = ByAgent 时，
         ///   调用此委托 获取第三方代理平台的 AccessToken 
         ///   可以调用 Official下的 WxAgentAuthApi（WxAgentBaseApi） 中接口
+        /// 参数为当前ApiConfig
         /// </summary>
         public static Func<AppConfig, string> AgentAccessTokenFunc { get; set; }
 
