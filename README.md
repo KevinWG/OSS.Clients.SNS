@@ -1,25 +1,22 @@
 # 快速了解
-
-	当前项目主要是针对社交网站的接口封装，在项目前期主要以微信平台sdk开发为主，根据接口功能层次简单分类，
-	此项目以标准库的形式提供服务，也就是可以同时支持.Net Framework(4.6及以上版本) 和 .Net Core
-
-
-如果有问题，也可以在公众号(osscoder)中提问:
-
-![osscoder](http://img1.static.osscoder.com/wei_qr.jpg)
+当前项目主要是针对社交网站的接口封装，在项目前期主要以微信平台sdk开发为主，根据接口功能层次简单分类，  
+此项目以标准库的形式提供服务，也就是可以同时支持.Net Framework(4.6及以上版本) 和 .Net Core  
+如果有问题，也可以在公众号(osscoder)中提问:   
+![osscoder](http://img1.static.osscoder.com/wei_qr.jpg)  
 	
-   一. **授权对接模块**  (Oauth)
+一. **授权对接模块**  (Oauth)
 
     nuget下安装命令：**Install-Package OSS.SnsSdk.Oauth**   
    	
-	用户授权（oauth2.0），用户授权基础信息
+用户授权（oauth2.0），用户授权基础信息
     
-   二. **会话消息模块**   (msg)
+二. **会话消息模块**   (msg)
 
     nuget下安装命令：**Install-Package OSS.SnsSdk.Msg.Wx**
-	会话管理，接收用户的会话信息，以及对应的响应
 
-   三. **公号高级功能**  (offcial)
+会话管理，接收用户的会话信息，以及对应的响应
+
+三. **公号高级功能**  (offcial)
 
     nuget下安装命令：**Install-Package OSS.SnsSdk.Official.Wx**
 
@@ -39,8 +36,7 @@
 
 ### 一. 调用示例
 
-1.基础授权调用（sns文件夹下）
-
+1.基础授权调用（sns文件夹下）  
 ```csharp
 	//声明配置信息
  private static AppConfig m_Config = new AppConfig()
@@ -70,10 +66,8 @@
       }
       return Content("获取用户授权信息失败!");
   }
-```
-
-2.会话调用 （Msg文件夹下）
-
+```  
+2.会话调用 （Msg文件夹下）  
 a.首先声明配置信息
 ```csharp
 // 声明配置
@@ -84,12 +78,11 @@ private static readonly WxMsgServerConfig config = new WxMsgServerConfig()
       SecurityType = WxSecurityType.Safe,//  在微信段设置的安全模式
       AppId = "你的appid"   //  
   };
-```
+```  
 b. 定义一个处理句柄（可以实现一个自己的Handler，继承自WxMsgHandler 即可）
 ```csharp
      private static readonly WxMsgHandler msgService = new WxMsgHandler(config);
-```
-
+```  
 c. 调用时将当前请求的内容传入程序入口即可：  
 ```csharp
    using (StreamReader reader = new StreamReader(Request.InputStream))
@@ -106,14 +99,10 @@ c. 调用时将当前请求的内容传入程序入口即可：
    {
    }            
    return Content("success");
-```
-其中WxMsgHandler 可以是自己继承WxMsgHandler 实现的具体处理类，通过重写相关用户事件返回对应结果即可。
-
-
-3.高级功能调用（Offcial文件夹下）
-
-  微信公众号的其他高级功能接口都需要一个全局的accesstoken接口，像推送模块信息等，accesstoken自动获取已经被封装在sdk底层的请求处理中，默认会使用系统缓存保存，过期自动更新，如果需要保存到像redis中可以通过oscommon中的缓存模块注入，添加一个针对sns的缓存模块实现就可以了（后续给出一个示例），access和appid一一对应，不用担心多个公众号的冲突问题。
-     
+```  
+其中WxMsgHandler 可以是自己继承WxMsgHandler 实现的具体处理类，通过重写相关用户事件返回对应结果即可。  
+3.高级功能调用（Offcial文件夹下）  
+微信公众号的其他高级功能接口都需要一个全局的accesstoken接口，像推送模块信息等，accesstoken自动获取已经被封装在sdk底层的请求处理中，默认会使用系统缓存保存，过期自动更新，如果需要保存到像redis中可以通过oscommon中的缓存模块注入，添加一个针对sns的缓存模块实现就可以了（后续给出一个示例），access和appid一一对应，不用担心多个公众号的冲突问题。  
 a.  声明配置信息：
 ```csharp
 //声明配置信息
@@ -123,13 +112,11 @@ private static AppConfig m_Config = new AppConfig()
       AppId = "你的appId",
       AppSecret = "你的secretkey"
 };
-```
-   
-b. 声明一个实例：
+```  
+b. 声明一个实例：  
 ```csharp
     private static readonly WxOffMassApi m_OffcialApi = new WxOffMassApi(m_Config);
-```
-
+```  
 c.  具体使用
 ```csharp
   m_OffcialApi.SendTemplateAsync("openid","templateId","url",new {})
