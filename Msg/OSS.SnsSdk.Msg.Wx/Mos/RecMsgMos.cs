@@ -31,8 +31,6 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// 文本消息内容
         /// </summary>
         public string Content { get; set; }
-
-
     }
 
     /// <summary>

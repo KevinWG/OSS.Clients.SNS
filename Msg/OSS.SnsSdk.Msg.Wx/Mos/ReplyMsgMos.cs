@@ -12,6 +12,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace OSS.SnsSdk.Msg.Wx.Mos
@@ -134,6 +135,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// </summary>
         public string Description { get; set; }
 
+        /// <inheritdoc />
         protected override void SetValueToXml()
         {
             var video = new Dictionary<string, object>
@@ -203,17 +205,12 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
     /// </summary>
     public class WxNewsReplyMsg : WxBaseReplyMsg
     {
+        /// <inheritdoc />
         public WxNewsReplyMsg()
         {
             MsgType = "news";
-            Items = new List<WxArticleItem>();
         }
-
-        /// <summary>
-        /// 图文数量
-        /// </summary>
-        public int ArticleCount { get; internal set; }
-
+        
         /// <summary>
         /// 图文列表
         /// </summary>
@@ -222,9 +219,13 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// <inheritdoc />
         protected override void SetValueToXml()
         {
-            this["ArticleCount"]= Items.Count;
+            if (Items == null || Items.Count == 0)
+                throw new ArgumentNullException("图文内容不能为空！");
 
-            var items = new Dictionary<string, object>();
+            var index = 0;
+            const string itemName = "item_";
+            
+            var items = new Dictionary<string, object>(Items.Count);
             foreach (var item in Items)
             {
                 var itemDetails = new Dictionary<string, object>
@@ -234,29 +235,38 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
                     {"PicUrl", item.PicUrl},
                     {"Url", item.Url}
                 };
-                items.Add("item", itemDetails);
+                var key = string.Concat(itemName, index++);
+                items.Add(key, itemDetails);
             }
-            this["Articles"]= items;
+
+            var articles = new Tuple<string, IDictionary<string, object>>("item", items);
+            this["ArticleCount"] = Items.Count;
+            this["Articles"]= articles;
         }
 
-        public class WxArticleItem
-        {
-            /// <summary>
-            /// 图文消息标题
-            /// </summary>
-            public string Title { get; set; }
-            /// <summary>
-            /// 图文消息描述
-            /// </summary>
-            public string Description { get; set; }
-            /// <summary>
-            /// 图片链接，支持JPG、PNG格式，较好的效果为大图360*200，小图200*200
-            /// </summary>
-            public string PicUrl { get; set; }
-            /// <summary>
-            /// 点击图文消息跳转链接
-            /// </summary>
-            public string Url { get; set; }
-        }
+       
+    }
+
+    /// <summary>
+    /// 文章内容
+    /// </summary>
+    public class WxArticleItem
+    {
+        /// <summary>
+        /// 图文消息标题
+        /// </summary>
+        public string Title { get; set; }
+        /// <summary>
+        /// 图文消息描述
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
+        /// 图片链接，支持JPG、PNG格式，较好的效果为大图360*200，小图200*200
+        /// </summary>
+        public string PicUrl { get; set; }
+        /// <summary>
+        /// 点击图文消息跳转链接
+        /// </summary>
+        public string Url { get; set; }
     }
 }

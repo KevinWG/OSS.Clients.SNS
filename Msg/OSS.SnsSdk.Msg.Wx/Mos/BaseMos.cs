@@ -10,6 +10,7 @@
 *****************************************************************************/
 
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,7 +37,7 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
         /// <summary>
         /// 消息类型
         /// </summary>
-        public string MsgType { get; internal set; }
+        public string MsgType { get;protected set; }
 
         /// <summary>
         /// 消息创建时间
@@ -166,42 +167,52 @@ namespace OSS.SnsSdk.Msg.Wx.Mos
             SetValueToXml();
 
             var xml = new StringBuilder("<xml>");
-            xml.Append(ProduceXml(_propertyList));
+            ProduceXml(xml, _propertyList);
             xml.Append("</xml>");
 
             return xml.ToString();
         }
 
-        private static string ProduceXml(IDictionary<string, object> list)
+        private static void ProduceXml(StringBuilder xml, IDictionary<string, object> list, string keyName = null)
         {
-            var xml = new StringBuilder();
-
             foreach (var item in list)
             {
+                //  值为空的直接忽略
+                if (item.Value == null)
+                    continue;
+
                 var valueType = item.Value.GetType();
+                var key = keyName ?? item.Key;
 
                 if (valueType.IsValueType)
                 {
-                    xml.Append("<").Append(item.Key).Append(">")
+                    xml.Append("<").Append(key).Append(">")
                         .Append(item.Value)
-                        .Append("</").Append(item.Key).Append(">");
+                        .Append("</").Append(key).Append(">");
                 }
                 else if (valueType.IsGenericType)
                 {
-                    xml.Append("<").Append(item.Key).Append(">")
-                        .Append(ProduceXml(item.Value as IDictionary<string, object>))
-                        .Append("</").Append(item.Key).Append(">");
+                    if (item.Value is IDictionary<string, object> dirVal)
+                    {
+                        xml.Append("<").Append(key).Append(">");
+                        ProduceXml(xml, dirVal);
+                        xml.Append("</").Append(key).Append(">");
+                    }
+                    else if (item.Value is Tuple<string, IDictionary<string, object>> tupleVal)
+                    {
+                        xml.Append("<").Append(key).Append(">");
+                        ProduceXml(xml, tupleVal.Item2, tupleVal.Item1);
+                        xml.Append("</").Append(key).Append(">");
+                    }
                 }
                 else
                 {
-                    xml.Append("<").Append(item.Key).Append(">")
-                        .Append("<![CDATA[")
-                        .Append(item.Value)
-                        .Append("]]>")
-                        .Append("</").Append(item.Key).Append(">");
+                    xml.Append("<").Append(key).Append(">")
+                        .Append("<![CDATA[").Append(item.Value)
+                        .Append("]]>").Append("</")
+                        .Append(key).Append(">");
                 }
             }
-            return xml.ToString();
         }
     }
 
