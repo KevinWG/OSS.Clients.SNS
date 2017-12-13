@@ -11,12 +11,13 @@ namespace OSS.SnsSdk.Official.Wx.Basic.Mos
         /// 过期时间，永久二维码请设置为0
         /// </summary>
         public int expire_seconds { get; set; }
+
         /// <summary>
         /// 生成二维码性质  
         ///  可以通过 typeof(WxQrCodeType).ToEnumDirs() 获取对应的枚举字典列表
         /// </summary>
         public string action_name { get; set; }
-
+        
         /// <summary>
         ///   场景二维码信息
         /// </summary>
@@ -24,9 +25,21 @@ namespace OSS.SnsSdk.Official.Wx.Basic.Mos
     }
 
     /// <summary>
-    ///   场景二维码生成需要实体信息
+    /// 二维码场景信息
     /// </summary>
     public class WxSenceQrMo
+    {
+        /// <summary>
+        ///  场景信息
+        /// </summary>
+        public WxSenceQrInfoMo scene;
+    }
+
+
+    /// <summary>
+    ///   场景二维码生成需要具体实体信息
+    /// </summary>
+    public class WxSenceQrInfoMo
     {
         /// <summary>
         /// 场景值id
