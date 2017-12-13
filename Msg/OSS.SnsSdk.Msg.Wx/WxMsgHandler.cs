@@ -194,7 +194,7 @@ namespace OSS.SnsSdk.Msg.Wx
 
         private WxMsgProcessor GetBasicEventMsgProcessor(string eventName)
         {
-            switch (eventName)
+            switch (eventName.ToLower())
             {
                 case "subscribe":
                     return subEventPro??(subEventPro = new WxMsgProcessor<WxSubScanRecEventMsg> { RecInsCreater = () => new WxSubScanRecEventMsg(), ProcessFunc = ProcessSubscribeEventMsg });
