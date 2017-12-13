@@ -18,7 +18,6 @@ using OSS.Common.Extention;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
 
-
 namespace OSS.SnsSdk.Official.Wx.Basic
 {
     /// <summary>

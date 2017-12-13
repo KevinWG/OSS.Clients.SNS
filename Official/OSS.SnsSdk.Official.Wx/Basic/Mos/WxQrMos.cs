@@ -1,6 +1,4 @@
-﻿
-
-namespace OSS.SnsSdk.Official.Wx.Basic.Mos
+﻿namespace OSS.SnsSdk.Official.Wx.Basic.Mos
 {
     /// <summary>
     /// 微信二维码请求
