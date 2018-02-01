@@ -12,6 +12,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
@@ -47,7 +48,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed=HttpMothed.GET;
+            req.HttpMethod=HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/get?next_openid=", next_openid);
 
             return await RestCommonOffcialAsync<WxOpenIdsResp>(req);
@@ -64,7 +65,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed=HttpMothed.POST;
+            req.HttpMethod=HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/info/updateremark");
             req.CustomBody = $"{{\"openid\":\"{openid}\",\"remark\":\"{remark}\"}}"; //JsonConvert.SerializeObject(new {openid = openid, remark = remark});
 
@@ -80,7 +81,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
 
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.GET;
+            req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, $"/cgi-bin/user/info?openid={userReq.openid}&lang={userReq.lang}");
 
             return await RestCommonOffcialAsync<WxOffcialUserInfoResp>(req);
@@ -96,7 +97,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
 
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/info/batchget");
             req.CustomBody = JsonConvert.SerializeObject(new
             {
@@ -120,7 +121,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/user/tag/get");
             req.CustomBody = JsonConvert.SerializeObject(new { tagid = tagId, next_openid = next_openid });
 
@@ -136,7 +137,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/create");
             req.CustomBody = $"{{\"tag\":{{\"name\":\"{name}\"}}}}";// JsonConvert.SerializeObject(param);
 
@@ -153,7 +154,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/update")
             };
             
@@ -171,7 +172,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/delete")
             };
 
@@ -188,7 +189,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.GET;
+            req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/get");
            
             return await RestCommonOffcialAsync<WxGetTagListResp>(req);
@@ -207,7 +208,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;       
+            req.HttpMethod = HttpMethod.Post;       
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/",flag==0? "batchtagging" : "batchuntagging");
             req.CustomBody = JsonConvert.SerializeObject(new { tagid = tagId, openid_list = openIdList });
 
@@ -224,7 +225,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed=HttpMothed.POST;
+            req.HttpMethod=HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/getidlist");
             req.CustomBody = $"{{\"openid\":\"{openid}\"}}";// JsonConvert.SerializeObject(new { openid= openid });
 
@@ -244,7 +245,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/getblacklist");
             req.CustomBody = $"{{\"begin_openid\":\"{next_openid}\"}}";// JsonConvert.SerializeObject(new { begin_openid = next_openid });
 
@@ -259,12 +260,13 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxBaseResp>  BatchBlackOpenIds(IList<string> openids)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/batchblacklist");
-            req.CustomBody = JsonConvert.SerializeObject(new { opened_list = openids });
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/batchblacklist"),
+                CustomBody = JsonConvert.SerializeObject(new {opened_list = openids})
+            };
+            
             return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
@@ -276,11 +278,12 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxBaseResp> BatchUnBlackOpenIds(IList<string> openids)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/batchunblacklist");
-            req.CustomBody = JsonConvert.SerializeObject(new { opened_list = openids });
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/tags/members/batchunblacklist"),
+                CustomBody = JsonConvert.SerializeObject(new {opened_list = openids})
+            };
 
             return await RestCommonOffcialAsync<WxBaseResp>(req);
         }

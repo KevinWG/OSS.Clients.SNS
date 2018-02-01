@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Net.Http;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
-using OSS.SnsSdk.Oauth;
 using OSS.SnsSdk.Oauth.Wx;
 
 namespace OSS.Social.Tests.WxTests
@@ -30,11 +30,12 @@ namespace OSS.Social.Tests.WxTests
         [TestMethod]
         public void GetTest()
         {
-            var req = new OsHttpRequest();
-            req.AddressUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxaa9e6cb3f03afa97&secret=0fc0c6f735a90fda1df5fc840e010144&code=ssss&grant_type=authorization_code";
-            req.HttpMothed = HttpMothed.GET;
-
-       
+            var req = new OsHttpRequest
+            {
+                AddressUrl =
+                    "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxaa9e6cb3f03afa97&secret=0fc0c6f735a90fda1df5fc840e010144&code=ssss&grant_type=authorization_code"
+            };
+            req.HttpMethod = HttpMethod.Get;
             var result = req.RestSend().WaitResult();
             var resp = result.Content.ReadAsStringAsync().WaitResult();
             Assert.IsTrue(!string.IsNullOrEmpty(resp));

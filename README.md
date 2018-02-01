@@ -151,7 +151,7 @@ c.  具体使用
 public WxOffcialUserInfoResp GetUserInfo(WxOffcialUserInfoReq userReq)
 {
     var req = new OsHttpRequest();
-    req.HttpMothed = HttpMothed.GET;
+    req.HttpMethod = HttpMethod.Get;
     req.AddressUrl = string.Concat(m_ApiUrl,
          $"/cgi-bin/user/info?openid={userReq.openid}&lang={userReq.lang}");
    //  请求地址中的AccessToken 底层会自动补充

@@ -12,6 +12,7 @@
 #endregion
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
@@ -67,7 +68,7 @@ namespace OSS.SnsSdk.Official.Wx.Store
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = String.Concat(m_ApiUrl, "/cgi-bin/poi/addpoi");
             req.CustomBody = JsonConvert.SerializeObject(new {business = new {base_info = storeMo}});
 
@@ -81,12 +82,12 @@ namespace OSS.SnsSdk.Official.Wx.Store
         /// <returns></returns>
         public async Task<WxGetStoreResp> GetStoreAsync(long poiId)
         {
-            var req=new OsHttpRequest();
-
-            req.HttpMothed=HttpMothed.POST;
-            req.AddressUrl=String.Concat(m_ApiUrl, "/cgi-bin/poi/getpoi");
-            req.CustomBody = $"{{\"poi_id\":{poiId}}}";
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/poi/getpoi"),
+                CustomBody = $"{{\"poi_id\":{poiId}}}"
+            };
             return await RestCommonOffcialAsync<WxGetStoreResp>(req);
         }
 
@@ -98,12 +99,13 @@ namespace OSS.SnsSdk.Official.Wx.Store
         /// <returns></returns>
         public async Task<WxGetStoreListResp> GetStoreListAsync(int begin = 0, int limit = 20)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = String.Concat(m_ApiUrl, "/cgi-bin/poi/getpoilist");
-            req.CustomBody = $"{{\"begin\":{begin},\"limit\":{limit}}}";
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = String.Concat(m_ApiUrl, "/cgi-bin/poi/getpoilist"),
+                CustomBody = $"{{\"begin\":{begin},\"limit\":{limit}}}"
+            };
+            
             return await RestCommonOffcialAsync<WxGetStoreListResp>(req);
         }
 
@@ -118,7 +120,7 @@ namespace OSS.SnsSdk.Official.Wx.Store
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = String.Concat(m_ApiUrl, "/cgi-bin/poi/updatepoi");
             req.CustomBody = JsonConvert.SerializeObject(serviceReq);
 
@@ -134,7 +136,7 @@ namespace OSS.SnsSdk.Official.Wx.Store
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = String.Concat(m_ApiUrl, "/cgi-bin/poi/delpoi");
             req.CustomBody = $"{{\"poi_id\":{poiId}}}";
 
@@ -149,7 +151,7 @@ namespace OSS.SnsSdk.Official.Wx.Store
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.GET;
+            req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = String.Concat(m_ApiUrl, "/cgi-bin/poi/getwxcategory");
 
             return await RestCommonOffcialAsync<WxStoreCategoryResp>(req);

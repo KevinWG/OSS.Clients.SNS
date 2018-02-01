@@ -12,6 +12,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
@@ -47,7 +48,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/upload?type=", request.type.ToString())
             };
 
@@ -70,7 +71,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
 
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.GET,
+                HttpMethod = HttpMethod.Get,
                 AddressUrl = string.Concat(m_ApiUrl,
                     $"/cgi-bin/media/get?access_token={accessToken.access_token}&media_id={mediaId}")
             };
@@ -88,7 +89,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.GET,
+                HttpMethod = HttpMethod.Get,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/get?media_id=", mediaId)
             };
 
@@ -107,7 +108,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         public async Task<WxMediaResp> AddArticleGroupAsync(IList<WxArticleInfo> list)
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_news");
             req.CustomBody = JsonConvert.SerializeObject(new {articles = list});
 
@@ -124,7 +125,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/uploadimg");
             req.FileParameters.Add(new FileParameter("media", imgReq.file_stream, imgReq.file_name,
                 imgReq.content_type));
@@ -141,7 +142,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_material");
             req.CustomBody = $"{{\"media_id\":\"{mediaId}\"}}";
 
@@ -159,7 +160,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/update_news");
             req.CustomBody = JsonConvert.SerializeObject(new {media_id = mediaId, index = index, articles = article});
 
@@ -179,7 +180,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/add_material?type=", mediaReq.type.ToString())
             };
 
@@ -203,7 +204,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_material"),
                 CustomBody = $"{{\"media_id\":\"{mediaId}\"}}"
             };
@@ -227,7 +228,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
 
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl,
                     $"/cgi-bin/material/get_material?access_token=", accessToken.access_token)
             };
@@ -244,7 +245,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/del_material"),
                 CustomBody = $"{{\"media_id\":\"{mediaId}\"}}"
             };
@@ -263,7 +264,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.GET,
+                HttpMethod = HttpMethod.Get,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/get_materialcount")
             };
 
@@ -279,7 +280,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/material/batchget_material"),
                 CustomBody = JsonConvert.SerializeObject(request)
             };

@@ -13,8 +13,8 @@
 #endregion
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
-using OSS.Http.Extention;
 using OSS.Http.Mos;
 
 using OSS.SocialSDK.WX.Offcial.Statistic.Mos;
@@ -32,7 +32,7 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed=HttpMothed.POST;
+            req.HttpMethod=HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getarticlesummary");
             req.CustomBody = GetRequestBody(new WxStatReq() {end_date = date, begin_date = date});
 
@@ -46,12 +46,13 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxStatResp<WxArticleStatSendTotalMo>> GetSendAticleStatisticTotalAsync(DateTime date)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getarticletotal");
-            req.CustomBody = GetRequestBody(new WxStatReq() { end_date = date, begin_date = date });
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getarticletotal"),
+                CustomBody = GetRequestBody(new WxStatReq() {end_date = date, begin_date = date})
+            };
+            
             return await RestCommonOffcialAsync<WxStatResp<WxArticleStatSendTotalMo>>(req);
         }
 
@@ -64,12 +65,13 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxStatResp<WxArticleStatDaliyMo>> GetAticleUserReadStatisticAsync(WxStatReq statisticReq)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getuserread");
-            req.CustomBody = GetRequestBody(statisticReq);
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getuserread"),
+                CustomBody = GetRequestBody(statisticReq)
+            };
+            
             return await RestCommonOffcialAsync<WxStatResp<WxArticleStatDaliyMo>>(req);
         }
 
@@ -80,12 +82,13 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxStatResp<WxArticleStatHourMo>> GetAticleUserReadHourStatisticAsync(DateTime date)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getuserreadhour");
-            req.CustomBody = GetRequestBody(new WxStatReq() { end_date = date, begin_date = date });
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getuserreadhour"),
+                CustomBody = GetRequestBody(new WxStatReq() {end_date = date, begin_date = date})
+            };
+            
             return await RestCommonOffcialAsync<WxStatResp<WxArticleStatHourMo>>(req);
         }
 
@@ -98,12 +101,12 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxStatResp<WxArticleStatShareMo>> GetAticleUserShareStatisticAsync(WxStatReq statisticReq)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusershare");
-            req.CustomBody = GetRequestBody(statisticReq);
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusershare"),
+                CustomBody = GetRequestBody(statisticReq)
+            };
             return await RestCommonOffcialAsync<WxStatResp<WxArticleStatShareMo>>(req);
         }
 
@@ -115,12 +118,13 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxStatResp<WxArticleStatShareHourMo>> GetAticleShareHourStatisticAsync(DateTime date)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusersharehour");
-            req.CustomBody = GetRequestBody(new WxStatReq() { end_date = date, begin_date = date });
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusersharehour"),
+                CustomBody = GetRequestBody(new WxStatReq() {end_date = date, begin_date = date})
+            };
+            
             return await RestCommonOffcialAsync<WxStatResp<WxArticleStatShareHourMo>>(req);
         }
 

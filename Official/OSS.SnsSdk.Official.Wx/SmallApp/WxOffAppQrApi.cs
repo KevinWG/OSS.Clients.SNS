@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Http.Mos;
@@ -47,7 +48,7 @@ namespace OSS.SnsSdk.Official.Wx.SmallApp
 
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/wxaapp/createwxaqrcode?access_token=",
                     accessToken.access_token),
                 CustomBody = $"{{\"path\":\"{path}\",\"width\":{width}}}"

@@ -12,6 +12,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -47,7 +48,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/template/api_set_industry"),
                 CustomBody = $"{{\"industry_id1\":\"{industryId1}\",\"industry_id2\":\"{industryId2}\"}}"
             };
@@ -64,7 +65,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.GET,
+                HttpMethod = HttpMethod.Get,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/template/get_industry")
             };
             return await RestCommonOffcialAsync<WxGetTemplateIndustryResp>(req);
@@ -80,7 +81,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/template/api_add_template"),
                 CustomBody = $"{{\"template_id_short\":\"{shortTemplateId}\"}}"
             };
@@ -97,7 +98,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/template/del_private_template"),
                 CustomBody = $"{{\"template_id\":\"{templateId}\"}}"
             };
@@ -113,7 +114,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.GET,
+                HttpMethod = HttpMethod.Get,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/template/get_all_private_template")
             };
             return await RestCommonOffcialAsync<WxGetTemplateListResp>(req);
@@ -131,7 +132,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/template/send")
             };
 
@@ -162,7 +163,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed=HttpMothed.POST;
+            req.HttpMethod=HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/uploadnews");
             req.CustomBody = JsonConvert.SerializeObject(new {articles = articles});
 
@@ -183,7 +184,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/media/uploadvideo");
             req.CustomBody = $"{{\"media_id\":\"{mediaId}\",\"title\":\"{title}\",\"description\":\"{desp}\"}}";
 
@@ -216,7 +217,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
 
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/sendall");
             req.CustomBody = msgStr.ToString();
 
@@ -276,7 +277,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
 
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/send");
             req.CustomBody = msgStr.ToString();
 
@@ -293,7 +294,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/delete");
             req.CustomBody = $"{{\"msg_id\":{msgId}}}";
 
@@ -309,7 +310,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/get");
             req.CustomBody = $"{{\"msg_id\":{msgId}}}";
 
@@ -342,7 +343,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
 
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/mass/preview");
             req.CustomBody = msgStr.ToString();
 

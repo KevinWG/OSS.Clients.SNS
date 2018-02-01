@@ -12,6 +12,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
@@ -48,7 +49,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed=HttpMothed.POST;
+            req.HttpMethod=HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/create");
             req.CustomBody = JsonConvert.SerializeObject(new {button= buttons } , Formatting.Indented,
                 new JsonSerializerSettings() {NullValueHandling = NullValueHandling.Ignore});
@@ -66,7 +67,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed=HttpMothed.GET;
+            req.HttpMethod=HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/get");
 
             return await RestCommonOffcialAsync<WxGetMenuResp>(req);
@@ -79,7 +80,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         public async Task<WxBaseResp> DeleteMenuAsync()
         {
             var  req=new OsHttpRequest();
-            req.HttpMothed=HttpMothed.GET;
+            req.HttpMethod=HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/delete");
 
             return await RestCommonOffcialAsync<WxBaseResp>(req);
@@ -96,12 +97,14 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         /// <returns></returns>
         public async Task<WxAddCustomMenuResp> AddCustomMenuAsync(List<WxMenuButtonMo> buttons,WxMenuMatchRuleMo rule )
         {
-            var req = new OsHttpRequest();
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/addconditional"),
+                CustomBody = JsonConvert.SerializeObject(new {button = buttons, matchrule = rule},
+                    Formatting.Indented, new JsonSerializerSettings() {NullValueHandling = NullValueHandling.Ignore})
+            };
 
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/addconditional");
-            req.CustomBody = JsonConvert.SerializeObject(new { button = buttons, matchrule=rule }, 
-                Formatting.Indented,new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
 
 
             return await RestCommonOffcialAsync<WxAddCustomMenuResp>(req);
@@ -115,7 +118,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         public async Task<WxBaseResp> DeleteCustomMenuAsync(long menuid)
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/delconditional");
             req.CustomBody = $"{{\"menuid\":\"{menuid}\"}}";
 
@@ -131,7 +134,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed= HttpMothed.POST;
+            req.HttpMethod= HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/menu/trymatch");
             req.CustomBody = $"{{\"user_id\":\"{userId}\"}}";
 

@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
@@ -34,7 +35,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/get");
             req.CustomBody = $"{{\"code\":\"{code}\",\"card_id\":\"{cardId}\",\"check_consume\":{checkConsume}}}";
 
@@ -52,12 +53,13 @@ namespace OSS.SnsSdk.Official.Wx.Card
          /// <returns></returns>
         public async Task<WxCardCodeDecryptResp> DecryptCodeAsync(string encryptCode)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/decrypt");
-            req.CustomBody = $"{{\"encrypt_code\":\"{encryptCode}\"}}";
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/card/code/decrypt"),
+                CustomBody = $"{{\"encrypt_code\":\"{encryptCode}\"}}"
+            };
+            
             return await RestCommonOffcialAsync<WxCardCodeDecryptResp>(req);
         }
 
@@ -72,7 +74,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/consume");
             req.CustomBody = $"{{\"code\":\"{code}\",\"card_id\":\"{cardId}\"}}";
 

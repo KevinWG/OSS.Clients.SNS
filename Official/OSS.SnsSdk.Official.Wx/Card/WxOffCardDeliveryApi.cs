@@ -12,6 +12,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels.Enums;
@@ -73,7 +74,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         private async Task<WxCardQrCodeResp> CreateCardQrCodeAsync(WxCreateCardQrReq actionInfo)
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/qrcode/create");
             req.CustomBody = JsonConvert.SerializeObject(actionInfo);
 
@@ -91,7 +92,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         public async Task<WxImportCardCodeResp> ImportCardCodeAsync(string cardId, List<string> codes)
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/deposit");
             req.CustomBody = JsonConvert.SerializeObject(new { card_id = cardId, code = codes });
 
@@ -106,7 +107,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         public async Task<WxGetImportCodeCountResp> GetImportCodeCountAsync(string cardId)
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/getdepositcount");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
 
@@ -122,7 +123,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         public async Task<WxCheckImportCodeResp> CheckImportCodeAsync(string cardId, List<string> codes)
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/getdepositcount");
             req.CustomBody = JsonConvert.SerializeObject(new { card_id = cardId, code = codes });
 
@@ -138,7 +139,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         public async Task<WxGetCardArticleContentResp> GetArticleContentAsync(string cardId)
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/mpnews/gethtml");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
 
@@ -155,7 +156,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/landingpage/create");
             req.CustomBody = JsonConvert.SerializeObject(pageReq);
 
@@ -178,7 +179,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
        {
            var req = new OsHttpRequest();
 
-           req.HttpMothed = HttpMothed.POST;
+           req.HttpMethod = HttpMethod.Post;
            req.AddressUrl = string.Concat(m_ApiUrl, "/card/testwhitelist/set");
            req.CustomBody = JsonConvert.SerializeObject(new {openid = openIds, username = names});
 

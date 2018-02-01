@@ -57,7 +57,7 @@ namespace OSS.Social.Tests
         /// <param name="slidingExpiration">缓存时间 （redis目前都用绝对的）</param>
         /// <param name="absoluteExpiration"> 绝对过期时间（此字段无用 redis目前都用绝对的） </param>
         /// <returns>是否添加成功</returns>
-        public bool Add<T>(string key, T obj, TimeSpan slidingExpiration, DateTime? absoluteExpiration)
+        private bool Add<T>(string key, T obj, TimeSpan slidingExpiration, DateTime? absoluteExpiration)
         {
             if (slidingExpiration == TimeSpan.Zero && absoluteExpiration == null)
                 throw new ArgumentNullException("slidingExpiration", "缓存过期时间不正确,需要设置固定过期时间或者相对过期时间");
@@ -72,20 +72,6 @@ namespace OSS.Social.Tests
                 slidingExpiration = new TimeSpan(Convert.ToDateTime(absoluteExpiration).Ticks) - new TimeSpan(DateTime.Now.Ticks);
             }
             return CacheRedis.StringSet(key, jsonStr, slidingExpiration);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="obj"></param>
-        /// <param name="slidingExpiration"></param>
-        /// <param name="absoluteExpiration"></param>
-        /// <returns></returns>
-        public bool AddOrUpdate<T>(string key, T obj, TimeSpan slidingExpiration, DateTime? absoluteExpiration = null)
-        {
-            return Add(key, obj, slidingExpiration, absoluteExpiration);
         }
 
         /// <summary>
@@ -112,6 +98,21 @@ namespace OSS.Social.Tests
         public bool Remove(string key)
         {
             return CacheRedis.KeyDelete(key);
+        }
+
+        public bool Set<T>(string key, T obj, TimeSpan slidingExpiration)
+        {
+            return Add(key, obj, slidingExpiration, null);
+        }
+
+        public bool Set<T>(string key, T obj, DateTime absoluteExpiration)
+        {
+            return Add(key, obj, TimeSpan.Zero,  absoluteExpiration);
+        }
+
+        public bool AddOrUpdate<T>(string key, T obj, TimeSpan slidingExpiration, DateTime? absoluteExpiration = null)
+        {
+            return Add(key, obj, slidingExpiration, absoluteExpiration);
         }
     }
 }

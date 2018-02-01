@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
@@ -43,7 +44,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var reqest = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/qrcode/create"),
                 CustomBody = JsonConvert.SerializeObject(req)
             };
@@ -71,7 +72,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/shorturl"),
                 CustomBody = $"{{\"action\":\"long2short\",\"long_url\":\"{longUrl}\"}}"
             };

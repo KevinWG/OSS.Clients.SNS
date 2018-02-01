@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
@@ -129,13 +130,11 @@ namespace OSS.SnsSdk.Official.Wx.Shake
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl,
                     $"/shakearound/lottery/addlotteryinfo?use_template={userTemplate}&logo_url={logUrl}"),
                 CustomBody = JsonConvert.SerializeObject(lotteryReq)
             };
-
-
             return await RestCommonOffcialAsync<WxAddLotteryResp>(req);
         }
 
@@ -148,12 +147,11 @@ namespace OSS.SnsSdk.Official.Wx.Shake
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/shakearound/lottery/setprizebucket"),
                 CustomBody = JsonConvert.SerializeObject(prizeReq)
             };
-
-
+            
             return await RestCommonOffcialAsync<WxSetLotteryPrizeResp>(req);
         }
 
@@ -167,13 +165,11 @@ namespace OSS.SnsSdk.Official.Wx.Shake
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.GET,
+                HttpMethod = HttpMethod.Get,
                 AddressUrl =
                     string.Concat(m_ApiUrl,
                         $"/shakearound/lottery/setlotteryswitch?lottery_id={lotteryId}&onoff={onoff}")
             };
-
-
             return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
@@ -186,11 +182,9 @@ namespace OSS.SnsSdk.Official.Wx.Shake
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.GET,
+                HttpMethod = HttpMethod.Get,
                 AddressUrl = string.Concat(m_ApiUrl, "/shakearound/lottery/querylottery?lottery_id=", lotteryId)
             };
-
-
             return await RestCommonOffcialAsync<WxGetLotteryResp>(req);
         }
     }

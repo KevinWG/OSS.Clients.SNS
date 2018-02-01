@@ -12,6 +12,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -60,7 +61,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         public async Task<WxBaseResp> AddKfAccountAsync(string account, string nickname)
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/add");
             req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\"}}";
 
@@ -77,7 +78,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/inviteworker");
             req.CustomBody = $"{{\"kf_account\":\"{account}\",\"invite_wx\":\"{inviteWx}\"}}";
 
@@ -95,7 +96,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/update");
             req.CustomBody = $"{{\"kf_account\":\"{account}\",\"nickname\":\"{nickname}\"}}";
 
@@ -111,7 +112,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.GET;
+            req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/del?kf_account=", account);
 
             return await RestCommonOffcialAsync<WxBaseResp>(req);
@@ -128,7 +129,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfaccount/uploadheadimg?kf_account=", account);
             req.FileParameters.Add(new FileParameter("media", fileReq.file_stream, fileReq.file_name,
                 fileReq.content_type));
@@ -143,7 +144,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         public async Task<WxGetKFAccountListResp> GetKFAccountListAsync()
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.GET;
+            req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/customservice/getkflist");
 
             return await RestCommonOffcialAsync<WxGetKFAccountListResp>(req);
@@ -156,7 +157,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         public async Task<WxGetKfOnlineResp> GetKfOnlineList()
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.GET;
+            req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/customservice/getonlinekflist");
 
             return await RestCommonOffcialAsync<WxGetKfOnlineResp>(req);
@@ -175,7 +176,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfsession/create");
             req.CustomBody = $"{{\"kf_account\":\"{account}\",\"openid\":\"{openId}\"}}";
 
@@ -192,7 +193,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfsession/close");
             req.CustomBody = $"{{\"kf_account\":\"{account}\",\"openid\":\"{openId}\"}}";
 
@@ -208,7 +209,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.GET;
+            req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfsession/getsession?openid=", openId);
 
             return await RestCommonOffcialAsync<WxGetUserKfSessionResp>(req);
@@ -224,7 +225,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.GET;
+            req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfsession/getsessionlist?kf_account=", account);
 
             return await RestCommonOffcialAsync<WxGetKfSessionsByAccountResp>(req);
@@ -239,7 +240,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.GET;
+            req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/kfsession/getwaitcase?");
 
             return await RestCommonOffcialAsync<WxGetKfWaitUserListResp>(req);
@@ -418,7 +419,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         { 
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/message/custom/send");
             req.CustomBody = msgContent;
 
@@ -435,7 +436,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/customservice/msgrecord/getmsglist");
             req.CustomBody = JsonConvert.SerializeObject(msgReq);
 

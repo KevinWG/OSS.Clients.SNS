@@ -103,7 +103,7 @@ namespace OSS.SnsSdk.Official.Wx
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.GET,
+                HttpMethod = HttpMethod.Get,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/getcallbackip")
             };
             
@@ -141,8 +141,8 @@ namespace OSS.SnsSdk.Official.Wx
 
             tokenResp.expires_date = DateTime.Now.ToUtcSeconds() + tokenResp.expires_in - 600;
 
-            CacheUtil.AddOrUpdate(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in-600),
-                null, ModuleName);
+            CacheUtil.Set(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in-600),
+                 ModuleName);
 
             return tokenResp;
         }
@@ -157,7 +157,7 @@ namespace OSS.SnsSdk.Official.Wx
             {
                 AddressUrl =
                     $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}",
-                HttpMothed = HttpMothed.GET
+                HttpMethod = HttpMethod.Get
             };
             return await RestCommonJson<WxOffAccessTokenResp>(req);
         }

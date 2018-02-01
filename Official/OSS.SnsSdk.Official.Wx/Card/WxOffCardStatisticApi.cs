@@ -12,6 +12,7 @@
 #endregion
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Card.Mos;
@@ -33,12 +34,13 @@ namespace OSS.SnsSdk.Official.Wx.Card
         /// <returns></returns>
         public async Task<WxCardStatResp<WxCardStatMo>> GetCardStatisticAsync(DateTime beginDate,DateTime endTime,int source)
         {
-            var req=new OsHttpRequest();
-
-            req.HttpMothed=HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getcardbizuininfo");
-            req.CustomBody=$"{{\"begin_date\":\"{beginDate:yyyy-MM-dd}\",\"end_date\":\"{endTime:yyyy-MM-dd}\",\"cond_source\":{source}}}";
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getcardbizuininfo"),
+                CustomBody =
+                    $"{{\"begin_date\":\"{beginDate:yyyy-MM-dd}\",\"end_date\":\"{endTime:yyyy-MM-dd}\",\"cond_source\":{source}}}"
+            };
             return await RestCommonOffcialAsync<WxCardStatResp<WxCardStatMo>>(req);
         }
 
@@ -52,12 +54,14 @@ namespace OSS.SnsSdk.Official.Wx.Card
         /// <returns></returns>
         public async Task<WxCardStatResp<WxCardItemStatMo>> GetCardItemStatisticAsync(DateTime beginDate, DateTime endTime, int source,string cardId)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getcardcardinfo");
-            req.CustomBody = $"{{\"begin_date\":\"{beginDate:yyyy-MM-dd}\",\"end_date\":\"{endTime:yyyy-MM-dd}\",\"cond_source\":{source},\"card_id\":\"{cardId}\"}}";
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getcardcardinfo"),
+                CustomBody =
+                    $"{{\"begin_date\":\"{beginDate:yyyy-MM-dd}\",\"end_date\":\"{endTime:yyyy-MM-dd}\",\"cond_source\":{source},\"card_id\":\"{cardId}\"}}"
+            };
+            
             return await RestCommonOffcialAsync<WxCardStatResp<WxCardItemStatMo>>(req);
         }
 
@@ -73,7 +77,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getcardmembercardinfo");
             req.CustomBody = $"{{\"begin_date\":\"{beginDate:yyyy-MM-dd}\",\"end_date\":\"{endTime:yyyy-MM-dd}\",\"cond_source\":{source}}}";
 
@@ -92,7 +96,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getcardmembercarddetail");
             req.CustomBody = $"{{\"begin_date\":\"{beginDate:yyyy-MM-dd}\",\"end_date\":\"{endTime:yyyy-MM-dd}\",\"card_id\":\"{cardId}\"}}";
 

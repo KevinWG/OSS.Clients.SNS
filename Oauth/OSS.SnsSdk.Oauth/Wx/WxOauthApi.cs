@@ -12,6 +12,7 @@
 #endregion
 
 using System;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
@@ -106,7 +107,7 @@ namespace OSS.SnsSdk.Oauth.Wx
             var req = new OsHttpRequest
             {
                 AddressUrl = reqUrl.ToString(),
-                HttpMothed = HttpMothed.GET
+                HttpMethod = HttpMethod.Get
             };
             
             return await RestCommonJson<WxGetOauthAccessTokenResp>(req);
@@ -143,7 +144,7 @@ namespace OSS.SnsSdk.Oauth.Wx
             var request = new OsHttpRequest
             {
                 AddressUrl = reqUrl.ToString(),
-                HttpMothed = HttpMothed.GET
+                HttpMethod = HttpMethod.Get
             };
             
             return await RestCommonJson<WxGetOauthAccessTokenResp>(request);
@@ -160,7 +161,7 @@ namespace OSS.SnsSdk.Oauth.Wx
             var request = new OsHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/sns/userinfo?access_token={accessToken}&openid={openId}",
-                HttpMothed = HttpMothed.GET
+                HttpMethod = HttpMethod.Get
             };
 
             return await RestCommonJson<WxGetOauthUserResp>(request);
@@ -181,7 +182,7 @@ namespace OSS.SnsSdk.Oauth.Wx
             var request = new OsHttpRequest
             {
                 AddressUrl = url,
-                HttpMothed = HttpMothed.GET
+                HttpMethod = HttpMethod.Get
             };
 
             return await RestCommonJson<WxBaseResp>(request);

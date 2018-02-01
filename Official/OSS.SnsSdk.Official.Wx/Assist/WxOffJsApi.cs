@@ -12,6 +12,7 @@
 #endregion
 
 using System;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,7 +76,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.GET,
+                HttpMethod = HttpMethod.Get,
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/ticket/getticket?type=", type.ToString())
             };
 

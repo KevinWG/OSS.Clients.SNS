@@ -12,8 +12,8 @@
 #endregion
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
-using OSS.Http.Extention;
 using OSS.Http.Mos;
 
 using OSS.SocialSDK.WX.Offcial.Statistic.Mos;
@@ -33,12 +33,12 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxInterfaceStatResp> GetInterfaceStatisticAsync(WxStatReq statReq)
         {
-            var req=new OsHttpRequest();
-
-            req.HttpMothed=HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getinterfacesummary");
-            req.CustomBody = GetRequestBody(statReq);
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getinterfacesummary"),
+                CustomBody = GetRequestBody(statReq)
+            };
             return await RestCommonOffcialAsync<WxInterfaceStatResp>(req);
         }
 
@@ -50,12 +50,13 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxInterfaceStatResp> GetInterfaceHourStatisticAsync(DateTime date)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getinterfacesummaryhour");
-            req.CustomBody = GetRequestBody(new WxStatReq() {begin_date = date, end_date = date});
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getinterfacesummaryhour"),
+                CustomBody = GetRequestBody(new WxStatReq() {begin_date = date, end_date = date})
+            };
+            
             return await RestCommonOffcialAsync<WxInterfaceStatResp>(req);
         }
     }

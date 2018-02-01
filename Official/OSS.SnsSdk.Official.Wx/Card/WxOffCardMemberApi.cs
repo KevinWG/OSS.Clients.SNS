@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Http.Mos;
@@ -22,8 +23,6 @@ namespace OSS.SnsSdk.Official.Wx.Card
     public partial class WxOffCardApi
     {
 
-
-
         /// <summary>
         /// 6.1  接口激活会员卡
         /// </summary>
@@ -33,7 +32,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req=new OsHttpRequest();
 
-            req.HttpMothed=HttpMothed.POST;
+            req.HttpMethod=HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/activate");
             req.CustomBody = JsonConvert.SerializeObject(activeReq);
 
@@ -49,7 +48,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/activateuserform/set"),
                 CustomBody = JsonConvert.SerializeObject(setReq)
             };
@@ -67,7 +66,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/userinfo/get"),
                 CustomBody = $"{{\"card_id\":\"{cardId}\",\"code\":\"{code}\"}}"
             };
@@ -84,7 +83,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/userinfo/get"),
                 CustomBody = $"{{\"activate_ticket\":\"{activateTicket}\"}}"
             };
@@ -102,7 +101,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 AddressUrl = string.Concat(m_ApiUrl, "/card/membercard/updateuser"),
                 CustomBody = JsonConvert.SerializeObject(updateReq)
             };

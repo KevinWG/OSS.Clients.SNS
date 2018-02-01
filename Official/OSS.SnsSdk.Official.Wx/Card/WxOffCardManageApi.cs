@@ -12,6 +12,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
@@ -174,7 +175,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/create");
             req.CustomBody = JsonConvert.SerializeObject(new {card = cardReq}, Formatting.Indented,
                 new JsonSerializerSettings() {NullValueHandling = NullValueHandling.Ignore});
@@ -196,7 +197,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/user/getcardlist");
             req.CustomBody = $"{{\"openid\":\"{openId}\",\"card_id\":\"{cardId}\"}}";
 
@@ -212,7 +213,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/get");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
 
@@ -230,7 +231,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/batchget");
             req.CustomBody = JsonConvert.SerializeObject(new {offset = offset, count = count, status_list = status});
 
@@ -374,13 +375,14 @@ namespace OSS.SnsSdk.Official.Wx.Card
         /// <returns></returns>
         private async Task<WxUpdateCardResp> UpdateCardAsync(object obj)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/card/update");
-            req.CustomBody = JsonConvert.SerializeObject(obj, Formatting.Indented,
-                new JsonSerializerSettings() {NullValueHandling = NullValueHandling.Ignore});
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/card/update"),
+                CustomBody = JsonConvert.SerializeObject(obj, Formatting.Indented,
+                    new JsonSerializerSettings() {NullValueHandling = NullValueHandling.Ignore})
+            };
+            
             return await RestCommonOffcialAsync<WxUpdateCardResp>(req);
         }
 
@@ -397,12 +399,13 @@ namespace OSS.SnsSdk.Official.Wx.Card
         /// <returns></returns>
         public async Task<WxBaseResp> UpdateStockAsync(string cardId,int increaseCount,int reduceCount)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/card/modifystock");
-            req.CustomBody = $"{{\"card_id\":\"{cardId}\",\"increase_stock_value\":{increaseCount},\"reduce_stock_value\":{reduceCount}}}";
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/card/modifystock"),
+                CustomBody =
+                    $"{{\"card_id\":\"{cardId}\",\"increase_stock_value\":{increaseCount},\"reduce_stock_value\":{reduceCount}}}"
+            };
             return await RestCommonOffcialAsync<WxBaseResp>(req);
         }
 
@@ -417,7 +420,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/update");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\",\"code\":\"{code}\",\"new_code\":\"{newCode}\"}}";
 
@@ -433,7 +436,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/delete");
             req.CustomBody = $"{{\"card_id\":\"{cardId}\"}}";
 
@@ -452,7 +455,7 @@ namespace OSS.SnsSdk.Official.Wx.Card
         {
             var req = new OsHttpRequest();
 
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/card/code/unavailable");
             req.CustomBody = $"{{\"code\":\"{code}\",\"card_id\":\"{cardId}\",\"reason\":\"{reason}\"}}";
 

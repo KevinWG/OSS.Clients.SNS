@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
@@ -44,7 +45,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             var req = new OsHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_create_preauthcode",
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 CustomBody = $"{{\"component_appid\":\"{ApiConfig.AppId}\"}}"
             };
 
@@ -85,7 +86,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             var req = new OsHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_query_auth",
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 CustomBody = strContent.ToString()
             };
 
@@ -108,7 +109,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             var req = new OsHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_authorizer_token",
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 CustomBody = strContent.ToString()
             };
 
@@ -130,7 +131,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             var req = new OsHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_get_authorizer_info",
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 CustomBody = strContent.ToString()
             };
 
@@ -157,7 +158,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             var req = new OsHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_get_authorizer_option",
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 CustomBody = strContent.ToString()
             };
 
@@ -185,7 +186,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             var req = new OsHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_set_authorizer_option",
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 CustomBody = strContent.ToString()
             };
 
@@ -209,7 +210,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             var req = new OsHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_get_authorizer_list",
-                HttpMothed = HttpMothed.POST,
+                HttpMethod = HttpMethod.Post,
                 CustomBody = strContent.ToString()
             };
 

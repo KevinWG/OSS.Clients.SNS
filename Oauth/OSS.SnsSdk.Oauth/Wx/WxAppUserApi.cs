@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Http.Mos;
@@ -36,11 +37,12 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <returns></returns>
         public async Task<WxGetSessionCodeResp> GetSessionCodeAsync(string jsCode)
         {
-            var req = new OsHttpRequest();
-
-            req.HttpMothed = HttpMothed.GET;
-            req.AddressUrl = string.Concat(m_ApiUrl, $"/sns/jscode2session?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&js_code={jsCode}&grant_type=authorization_code");
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Get,
+                AddressUrl = string.Concat(m_ApiUrl,
+                    $"/sns/jscode2session?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&js_code={jsCode}&grant_type=authorization_code")
+            };
             return await RestCommonJson<WxGetSessionCodeResp>(req);
         }
 

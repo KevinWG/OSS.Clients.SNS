@@ -12,6 +12,7 @@
 #endregion
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Http.Mos;
 using OSS.SocialSDK.WX.Offcial.Statistic.Mos;
@@ -29,7 +30,7 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
        public async Task<WxStatResp<WxMsgUpStatMo>> GetUpMsgStatisticAsync(WxStatReq statisticReq)
        {
             var req=new OsHttpRequest();
-            req.HttpMothed=HttpMothed.POST;
+            req.HttpMethod=HttpMethod.Post;
            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsg");
            req.CustomBody = GetRequestBody(statisticReq);
 
@@ -45,7 +46,7 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         public async Task<WxStatResp<WxMsgUpStatHourMo>> GetUpMsgHourStatisticAsync(DateTime date)
         {
             var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
+            req.HttpMethod = HttpMethod.Post;
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsghour");
             req.CustomBody = GetRequestBody(new WxStatReq() {begin_date = date, end_date = date});
 
@@ -61,10 +62,12 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxStatResp<WxMsgUpStatMo>> GetUpMsgWeekStatistic(WxStatReq statisticReq)
         {
-            var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgweek");
-            req.CustomBody = GetRequestBody(statisticReq);
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgweek"),
+                CustomBody = GetRequestBody(statisticReq)
+            };
 
             return await RestCommonOffcialAsync<WxStatResp<WxMsgUpStatMo>>(req);
         }
@@ -78,10 +81,12 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxStatResp<WxMsgUpStatMo>> GetUpMsgMonthStatisticAsync(WxStatReq statisticReq)
         {
-            var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgmonth");
-            req.CustomBody = GetRequestBody(statisticReq);
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgmonth"),
+                CustomBody = GetRequestBody(statisticReq)
+            };
 
             return await RestCommonOffcialAsync<WxStatResp<WxMsgUpStatMo>>(req);
         }
@@ -96,11 +101,12 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxStatResp<WxMsgUpStatDistMo>> GetUpMsgDistStatisticAsync(WxStatReq statisticReq)
         {
-            var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgdist");
-            req.CustomBody = GetRequestBody(statisticReq);
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgdist"),
+                CustomBody = GetRequestBody(statisticReq)
+            };
             return await RestCommonOffcialAsync<WxStatResp<WxMsgUpStatDistMo>>(req);
         }
 
@@ -112,11 +118,12 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxStatResp<WxMsgUpStatDistMo>> GetUpMsgDistWeekStatistic(WxStatReq statisticReq)
         {
-            var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgdistweek");
-            req.CustomBody = GetRequestBody(statisticReq);
-
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgdistweek"),
+                CustomBody = GetRequestBody(statisticReq)
+            };
             return await RestCommonOffcialAsync<WxStatResp<WxMsgUpStatDistMo>>(req);
         }
 
@@ -129,10 +136,12 @@ namespace OSS.SnsSdk.Official.Wx.Statistic
         /// <returns></returns>
         public async Task<WxStatResp<WxMsgUpStatDistMo>> GetUpMsgDistMonthStatisticAsync(WxStatReq statisticReq)
         {
-            var req = new OsHttpRequest();
-            req.HttpMothed = HttpMothed.POST;
-            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgdistmonth");
-            req.CustomBody = GetRequestBody(statisticReq);
+            var req = new OsHttpRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgdistmonth"),
+                CustomBody = GetRequestBody(statisticReq)
+            };
 
             return await RestCommonOffcialAsync<WxStatResp<WxMsgUpStatDistMo>>(req);
         }
