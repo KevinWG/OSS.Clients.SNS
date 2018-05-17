@@ -50,7 +50,7 @@ namespace OSS.SnsSdk.Msg.Wx
         {
             var checkSignRes = WxMsgHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
 
-            var resultRes = checkSignRes.ConvertToResultOnly<string>();
+            var resultRes = checkSignRes.ConvertToResult<string>();
             resultRes.data = resultRes.IsSuccess() ? echostr : string.Empty;
 
             return resultRes;
@@ -96,11 +96,11 @@ namespace OSS.SnsSdk.Msg.Wx
             // 二.  正常消息处理
             var checkRes = PrepareExecute(contentXml, signature, timestamp, nonce);
             if (!checkRes.IsSuccess())
-                return checkRes.ConvertToResultOnly<string>();
+                return checkRes.ConvertToResult<string>();
 
             var contextRes = Execute(checkRes.data);
             if (!contextRes.IsSuccess())
-                return contextRes.ConvertToResultOnly<string>();
+                return contextRes.ConvertToResult<string>();
 
             var resultString = contextRes.data.ReplyMsg.ToReplyXml();
             if (ApiConfig.SecurityType != WxSecurityType.None &&
@@ -220,7 +220,7 @@ namespace OSS.SnsSdk.Msg.Wx
 
             var resCheck = WxMsgHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
             if (!resCheck.IsSuccess())
-                return resCheck.ConvertToResultOnly<string>();
+                return resCheck.ConvertToResult<string>();
 
             if (ApiConfig.SecurityType == WxSecurityType.None)
                 return new ResultMo<string>(recXml);
