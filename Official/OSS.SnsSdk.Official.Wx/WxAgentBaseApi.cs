@@ -105,7 +105,7 @@ namespace OSS.SnsSdk.Official.Wx
             var tokenRes = await GetAgentAccessTokenFromCacheAsync();
 
             if (!tokenRes.IsSuccess())
-                return tokenRes.ConvertToResult<T>();
+                return tokenRes.ConvertToResultInherit<T>();
             
             req.AddressUrl = string.Concat(req.AddressUrl,// req.AddressUrl.IndexOf('?') > 0 ? "&" : "?",
                 "?component_access_token=",tokenRes.component_access_token);

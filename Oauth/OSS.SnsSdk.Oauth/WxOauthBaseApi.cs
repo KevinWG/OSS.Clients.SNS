@@ -25,7 +25,7 @@ namespace OSS.SnsSdk.Oauth.Wx
     /// <summary>
     /// 微信接口SDK基类
     /// </summary>
-    public class WxOauthBaseApi: BaseConfigProvider<AppConfig, WxOauthBaseApi>
+    public class WxOauthBaseApi: BaseApiConfigProvider<AppConfig>
     {
         /// <summary>
         /// 微信api接口地址
@@ -89,14 +89,14 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// </summary>
         public static Func<AppConfig, string> AgentAccessTokenFunc { get; set; }
 
-        /// <summary>
-        ///  设置上下文配置信息
-        /// </summary>
-        /// <param name="config"></param>
-        public static void SetContextConfig(AppConfig config)
-        {
-            WxOauthBaseApi.SetContextConfig(config);
-        }
+        ///// <summary>
+        /////  设置上下文配置信息
+        ///// </summary>
+        ///// <param name="config"></param>
+        //public static void SetContextConfig(AppConfig config)
+        //{
+        //    WxOauthBaseApi.SetContextConfig(config);
+        //}
 
     }
 

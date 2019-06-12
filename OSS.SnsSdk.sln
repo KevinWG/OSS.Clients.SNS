@@ -43,7 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sns", "Sns", "{D333701B-6E7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.SnsSdk.Msg.Wx", "Msg\OSS.SnsSdk.Msg.Wx\OSS.SnsSdk.Msg.Wx.csproj", "{38DE999B-1264-4460-BAE6-8C1DA382D44A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.SnsSdk.Oauth", "Oauth\OSS.SnsSdk.Oauth\OSS.SnsSdk.Oauth.csproj", "{12DE392E-5356-4533-BF73-7F67ED47444D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.SnsSdk.Oauth.Wx", "Oauth\OSS.SnsSdk.Oauth\OSS.SnsSdk.Oauth.Wx.csproj", "{12DE392E-5356-4533-BF73-7F67ED47444D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.SnsSdk.Official.Wx", "Official\OSS.SnsSdk.Official.Wx\OSS.SnsSdk.Official.Wx.csproj", "{2FE174F2-C797-4BF4-90F8-822F9185A62A}"
 EndProject

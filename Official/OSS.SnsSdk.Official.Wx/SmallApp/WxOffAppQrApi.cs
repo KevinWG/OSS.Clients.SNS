@@ -44,7 +44,7 @@ namespace OSS.SnsSdk.Official.Wx.SmallApp
         {
             var accessToken = await GetAccessTokenFromCacheAsync();
             if (!accessToken.IsSuccess())
-                return accessToken.ConvertToResult<WxFileResp>();
+                return accessToken.ConvertToResultInherit<WxFileResp>();
 
             var req = new OsHttpRequest
             {

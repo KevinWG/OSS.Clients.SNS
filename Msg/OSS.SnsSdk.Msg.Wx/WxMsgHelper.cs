@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using OSS.Common.ComModels;
-using OSS.Common.ComModels.Enums;
 using OSS.Common.Encrypt;
 using OSS.Common.Extention;
 using OSS.SnsSdk.Msg.Wx.Mos;

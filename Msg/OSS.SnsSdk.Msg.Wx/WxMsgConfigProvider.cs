@@ -81,14 +81,14 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         public static string ModuleName { get; set; } = ModuleNames.SocialCenter;
 
-        /// <summary>
-        ///  设置上下文配置信息
-        /// </summary>
-        /// <param name="config"></param>
-        public static void SetContextConfig(WxMsgConfig config)
-        {
-            WxMsgBaseHandler.SetContextConfig(config);
-        }
+        ///// <summary>
+        /////  设置上下文配置信息
+        ///// </summary>
+        ///// <param name="config"></param>
+        //public static void SetContextConfig(WxMsgConfig config)
+        //{
+        //    WxMsgBaseHandler.SetContextConfig(config);
+        //}
 
     }
 

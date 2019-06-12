@@ -93,7 +93,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist
             var ticketRes = await GetJsTicketFromCacheAsync(WxJsTicketType.jsapi);
             if (!ticketRes.IsSuccess())
             {
-                return ticketRes.ConvertToResult<WxJsSdkSignatureResp>();
+                return ticketRes.ConvertToResultInherit<WxJsSdkSignatureResp>();
             }
 
             var resp = new WxJsSdkSignatureResp

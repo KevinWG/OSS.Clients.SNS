@@ -6,7 +6,7 @@
 	
 一. **授权对接模块**  (Oauth)
 
-    nuget下安装命令：**Install-Package OSS.SnsSdk.Oauth**   
+    nuget下安装命令：**Install-Package OSS.SnsSdk.Oauth.Wx**   
    	
 用户授权（oauth2.0），用户授权基础信息
     

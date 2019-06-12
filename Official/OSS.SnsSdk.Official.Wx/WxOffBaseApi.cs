@@ -17,7 +17,6 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
-using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
 using OSS.Common.Plugs;
 using OSS.Common.Plugs.CachePlug;
@@ -31,7 +30,7 @@ namespace OSS.SnsSdk.Official.Wx
     /// <summary>
     ///  基类
     /// </summary>
-    public class WxBaseApi : BaseConfigProvider<AppConfig, WxBaseApi>
+    public class WxBaseApi : BaseApiConfigProvider<AppConfig>
     {
         /// <summary>
         /// 微信api接口地址
@@ -176,7 +175,7 @@ namespace OSS.SnsSdk.Official.Wx
         {
             var tokenRes = await GetAccessTokenFromCacheAsync();
             if (!tokenRes.IsSuccess())
-                return tokenRes.ConvertToResult<T>();
+                return tokenRes.ConvertToResultInherit<T>();
 
             req.RequestSet = r =>
             {
@@ -226,14 +225,14 @@ namespace OSS.SnsSdk.Official.Wx
         /// </summary>
         public static AppConfig DefaultConfig { get; set; }
 
-        /// <summary>
-        ///  设置上下文配置信息
-        /// </summary>
-        /// <param name="config"></param>
-        public static void SetContextConfig(AppConfig config)
-        {
-            WxBaseApi.SetContextConfig(config);
-        }
+        ///// <summary>
+        /////  设置上下文配置信息
+        ///// </summary>
+        ///// <param name="config"></param>
+        //public static void SetContextConfig(AppConfig config)
+        //{
+        //    WxBaseApi.SetContextConfig(config);
+        //}
         
         /// <summary>
         ///   当前模块名称

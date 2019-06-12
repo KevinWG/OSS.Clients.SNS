@@ -62,7 +62,7 @@ namespace OSS.SnsSdk.Official.Wx.Agent
             var preAuthCodeRes = await GetPreAuthCode();
 
             if (!preAuthCodeRes.IsSuccess())
-                return preAuthCodeRes.ConvertToResultOnly<string>();
+                return preAuthCodeRes.ConvertToResult<string>();
 
             if (redirectUrl.Contains("://"))
                 redirectUrl = redirectUrl.UrlEncode();

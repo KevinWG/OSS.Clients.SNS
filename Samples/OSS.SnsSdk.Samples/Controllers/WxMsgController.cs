@@ -24,7 +24,8 @@ namespace OSS.SnsSdk.Samples.Controllers
         // 【二】 在构造函数中动态设置配置信息
         public WxMsgController()
         {
-           WxMsgConfigProvider.SetContextConfig(config);
+            _msgService.SetContextConfig(config);
+           //WxMsgConfigProvider.SetContextConfig(config);
         }
 
         #region  【A】 高级自定义方法实现
