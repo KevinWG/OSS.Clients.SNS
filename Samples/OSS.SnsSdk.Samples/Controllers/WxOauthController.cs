@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common.ComModels;
+using OSS.Common.Resp;
 using OSS.SnsSdk.Oauth.Wx;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 

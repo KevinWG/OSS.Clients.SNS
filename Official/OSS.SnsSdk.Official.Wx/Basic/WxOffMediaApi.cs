@@ -16,6 +16,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
+using OSS.Common.Resp;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
@@ -67,7 +68,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var accessToken = await GetAccessTokenFromCacheAsync();
             if (!accessToken.IsSuccess())
-                return accessToken.ConvertToResultInherit<WxFileResp>();
+                return new WxFileResp().WithResp(accessToken);// accessToken.ConvertToResultInherit<WxFileResp>();
 
             var req = new OsHttpRequest
             {
@@ -224,7 +225,7 @@ namespace OSS.SnsSdk.Official.Wx.Basic
         {
             var accessToken = await GetAccessTokenFromCacheAsync();
             if (!accessToken.IsSuccess())
-                return accessToken.ConvertToResultInherit<WxFileResp>();
+                return new WxFileResp().WithResp(accessToken);// accessToken.ConvertToResultInherit<WxFileResp>();
 
             var req = new OsHttpRequest
             {

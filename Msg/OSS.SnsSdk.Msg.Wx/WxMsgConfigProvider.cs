@@ -17,6 +17,7 @@ using System.Collections.Concurrent;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Plugs;
+using OSS.Common.Resp;
 using OSS.SnsSdk.Msg.Wx.Mos;
 
 namespace OSS.SnsSdk.Msg.Wx
@@ -34,17 +35,17 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         /// <param name="msgType">消息类型</param>
         /// <param name="func"></param>
-        public static ResultMo RegisteProcessor<TRecMsg>(string msgType, Func<TRecMsg, WxBaseReplyMsg> func)
+        public static Resp RegisteProcessor<TRecMsg>(string msgType, Func<TRecMsg, WxBaseReplyMsg> func)
             where TRecMsg : WxBaseRecMsg, new()
         {
             var key = msgType.ToLower();
             if (processorDirs.ContainsKey(key))
-                return new ResultMo(ResultTypes.ObjectExsit, "已存在相同的消息处理类型！");
+                return new Resp(RespTypes.ObjectExsit, "已存在相同的消息处理类型！");
 
             var handler = new WxMsgProcessor<TRecMsg> { ProcessFunc = func };
             return processorDirs.TryAdd(key, handler)
-                ? new ResultMo()
-                : new ResultMo(ResultTypes.ObjectExsit, "注册消息处理句柄失败！");
+                ? new Resp()
+                : new Resp(RespTypes.ObjectExsit, "注册消息处理句柄失败！");
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="func"></param>
-        public static ResultMo RegisteEventProcessor<TRecMsg>(string eventName,Func<TRecMsg, WxBaseReplyMsg> func)
+        public static Resp RegisteEventProcessor<TRecMsg>(string eventName,Func<TRecMsg, WxBaseReplyMsg> func)
             where TRecMsg : WxBaseRecEventMsg, new()
         {
             var key = string.Concat("event_", eventName);

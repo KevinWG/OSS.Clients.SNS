@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
+using OSS.Common.Resp;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Agent.Mos;
 
@@ -57,19 +58,19 @@ namespace OSS.SnsSdk.Official.Wx.Agent
         /// </summary>
         /// <param name="redirectUrl">回调地址</param>
         /// <returns></returns>
-        public async Task<ResultMo<string>> GetPreAuthUrl(string redirectUrl)
+        public async Task<Resp<string>> GetPreAuthUrl(string redirectUrl)
         {
             var preAuthCodeRes = await GetPreAuthCode();
 
             if (!preAuthCodeRes.IsSuccess())
-                return preAuthCodeRes.ConvertToResult<string>();
+                return new Resp<string>().WithResp(preAuthCodeRes);// preAuthCodeRes.ConvertToResult<string>();
 
             if (redirectUrl.Contains("://"))
                 redirectUrl = redirectUrl.UrlEncode();
             
             var authUrl=
                 $"https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid={ApiConfig.AppId}&pre_auth_code={preAuthCodeRes.pre_auth_code}&redirect_uri={redirectUrl}";
-            return new ResultMo<string>(authUrl);
+            return new Resp<string>(authUrl);
         }
 
         /// <summary>

@@ -14,6 +14,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
+using OSS.Common.Resp;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
 using OSS.Http.Extention;
@@ -44,7 +45,7 @@ namespace OSS.SnsSdk.Official.Wx.SmallApp
         {
             var accessToken = await GetAccessTokenFromCacheAsync();
             if (!accessToken.IsSuccess())
-                return accessToken.ConvertToResultInherit<WxFileResp>();
+                return  new WxFileResp().WithResp(accessToken);// accessToken.ConvertToResultInherit<WxFileResp>();
 
             var req = new OsHttpRequest
             {

@@ -12,6 +12,7 @@
 #endregion
 
 using OSS.Common.ComModels;
+using OSS.Common.Resp;
 
 namespace OSS.SnsSdk.Official.Wx
 {
@@ -19,7 +20,7 @@ namespace OSS.SnsSdk.Official.Wx
     /// <summary>
     /// 接口返回基础实例
     /// </summary>
-    public class WxBaseResp : ResultMo
+    public class WxBaseResp : Resp
     {
         private int m_errcode = 0;
         /// <summary>

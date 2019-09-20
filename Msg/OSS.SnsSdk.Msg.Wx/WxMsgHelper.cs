@@ -18,6 +18,7 @@ using System.Xml;
 using OSS.Common.ComModels;
 using OSS.Common.Encrypt;
 using OSS.Common.Extention;
+using OSS.Common.Resp;
 using OSS.SnsSdk.Msg.Wx.Mos;
 
 namespace OSS.SnsSdk.Msg.Wx
@@ -34,12 +35,12 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="timestamp"></param>
         /// <param name="nonce"></param>
         /// <returns></returns>
-        internal static ResultMo CheckSignature(string token, string signature,
+        internal static Resp CheckSignature(string token, string signature,
             string timestamp, string nonce)
         {
             return signature == GenerateSignature(token, timestamp, nonce)
-                ? new ResultMo() 
-                : new ResultMo(ResultTypes.UnAuthorize, "签名验证失败！");
+                ? new Resp() 
+                : new Resp(RespTypes.UnAuthorize, "签名验证失败！");
         }
         
         /// <summary>
@@ -68,7 +69,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="sReplyMsg"></param>
         /// <param name="config"></param>
         /// <returns></returns>
-        internal static ResultMo<string> EncryptMsg(string sReplyMsg, WxMsgConfig config)
+        internal static Resp<string> EncryptMsg(string sReplyMsg, WxMsgConfig config)
         {
             string raw;
             try
@@ -77,7 +78,7 @@ namespace OSS.SnsSdk.Msg.Wx
             }
             catch (Exception)
             {
-                return new ResultMo<string>(ResultTypes.InnerError, "加密响应消息体出错！");
+                return new Resp<string>().WithResp(RespTypes.InnerError, "加密响应消息体出错！");
             }
             var date = DateTime.Now;
 
@@ -88,7 +89,7 @@ namespace OSS.SnsSdk.Msg.Wx
             var msgSigature = GenerateSignature(config.Token, sTimeStamp, sNonce, raw);
             if (string.IsNullOrEmpty(msgSigature))
             {
-                return new ResultMo<string>(ResultTypes.InnerError, "生成签名信息出错！");
+                return new Resp<string>().WithResp(RespTypes.InnerError, "生成签名信息出错！");
             }
 
             var sEncryptMsg = new StringBuilder();
@@ -108,7 +109,7 @@ namespace OSS.SnsSdk.Msg.Wx
             sEncryptMsg.Append(nonceLabelHead).Append(sNonce).Append(nonceLabelTail);
             sEncryptMsg.Append("</xml>");
 
-            return new ResultMo<string>(sEncryptMsg.ToString());
+            return new Resp<string>(sEncryptMsg.ToString());
         }
 
 

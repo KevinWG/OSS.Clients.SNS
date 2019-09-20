@@ -17,6 +17,7 @@ using System.IO;
 using System.Xml;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
+using OSS.Common.Resp;
 using OSS.SnsSdk.Msg.Wx.Mos;
 
 namespace OSS.SnsSdk.Msg.Wx
@@ -45,11 +46,11 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="nonce"></param>
         /// <param name="echostr"></param>
         /// <returns></returns>
-        public ResultMo<string> CheckServerValid(string signature, string timestamp, string nonce, string echostr)
+        public Resp<string> CheckServerValid(string signature, string timestamp, string nonce, string echostr)
         {
             var checkSignRes = WxMsgHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
 
-            var resultRes = checkSignRes.ConvertToResult<string>();
+            var resultRes =new Resp<string>().WithResp(checkSignRes);// checkSignRes.ConvertToResult<string>();
             resultRes.data = resultRes.IsSuccess() ? echostr : string.Empty;
 
             return resultRes;
@@ -63,7 +64,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public ResultMo<string> Process(Stream reqStream, string signature, string timestamp, string nonce,
+        public Resp<string> Process(Stream reqStream, string signature, string timestamp, string nonce,
             string echostr)
         {
             string contentXml;
@@ -83,7 +84,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public ResultMo<string> Process(string contentXml, string signature, string timestamp, string nonce,
+        public Resp<string> Process(string contentXml, string signature, string timestamp, string nonce,
             string echostr)
         {
             // 一.  检查是否是服务器验证
@@ -95,11 +96,11 @@ namespace OSS.SnsSdk.Msg.Wx
             // 二.  正常消息处理
             var checkRes = PrepareExecute(contentXml, signature, timestamp, nonce);
             if (!checkRes.IsSuccess())
-                return checkRes.ConvertToResult<string>();
+                return new Resp<string>().WithResp(checkRes); //checkRes.ConvertToResult<string>();
 
             var contextRes = Execute(checkRes.data);
             if (!contextRes.IsSuccess())
-                return contextRes.ConvertToResult<string>();
+                return new Resp<string>().WithResp(contextRes);// contextRes.ConvertToResult<string>();
 
             var resultString = contextRes.data.ReplyMsg.ToReplyXml();
             if (ApiConfig.SecurityType != WxSecurityType.None &&
@@ -107,7 +108,7 @@ namespace OSS.SnsSdk.Msg.Wx
             {
                 return WxMsgHelper.EncryptMsg(resultString, ApiConfig);
             }
-            return new ResultMo<string>(resultString);
+            return new Resp<string>(resultString);
         }
         #endregion
         
@@ -116,7 +117,7 @@ namespace OSS.SnsSdk.Msg.Wx
         /// </summary>
         /// <param name="recMsgXml">传入消息的xml</param>
         /// <returns></returns>
-        protected virtual ResultMo<WxMsgContext> Execute(string recMsgXml)
+        protected virtual Resp<WxMsgContext> Execute(string recMsgXml)
         {
             var recMsgDirs = WxMsgHelper.ChangXmlToDir(recMsgXml, out XmlDocument xmlDoc);
 
@@ -126,7 +127,7 @@ namespace OSS.SnsSdk.Msg.Wx
             if (msgType == "event")
             {
                 if (!recMsgDirs.TryGetValue("Event", out eventName))
-                    return new ResultMo<WxMsgContext>(ResultTypes.ParaError, "事件消息数据中未发现 事件类型（Event）字段！");
+                    return new Resp<WxMsgContext>().WithResp(RespTypes.ParaError, "事件消息数据中未发现 事件类型（Event）字段！");
             }
 
             var processor = GetBasicMsgProcessor(msgType, eventName);
@@ -143,7 +144,7 @@ namespace OSS.SnsSdk.Msg.Wx
             
             ExecuteEnd(context);
 
-            return new ResultMo<WxMsgContext>(context);
+            return new Resp<WxMsgContext>(context);
         }
     
 
@@ -211,28 +212,28 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
         /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        private ResultMo<string> PrepareExecute(string recXml, string signature,
+        private Resp<string> PrepareExecute(string recXml, string signature,
             string timestamp, string nonce)
         {
             if (string.IsNullOrEmpty(recXml))
-                return new ResultMo<string>(ResultTypes.ObjectNull, "接收的消息体为空！");
+                return new Resp<string>().WithResp(RespTypes.ObjectNull, "接收的消息体为空！");
 
             var resCheck = WxMsgHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
             if (!resCheck.IsSuccess())
-                return resCheck.ConvertToResult<string>();
+                return new Resp<string>().WithResp(resCheck);// resCheck.ConvertToResult<string>();
 
             if (ApiConfig.SecurityType == WxSecurityType.None)
-                return new ResultMo<string>(recXml);
+                return new Resp<string>(recXml);
 
             var dirs = WxMsgHelper.ChangXmlToDir(recXml, out XmlDocument xmlDoc);
 
             if (dirs == null || !dirs.TryGetValue("Encrypt", out var encryStr)
                 || string.IsNullOrEmpty(encryStr))
-                return new ResultMo<string>(ResultTypes.ObjectNull, "加密消息为空");
+                return new Resp<string>().WithResp(RespTypes.ObjectNull, "加密消息为空");
 
             var recMsgXml = Cryptography.WxAesDecrypt(encryStr, ApiConfig.EncodingAesKey);
 
-            return new ResultMo<string>(recMsgXml);
+            return new Resp<string>(recMsgXml);
         }
 
         /// <summary>

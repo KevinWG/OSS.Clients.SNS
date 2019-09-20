@@ -20,6 +20,7 @@ using OSS.Common.ComModels;
 using OSS.Common.Encrypt;
 using OSS.Common.Extention;
 using OSS.Common.Plugs.CachePlug;
+using OSS.Common.Resp;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Assist.Mos;
 using OSS.SnsSdk.Official.Wx.SysTools;
@@ -93,7 +94,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist
             var ticketRes = await GetJsTicketFromCacheAsync(WxJsTicketType.jsapi);
             if (!ticketRes.IsSuccess())
             {
-                return ticketRes.ConvertToResultInherit<WxJsSdkSignatureResp>();
+                return new WxJsSdkSignatureResp().WithResp(ticketRes);// ticketRes.ConvertToResultInherit<WxJsSdkSignatureResp>();
             }
 
             var resp = new WxJsSdkSignatureResp

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common.ComModels;
+using OSS.Common.Resp;
 using OSS.SnsSdk.Msg.Wx.Mos;
 using OSS.SnsSdk.Samples.Controllers.Codes;
 

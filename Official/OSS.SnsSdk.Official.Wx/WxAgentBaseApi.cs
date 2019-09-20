@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Common.Plugs.CachePlug;
+using OSS.Common.Resp;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Agent.Mos;
 using OSS.SnsSdk.Official.Wx.SysTools;
@@ -105,7 +106,7 @@ namespace OSS.SnsSdk.Official.Wx
             var tokenRes = await GetAgentAccessTokenFromCacheAsync();
 
             if (!tokenRes.IsSuccess())
-                return tokenRes.ConvertToResultInherit<T>();
+                return new T().WithResp(tokenRes);// tokenRes.ConvertToResultInherit<T>();
             
             req.AddressUrl = string.Concat(req.AddressUrl,// req.AddressUrl.IndexOf('?') > 0 ? "&" : "?",
                 "?component_access_token=",tokenRes.component_access_token);

@@ -14,6 +14,7 @@
 using System;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
+using OSS.Common.Resp;
 
 namespace OSS.SnsSdk.Official.Wx.Assist.Mos
 {
@@ -40,7 +41,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist.Mos
     /// <summary>
     ///  jssdk 需要的签名信息
     /// </summary>
-    public class WxJsSdkSignatureResp:ResultMo
+    public class WxJsSdkSignatureResp:Resp
     {
         /// <summary>
         ///  应用Id
@@ -66,7 +67,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist.Mos
     /// <summary>
     ///  JsCard 需要的签名信息
     /// </summary>
-    public class WxJsCardSignatureResp:ResultMo
+    public class WxJsCardSignatureResp:Resp
     {
         /// <summary>
         ///  门店ID。shopID用于筛选出拉起带有指定location_list(shopID)的卡券列表，非必填。

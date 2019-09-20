@@ -20,6 +20,7 @@ using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Common.Plugs;
 using OSS.Common.Plugs.CachePlug;
+using OSS.Common.Resp;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
@@ -45,7 +46,7 @@ namespace OSS.SnsSdk.Official.Wx
         /// <param name="config"></param>
         public WxBaseApi(AppConfig config) : base(config)
         {
-            ModuleName = WxOfficialConfigProvider.ModuleName;
+            //ModuleName = WxOfficialConfigProvider.ModuleName;
         }
         
         #endregion
@@ -175,7 +176,7 @@ namespace OSS.SnsSdk.Official.Wx
         {
             var tokenRes = await GetAccessTokenFromCacheAsync();
             if (!tokenRes.IsSuccess())
-                return tokenRes.ConvertToResultInherit<T>();
+                return new T().WithResp(tokenRes);// tokenRes.ConvertToResultInherit<T>();
 
             req.RequestSet = r =>
             {
@@ -199,7 +200,7 @@ namespace OSS.SnsSdk.Official.Wx
         protected static async Task<WxFileResp> DownLoadFileAsync(HttpResponseMessage resp)
         {
             if (!resp.IsSuccessStatusCode)
-                return new WxFileResp() {ret = (int) ResultTypes.ObjectStateError, msg = "当前请求失败！"};
+                return new WxFileResp() {ret = (int) RespTypes.ObjectStateError, msg = "当前请求失败！"};
 
             var contentStr = resp.Content.Headers.ContentType.MediaType;
             if (!contentStr.Contains("application/json"))

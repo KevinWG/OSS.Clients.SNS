@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.ComModels;
 using OSS.Common.Plugs.LogPlug;
+using OSS.Common.Resp;
 using OSS.SnsSdk.Msg.Wx;
 using OSS.SnsSdk.Msg.Wx.Mos;
 using OSS.SnsSdk.Samples.Controllers.Codes;
