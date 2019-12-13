@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
+using OSS.Common.Resp;
 using OSS.SnsSdk.Official.Wx.Assist;
 using OSS.SnsSdk.Official.Wx.Basic;
 using OSS.SnsSdk.Official.Wx.SysTools.Mos;
@@ -24,7 +25,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         {
             var res =
                 m_Api.SendTemplateAsync("o7gE1s6mygEKgopVWp7BBtEAqT-w", "4E7QKo8GhQ0pNHDAfE3Z-w7vEWULDT3ZflBJUMYpd7s",
-                    "http://www.osscoder.com",
+                    "http://www.osscore.com",
                     new
                     {
                         first = new {value = "用户你好：", color = "#173177"},

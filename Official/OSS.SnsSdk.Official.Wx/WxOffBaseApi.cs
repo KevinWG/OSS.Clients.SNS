@@ -1,4 +1,4 @@
-﻿#region Copyright (C) 2016 Kevin (OSS开源作坊) 公众号：osscoder
+﻿#region Copyright (C) 2016 Kevin (OSS开源作坊) 公众号：osscore
 
 /***************************************************************************
 *　　	文件功能描述：公号的功能接口基类，获取AccessToken ，获取微信服务器Ip列表
@@ -24,7 +24,8 @@ using OSS.Common.Resp;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
-using OSS.SnsSdk.Official.Wx.SysTools;
+using OSS.SnsSdk.Official.Wx.Helpers;
+using OSS.Tools.Cache;
 
 namespace OSS.SnsSdk.Official.Wx
 {
@@ -128,8 +129,8 @@ namespace OSS.SnsSdk.Official.Wx
                 return new WxOffAccessTokenResp() {access_token = atoken};
             }
 
-            var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAccessTokenKey, ApiConfig.AppId);
-            var tokenResp = CacheUtil.Get<WxOffAccessTokenResp>(m_OffcialAccessTokenKey, ModuleName);
+            var m_OffcialAccessTokenKey = string.Format(WxCacheKeysHelper.OffcialAccessTokenKey, ApiConfig.AppId);
+            var tokenResp = CacheHelper.Get<WxOffAccessTokenResp>(m_OffcialAccessTokenKey, WxOfficialConfigProvider.ModuleName);
 
             if (tokenResp != null && tokenResp.expires_date >= DateTime.Now.ToUtcSeconds())
                 return tokenResp;
@@ -141,8 +142,8 @@ namespace OSS.SnsSdk.Official.Wx
 
             tokenResp.expires_date = DateTime.Now.ToUtcSeconds() + tokenResp.expires_in - 600;
 
-            CacheUtil.Set(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in-600),
-                 ModuleName);
+            CacheHelper.Set(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in-600),
+                WxOfficialConfigProvider.ModuleName);
 
             return tokenResp;
         }
@@ -238,7 +239,7 @@ namespace OSS.SnsSdk.Official.Wx
         /// <summary>
         ///   当前模块名称
         /// </summary>
-        public static string ModuleName { get; set; } = ModuleNames.SocialCenter;
+        public static string ModuleName { get; set; } = "oss_sns";
 
         /// <summary>
         /// 当 OperateMode = ByAgent 时，

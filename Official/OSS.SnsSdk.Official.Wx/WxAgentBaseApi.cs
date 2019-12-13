@@ -1,4 +1,4 @@
-﻿#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
+﻿#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscore
 
 /***************************************************************************
 *　　	文件功能描述：公号的功能接口 —— 微信开放平台相关接口基类
@@ -17,11 +17,11 @@ using System.Text;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
-using OSS.Common.Plugs.CachePlug;
 using OSS.Common.Resp;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Agent.Mos;
-using OSS.SnsSdk.Official.Wx.SysTools;
+using OSS.SnsSdk.Official.Wx.Helpers;
+using OSS.Tools.Cache;
 
 namespace OSS.SnsSdk.Official.Wx
 {
@@ -45,8 +45,8 @@ namespace OSS.SnsSdk.Official.Wx
         /// <returns></returns>
         public async Task<WxGetAgentAccessTokenResp> GetAgentAccessTokenFromCacheAsync()
         {
-            var m_OffcialAccessTokenKey = string.Format(WxCacheKeysUtil.OffcialAgentAccessTokenKey, ApiConfig.AppId);
-            var tokenResp = CacheUtil.Get<WxGetAgentAccessTokenResp>(m_OffcialAccessTokenKey, ModuleName);
+            var m_OffcialAccessTokenKey = string.Format(WxCacheKeysHelper.OffcialAgentAccessTokenKey, ApiConfig.AppId);
+            var tokenResp = CacheHelper.Get<WxGetAgentAccessTokenResp>(m_OffcialAccessTokenKey, WxOfficialConfigProvider.ModuleName);
 
             if (tokenResp != null && tokenResp.expires_date >= DateTime.Now.ToUtcSeconds())
                 return tokenResp;
@@ -58,8 +58,7 @@ namespace OSS.SnsSdk.Official.Wx
 
             tokenResp.expires_date = DateTime.Now.ToUtcSeconds() + tokenResp.expires_in - 600;
 
-            CacheUtil.AddOrUpdate(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in-600),
-                null, ModuleName);
+            CacheHelper.Set(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in-600), WxOfficialConfigProvider.ModuleName);
             return tokenResp;
         }
 

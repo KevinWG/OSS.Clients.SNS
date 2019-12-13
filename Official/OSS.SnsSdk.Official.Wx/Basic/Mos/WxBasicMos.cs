@@ -1,4 +1,4 @@
-﻿#region Copyright (C) 2016 Kevin (OSS开源作坊) 公众号：osscoder
+﻿#region Copyright (C) 2016 Kevin (OSS开源作坊) 公众号：osscore
 
 /***************************************************************************
 *　　	文件功能描述：公众号功能接口accesstoken信息实体

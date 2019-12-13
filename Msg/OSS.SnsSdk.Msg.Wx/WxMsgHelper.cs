@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using OSS.Common.ComModels;
 using OSS.Common.Encrypt;
 using OSS.Common.Extention;
 using OSS.Common.Resp;
@@ -40,7 +39,7 @@ namespace OSS.SnsSdk.Msg.Wx
         {
             return signature == GenerateSignature(token, timestamp, nonce)
                 ? new Resp() 
-                : new Resp(RespTypes.UnAuthorize, "签名验证失败！");
+                : new Resp(RespTypes.SignError, "微信签名验证失败！");
         }
         
         /// <summary>

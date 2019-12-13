@@ -13,7 +13,6 @@
 
 using System;
 using System.Net.Http;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
@@ -23,8 +22,9 @@ using OSS.Common.Plugs.CachePlug;
 using OSS.Common.Resp;
 using OSS.Http.Mos;
 using OSS.SnsSdk.Official.Wx.Assist.Mos;
-using OSS.SnsSdk.Official.Wx.SysTools;
+using OSS.SnsSdk.Official.Wx.Helpers;
 using OSS.SnsSdk.Official.Wx.SysTools.Mos;
+using OSS.Tools.Cache;
 
 namespace OSS.SnsSdk.Official.Wx.Assist
 {
@@ -50,9 +50,9 @@ namespace OSS.SnsSdk.Official.Wx.Assist
         /// <returns></returns>
         public async Task<WxGetJsTicketResp> GetJsTicketFromCacheAsync(WxJsTicketType type)
         {
-            var key = string.Format(WxCacheKeysUtil.OffcialJsTicketKey, ApiConfig.AppId, type);
+            var key = string.Format(WxCacheKeysHelper.OffcialJsTicketKey, ApiConfig.AppId, type);
 
-            var ticket = CacheUtil.Get<WxGetJsTicketResp>(key, ModuleName);
+            var ticket = CacheHelper.Get<WxGetJsTicketResp>(key, WxOfficialConfigProvider.ModuleName);
             if (ticket != null && ticket.expires_time > DateTime.Now)
                 return ticket;
 
@@ -62,8 +62,7 @@ namespace OSS.SnsSdk.Official.Wx.Assist
 
             ticketRes.expires_time = DateTime.Now.AddSeconds(ticketRes.expires_in);
 
-            CacheUtil.AddOrUpdate(key, ticketRes, TimeSpan.FromSeconds(ticketRes.expires_in - 10), null,
-                ModuleName);
+            CacheHelper.Set(key, ticketRes, TimeSpan.FromSeconds(ticketRes.expires_in - 10), WxOfficialConfigProvider.ModuleName);
             return ticketRes;
         }
 

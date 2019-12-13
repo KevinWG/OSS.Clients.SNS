@@ -1,11 +1,10 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using OSS.Common.ComModels;
-using OSS.Common.Plugs.LogPlug;
 using OSS.Common.Resp;
 using OSS.SnsSdk.Msg.Wx;
 using OSS.SnsSdk.Msg.Wx.Mos;
 using OSS.SnsSdk.Samples.Controllers.Codes;
+using OSS.Tools.Log;
 
 namespace OSS.SnsSdk.Samples.Controllers
 {
@@ -65,14 +64,14 @@ namespace OSS.SnsSdk.Samples.Controllers
             using (var reader = new StreamReader(Request.Body))
             {
                 contentXml = reader.ReadToEnd();
-                LogUtil.Info(contentXml);
+                LogHelper.Info(contentXml);
             }
 
             var res = _msgService.Process(contentXml, signature, timestamp, nonce, echostr);
             if (res.IsSuccess())
                 return Content(res.data);
-            
-            LogUtil.Info($" 当前请求处理失败，原因：{res.msg}");
+
+            LogHelper.Info($" 当前请求处理失败，原因：{res.msg}");
             return Content( "success");
         }
 

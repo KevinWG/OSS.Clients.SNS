@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
+using OSS.Common.Resp;
 using OSS.SnsSdk.Official.Wx.Basic;
 using OSS.SnsSdk.Official.Wx.Basic.Mos;
 

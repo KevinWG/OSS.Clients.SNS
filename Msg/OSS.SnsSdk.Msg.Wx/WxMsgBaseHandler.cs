@@ -33,7 +33,6 @@ namespace OSS.SnsSdk.Msg.Wx
         /// <param name="config"></param>
         protected WxMsgBaseHandler(WxMsgConfig config=null):base(config)
         {
-            ModuleName = WxMsgConfigProvider.ModuleName;
         }
         
         #region 消息处理入口，出口（分为开始，处理，结束部分）

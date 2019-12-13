@@ -39,7 +39,6 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <param name="config"></param>
         public WxOauthBaseApi(AppConfig config):base(config)
         {
-            ModuleName = WxOauthConfigProvider.ModuleName;
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace OSS.SnsSdk.Oauth.Wx
         /// <summary>
         ///   当前模块名称
         /// </summary>
-        public static string ModuleName { get; set; } = ModuleNames.SocialCenter;
+        public static string ModuleName { get; set; } = "oss_sns_oauth";
 
         /// <summary>
         /// 默认的配置AppKey信息

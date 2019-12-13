@@ -1,8 +1,8 @@
 # 快速了解
 当前项目主要是针对社交网站的接口封装，在项目前期主要以微信平台sdk开发为主，根据接口功能层次简单分类，  
 此项目以标准库的形式提供服务，也就是可以同时支持.Net Framework(4.6及以上版本) 和 .Net Core  
-如果有问题，也可以在公众号(osscoder)中提问:   
-![osscoder](http://img1.static.osscoder.com/wei_qr.jpg)  
+如果有问题，也可以在公众号(osscore)中提问:   
+![osscore](http://img1.static.osscore.com/wei_qr.jpg)  
 	
 一. **授权对接模块**  (Oauth)
 

@@ -25,7 +25,7 @@ namespace OSS.Social.Tests.WxTests
                     AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
                 }
             } ;
-            m_Config = config?.WxConfig ?? throw new ArgumentException("请将下边的配置信息直接赋值，或者通过DirConfigUtil.SetDirConfig初始化一下基础配置信息");
+            m_Config = config?.WxConfig ?? throw new ArgumentException("请将下边的配置信息直接赋值，或者通过DirConfigHelper.SetDirConfig初始化一下基础配置信息");
             
             OsConfig.CacheProvider=moduleName =>
             {

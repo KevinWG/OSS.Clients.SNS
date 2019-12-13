@@ -1,4 +1,4 @@
-﻿#region Copyright (C) 2016 Kevin (OSS开源作坊) 公众号：osscoder
+﻿#region Copyright (C) 2016 Kevin (OSS开源作坊) 公众号：osscore
 
 /***************************************************************************
 *　　	文件功能描述：基础实体类
@@ -11,7 +11,6 @@
 
 #endregion
 
-using OSS.Common.ComModels;
 using OSS.Common.Resp;
 
 namespace OSS.SnsSdk.Official.Wx

@@ -3,6 +3,8 @@ using OSS.Common.Plugs.DirConfigPlug;
 using OSS.Common.Plugs.LogPlug;
 using OSS.SnsSdk.Msg.Wx;
 using OSS.SnsSdk.Msg.Wx.Mos;
+using OSS.Tools.DirConfig;
+using OSS.Tools.Log;
 
 namespace OSS.SnsSdk.Samples.Controllers.Codes
 {
@@ -21,7 +23,7 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
                     RecInsCreater=() => new VerifComponentTicketRecMsg(),
                     ProcessFunc = msg =>
                     {
-                        var res = DirConfigUtil.SetDirConfig<TicketMo>($"{ApiConfig.AppId}_component_verify_ticket",
+                        var res = DirConfigHelper.SetDirConfig<TicketMo>($"{ApiConfig.AppId}_component_verify_ticket",
                             new TicketMo { ticket = msg.ComponentVerifyTicket });
                         return WxNoneReplyMsg.None;
                     }
@@ -32,7 +34,7 @@ namespace OSS.SnsSdk.Samples.Controllers.Codes
 
         protected override void ExecuteEnd(WxMsgContext msgContext)
         {
-            LogUtil.Info(msgContext.RecMsg.RecMsgXml.InnerXml, "PlatformMsg");
+            LogHelper.Info(msgContext.RecMsg.RecMsgXml.InnerXml, "PlatformMsg");
         }
     }
 
