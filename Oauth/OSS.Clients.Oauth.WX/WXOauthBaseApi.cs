@@ -45,12 +45,11 @@ namespace OSS.Clients.Oauth.WX
         /// </summary>
         /// <typeparam name="T">需要返回的实体类型</typeparam>
         /// <param name="request">远程请求组件的request基本信息</param>
-        /// <param name="client">自定义 HttpClient </param>
         /// <returns>实体类型</returns>
-        public async Task<T> RestCommonJson<T>(OssHttpRequest request, HttpClient client = null)
+        public async Task<T> RestCommonJson<T>(OssHttpRequest request)
             where T : WXBaseResp, new()
         {
-            var response = await request.RestSend(client);
+            var response = await request.RestSend(WXOauthConfigProvider.ClientFactory?.Invoke());
             using (response)
             {
                 if (!response.IsSuccessStatusCode)
@@ -70,41 +69,5 @@ namespace OSS.Clients.Oauth.WX
             return WXOauthConfigProvider.DefaultConfig;
         }
     }
-
-    /// <summary>
-    ///  Oauth相关配置信息
-    /// </summary>
-    public static class WXOauthConfigProvider
-    {
-        /// <summary>
-        ///   当前模块名称
-        /// </summary>
-        public static string ModuleName { get; set; } = "oss_sns_oauth";
-
-        /// <summary>
-        /// 默认的配置AppKey信息
-        /// </summary>
-        public static AppConfig DefaultConfig { get; set; }
-
-        /// <summary>
-        /// 当 OperateMode = ByAgent 时，
-        ///   调用此委托 获取第三方代理平台的 AccessToken 
-        ///   可以调用 Official下的 WXAgentAuthApi（WXAgentBaseApi） 中接口
-        /// 参数为当前ApiConfig
-        /// </summary>
-        public static Func<AppConfig, string> AgentAccessTokenFunc { get; set; }
-
-        ///// <summary>
-        /////  设置上下文配置信息
-        ///// </summary>
-        ///// <param name="config"></param>
-        //public static void SetContextConfig(AppConfig config)
-        //{
-        //    WXOauthBaseApi.SetContextConfig(config);
-        //}
-
-    }
-
-
 
 }
