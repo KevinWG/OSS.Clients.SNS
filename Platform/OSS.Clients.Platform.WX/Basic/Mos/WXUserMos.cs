@@ -55,7 +55,7 @@ namespace OSS.Clients.Platform.WX.Basic.Mos
     /// <summary>
     /// 获取用户基本信息请求实体
     /// </summary>
-    public class WXPlatcialUserInfoReq
+    public class WXPlatUserInfoReq
     {
         /// <summary>   
         ///   必填    用户的标识，对当前公众号唯一
@@ -71,18 +71,18 @@ namespace OSS.Clients.Platform.WX.Basic.Mos
     /// <summary>
     /// 批量获取用户信息响应实体
     /// </summary>
-    public class WXPlatcialUserListResp:WXBaseResp
+    public class WXPlatUserListResp:WXBaseResp
     {
         /// <summary>
         ///  用户信息列表
         /// </summary>
-        public IList<WXPlatcialUserInfoResp> user_info_list { get; set; }
+        public IList<WXPlatUserInfoResp> user_info_list { get; set; }
     }
 
     /// <summary>
     ///  微信公号关注用户信息
     /// </summary>
-    public class WXPlatcialUserInfoResp:WXBaseResp
+    public class WXPlatUserInfoResp:WXBaseResp
     {
         /// <summary>   
         ///   用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。

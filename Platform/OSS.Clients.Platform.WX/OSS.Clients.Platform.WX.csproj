@@ -7,6 +7,8 @@
     <PackageProjectUrl>https://github.com/KevinWG/OSS.Clients.SNS</PackageProjectUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
     <PackageIconUrl>http://img1.osscore.cn/static/oss_net.png</PackageIconUrl>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>修复名称错误</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

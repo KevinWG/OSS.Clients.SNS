@@ -73,7 +73,7 @@ namespace OSS.Clients.Platform.WX
             var verifyTicket = WXPlatConfigProvider.AgentVerifyTicketGetFunc?.Invoke(ApiConfig);
             if (string.IsNullOrEmpty(verifyTicket))
             {
-                throw new ArgumentNullException("verifyticket", "verifyticket未发现，请检查 WXPlaticialConfigProvider 下 AgentVerifyTicketGetFunc 委托是否为空或者返回值不正确！");
+                throw new ArgumentNullException("verifyticket", "verifyticket未发现，请检查 WXPlatConfigProvider 下 AgentVerifyTicketGetFunc 委托是否为空或者返回值不正确！");
             }
 
             var strContent = new StringBuilder();

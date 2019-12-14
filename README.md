@@ -52,7 +52,7 @@
   public ActionResult auth()
   {
       var res = m_AuthApi.GetAuthorizeUrl("http://www.social.com/wxoauth/callback",
-				 AuthClientType.WXPlatcial);
+				 AuthClientType.WXPlat);
       return Redirect(res);
   }
   //  微信回调页，此页面获取accesstoken 获取用户基础信息
@@ -129,13 +129,13 @@ c.  具体使用
 1.声明对象实体
 ```csharp
  // 获取用户基本信息请求实体
- public class WXPlatcialUserInfoReq
+ public class WXPlatUserInfoReq
  {
      public string openid { get; set; }
      public string lang { get; set; }
  }
  // 响应实体，继承WXBaseResp
- public class WXPlatcialUserInfoResp:WXBaseResp
+ public class WXPlatUserInfoResp:WXBaseResp
  {
      public string openid { get; set; }
      public string nickname { get; set; }
@@ -148,14 +148,14 @@ c.  具体使用
 
 2.功能实现
 ```csharp
-public WXPlatcialUserInfoResp GetUserInfo(WXPlatcialUserInfoReq userReq)
+public WXPlatUserInfoResp GetUserInfo(WXPlatUserInfoReq userReq)
 {
     var req = new OssHttpRequest();
     req.HttpMethod = HttpMethod.Get;
     req.AddressUrl = string.Concat(m_ApiUrl,
          $"/cgi-bin/user/info?openid={userReq.openid}&lang={userReq.lang}");
    //  请求地址中的AccessToken 底层会自动补充
-    return RestCommonOffcial<WXPlatcialUserInfoResp>(req);
+    return RestCommonOffcial<WXPlatUserInfoResp>(req);
 }
 ```
 3.添加单元测试（非必须）
@@ -163,7 +163,7 @@ public WXPlatcialUserInfoResp GetUserInfo(WXPlatcialUserInfoReq userReq)
 [TestMethod]
 public void GetUserInfoTest()
 {
-    var res = m_Api.GetUserInfo(new WXPlatcialUserInfoReq() 
+    var res = m_Api.GetUserInfo(new WXPlatUserInfoReq() 
 			{openid = "o7gE1s6mygEKgopVWp7BBtEAqT-w" });
     Assert.IsTrue(res.IsSuccess());
 }

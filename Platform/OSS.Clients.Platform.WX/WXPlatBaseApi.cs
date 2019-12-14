@@ -45,7 +45,7 @@ namespace OSS.Clients.Platform.WX
         /// <param name="config"></param>
         public WXBaseApi(AppConfig config) : base(config)
         {
-            //ModuleName = WXPlaticialConfigProvider.ModuleName;
+            //ModuleName = WXPlatConfigProvider.ModuleName;
         }
         
         #endregion
@@ -130,7 +130,7 @@ namespace OSS.Clients.Platform.WX
                 if (string.IsNullOrEmpty(atoken))
                 {
                     throw new ArgumentNullException("access_token",
-                        "access_token值未发现，请检查 WXPlaticialConfigProvider 下 AccessTokenFromAgentFunc 委托是否为空或者返回值不正确！");
+                        "access_token值未发现，请检查 WXPlatConfigProvider 下 AccessTokenFromAgentFunc 委托是否为空或者返回值不正确！");
                 }
 
                 return new WXPlatAccessTokenResp() {access_token = atoken};

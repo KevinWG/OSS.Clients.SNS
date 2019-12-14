@@ -1,5 +1,5 @@
 
-WXPlaticialConfigProvider中提供了
+WXPlatConfigProvider中提供了
 	ModuleName 属性，可以修改其值，并在程序入口处注册对应的缓存策略实现
 
 	AccessTokenFromAgentFunc 属性的委托方法，获取通过平台授权后生成AccessToken方法

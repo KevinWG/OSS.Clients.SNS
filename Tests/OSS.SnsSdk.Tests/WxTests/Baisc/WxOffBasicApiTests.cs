@@ -75,13 +75,13 @@ namespace OSS.Social.Tests.WXTests.Baisc
         [TestMethod]
         public  void GetUserInfoTest()
         {
-            var resTask = m_Api.GetUserInfoAsync(new WXPlatcialUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" }).WaitResult();
+            var resTask = m_Api.GetUserInfoAsync(new WXPlatUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" }).WaitResult();
             Assert.IsTrue(resTask.IsSuccess());
         }
         [TestMethod]
         public void GetUserInfoListTest()
         {
-            var res = m_Api.GetUserInfoListAsync(new List<WXPlatcialUserInfoReq>() { new WXPlatcialUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" } }).WaitResult();
+            var res = m_Api.GetUserInfoListAsync(new List<WXPlatUserInfoReq>() { new WXPlatUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" } }).WaitResult();
 
             Assert.IsTrue(res.IsSuccess());
         }

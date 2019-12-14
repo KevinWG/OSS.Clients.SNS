@@ -75,7 +75,7 @@ namespace OSS.Clients.Platform.WX.Basic
         /// </summary>
         /// <param name="userReq">请求参数</param>
         /// <returns></returns>
-        public async Task<WXPlatcialUserInfoResp> GetUserInfoAsync(WXPlatcialUserInfoReq userReq)
+        public async Task<WXPlatUserInfoResp> GetUserInfoAsync(WXPlatUserInfoReq userReq)
         {
 
             var req = new OssHttpRequest();
@@ -83,7 +83,7 @@ namespace OSS.Clients.Platform.WX.Basic
             req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = string.Concat(m_ApiUrl, $"/cgi-bin/user/info?openid={userReq.openid}&lang={userReq.lang}");
 
-            return await RestCommonOffcialAsync<WXPlatcialUserInfoResp>(req);
+            return await RestCommonOffcialAsync<WXPlatUserInfoResp>(req);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace OSS.Clients.Platform.WX.Basic
         /// </summary>
         /// <param name="userReq">请求参数</param>
         /// <returns></returns>
-        public async Task<WXPlatcialUserListResp> GetUserInfoListAsync(IList<WXPlatcialUserInfoReq> userReq)
+        public async Task<WXPlatUserListResp> GetUserInfoListAsync(IList<WXPlatUserInfoReq> userReq)
         {
 
             var req = new OssHttpRequest();
@@ -102,7 +102,7 @@ namespace OSS.Clients.Platform.WX.Basic
             {
                 user_list = userReq
             });
-            return await RestCommonOffcialAsync<WXPlatcialUserListResp>(req);
+            return await RestCommonOffcialAsync<WXPlatUserListResp>(req);
         }
 
 
