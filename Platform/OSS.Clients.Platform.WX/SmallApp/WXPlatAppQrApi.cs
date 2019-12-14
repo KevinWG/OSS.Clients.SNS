@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Common.Resp;
 using OSS.Clients.Platform.WX.Basic.Mos;
-using OSS.Tools.Http.Extention;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Platform.WX.SmallApp
@@ -55,8 +54,7 @@ namespace OSS.Clients.Platform.WX.SmallApp
                 CustomBody = $"{{\"path\":\"{path}\",\"width\":{width}}}"
             };
 
-            var resp= await req.RestSend();
-            return await DownLoadFileAsync(resp);
+            return await DownLoadFileAsync(req);
         }
     }
 }

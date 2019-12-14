@@ -76,8 +76,7 @@ namespace OSS.Clients.Platform.WX.Basic
                     $"/cgi-bin/media/get?access_token={accessToken.access_token}&media_id={mediaId}")
             };
 
-            var resp= await req.RestSend();
-            return await DownLoadFileAsync(resp);
+            return await DownLoadFileAsync(req);
         }
 
 
@@ -234,8 +233,7 @@ namespace OSS.Clients.Platform.WX.Basic
                     $"/cgi-bin/material/get_material?access_token=", accessToken.access_token)
             };
 
-            var resp= await req.RestSend();
-            return await DownLoadFileAsync(resp);
+            return await DownLoadFileAsync(req);
         }
 
         /// <summary>
