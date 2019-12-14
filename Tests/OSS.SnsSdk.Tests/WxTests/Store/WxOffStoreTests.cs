@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OSS.Common.ComModels;
+using OSS.Clients.Platform.WX.Store;
+using OSS.Clients.Platform.WX.Store.Mos;
 using OSS.Common.Extention;
 using OSS.Common.Resp;
-using OSS.SnsSdk.Official.Wx.Store;
-using OSS.SnsSdk.Official.Wx.Store.Mos;
 
-namespace OSS.Social.Tests.WxTests.Store
+namespace OSS.Social.Tests.WXTests.Store
 {
     /// <summary>
-    /// WxOffStoreTests 的摘要说明
+    /// WXPlatStoreTests 的摘要说明
     /// </summary>
     [TestClass]
-    public class WxOffStoreTests : WxBaseTests
+    public class WXPlatStoreTests : WXBaseTests
     {
-        public WxOffStoreTests()
+        public WXPlatStoreTests()
         {
             //
             //TODO:  在此处添加构造函数逻辑
@@ -22,12 +21,12 @@ namespace OSS.Social.Tests.WxTests.Store
         }
 
 
-        private static WxOffStoreApi m_Api = new WxOffStoreApi(m_Config);
+        private static WXPlatStoreApi m_Api = new WXPlatStoreApi(m_Config);
 
         [TestMethod]
         public void AddStoreTest()
         {
-            var req = new WxStoreBasicSmallMo();
+            var req = new WXStoreBasicSmallMo();
 
             req.city = "北京";
             req.district = "朝阳区";

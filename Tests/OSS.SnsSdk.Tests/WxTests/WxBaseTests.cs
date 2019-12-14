@@ -3,29 +3,29 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Common;
 using OSS.Common.ComModels;
 
-namespace OSS.Social.Tests.WxTests
+namespace OSS.Social.Tests.WXTests
 {
     /// <summary>
-    /// WxBasicTests 的摘要说明
+    /// WXBasicTests 的摘要说明
     /// </summary>
     [TestClass]
-    public class WxBaseTests
+    public class WXBaseTests
     {
         protected static AppConfig m_Config = null;
 
-        static WxBaseTests()
+        static WXBaseTests()
         {
             // 可以在这里初始化appid 等配置信息，也可以在下边直接赋值
             // DirConfigUtil.SetDirConfig("my_weixin_appconfig",new TestConfigInfo(){})
             var config =new TestConfigInfo()
             {
-                WxConfig = new AppConfig()
+                WXConfig = new AppConfig()
                 {
                     AppId = "wxaa7e6cb3f03afa87",
                     AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
                 }
             } ;
-            m_Config = config?.WxConfig ?? throw new ArgumentException("请将下边的配置信息直接赋值，或者通过DirConfigHelper.SetDirConfig初始化一下基础配置信息");
+            m_Config = config?.WXConfig ?? throw new ArgumentException("请将下边的配置信息直接赋值，或者通过DirConfigHelper.SetDirConfig初始化一下基础配置信息");
             
             OsConfig.CacheProvider=moduleName =>
             {
@@ -82,7 +82,7 @@ namespace OSS.Social.Tests.WxTests
 
     public class TestConfigInfo
     {
-        public AppConfig WxConfig { get; set; }
+        public AppConfig WXConfig { get; set; }
         public string RedisConnectionStr { get; set; }
     }
 }

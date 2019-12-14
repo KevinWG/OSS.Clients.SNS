@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace OSS.SnsSdk.Samples
+namespace OSS.Clients.SNS.Samples
 {
     public class Program
     {

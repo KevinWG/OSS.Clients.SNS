@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace OSS.SnsSdk.Samples.Controllers
+namespace OSS.Clients.SNS.Samples.Controllers
 {
     public class HomeController : Controller
     {
@@ -11,7 +11,7 @@ namespace OSS.SnsSdk.Samples.Controllers
         //    AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
         //};
         
-        //private static WxOffBasicApi api = new WxOffBasicApi(m_Config);
+        //private static WXPlatBasicApi api = new WXPlatBasicApi(m_Config);
         public IActionResult Index()
         {
             //var token = api.GetAccessTokenAsync().WaitResult();

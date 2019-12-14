@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OSS.SnsSdk.Msg.Wx.Mos;
+using OSS.Clients.Chat.WX.Mos;
+using OSS.Social.Tests.WXTests;
 
 namespace OSS.Social.Tests.WxTests.WxMsg
 {
     /// <summary>
-    /// WxOffStoreTests 的摘要说明
+    /// WXPlatStoreTests 的摘要说明
     /// </summary>
     [TestClass]
-    public class WxMsgTests : WxBaseTests
+    public class WXChatTests : WXBaseTests
     {
-        public WxMsgTests()
+        public WXChatTests()
         {
             //
             //TODO:  在此处添加构造函数逻辑
@@ -21,12 +22,12 @@ namespace OSS.Social.Tests.WxTests.WxMsg
         [TestMethod]
         public void GetStoreCategoryAsyncTest()
         {
-            var replyMsg = new WxNewsReplyMsg
+            var replyMsg = new WXNewsReplyMsg
             {
-                Items = new List<WxArticleItem>
+                Items = new List<WXArticleItem>
                 {
-                    new WxArticleItem() {Title = "test", Description = "noone"},
-                    new WxArticleItem() {Title = "test1", Description = "more"}
+                    new WXArticleItem() {Title = "test", Description = "noone"},
+                    new WXArticleItem() {Title = "test1", Description = "more"}
                 }
             };
             var str=replyMsg.ToReplyXml();

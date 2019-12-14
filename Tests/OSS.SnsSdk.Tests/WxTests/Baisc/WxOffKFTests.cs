@@ -1,20 +1,20 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OSS.Clients.Platform.WX.Basic;
+using OSS.Clients.Platform.WX.Basic.Mos;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Common.Resp;
-using OSS.SnsSdk.Official.Wx.Basic;
-using OSS.SnsSdk.Official.Wx.Basic.Mos;
 
-namespace OSS.Social.Tests.WxTests.Baisc
+namespace OSS.Social.Tests.WXTests.Baisc
 {
     /// <summary>
     /// 客服功能测试
     /// </summary>
     [TestClass]
-    public class WxOffKfTests:WxBaseTests
+    public class WXPlatKfTests:WXBaseTests
     {
-        private static WxOffKfApi m_Api = new WxOffKfApi(m_Config);
+        private static WXPlatKfApi m_Api = new WXPlatKfApi(m_Config);
         /// <summary>
         /// 添加客服账号测试
         /// </summary>
@@ -88,7 +88,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         [TestMethod]
         public void GetKfMsgListTest()
         {
-            var res = m_Api.GetKfMsgList(new WxGetKfMsgListReq()
+            var res = m_Api.GetKfMsgList(new WXGetKfMsgListReq()
             {
                 endtime = DateTime.Now.ToUtcSeconds(),
                 starttime = DateTime.Now.AddHours(-1).ToUtcSeconds()
@@ -106,7 +106,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         public void SenKfMediaMsgAsyncTest()
         {
            //图片
-             var res = m_Api.SenKfMediaMsgAsync("oHoSOt2w5uuxWKeVQTwoZQDuZ-nM","image", "w6q00gTWx6n6fsgBiM-VoKS32Uq-vNWhx5EpM85YyeG8IOk1FdPlJNo8bE7PFE6j", "kevin@kevin").WaitResult();
+             var res = m_Api.SenKfMediaMsgAsync("oHoSOt2w5uuxWKeVQTwoZQDuZ-nM","image", "w6q00gTWX6n6fsgBiM-VoKS32Uq-vNWhx5EpM85YyeG8IOk1FdPlJNo8bE7PFE6j", "kevin@kevin").WaitResult();
             Assert.IsTrue(res.IsSuccess());
         }
 

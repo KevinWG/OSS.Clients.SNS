@@ -1,44 +1,44 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using OSS.Clients.Chat.WX;
+using OSS.Clients.Chat.WX.Mos;
+using OSS.Clients.Samples.Controllers.Codes;
 using OSS.Common.Resp;
-using OSS.SnsSdk.Msg.Wx;
-using OSS.SnsSdk.Msg.Wx.Mos;
-using OSS.SnsSdk.Samples.Controllers.Codes;
 using OSS.Tools.Log;
 
-namespace OSS.SnsSdk.Samples.Controllers
+namespace OSS.Clients.SNS.Samples.Controllers
 {
-    public class WxMsgController : Controller
+    public class WXChatController : Controller
     {
-        private static readonly WxMsgConfig config = new WxMsgConfig()
+        private static readonly WXChatConfig config = new WXChatConfig()
         {
             AppId = "wx835dddda838bb558",
-            SecurityType = WxSecurityType.Safe,
+            SecurityType = WXSecurityType.Safe,
             Token = "2DMEMYU9Zrv8C4ddddzvTghlUf2Z60s3",
             EncodingAesKey = "b2kcgLAsxwMjWmi6tCixPTZQ1MbY76VLXgZKHgfLOSf",
         };
 
         // 【一】 直接在初始化中指定配置信息
-        private static readonly WxCustomMsgHandler _msgService = new WxCustomMsgHandler(config);
+        private static readonly WXCustomMsgHandler _msgService = new WXCustomMsgHandler(config);
 
         // 【二】 在构造函数中动态设置配置信息
-        public WxMsgController()
+        public WXChatController()
         {
             _msgService.SetContextConfig(config);
-           //WxMsgConfigProvider.SetContextConfig(config);
+           //WXChatConfigProvider.SetContextConfig(config);
         }
 
         #region  【A】 高级自定义方法实现
 
-        static WxMsgController()
+        static WXChatController()
         {
             //  用户可以自定义消息处理委托，
             //   也可以通过 RegisterEventMsgHandler 自定义事件处理委托
-            WxMsgConfigProvider.RegisteProcessor<WxTextRecMsg>("test_msg", ProcessTestMsg);
+            WXChatConfigProvider.RegisteProcessor<WXTextRecMsg>("test_msg", ProcessTestMsg);
         }
-        private static WxBaseReplyMsg ProcessTestMsg(WxTextRecMsg msg)
+        private static WXBaseReplyMsg ProcessTestMsg(WXTextRecMsg msg)
         {
-            return new WxTextReplyMsg() { Content = " test_msg 类型消息返回 " };
+            return new WXTextReplyMsg() { Content = " test_msg 类型消息返回 " };
         }
 
         #endregion

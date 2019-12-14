@@ -1,44 +1,42 @@
 ﻿using System.Collections.Generic;
-using OSS.Common.Plugs.DirConfigPlug;
-using OSS.Common.Plugs.LogPlug;
-using OSS.SnsSdk.Msg.Wx;
-using OSS.SnsSdk.Msg.Wx.Mos;
+using OSS.Clients.Chat.WX;
+using OSS.Clients.Chat.WX.Mos;
 using OSS.Tools.DirConfig;
 using OSS.Tools.Log;
 
-namespace OSS.SnsSdk.Samples.Controllers.Codes
+namespace OSS.Clients.SNS.Samples.Controllers.Codes
 {
-    public class WxAgentController : WxMsgBaseHandler
+    public class WXAgentController : WXChatBaseHandler
     {
-        public WxAgentController(WxMsgConfig config):base(config)
+        public WXAgentController(WXChatConfig config):base(config)
         {
         }
     
-        protected override WxMsgProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
+        protected override WXChatProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
         {
             if (msgInfo.ContainsKey("ComponentVerifyTicket"))
             {
-                return new WxMsgProcessor<VerifComponentTicketRecMsg>()
+                return new WXChatProcessor<VerifComponentTicketRecMsg>()
                 {
                     RecInsCreater=() => new VerifComponentTicketRecMsg(),
                     ProcessFunc = msg =>
                     {
                         var res = DirConfigHelper.SetDirConfig<TicketMo>($"{ApiConfig.AppId}_component_verify_ticket",
                             new TicketMo { ticket = msg.ComponentVerifyTicket });
-                        return WxNoneReplyMsg.None;
+                        return WXNoneReplyMsg.None;
                     }
                 };
             }
             return null;
         }
 
-        protected override void ExecuteEnd(WxMsgContext msgContext)
+        protected override void ExecuteEnd(WXChatContext msgContext)
         {
             LogHelper.Info(msgContext.RecMsg.RecMsgXml.InnerXml, "PlatformMsg");
         }
     }
 
-    public class VerifComponentTicketRecMsg : WxBaseRecMsg
+    public class VerifComponentTicketRecMsg : WXBaseRecMsg
     {
         public string AppId { get; set; }
 

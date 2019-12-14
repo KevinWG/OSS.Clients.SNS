@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OSS.Clients.Platform.WX.Basic;
+using OSS.Clients.Platform.WX.Basic.Mos;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Common.Resp;
-using OSS.SnsSdk.Official.Wx.Basic;
-using OSS.SnsSdk.Official.Wx.Basic.Mos;
-
-namespace OSS.Social.Tests.WxTests.Baisc
+namespace OSS.Social.Tests.WXTests.Baisc
 {
     /// <summary>
-    /// WxUserOffcialApiTests 的摘要说明
+    /// WXUserOffcialApiTests 的摘要说明
     /// </summary>
     [TestClass]
-    public class WxOffBasicApiTests : WxBaseTests
+    public class WXPlatBasicApiTests : WXBaseTests
     {
-        private static WxOffUserApi  m_Api = new WxOffUserApi(m_Config);
+        private static WXPlatUserApi  m_Api = new WXPlatUserApi(m_Config);
 
         [TestMethod]
         public void GetAccessTokenTest()
@@ -76,27 +75,27 @@ namespace OSS.Social.Tests.WxTests.Baisc
         [TestMethod]
         public  void GetUserInfoTest()
         {
-            var resTask = m_Api.GetUserInfoAsync(new WxOffcialUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" }).WaitResult();
+            var resTask = m_Api.GetUserInfoAsync(new WXPlatcialUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" }).WaitResult();
             Assert.IsTrue(resTask.IsSuccess());
         }
         [TestMethod]
         public void GetUserInfoListTest()
         {
-            var res = m_Api.GetUserInfoListAsync(new List<WxOffcialUserInfoReq>() { new WxOffcialUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" } }).WaitResult();
+            var res = m_Api.GetUserInfoListAsync(new List<WXPlatcialUserInfoReq>() { new WXPlatcialUserInfoReq() { openid = "o7gE1s7610fM84Qapv4eBla5Yqcc" } }).WaitResult();
 
             Assert.IsTrue(res.IsSuccess());
         }
 
 
-        private static WxOffMediaApi m_MediaApi = new WxOffMediaApi(m_Config);
+        private static WXPlatMediaApi m_MediaApi = new WXPlatMediaApi(m_Config);
 
         [TestMethod]
         public void UploadTempMediaTest()
         {
             var imageFile = new FileStream("E:\\1.jpg", FileMode.Open, FileAccess.Read);
 
-            var req = new WxMediaTempUploadReq();
-            req.type = WxMediaType.image;
+            var req = new WXMediaTempUploadReq();
+            req.type = WXMediaType.image;
             req.content_type = "image/jpeg";
 
             req.file_name = "1.jpg";
@@ -104,7 +103,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
 
             var res = m_MediaApi.UploadTempMediaAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess());
-            //{ "type":"image","media_id":"w6q00gTWx6n6fsgBiM-VoKS32Uq-vNWhx5EpM85YyeG8IOk1FdPlJNo8bE7PFE6j","created_at":1487601780}
+            //{ "type":"image","media_id":"w6q00gTWX6n6fsgBiM-VoKS32Uq-vNWhx5EpM85YyeG8IOk1FdPlJNo8bE7PFE6j","created_at":1487601780}
         }
 
         [TestMethod]
@@ -121,7 +120,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
         {
             var imageFile = new FileStream("E:\\1.jpg", FileMode.Open, FileAccess.Read);
 
-            var req = new WxFileReq();
+            var req = new WXFileReq();
             req.content_type = "image/jpeg";
 
             req.file_name = "1.jpg";
@@ -139,8 +138,8 @@ namespace OSS.Social.Tests.WxTests.Baisc
         {
             var imageFile = new FileStream("E:\\1.jpg", FileMode.Open, FileAccess.Read);
 
-            var req = new WxMediaUploadReq();
-            req.type = WxMediaType.image;
+            var req = new WXMediaUploadReq();
+            req.type = WXMediaType.image;
             req.content_type = "image/jpeg";
 
             req.file_name = "1.jpg";
@@ -149,7 +148,7 @@ namespace OSS.Social.Tests.WxTests.Baisc
             var res = m_MediaApi.UploadMediaAsync(req).WaitResult();
             Assert.IsTrue(res.IsSuccess());
 
-            // 1xOBXsBtRgetSsO8INAcQ1x8rkSc5MGMXuFfWxkGRDg
+            // 1xOBXsBtRgetSsO8INAcQ1x8rkSc5MGMXuFfWXkGRDg
             // http://mmbiz.qpic.cn/mmbiz_jpg/N3louEAebXzhBzgsstFNBicyF1j1ZFIGgOaIEfWE2ra8KrwHvT5xuPlloMONKoj4rp5E5rFmfI8ZEz0qbSC4GFw/0?wx_fmt=jpeg
         }
 
@@ -159,8 +158,8 @@ namespace OSS.Social.Tests.WxTests.Baisc
         {
             var imageFile = new FileStream("E:\\11.mp4", FileMode.Open, FileAccess.Read);
 
-            var req = new WxMediaUploadReq();
-            req.type = WxMediaType.video;
+            var req = new WXMediaUploadReq();
+            req.type = WXMediaType.video;
             req.content_type = "video/mpeg4";
 
             req.file_name = "11.mp4";

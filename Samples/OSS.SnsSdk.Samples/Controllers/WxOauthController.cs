@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OSS.Clients.Oauth.WX;
+using OSS.Clients.Oauth.WX.Mos;
 using OSS.Common.ComModels;
 using OSS.Common.Resp;
-using OSS.SnsSdk.Oauth.Wx;
-using OSS.SnsSdk.Oauth.Wx.Mos;
 
-namespace OSS.SnsSdk.Samples.Controllers
+namespace OSS.Clients.SNS.Samples.Controllers
 {
     public class wxOauthController : Controller
     {
@@ -14,8 +14,8 @@ namespace OSS.SnsSdk.Samples.Controllers
             AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
         };
 
-        private static WxOauthApi m_AuthApi = new WxOauthApi(m_Config);
-        // GET: WxOauth
+        private static WXOauthApi m_AuthApi = new WXOauthApi(m_Config);
+        // GET: WXOauth
         public ActionResult auth( int type)
         {
             //记得更换成自己的项目域名
@@ -29,7 +29,7 @@ namespace OSS.SnsSdk.Samples.Controllers
             if (!tokecRes.IsSuccess())
                 return Content("获取用户授权信息失败!");
 
-            var userInfoRes = m_AuthApi.GetWxOauthUserInfoAsync(tokecRes.access_token, tokecRes.openid).Result;
+            var userInfoRes = m_AuthApi.GetWXOauthUserInfoAsync(tokecRes.access_token, tokecRes.openid).Result;
             return Content($"你已成功获取用户:{userInfoRes.nickname} 信息!");
         }
         

@@ -6,19 +6,19 @@
 	
 一. **授权对接模块**  (Oauth)
 
-    nuget下安装命令：**Install-Package OSS.SnsSdk.Oauth.Wx**   
+    nuget下安装命令：**Install-Package OSS.Clients.Oauth.WX**   
    	
 用户授权（oauth2.0），用户授权基础信息
     
 二. **会话消息模块**   (msg)
 
-    nuget下安装命令：**Install-Package OSS.SnsSdk.Msg.Wx**
+    nuget下安装命令：**Install-Package OSS.Clients.Chat.WX**
 
 会话管理，接收用户的会话信息，以及对应的响应
 
 三. **公号高级功能**  (offcial)
 
-    nuget下安装命令：**Install-Package OSS.SnsSdk.Official.Wx**
+    nuget下安装命令：**Install-Package OSS.Clients.Platform.WX.WX**
 
  ```
 	这个模块主要是对公众号内部的功能，像关注用户，标签，素材，统计，小店等功能的对接
@@ -46,13 +46,13 @@
       AppSecret = "你的secretkey"
   };
   // 接口api实例
-  private static WxOauthApi m_AuthApi = new WxOauthApi(m_Config);
+  private static WXOauthApi m_AuthApi = new WXOauthApi(m_Config);
   
   // 获取微信授权地址
   public ActionResult auth()
   {
       var res = m_AuthApi.GetAuthorizeUrl("http://www.social.com/wxoauth/callback",
-				 AuthClientType.WxOffcial);
+				 AuthClientType.WXPlatcial);
       return Redirect(res);
   }
   //  微信回调页，此页面获取accesstoken 获取用户基础信息
@@ -61,7 +61,7 @@
       var tokecRes = m_AuthApi.GetAuthAccessToken(code);
       if (tokecRes.IsSuccess())
       {
-          var userInfoRes = m_AuthApi.GetWxAuthUserInfo(tokecRes.AccessToken, tokecRes.OpenId);
+          var userInfoRes = m_AuthApi.GetWXAuthUserInfo(tokecRes.AccessToken, tokecRes.OpenId);
           return Content("你已成功获取用户信息!");
       }
       return Content("获取用户授权信息失败!");
@@ -71,17 +71,17 @@
 a.首先声明配置信息
 ```csharp
 // 声明配置
-private static readonly WxMsgServerConfig config = new WxMsgServerConfig()
+private static readonly WXChatServerConfig config = new WXChatServerConfig()
   {
       Token = "你的token",
       EncodingAesKey = "你的加密key",
-      SecurityType = WxSecurityType.Safe,//  在微信段设置的安全模式
+      SecurityType = WXSecurityType.Safe,//  在微信段设置的安全模式
       AppId = "你的appid"   //  
   };
 ```  
-b. 定义一个处理句柄（可以实现一个自己的Handler，继承自WxMsgHandler 即可）
+b. 定义一个处理句柄（可以实现一个自己的Handler，继承自WXChatHandler 即可）
 ```csharp
-     private static readonly WxMsgHandler msgService = new WxMsgHandler(config);
+     private static readonly WXChatHandler msgService = new WXChatHandler(config);
 ```  
 c. 调用时将当前请求的内容传入程序入口即可：  
 ```csharp
@@ -100,7 +100,7 @@ c. 调用时将当前请求的内容传入程序入口即可：
    }            
    return Content("success");
 ```  
-其中WxMsgHandler 可以是自己继承WxMsgHandler 实现的具体处理类，通过重写相关用户事件返回对应结果即可。  
+其中WXChatHandler 可以是自己继承WXChatHandler 实现的具体处理类，通过重写相关用户事件返回对应结果即可。  
 3.高级功能调用（Offcial文件夹下）  
 微信公众号的其他高级功能接口都需要一个全局的accesstoken接口，像推送模块信息等，accesstoken自动获取已经被封装在sdk底层的请求处理中，默认会使用系统缓存保存，过期自动更新，如果需要保存到像redis中可以通过oscommon中的缓存模块注入，添加一个针对sns的缓存模块实现就可以了（后续给出一个示例），access和appid一一对应，不用担心多个公众号的冲突问题。  
 a.  声明配置信息：
@@ -115,7 +115,7 @@ private static AppConfig m_Config = new AppConfig()
 ```  
 b. 声明一个实例：  
 ```csharp
-    private static readonly WxOffMassApi m_OffcialApi = new WxOffMassApi(m_Config);
+    private static readonly WXPlatMassApi m_OffcialApi = new WXPlatMassApi(m_Config);
 ```  
 c.  具体使用
 ```csharp
@@ -129,13 +129,13 @@ c.  具体使用
 1.声明对象实体
 ```csharp
  // 获取用户基本信息请求实体
- public class WxOffcialUserInfoReq
+ public class WXPlatcialUserInfoReq
  {
      public string openid { get; set; }
      public string lang { get; set; }
  }
- // 响应实体，继承WxBaseResp
- public class WxOffcialUserInfoResp:WxBaseResp
+ // 响应实体，继承WXBaseResp
+ public class WXPlatcialUserInfoResp:WXBaseResp
  {
      public string openid { get; set; }
      public string nickname { get; set; }
@@ -148,14 +148,14 @@ c.  具体使用
 
 2.功能实现
 ```csharp
-public WxOffcialUserInfoResp GetUserInfo(WxOffcialUserInfoReq userReq)
+public WXPlatcialUserInfoResp GetUserInfo(WXPlatcialUserInfoReq userReq)
 {
-    var req = new OsHttpRequest();
+    var req = new OssHttpRequest();
     req.HttpMethod = HttpMethod.Get;
     req.AddressUrl = string.Concat(m_ApiUrl,
          $"/cgi-bin/user/info?openid={userReq.openid}&lang={userReq.lang}");
    //  请求地址中的AccessToken 底层会自动补充
-    return RestCommonOffcial<WxOffcialUserInfoResp>(req);
+    return RestCommonOffcial<WXPlatcialUserInfoResp>(req);
 }
 ```
 3.添加单元测试（非必须）
@@ -163,7 +163,7 @@ public WxOffcialUserInfoResp GetUserInfo(WxOffcialUserInfoReq userReq)
 [TestMethod]
 public void GetUserInfoTest()
 {
-    var res = m_Api.GetUserInfo(new WxOffcialUserInfoReq() 
+    var res = m_Api.GetUserInfo(new WXPlatcialUserInfoReq() 
 			{openid = "o7gE1s6mygEKgopVWp7BBtEAqT-w" });
     Assert.IsTrue(res.IsSuccess());
 }

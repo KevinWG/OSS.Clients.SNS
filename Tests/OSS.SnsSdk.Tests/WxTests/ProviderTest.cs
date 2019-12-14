@@ -2,10 +2,8 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OSS.SnsSdk.Msg.Wx;
-using OSS.SnsSdk.Msg.Wx.Mos;
 
-namespace OSS.Social.Tests.WxTests
+namespace OSS.Social.Tests.WXTests
 {
     /// <summary>
     /// ProviderTest 的摘要说明

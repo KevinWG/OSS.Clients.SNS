@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OSS.Clients.Platform.WX.Basic;
+using OSS.Clients.Platform.WX.Basic.Mos;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Common.Resp;
-using OSS.SnsSdk.Official.Wx.Basic;
-using OSS.SnsSdk.Official.Wx.Basic.Mos;
 
-namespace OSS.Social.Tests.WxTests.Baisc
+namespace OSS.Social.Tests.WXTests.Baisc
 {
     /// <summary>
-    /// WxOffMenuApiTests 的摘要说明
+    /// WXPlatMenuApiTests 的摘要说明
     /// </summary>
     [TestClass]
-    public class WxOffMenuApiTests:WxBaseTests
+    public class WXPlatMenuApiTests:WXBaseTests
     {
-        private static WxOffMenuApi m_Api =new WxOffMenuApi(m_Config);
+        private static WXPlatMenuApi m_Api =new WXPlatMenuApi(m_Config);
 
         /// <summary>
         /// 添加客服账号测试
@@ -22,12 +22,12 @@ namespace OSS.Social.Tests.WxTests.Baisc
         [TestMethod]
         public void AddKFAccountAsyncTest()
         {
-            var menu1=new WxMenuButtonMo();
+            var menu1=new WXMenuButtonMo();
             menu1.name = "OSSCoder官方源码";
             menu1.url = "https://github.com/KevinWG";
-            menu1.type = WxButtonType.view.ToString();
+            menu1.type = WXButtonType.view.ToString();
 
-            var list = new List<WxMenuButtonMo>(){menu1};
+            var list = new List<WXMenuButtonMo>(){menu1};
   
             var res = m_Api.AddOrUpdateMenuAsync(list).WaitResult();
             Assert.IsTrue(res.IsSuccess());

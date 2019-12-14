@@ -1,21 +1,21 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OSS.Clients.Platform.WX.Assist;
+using OSS.Clients.Platform.WX.Basic;
+using OSS.Clients.Platform.WX.Helpers.Mos;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Common.Resp;
-using OSS.SnsSdk.Official.Wx.Assist;
-using OSS.SnsSdk.Official.Wx.Basic;
-using OSS.SnsSdk.Official.Wx.SysTools.Mos;
 
-namespace OSS.Social.Tests.WxTests.Baisc
+namespace OSS.Social.Tests.WXTests.Baisc
 {
     /// <summary>
-    /// WxOffBasicUserTests 的摘要说明
+    /// WXPlatBasicUserTests 的摘要说明
     /// </summary>
     [TestClass]
-    public class WxOffMassTests: WxBaseTests
+    public class WXPlatMassTests: WXBaseTests
     {
-        private static WxOffMassApi m_Api = new WxOffMassApi(m_Config);
+        private static WXPlatMassApi m_Api = new WXPlatMassApi(m_Config);
 
         /// <summary>
         /// 发送模板测试
@@ -36,13 +36,13 @@ namespace OSS.Social.Tests.WxTests.Baisc
             Assert.IsTrue(res.IsSuccess() );
         }
 
-        private static WxOffAssistApi m_AssistApi = new WxOffAssistApi(m_Config);
+        private static WXPlatAssistApi m_AssistApi = new WXPlatAssistApi(m_Config);
 
         [TestMethod]
         public void GetJsTicketTest()
         {
             var res =
-                m_AssistApi.GetJsTicketFromCacheAsync(WxJsTicketType.jsapi).Result;
+                m_AssistApi.GetJsTicketFromCacheAsync(WXJsTicketType.jsapi).Result;
             Assert.IsTrue(res.IsSuccess());
         }
 
