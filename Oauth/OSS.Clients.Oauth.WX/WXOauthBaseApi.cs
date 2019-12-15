@@ -11,12 +11,11 @@
 
 #endregion
 
-using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Clients.Oauth.WX.Mos;
-using OSS.Common.ComModels;
+using OSS.Common.BasicImpls;
+using OSS.Common.BasicMos;
 using OSS.Tools.Http.Extention;
 using OSS.Tools.Http.Mos;
 

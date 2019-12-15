@@ -16,7 +16,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using OSS.Clients.Oauth.WX.Mos;
-using OSS.Common.ComModels;
+using OSS.Common.BasicMos;
 using OSS.Common.Extention;
 using OSS.Tools.Http.Mos;
 

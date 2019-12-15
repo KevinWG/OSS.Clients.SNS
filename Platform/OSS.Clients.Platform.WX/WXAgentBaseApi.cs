@@ -16,11 +16,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using OSS.Clients.Platform.WX.Agent.Mos;
-using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Common.Resp;
-using OSS.Clients.Platform.WX;
 using OSS.Clients.Platform.WX.Helpers;
+using OSS.Common.BasicMos;
 using OSS.Tools.Cache;
 using OSS.Tools.Http.Mos;
 

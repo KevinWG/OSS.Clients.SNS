@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
-using OSS.Common.ComModels;
+using OSS.Common.BasicMos;
 
 namespace OSS.Clients.Platform.WX
 {

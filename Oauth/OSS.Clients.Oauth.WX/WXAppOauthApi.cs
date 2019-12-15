@@ -14,7 +14,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Clients.Oauth.WX.Mos;
-using OSS.Common.ComModels;
+using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Oauth.WX

@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
 using OSS.Clients.Platform.WX.Basic.Mos;
+using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Platform.WX.Basic

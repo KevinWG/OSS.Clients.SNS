@@ -16,10 +16,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Clients.Platform.WX.Basic.Mos;
-using OSS.Common.ComModels;
 using OSS.Common.Resp;
-using OSS.Clients.Platform.WX.Basic.Mos;
-using OSS.Tools.Http.Extention;
+using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Platform.WX.Basic

@@ -19,6 +19,7 @@ using OSS.Clients.Platform.WX;
 using OSS.Common.ComModels;
 
 using OSS.Clients.Platform.WX.Store.Mos;
+using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 
 

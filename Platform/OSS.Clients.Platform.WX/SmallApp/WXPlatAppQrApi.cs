@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Common.Resp;
 using OSS.Clients.Platform.WX.Basic.Mos;
+using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Platform.WX.SmallApp

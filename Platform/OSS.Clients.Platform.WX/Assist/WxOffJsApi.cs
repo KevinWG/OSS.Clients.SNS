@@ -22,6 +22,7 @@ using OSS.Common.Extention;
 using OSS.Common.Resp;
 using OSS.Clients.Platform.WX.Helpers;
 using OSS.Clients.Platform.WX.Helpers.Mos;
+using OSS.Common.BasicMos;
 using OSS.Tools.Cache;
 using OSS.Tools.Http.Mos;
 
