@@ -15,8 +15,7 @@
 using System;
 using System.Collections.Concurrent;
 using OSS.Clients.Chat.WX.Mos;
-using OSS.Common.Plugs;
-using OSS.Common.Resp;
+using OSS.Common.BasicMos.Resp;
 
 namespace OSS.Clients.Chat.WX
 {
@@ -78,17 +77,7 @@ namespace OSS.Clients.Chat.WX
         /// <summary>
         ///   当前模块名称
         /// </summary>
-        public static string ModuleName { get; set; } = ModuleNames.SocialCenter;
-
-        ///// <summary>
-        /////  设置上下文配置信息
-        ///// </summary>
-        ///// <param name="config"></param>
-        //public static void SetContextConfig(WXChatConfig config)
-        //{
-        //    WXChatBaseHandler.SetContextConfig(config);
-        //}
-
+        public static string ModuleName { get; set; } = "default";
     }
 
 

@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OSS.Common;
-using OSS.Common.ComModels;
+using OSS.Tools.RedisCache;
+using OSS.Common.BasicMos;
+using OSS.Tools.Cache;
 
 namespace OSS.Social.Tests.WXTests
 {
@@ -27,11 +28,11 @@ namespace OSS.Social.Tests.WXTests
             } ;
             m_Config = config?.WXConfig ?? throw new ArgumentException("请将下边的配置信息直接赋值，或者通过DirConfigHelper.SetDirConfig初始化一下基础配置信息");
             
-            OsConfig.CacheProvider=moduleName =>
+           CacheHelper.CacheProvider=moduleName =>
             {
                 if (!string.IsNullOrEmpty(config.RedisConnectionStr))
                 {
-                    return new RedisCache(0, config.RedisConnectionStr);
+                    return new ToolStackRedis(0, config.RedisConnectionStr);
                 }
                 return null;//  如果为空会走系统缓存
             };

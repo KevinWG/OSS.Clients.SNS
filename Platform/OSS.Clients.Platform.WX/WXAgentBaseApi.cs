@@ -17,9 +17,9 @@ using System.Text;
 using System.Threading.Tasks;
 using OSS.Clients.Platform.WX.Agent.Mos;
 using OSS.Common.Extention;
-using OSS.Common.Resp;
 using OSS.Clients.Platform.WX.Helpers;
 using OSS.Common.BasicMos;
+using OSS.Common.BasicMos.Resp;
 using OSS.Tools.Cache;
 using OSS.Tools.Http.Mos;
 

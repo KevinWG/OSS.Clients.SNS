@@ -16,8 +16,8 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.0-rc1-final" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.0-rc1-final" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.0-rc1-final" />
-    <PackageReference Include="OSS.Tools.DirConfig" Version="1.1.0" />
-    <PackageReference Include="OSS.Tools.Log" Version="1.1.0" />
+    <PackageReference Include="OSS.Tools.DirConfig" Version="1.1.1" />
+    <PackageReference Include="OSS.Tools.Log" Version="1.1.1" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>

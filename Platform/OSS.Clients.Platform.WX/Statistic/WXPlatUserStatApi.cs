@@ -13,10 +13,7 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using OSS.Clients.Platform.WX;
 using OSS.Common.BasicMos;
-using OSS.Common.ComModels;
-
 using OSS.SocialSDK.WX.Offcial.Statistic.Mos;
 using OSS.Tools.Http.Mos;
 

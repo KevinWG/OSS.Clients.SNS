@@ -3,9 +3,9 @@ using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Clients.Platform.WX.Basic;
 using OSS.Clients.Platform.WX.Basic.Mos;
-using OSS.Common.ComModels;
+using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extention;
-using OSS.Common.Resp;
+
 namespace OSS.Social.Tests.WXTests.Baisc
 {
     /// <summary>

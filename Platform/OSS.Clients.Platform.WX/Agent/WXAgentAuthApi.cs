@@ -16,9 +16,8 @@ using System.Text;
 using System.Threading.Tasks;
 using OSS.Clients.Platform.WX.Agent.Mos;
 using OSS.Common.BasicMos;
-using OSS.Common.ComModels;
+using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extention;
-using OSS.Common.Resp;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Platform.WX.Agent

@@ -8,12 +8,12 @@
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
     <Authors>OSSCore</Authors>
     <Company>OSSCore</Company>
-    <Version>1.0.1</Version>
+    <Version>1.1</Version>
     <PackageReleaseNotes>升级基础类库</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Common" Version="2.2.0.1" />
+    <PackageReference Include="OSS.Common" Version="2.3.0" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
   </ItemGroup>
 

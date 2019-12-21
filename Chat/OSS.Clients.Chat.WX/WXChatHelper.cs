@@ -16,9 +16,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using OSS.Clients.Chat.WX.Mos;
+using OSS.Common.BasicMos.Resp;
 using OSS.Common.Encrypt;
 using OSS.Common.Extention;
-using OSS.Common.Resp;
 
 namespace OSS.Clients.Chat.WX
 {

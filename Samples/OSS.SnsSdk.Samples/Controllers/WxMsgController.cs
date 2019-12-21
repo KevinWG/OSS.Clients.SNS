@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OSS.Clients.Chat.WX;
 using OSS.Clients.Chat.WX.Mos;
 using OSS.Clients.Samples.Controllers.Codes;
-using OSS.Common.Resp;
+using OSS.Common.BasicMos.Resp;
 using OSS.Tools.Log;
 
 namespace OSS.Clients.SNS.Samples.Controllers

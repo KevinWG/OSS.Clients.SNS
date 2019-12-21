@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Clients.Oauth.WX;
-using OSS.Common.ComModels;
+using OSS.Common.BasicMos;
 using OSS.Common.Extention;
 using OSS.Tools.Http.Extention;
 using OSS.Tools.Http.Mos;

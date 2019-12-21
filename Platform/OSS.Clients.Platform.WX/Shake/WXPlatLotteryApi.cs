@@ -14,7 +14,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Common.ComModels;
 using OSS.Clients.Platform.WX.Shake.Mos;
 using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;

@@ -18,7 +18,7 @@ namespace OSS.Clients.Platform.WX
         /// <summary>
         ///   当前模块名称
         /// </summary>
-        public static string ModuleName { get; set; } = "oss_sns";
+        public static string ModuleName { get; set; } = "default";
 
         public static Func<HttpClient> ClientFactory { get; set; }
 

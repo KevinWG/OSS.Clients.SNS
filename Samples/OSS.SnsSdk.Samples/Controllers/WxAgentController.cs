@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Clients.Chat.WX.Mos;
-using OSS.Clients.Samples.Controllers.Codes;
 using OSS.Clients.SNS.Samples.Controllers.Codes;
-using OSS.Common.Resp;
+using OSS.Common.BasicMos.Resp;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

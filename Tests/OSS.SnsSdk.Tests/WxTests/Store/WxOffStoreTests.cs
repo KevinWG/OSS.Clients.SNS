@@ -2,8 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Clients.Platform.WX.Store;
 using OSS.Clients.Platform.WX.Store.Mos;
+using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extention;
-using OSS.Common.Resp;
 
 namespace OSS.Social.Tests.WXTests.Store
 {

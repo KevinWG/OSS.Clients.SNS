@@ -13,7 +13,7 @@
 
 using System;
 using Newtonsoft.Json;
-using OSS.Common.Resp;
+using OSS.Common.BasicMos.Resp;
 
 namespace OSS.Clients.Platform.WX.Assist.Mos
 {

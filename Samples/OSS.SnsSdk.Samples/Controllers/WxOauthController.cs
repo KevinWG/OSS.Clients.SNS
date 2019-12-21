@@ -2,8 +2,7 @@
 using OSS.Clients.Oauth.WX;
 using OSS.Clients.Oauth.WX.Mos;
 using OSS.Common.BasicMos;
-using OSS.Common.ComModels;
-using OSS.Common.Resp;
+using OSS.Common.BasicMos.Resp;
 
 namespace OSS.Clients.SNS.Samples.Controllers
 {

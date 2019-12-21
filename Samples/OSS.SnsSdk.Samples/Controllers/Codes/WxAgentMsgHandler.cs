@@ -21,7 +21,7 @@ namespace OSS.Clients.SNS.Samples.Controllers.Codes
                     RecInsCreater=() => new VerifComponentTicketRecMsg(),
                     ProcessFunc = msg =>
                     {
-                        var res = DirConfigHelper.SetDirConfig<TicketMo>($"{ApiConfig.AppId}_component_verify_ticket",
+                         DirConfigHelper.SetDirConfig($"{ApiConfig.AppId}_component_verify_ticket",
                             new TicketMo { ticket = msg.ComponentVerifyTicket });
                         return WXNoneReplyMsg.None;
                     }

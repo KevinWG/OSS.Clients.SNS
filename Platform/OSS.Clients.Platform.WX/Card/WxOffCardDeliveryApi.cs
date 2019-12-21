@@ -15,11 +15,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Clients.Platform.WX;
-using OSS.Common.Resp;
-
 using OSS.Clients.Platform.WX.Card.Mos;
 using OSS.Clients.Platform.WX.Helpers.Mos;
+using OSS.Common.BasicMos.Resp;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Platform.WX.Card
