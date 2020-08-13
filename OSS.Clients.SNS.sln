@@ -5,13 +5,10 @@ VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C554E9E-D16E-4015-B2A7-DF8E95E33273}"
 	ProjectSection(SolutionItems) = preProject
-		DoneList.txt = DoneList.txt
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{B7756CCA-C5C3-487F-8582-F065DF960491}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{55E2C793-B2A5-47E8-8E4E-E5AF87A695B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Oauth", "Oauth", "{4DDBFA01-60B0-484D-87F1-A5576600D2A2}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,8 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform", "Platform", "{2E
 		Platform\ReadMe.md = Platform\ReadMe.md
 		Platform\地区信息_中国地区_CN_EN.txt = Platform\地区信息_中国地区_CN_EN.txt
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Clients.SNS.Tests", "Tests\OSS.SnsSdk.Tests\OSS.Clients.SNS.Tests.csproj", "{73534267-38CE-44D1-9AE1-6C4C1170D7B4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Clients.SNS.Samples", "Samples\OSS.SnsSdk.Samples\OSS.Clients.SNS.Samples.csproj", "{7416B03A-9559-4E8C-B63D-09A9D011EC8D}"
 EndProject
@@ -49,18 +44,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Debug|x64.Build.0 = Debug|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Debug|x86.Build.0 = Debug|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Release|x64.ActiveCfg = Release|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Release|x64.Build.0 = Release|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Release|x86.ActiveCfg = Release|Any CPU
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4}.Release|x86.Build.0 = Release|Any CPU
 		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7416B03A-9559-4E8C-B63D-09A9D011EC8D}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -114,7 +97,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{73534267-38CE-44D1-9AE1-6C4C1170D7B4} = {55E2C793-B2A5-47E8-8E4E-E5AF87A695B1}
 		{7416B03A-9559-4E8C-B63D-09A9D011EC8D} = {B7756CCA-C5C3-487F-8582-F065DF960491}
 		{4596A866-542D-4A4D-B5C5-6E3B3148D1D9} = {65AE02A2-61DD-4A3C-9A20-6C75CE788C5C}
 		{A852AA06-FAA8-48C2-8D13-509B490ACAA1} = {4DDBFA01-60B0-484D-87F1-A5576600D2A2}

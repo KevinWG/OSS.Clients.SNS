@@ -28,7 +28,7 @@ namespace OSS.Social.Tests.WXTests
             } ;
             m_Config = config?.WXConfig ?? throw new ArgumentException("请将下边的配置信息直接赋值，或者通过DirConfigHelper.SetDirConfig初始化一下基础配置信息");
             
-           CacheHelper.CacheProvider=moduleName =>
+           CacheHelper.CacheProvider=CategoryName =>
             {
                 if (!string.IsNullOrEmpty(config.RedisConnectionStr))
                 {

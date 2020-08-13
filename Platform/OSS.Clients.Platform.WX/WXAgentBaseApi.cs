@@ -46,7 +46,7 @@ namespace OSS.Clients.Platform.WX
         public async Task<WXGetAgentAccessTokenResp> GetAgentAccessTokenFromCacheAsync()
         {
             var m_OffcialAccessTokenKey = string.Format(WXCacheKeysHelper.OffcialAgentAccessTokenKey, ApiConfig.AppId);
-            var tokenResp = CacheHelper.Get<WXGetAgentAccessTokenResp>(m_OffcialAccessTokenKey, WXPlatConfigProvider.ModuleName);
+            var tokenResp =await CacheHelper.GetAsync<WXGetAgentAccessTokenResp>(m_OffcialAccessTokenKey, WXPlatConfigProvider.CacheSourceName);
 
             if (tokenResp != null && tokenResp.expires_date >= DateTime.Now.ToUtcSeconds())
                 return tokenResp;
@@ -58,7 +58,7 @@ namespace OSS.Clients.Platform.WX
 
             tokenResp.expires_date = DateTime.Now.ToUtcSeconds() + tokenResp.expires_in - 600;
 
-            CacheHelper.Set(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in-600), WXPlatConfigProvider.ModuleName);
+            await CacheHelper.SetAbsoluteAsync(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in-600), WXPlatConfigProvider.CacheSourceName);
             return tokenResp;
         }
 

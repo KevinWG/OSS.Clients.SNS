@@ -46,7 +46,7 @@ namespace OSS.Clients.Platform.WX
         /// <param name="config"></param>
         public WXBaseApi(AppConfig config) : base(config)
         {
-            //ModuleName = WXPlatConfigProvider.ModuleName;
+            //SourceName = WXPlatConfigProvider.SourceName;
         }
         
         #endregion
@@ -138,8 +138,7 @@ namespace OSS.Clients.Platform.WX
             }
 
             var m_OffcialAccessTokenKey = string.Format(WXCacheKeysHelper.OffcialAccessTokenKey, ApiConfig.AppId);
-            var tokenResp =
-                CacheHelper.Get<WXPlatAccessTokenResp>(m_OffcialAccessTokenKey, WXPlatConfigProvider.ModuleName);
+            var tokenResp = await CacheHelper.GetAsync<WXPlatAccessTokenResp>(m_OffcialAccessTokenKey, WXPlatConfigProvider.CacheSourceName);
 
             if (tokenResp != null && tokenResp.expires_date >= DateTime.Now.ToUtcSeconds())
                 return tokenResp;
@@ -151,8 +150,7 @@ namespace OSS.Clients.Platform.WX
 
             tokenResp.expires_date = DateTime.Now.ToUtcSeconds() + tokenResp.expires_in - 600;
 
-            CacheHelper.Set(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in - 600),
-                WXPlatConfigProvider.ModuleName);
+            await CacheHelper.SetAbsoluteAsync(m_OffcialAccessTokenKey, tokenResp, TimeSpan.FromSeconds(tokenResp.expires_in - 600), WXPlatConfigProvider.CacheSourceName);
 
             return tokenResp;
         }

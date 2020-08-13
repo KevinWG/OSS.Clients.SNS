@@ -16,10 +16,12 @@ namespace OSS.Clients.Platform.WX
         public static AppConfig DefaultConfig { get; set; }
 
         /// <summary>
-        ///   当前模块名称
+        ///   缓存模块名称
+        ///     可通过 OSS.Tools.Cache 类库 定义缓存处理
         /// </summary>
-        public static string ModuleName { get; set; } = "default";
+        public static string CacheSourceName { get; set; } = "default";
 
+        
         public static Func<HttpClient> ClientFactory { get; set; }
 
 

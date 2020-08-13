@@ -11,11 +11,6 @@ namespace OSS.Clients.Oauth.WX
     public static class WXOauthConfigProvider
     {
         /// <summary>
-        ///   当前模块名称
-        /// </summary>
-        public static string ModuleName { get; set; } = "default";
-
-        /// <summary>
         /// 默认的配置AppKey信息
         /// </summary>
         public static AppConfig DefaultConfig { get; set; }

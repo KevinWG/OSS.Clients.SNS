@@ -51,7 +51,7 @@ namespace OSS.Clients.Platform.WX.Assist
         {
             var key = string.Format(WXCacheKeysHelper.OffcialJsTicketKey, ApiConfig.AppId, type);
 
-            var ticket = CacheHelper.Get<WXGetJsTicketResp>(key, WXPlatConfigProvider.ModuleName);
+            var ticket =await CacheHelper.GetAsync<WXGetJsTicketResp>(key, WXPlatConfigProvider.CacheSourceName);
             if (ticket != null && ticket.expires_time > DateTime.Now)
                 return ticket;
 
@@ -61,7 +61,7 @@ namespace OSS.Clients.Platform.WX.Assist
 
             ticketRes.expires_time = DateTime.Now.AddSeconds(ticketRes.expires_in);
 
-            CacheHelper.Set(key, ticketRes, TimeSpan.FromSeconds(ticketRes.expires_in - 10), WXPlatConfigProvider.ModuleName);
+            await CacheHelper.SetAbsoluteAsync(key, ticketRes, TimeSpan.FromSeconds(ticketRes.expires_in - 10), WXPlatConfigProvider.CacheSourceName);
             return ticketRes;
         }
 

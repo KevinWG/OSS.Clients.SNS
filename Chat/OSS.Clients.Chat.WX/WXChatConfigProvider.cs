@@ -37,12 +37,12 @@ namespace OSS.Clients.Chat.WX
         {
             var key = msgType.ToLower();
             if (processorDirs.ContainsKey(key))
-                return new Resp(RespTypes.ObjectExsit, "已存在相同的消息处理类型！");
+                return new Resp(RespTypes.ObjectExist, "已存在相同的消息处理类型！");
 
             var handler = new WXChatProcessor<TRecMsg> { ProcessFunc = func };
             return processorDirs.TryAdd(key, handler)
                 ? new Resp()
-                : new Resp(RespTypes.ObjectExsit, "注册消息处理句柄失败！");
+                : new Resp(RespTypes.ObjectExist, "注册消息处理句柄失败！");
         }
 
         /// <summary>
@@ -74,10 +74,6 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         public static WXChatConfig DefaultConfig { get; set; }
 
-        /// <summary>
-        ///   当前模块名称
-        /// </summary>
-        public static string ModuleName { get; set; } = "default";
     }
 
 
