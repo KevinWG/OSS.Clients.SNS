@@ -3,7 +3,7 @@ using OSS.Clients.Chat.WX;
 using OSS.Clients.Chat.WX.Mos;
 using OSS.Tools.Log;
 
-namespace OSS.Clients.Samples.Controllers.Codes
+namespace OSS.Clients.SNS.Samples.Controllers.Codes
 {
     public class WXCustomMsgHandler: WXChatHandler
     {
@@ -18,23 +18,22 @@ namespace OSS.Clients.Samples.Controllers.Codes
         }
 
 
-        protected override WXChatProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
+        protected override BaseWXChatProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
         {
             if (msgType == "test_msg")
             {
-                return new WXChatProcessor<WXTestRecMsg>()
-                {
-                    RecInsCreater = () => new WXTestRecMsg(),
-                    ProcessFunc = (msg) => new WXTextReplyMsg {Content = "test" + msg.Test}
-                };
+                return new WXTestProcessor();
             }
             return null;
         }
 
+    }
 
-        protected override void Executing(WXChatContext context)
+    public class WXTestProcessor:WXChatProcessor<WXTestRecMsg>
+    {
+        protected override WXBaseReplyMsg Execute(WXTestRecMsg msg)
         {
-            LogHelper.Info($"当前消息正文：{context.RecMsg.RecMsgXml.InnerXml}", "Executing");
+            return new WXTextReplyMsg {Content = "test" + msg.Test};
         }
     }
 

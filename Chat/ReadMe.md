@@ -1,6 +1,7 @@
 即使只是一个SDK，也要写出水平，目标两点：1. 简单优雅。 2. 灵活高效 
 
 一. 配置管理
+
 	1. 通过构造函数传入，适合单一的应用
 	2. 通过 SetContext方式 注入，适合多租户，平台的方式使用
 	示例详见：OSS.Clients.Samples项目下的WXChatController.cs
@@ -9,33 +10,34 @@
 
 	首先，系统元素介绍（可以直接跳到使用模式，再回过头来看）：
 
-	1. 实体对象，也就是消息体对象，主要分为:
-		a. 接收消息（继承自 WXBaseRecMsg 的普通消息 和 继承自 WXBaseRecEventMsg 的事件消息
-		    系统默认实现了 六种普通消息和五种事件消息对象，在后边的使用模式中介绍如何扩展其他对象类型
+1. 实体对象，也就是消息体对象，主要分为:
+	a. 接收消息（继承自 WXBaseRecMsg 的普通消息 和 继承自 WXBaseRecEventMsg 的事件消息
+		系统默认实现了 六种普通消息和五种事件消息对象，在后边的使用模式中介绍如何扩展其他对象类型
 
-		b. 回复消息（继承自 WXBaseReplyMsg ，主要是响应给微信接口的实体（当前支持六种 + WXNoneReplyMsg）
-			除非特殊情况，否则返回消息就是这几种类型。当前可用回复消息：
+	b. 回复消息（继承自 WXBaseReplyMsg ，主要是响应给微信接口的实体（当前支持六种 + WXNoneReplyMsg）
+		除非特殊情况，否则返回消息就是这几种类型。当前可用回复消息：
 
-			WXTextReplyMsg-回复文本消息，WXImageReplyMsg-回复图片消息，WXVoiceReplyMsg-回复语音消息，
-			WXVideoReplyMsg-回复视频消息，WXMusicReplyMsg-回复音频消息，WXNewsReplyMsg-回复图文消息
+		WXTextReplyMsg-回复文本消息，WXImageReplyMsg-回复图片消息，WXVoiceReplyMsg-回复语音消息，
+		WXVideoReplyMsg-回复视频消息，WXMusicReplyMsg-回复音频消息，WXNewsReplyMsg-回复图文消息
 			
-			WXNoneReplyMsg 表示不需要给对方响应，系统会返回给微信端success 。
-			使用中可以使用 WXNoneReplyMsg.None 默认值。
+		WXNoneReplyMsg 表示不需要给对方响应，系统会返回给微信端success 。
+		使用中可以使用 WXNoneReplyMsg.None 默认值。
 
-		c. 消息上下文（WXChatContext 对象			
-			含有 RecMsg 和 ReplyMsg 两个属性，也就是上边的接收消息和回复消息，方便在生命周期中控制
+	c. 消息上下文（WXChatContext 对象			
+		含有 RecMsg 和 ReplyMsg 两个属性，也就是上边的接收消息和回复消息，方便在生命周期中控制
 
-	2. Handler，消息处理控制类，实现整个消息处理的生命周期和执行调度
+2. Handler，消息处理控制类，实现整个消息处理的生命周期和执行调度
 		当前系统有 WXChatBaseHandler 和 WXChatHandler 两个，前者作为基类，实现了生命周期的控制和调度。
 		后者则实现了系统基础消息的事件定义（六个普通消息事件 和 五个Event消息事件）
 
-	3. Procesor（WXChatProcessor<TRecMsg>），消息的具体执行者.
-		这个只有在高级定制模式下才会需要用户自定义
+3. Procesor（WXChatProcessor<TRecMsg>），消息的具体执行者.
+	这个只有在高级定制模式下才会需要用户自定义
 
 	
-	下面介绍几种可供使用的三种模式：
+下面介绍几种可供使用的三种模式：
 
-	1. 基础模式 
+1. 基础模式 
+
 	系统 WXChatHandler.cs 默认实现常见的六种普通消息和五种事件消息，只需要重写（overwrite）对应的以 Process 开头的方法即可。
 	每个方法的参数对应的都是详细的消息类型。以文本类型消息举例：
 
@@ -80,7 +82,7 @@
     ProcessViewEventMsg(WXViewRecEventMsg msg)
 
 
-	2. 进阶模式
+2. 进阶模式
 		对于不在基础实现类型的消息，系统提供注入消息处理委托的模式来处理消息，以一个 test_msg 消息类型注入示例
 	
 	a. 定义消息实体：
@@ -133,7 +135,6 @@
       }
 	}
 	恭喜，你又完成了高级模式下的定制。
-
 
 三. 生命周期扩展
 

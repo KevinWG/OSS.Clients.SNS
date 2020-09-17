@@ -24,8 +24,8 @@ namespace OSS.Clients.Chat.WX
     /// </summary>
     public static class WXChatConfigProvider
     {
-        private static readonly ConcurrentDictionary<string, WXChatProcessor> processorDirs =
-            new ConcurrentDictionary<string, WXChatProcessor>();
+        private static readonly ConcurrentDictionary<string, BaseWXChatProcessor> processorDirs =
+            new ConcurrentDictionary<string, BaseWXChatProcessor>();
 
         /// <summary>
         /// 注册消息处理委托
@@ -39,7 +39,7 @@ namespace OSS.Clients.Chat.WX
             if (processorDirs.ContainsKey(key))
                 return new Resp(RespTypes.ObjectExist, "已存在相同的消息处理类型！");
 
-            var handler = new WXChatProcessor<TRecMsg> { ProcessFunc = func };
+            var handler = new WXChatInternalProcessor<TRecMsg> { ProcessFunc = func };
             return processorDirs.TryAdd(key, handler)
                 ? new Resp()
                 : new Resp(RespTypes.ObjectExist, "注册消息处理句柄失败！");
@@ -63,7 +63,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        internal static WXChatProcessor GetProcessor(string name)
+        internal static BaseWXChatProcessor GetProcessor(string name)
         {
             processorDirs.TryGetValue(name, out var processor);
             return processor;

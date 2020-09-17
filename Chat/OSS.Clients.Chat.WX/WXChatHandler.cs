@@ -40,7 +40,7 @@ namespace OSS.Clients.Chat.WX
 
         #region 事件列表  普通消息
 
-        private  WXChatProcessor<WXTextRecMsg> textPro;
+        private WXChatInternalProcessor<WXTextRecMsg> textPro;
         /// <summary>
         /// 处理文本消息
         /// </summary>
@@ -50,7 +50,7 @@ namespace OSS.Clients.Chat.WX
         }
 
 
-        private  WXChatProcessor<WXImageRecMsg> imagePro;
+        private WXChatInternalProcessor<WXImageRecMsg> imagePro;
         /// <summary>
         /// 处理图像消息
         /// </summary>
@@ -59,7 +59,7 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private  WXChatProcessor<WXVoiceRecMsg> voicePro;
+        private WXChatInternalProcessor<WXVoiceRecMsg> voicePro;
         /// <summary>
         /// 处理语音消息
         /// </summary>
@@ -68,7 +68,7 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private  WXChatProcessor<WXVideoRecMsg> videoPro;
+        private WXChatInternalProcessor<WXVideoRecMsg> videoPro;
         /// <summary>
         /// 处理视频消息
         /// </summary>
@@ -77,7 +77,7 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private  WXChatProcessor<WXVideoRecMsg> shortVideoPro;
+        private WXChatInternalProcessor<WXVideoRecMsg> shortVideoPro;
         /// <summary>
         /// 处理小视频消息
         /// </summary>
@@ -86,7 +86,7 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private  WXChatProcessor<WXLocationRecMsg> locationPro;
+        private WXChatInternalProcessor<WXLocationRecMsg> locationPro;
         /// <summary>
         /// 处理地理位置消息
         /// </summary>
@@ -95,7 +95,7 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private  WXChatProcessor<WXLinkRecMsg> linkPro;
+        private WXChatInternalProcessor<WXLinkRecMsg> linkPro;
         /// <summary>
         /// 处理链接消息
         /// </summary>
@@ -109,7 +109,7 @@ namespace OSS.Clients.Chat.WX
 
         #region 事件列表  动作事件消息
 
-        private  WXChatProcessor<WXSubScanRecEventMsg> subEventPro;
+        private WXChatInternalProcessor<WXSubScanRecEventMsg> subEventPro;
         /// <summary>
         /// 处理关注事件
         /// </summary>
@@ -118,7 +118,7 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
         
-        private  WXChatProcessor<WXSubScanRecEventMsg> unsubEventPro;
+        private WXChatInternalProcessor<WXSubScanRecEventMsg> unsubEventPro;
         /// <summary>
         /// 处理取消关注事件
         /// </summary>
@@ -127,7 +127,7 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private  WXChatProcessor<WXSubScanRecEventMsg> scanEventPro;
+        private WXChatInternalProcessor<WXSubScanRecEventMsg> scanEventPro;
         /// <summary>
         /// 处理扫描带参数二维码事件
         /// </summary>
@@ -136,7 +136,7 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private  WXChatProcessor<WXLocationRecEventMsg> locationEventPro;
+        private WXChatInternalProcessor<WXLocationRecEventMsg> locationEventPro;
         /// <summary>
         /// 处理上报地理位置事件
         /// 不需要回复任何消息
@@ -146,7 +146,7 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private  WXChatProcessor<WXClickRecEventMsg> clickEventPro;
+        private WXChatInternalProcessor<WXClickRecEventMsg> clickEventPro;
         /// <summary>
         /// 处理点击菜单拉取消息时的事件推送
         /// </summary>
@@ -155,7 +155,7 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private  WXChatProcessor<WXViewRecEventMsg> viewEventPro;
+        private WXChatInternalProcessor<WXViewRecEventMsg> viewEventPro;
         /// <summary>
         /// 处理点击菜单跳转链接时的事件推送 
         /// </summary>
@@ -168,46 +168,46 @@ namespace OSS.Clients.Chat.WX
 
         #endregion
         
-        internal override WXChatProcessor GetBasicMsgProcessor(string msgType, string eventName)
+        internal override BaseWXChatProcessor GetInternalMsgProcessor(string msgType, string eventName)
         {
             switch (msgType.ToLower())
             {
                 case "event":
                     return GetBasicEventMsgProcessor(eventName);
                 case "text":
-                    return textPro?? (textPro = new WXChatProcessor<WXTextRecMsg> { RecInsCreater = () => new WXTextRecMsg(), ProcessFunc = ProcessTextMsg });
+                    return textPro?? (textPro = new WXChatInternalProcessor<WXTextRecMsg> { ProcessFunc = ProcessTextMsg });
                 case "image":
-                    return imagePro??(imagePro = new WXChatProcessor<WXImageRecMsg> { RecInsCreater = () => new WXImageRecMsg(), ProcessFunc = ProcessImageMsg });
+                    return imagePro??(imagePro = new WXChatInternalProcessor<WXImageRecMsg> {  ProcessFunc = ProcessImageMsg });
                 case "voice":
-                    return voicePro??(voicePro = new WXChatProcessor<WXVoiceRecMsg> { RecInsCreater = () => new WXVoiceRecMsg(), ProcessFunc = ProcessVoiceMsg });
+                    return voicePro??(voicePro = new WXChatInternalProcessor<WXVoiceRecMsg> {  ProcessFunc = ProcessVoiceMsg });
                 case "video":
-                    return videoPro??(videoPro = new WXChatProcessor<WXVideoRecMsg> { RecInsCreater = () => new WXVideoRecMsg(), ProcessFunc = ProcessVideoMsg });
+                    return videoPro??(videoPro = new WXChatInternalProcessor<WXVideoRecMsg> { ProcessFunc = ProcessVideoMsg });
                 case "shortvideo":
-                    return shortVideoPro?? (shortVideoPro = new WXChatProcessor<WXVideoRecMsg> { RecInsCreater = () => new WXVideoRecMsg(), ProcessFunc = ProcessShortVideoMsg });
+                    return shortVideoPro?? (shortVideoPro = new WXChatInternalProcessor<WXVideoRecMsg> {ProcessFunc = ProcessShortVideoMsg });
                 case "location":
-                    return locationPro??(locationPro = new WXChatProcessor<WXLocationRecMsg> { RecInsCreater = () => new WXLocationRecMsg(), ProcessFunc = ProcessLocationMsg });
+                    return locationPro??(locationPro = new WXChatInternalProcessor<WXLocationRecMsg> {  ProcessFunc = ProcessLocationMsg });
                 case "link":
-                    return linkPro??(linkPro = new WXChatProcessor<WXLinkRecMsg> { RecInsCreater = () => new WXLinkRecMsg(), ProcessFunc = ProcessLinkMsg });
+                    return linkPro??(linkPro = new WXChatInternalProcessor<WXLinkRecMsg> {ProcessFunc = ProcessLinkMsg });
             }
             return null;
         }
 
-        private WXChatProcessor GetBasicEventMsgProcessor(string eventName)
+        private BaseWXChatProcessor GetBasicEventMsgProcessor(string eventName)
         {
             switch (eventName.ToLower())
             {
                 case "subscribe":
-                    return subEventPro??(subEventPro = new WXChatProcessor<WXSubScanRecEventMsg> { RecInsCreater = () => new WXSubScanRecEventMsg(), ProcessFunc = ProcessSubscribeEventMsg });
+                    return subEventPro??(subEventPro = new WXChatInternalProcessor<WXSubScanRecEventMsg> {  ProcessFunc = ProcessSubscribeEventMsg });
                 case "unsubscribe":
-                    return unsubEventPro??(unsubEventPro = new WXChatProcessor<WXSubScanRecEventMsg> { RecInsCreater = () => new WXSubScanRecEventMsg(), ProcessFunc = ProcessUnsubscribeEventMsg });
+                    return unsubEventPro??(unsubEventPro = new WXChatInternalProcessor<WXSubScanRecEventMsg> {  ProcessFunc = ProcessUnsubscribeEventMsg });
                 case "scan":
-                    return scanEventPro??(scanEventPro = new WXChatProcessor<WXSubScanRecEventMsg> { RecInsCreater = () => new WXSubScanRecEventMsg(), ProcessFunc = ProcessScanEventMsg });
+                    return scanEventPro??(scanEventPro = new WXChatInternalProcessor<WXSubScanRecEventMsg> {  ProcessFunc = ProcessScanEventMsg });
                 case "location":
-                    return locationEventPro??(locationEventPro = new WXChatProcessor<WXLocationRecEventMsg> { RecInsCreater = () => new WXLocationRecEventMsg(), ProcessFunc = ProcessLocationEventMsg });
+                    return locationEventPro??(locationEventPro = new WXChatInternalProcessor<WXLocationRecEventMsg> {  ProcessFunc = ProcessLocationEventMsg });
                 case "click":
-                    return clickEventPro??(clickEventPro = new WXChatProcessor<WXClickRecEventMsg> { RecInsCreater = () => new WXClickRecEventMsg(), ProcessFunc = ProcessClickEventMsg });
+                    return clickEventPro??(clickEventPro = new WXChatInternalProcessor<WXClickRecEventMsg> {  ProcessFunc = ProcessClickEventMsg });
                 case "view":
-                    return viewEventPro??(viewEventPro = new WXChatProcessor<WXViewRecEventMsg> { RecInsCreater = () => new WXViewRecEventMsg(), ProcessFunc = ProcessViewEventMsg });
+                    return viewEventPro??(viewEventPro = new WXChatInternalProcessor<WXViewRecEventMsg> {  ProcessFunc = ProcessViewEventMsg });
             }
             return null;
         }

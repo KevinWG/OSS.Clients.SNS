@@ -12,20 +12,11 @@ namespace OSS.Clients.SNS.Samples.Controllers.Codes
         {
         }
     
-        protected override WXChatProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
+        protected override BaseWXChatProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
         {
             if (msgInfo.ContainsKey("ComponentVerifyTicket"))
             {
-                return new WXChatProcessor<VerifComponentTicketRecMsg>()
-                {
-                    RecInsCreater=() => new VerifComponentTicketRecMsg(),
-                    ProcessFunc = msg =>
-                    {
-                         DirConfigHelper.SetDirConfig($"{ApiConfig.AppId}_component_verify_ticket",
-                            new TicketMo { ticket = msg.ComponentVerifyTicket });
-                        return WXNoneReplyMsg.None;
-                    }
-                };
+                return new WxAgentProcessor();
             }
             return null;
         }
@@ -35,6 +26,17 @@ namespace OSS.Clients.SNS.Samples.Controllers.Codes
             LogHelper.Info(msgContext.RecMsg.RecMsgXml.InnerXml, "PlatformMsg");
         }
     }
+
+    public class WxAgentProcessor : WXChatProcessor<VerifComponentTicketRecMsg>
+    {
+        protected override WXBaseReplyMsg Execute(VerifComponentTicketRecMsg msg)
+        {
+            DirConfigHelper.SetDirConfig($"component_verify_ticket",
+                new TicketMo { ticket = msg.ComponentVerifyTicket });
+            return WXNoneReplyMsg.None;
+        }
+    }
+
 
     public class VerifComponentTicketRecMsg : WXBaseRecMsg
     {

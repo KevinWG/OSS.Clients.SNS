@@ -17,24 +17,42 @@ using OSS.Clients.Chat.WX.Mos;
 namespace OSS.Clients.Chat.WX
 {
     /// <summary>
-    ///  自定义消息处理Handler基类
-    /// 【用户自定义请返回：WXChatCustomMsgHandler&lt;TRecMsg&gt;或其子类】
+    ///  消息处理基类
     /// </summary>
-    public abstract class WXChatProcessor
+    public abstract class BaseWXChatProcessor
     {
-        internal bool CanExecute { get; set; }
+        internal abstract WXBaseRecMsg CreateRecMsg();
 
-        protected internal abstract WXBaseReplyMsg Execute(WXBaseRecMsg msg);
-        
-        protected internal abstract WXBaseRecMsg CreateNewInstance();
+        internal abstract WXBaseReplyMsg InternalExecute(WXBaseRecMsg msg);
     }
+
+    /// <summary>
+    /// 具体消息处理类
+    /// </summary>
+    /// <typeparam name="TRecMsg"></typeparam>
+    public abstract class WXChatProcessor<TRecMsg> : BaseWXChatProcessor
+        where TRecMsg : WXBaseRecMsg, new()
+    {
+        protected abstract WXBaseReplyMsg Execute(TRecMsg msg);
+
+        internal override WXBaseRecMsg CreateRecMsg()
+        {
+            return new TRecMsg();
+        }
+
+        internal override WXBaseReplyMsg InternalExecute(WXBaseRecMsg msg)
+        {
+            return Execute(msg as TRecMsg);
+        }
+    }
+
 
     /// <inheritdoc />
     /// <summary>
     ///   内部自定义消息类型处理Processor
     /// </summary>
     /// <typeparam name="TRecMsg"></typeparam>
-    public class WXChatProcessor<TRecMsg> : WXChatProcessor
+    internal class WXChatInternalProcessor<TRecMsg> : BaseWXChatProcessor
         where TRecMsg : WXBaseRecMsg, new()
     {
         private Func<TRecMsg, WXBaseReplyMsg> _processFunc;
@@ -42,30 +60,24 @@ namespace OSS.Clients.Chat.WX
         /// <summary>
         /// 处理方法实现
         /// </summary>
-        public Func<TRecMsg, WXBaseReplyMsg> ProcessFunc
+        internal Func<TRecMsg, WXBaseReplyMsg> ProcessFunc
         {
             get => _processFunc;
             set
             {
-                CanExecute = true;
                 _processFunc = value;
             }
         }
-        /// <summary>
-        ///  对应的接受消息创建实例方法
-        ///    如果不设置，会通过反射创建
-        /// </summary>
-        public Func<TRecMsg> RecInsCreater { get; set; }
-        
-        protected internal override WXBaseReplyMsg Execute(WXBaseRecMsg msg)
+
+        internal override WXBaseRecMsg CreateRecMsg()
+        {
+            return new TRecMsg();
+        }
+
+        internal override WXBaseReplyMsg InternalExecute(WXBaseRecMsg msg)
         {
             return ProcessFunc?.Invoke(msg as TRecMsg);
         }
-        
-        protected internal override WXBaseRecMsg CreateNewInstance()
-        {
-            return RecInsCreater?.Invoke() ?? new TRecMsg();
-        }
     }
-    
+
 }
