@@ -40,7 +40,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 AddressUrl = string.Concat(m_ApiUrl, "/datacube/getinterfacesummary"),
                 CustomBody = GetRequestBody(statReq)
             };
-            return await RestCommonOffcialAsync<WXInterfaceStatResp>(req);
+            return await RestCommonPlatAsync<WXInterfaceStatResp>(req);
         }
 
 
@@ -58,7 +58,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 CustomBody = GetRequestBody(new WXStatReq() {begin_date = date, end_date = date})
             };
             
-            return await RestCommonOffcialAsync<WXInterfaceStatResp>(req);
+            return await RestCommonPlatAsync<WXInterfaceStatResp>(req);
         }
     }
    

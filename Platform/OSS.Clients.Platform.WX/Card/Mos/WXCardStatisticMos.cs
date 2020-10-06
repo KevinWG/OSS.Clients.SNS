@@ -13,8 +13,7 @@
 
 using System;
 using System.Collections.Generic;
-using OSS.Clients.Platform.WX;
-
+using OSS.Clients.Platform.WX.Base.Mos;
 
 namespace OSS.Clients.Platform.WX.Card.Mos
 {

@@ -13,7 +13,8 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using OSS.Clients.Platform.WX.Basic.Mos;
+using OSS.Clients.Platform.WX.Base;
+using OSS.Clients.Platform.WX.Base.Mos;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Tools.Http.Mos;
@@ -42,15 +43,10 @@ namespace OSS.Clients.Platform.WX.SmallApp
         /// <returns></returns>
         public async Task<WXFileResp> DownloadMediaAsync(string path, int width)
         {
-            var accessToken = await GetAccessTokenFromCacheAsync();
-            if (!accessToken.IsSuccess())
-                return  new WXFileResp().WithResp(accessToken);// accessToken.ConvertToResultInherit<WXFileResp>();
-
             var req = new OssHttpRequest
             {
                 HttpMethod = HttpMethod.Post,
-                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/wxaapp/createwxaqrcode?access_token=",
-                    accessToken.access_token),
+                AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/wxaapp/createwxaqrcode"),
                 CustomBody = $"{{\"path\":\"{path}\",\"width\":{width}}}"
             };
 

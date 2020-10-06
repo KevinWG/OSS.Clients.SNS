@@ -35,7 +35,7 @@ namespace OSS.Clients.Platform.WX.Statistic
            req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsg");
            req.CustomBody = GetRequestBody(statisticReq);
 
-           return await RestCommonOffcialAsync<WXStatResp<WXChatUpStatMo>>(req);
+           return await RestCommonPlatAsync<WXStatResp<WXChatUpStatMo>>(req);
        }
 
 
@@ -51,7 +51,7 @@ namespace OSS.Clients.Platform.WX.Statistic
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsghour");
             req.CustomBody = GetRequestBody(new WXStatReq() {begin_date = date, end_date = date});
 
-            return await RestCommonOffcialAsync<WXStatResp<WXChatUpStatHourMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXChatUpStatHourMo>>(req);
         }
 
 
@@ -70,7 +70,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 CustomBody = GetRequestBody(statisticReq)
             };
 
-            return await RestCommonOffcialAsync<WXStatResp<WXChatUpStatMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXChatUpStatMo>>(req);
         }
 
 
@@ -89,7 +89,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 CustomBody = GetRequestBody(statisticReq)
             };
 
-            return await RestCommonOffcialAsync<WXStatResp<WXChatUpStatMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXChatUpStatMo>>(req);
         }
 
 
@@ -108,7 +108,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgdist"),
                 CustomBody = GetRequestBody(statisticReq)
             };
-            return await RestCommonOffcialAsync<WXStatResp<WXChatUpStatDistMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXChatUpStatDistMo>>(req);
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 AddressUrl = string.Concat(m_ApiUrl, "/datacube/getupstreammsgdistweek"),
                 CustomBody = GetRequestBody(statisticReq)
             };
-            return await RestCommonOffcialAsync<WXStatResp<WXChatUpStatDistMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXChatUpStatDistMo>>(req);
         }
 
 
@@ -144,7 +144,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 CustomBody = GetRequestBody(statisticReq)
             };
 
-            return await RestCommonOffcialAsync<WXStatResp<WXChatUpStatDistMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXChatUpStatDistMo>>(req);
         }
     }
 }

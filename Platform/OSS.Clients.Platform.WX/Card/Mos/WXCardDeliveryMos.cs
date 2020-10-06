@@ -12,8 +12,7 @@
 #endregion
 
 using System.Collections.Generic;
-using OSS.Clients.Platform.WX;
-using OSS.Clients.Platform.WX.Basic.Mos;
+using OSS.Clients.Platform.WX.Base.Mos;
 
 
 namespace OSS.Clients.Platform.WX.Card.Mos

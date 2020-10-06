@@ -13,30 +13,11 @@
 
 using System;
 using Newtonsoft.Json;
+using OSS.Clients.Platform.WX.Base.Mos;
 using OSS.Common.BasicMos.Resp;
 
 namespace OSS.Clients.Platform.WX.Assist.Mos
 {
-    public class WXGetJsTicketResp : WXBaseResp
-    {
-        /// <summary>   
-        ///   签名所需凭证
-        /// </summary>  
-        public string ticket { get; set; }
-
-        /// <summary>   
-        ///   有效时间
-        /// </summary>  
-        public int expires_in { get; set; }
-
-        /// <summary>
-        ///   过期时间
-        /// </summary>
-        [JsonIgnore]
-        public DateTime expires_time { get; set; }
-    }
-
-
     /// <summary>
     ///  jssdk 需要的签名信息
     /// </summary>

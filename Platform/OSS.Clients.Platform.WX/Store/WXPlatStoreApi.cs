@@ -15,6 +15,8 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using OSS.Clients.Platform.WX.Base;
+using OSS.Clients.Platform.WX.Base.Mos;
 using OSS.Clients.Platform.WX.Store.Mos;
 using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
@@ -71,7 +73,7 @@ namespace OSS.Clients.Platform.WX.Store
             req.AddressUrl = String.Concat(m_ApiUrl, "/cgi-bin/poi/addpoi");
             req.CustomBody = JsonConvert.SerializeObject(new {business = new {base_info = storeMo}});
 
-            return await RestCommonOffcialAsync<WXAddStoreResp>(req);
+            return await RestCommonPlatAsync<WXAddStoreResp>(req);
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace OSS.Clients.Platform.WX.Store
                 AddressUrl = string.Concat(m_ApiUrl, "/cgi-bin/poi/getpoi"),
                 CustomBody = $"{{\"poi_id\":{poiId}}}"
             };
-            return await RestCommonOffcialAsync<WXGetStoreResp>(req);
+            return await RestCommonPlatAsync<WXGetStoreResp>(req);
         }
 
         /// <summary>
@@ -105,7 +107,7 @@ namespace OSS.Clients.Platform.WX.Store
                 CustomBody = $"{{\"begin\":{begin},\"limit\":{limit}}}"
             };
             
-            return await RestCommonOffcialAsync<WXGetStoreListResp>(req);
+            return await RestCommonPlatAsync<WXGetStoreListResp>(req);
         }
 
 
@@ -123,7 +125,7 @@ namespace OSS.Clients.Platform.WX.Store
             req.AddressUrl = String.Concat(m_ApiUrl, "/cgi-bin/poi/updatepoi");
             req.CustomBody = JsonConvert.SerializeObject(serviceReq);
 
-            return await RestCommonOffcialAsync<WXGetStoreResp>(req);
+            return await RestCommonPlatAsync<WXGetStoreResp>(req);
         }
 
         /// <summary>
@@ -139,7 +141,7 @@ namespace OSS.Clients.Platform.WX.Store
             req.AddressUrl = String.Concat(m_ApiUrl, "/cgi-bin/poi/delpoi");
             req.CustomBody = $"{{\"poi_id\":{poiId}}}";
 
-            return await RestCommonOffcialAsync<WXBaseResp>(req);
+            return await RestCommonPlatAsync<WXBaseResp>(req);
         }
 
         /// <summary>
@@ -153,7 +155,7 @@ namespace OSS.Clients.Platform.WX.Store
             req.HttpMethod = HttpMethod.Get;
             req.AddressUrl = String.Concat(m_ApiUrl, "/cgi-bin/poi/getwxcategory");
 
-            return await RestCommonOffcialAsync<WXStoreCategoryResp>(req);
+            return await RestCommonPlatAsync<WXStoreCategoryResp>(req);
         }
 
         #endregion

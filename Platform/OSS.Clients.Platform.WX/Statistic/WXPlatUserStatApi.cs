@@ -13,6 +13,7 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
+using OSS.Clients.Platform.WX.Base;
 using OSS.Common.BasicMos;
 using OSS.SocialSDK.WX.Offcial.Statistic.Mos;
 using OSS.Tools.Http.Mos;
@@ -23,7 +24,7 @@ namespace OSS.Clients.Platform.WX.Statistic
     /// <summary>
     /// 微信统计接口
     /// </summary>
-   public partial class WXPlatStatApi:WXPlatBaseApi
+    public partial class WXPlatStatApi:WXPlatBaseApi
     {
         /// <summary>
         /// 构造函数
@@ -57,7 +58,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 CustomBody = GetRequestBody(statisticReq)
             };
             
-            return await RestCommonOffcialAsync<WXUserStatResp>(req);
+            return await RestCommonPlatAsync<WXUserStatResp>(req);
         }
 
 
@@ -77,7 +78,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 CustomBody = GetRequestBody(statisticReq)
             };
             
-            return await RestCommonOffcialAsync<WXUserStatResp>(req);
+            return await RestCommonPlatAsync<WXUserStatResp>(req);
         }
 
         /// <summary>

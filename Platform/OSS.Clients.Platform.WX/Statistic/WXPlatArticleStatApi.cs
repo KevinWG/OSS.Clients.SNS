@@ -37,7 +37,7 @@ namespace OSS.Clients.Platform.WX.Statistic
             req.AddressUrl = string.Concat(m_ApiUrl, "/datacube/getarticlesummary");
             req.CustomBody = GetRequestBody(new WXStatReq() {end_date = date, begin_date = date});
 
-            return await RestCommonOffcialAsync<WXStatResp<WXArticleStatSendMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXArticleStatSendMo>>(req);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 CustomBody = GetRequestBody(new WXStatReq() {end_date = date, begin_date = date})
             };
             
-            return await RestCommonOffcialAsync<WXStatResp<WXArticleStatSendTotalMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXArticleStatSendTotalMo>>(req);
         }
 
 
@@ -73,7 +73,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 CustomBody = GetRequestBody(statisticReq)
             };
             
-            return await RestCommonOffcialAsync<WXStatResp<WXArticleStatDaliyMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXArticleStatDaliyMo>>(req);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 CustomBody = GetRequestBody(new WXStatReq() {end_date = date, begin_date = date})
             };
             
-            return await RestCommonOffcialAsync<WXStatResp<WXArticleStatHourMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXArticleStatHourMo>>(req);
         }
 
 
@@ -108,7 +108,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 AddressUrl = string.Concat(m_ApiUrl, "/datacube/getusershare"),
                 CustomBody = GetRequestBody(statisticReq)
             };
-            return await RestCommonOffcialAsync<WXStatResp<WXArticleStatShareMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXArticleStatShareMo>>(req);
         }
 
 
@@ -126,7 +126,7 @@ namespace OSS.Clients.Platform.WX.Statistic
                 CustomBody = GetRequestBody(new WXStatReq() {end_date = date, begin_date = date})
             };
             
-            return await RestCommonOffcialAsync<WXStatResp<WXArticleStatShareHourMo>>(req);
+            return await RestCommonPlatAsync<WXStatResp<WXArticleStatShareHourMo>>(req);
         }
 
     }

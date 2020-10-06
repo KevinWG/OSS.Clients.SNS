@@ -11,6 +11,7 @@
 
 #endregion
 
+using OSS.Clients.Platform.WX.Base.Mos;
 using System.Collections.Generic;
 
 namespace OSS.Clients.Platform.WX.Shake.Mos

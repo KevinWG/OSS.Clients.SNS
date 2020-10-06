@@ -15,6 +15,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using OSS.Clients.Platform.WX.Agent.Mos;
+using OSS.Clients.Platform.WX.Base;
+using OSS.Clients.Platform.WX.Base.Mos;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extention;
@@ -22,11 +24,10 @@ using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Platform.WX.Agent
 {
-
     /// <summary>
     ///  第三方代理平台授权接口
     /// </summary>
-    public class WXAgentAuthApi:WXAgentBaseApi
+    public class WXAgentAuthApi: WXPlatBaseApi
     {
         /// <summary>
         ///  构造函数
@@ -50,7 +51,7 @@ namespace OSS.Clients.Platform.WX.Agent
                 CustomBody = $"{{\"component_appid\":\"{ApiConfig.AppId}\"}}"
             };
 
-            return await RestCommonAgentAsync<WXGetPreAuthCodeResp>(req);
+            return await RestCommonPlatAsync<WXGetPreAuthCodeResp>(req);
         }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace OSS.Clients.Platform.WX.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WXGetGrantedAccessTokenResp>(req);
+            return await RestCommonPlatAsync<WXGetGrantedAccessTokenResp>(req);
         }
 
         /// <summary>
@@ -114,7 +115,7 @@ namespace OSS.Clients.Platform.WX.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WXRefreshGrantedAccessTokenResp>(req);
+            return await RestCommonPlatAsync<WXRefreshGrantedAccessTokenResp>(req);
         }
 
 
@@ -136,7 +137,7 @@ namespace OSS.Clients.Platform.WX.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WXGetGrantorInfoResp>(req);
+            return await RestCommonPlatAsync<WXGetGrantorInfoResp>(req);
         }
 
 
@@ -163,7 +164,7 @@ namespace OSS.Clients.Platform.WX.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WXGetGrantorOptionResp>(req);
+            return await RestCommonPlatAsync<WXGetGrantorOptionResp>(req);
         }
 
         /// <summary>
@@ -191,7 +192,7 @@ namespace OSS.Clients.Platform.WX.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WXBaseResp>(req);
+            return await RestCommonPlatAsync<WXBaseResp>(req);
         }
 
         /// <summary>
@@ -215,7 +216,7 @@ namespace OSS.Clients.Platform.WX.Agent
                 CustomBody = strContent.ToString()
             };
 
-            return await RestCommonAgentAsync<WXGetGrantorListResp>(req);
+            return await RestCommonPlatAsync<WXGetGrantorListResp>(req);
         }
 
     }

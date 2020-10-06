@@ -14,6 +14,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using OSS.Clients.Platform.WX.Base;
+using OSS.Clients.Platform.WX.Base.Mos;
 using OSS.Clients.Platform.WX.Shake.Mos;
 using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
@@ -135,7 +137,7 @@ namespace OSS.Clients.Platform.WX.Shake
                     $"/shakearound/lottery/addlotteryinfo?use_template={userTemplate}&logo_url={logUrl}"),
                 CustomBody = JsonConvert.SerializeObject(lotteryReq)
             };
-            return await RestCommonOffcialAsync<WXAddLotteryResp>(req);
+            return await RestCommonPlatAsync<WXAddLotteryResp>(req);
         }
 
         /// <summary>
@@ -152,7 +154,7 @@ namespace OSS.Clients.Platform.WX.Shake
                 CustomBody = JsonConvert.SerializeObject(prizeReq)
             };
             
-            return await RestCommonOffcialAsync<WXSetLotteryPrizeResp>(req);
+            return await RestCommonPlatAsync<WXSetLotteryPrizeResp>(req);
         }
 
         /// <summary>
@@ -170,7 +172,7 @@ namespace OSS.Clients.Platform.WX.Shake
                     string.Concat(m_ApiUrl,
                         $"/shakearound/lottery/setlotteryswitch?lottery_id={lotteryId}&onoff={onoff}")
             };
-            return await RestCommonOffcialAsync<WXBaseResp>(req);
+            return await RestCommonPlatAsync<WXBaseResp>(req);
         }
 
         /// <summary>
@@ -185,7 +187,7 @@ namespace OSS.Clients.Platform.WX.Shake
                 HttpMethod = HttpMethod.Get,
                 AddressUrl = string.Concat(m_ApiUrl, "/shakearound/lottery/querylottery?lottery_id=", lotteryId)
             };
-            return await RestCommonOffcialAsync<WXGetLotteryResp>(req);
+            return await RestCommonPlatAsync<WXGetLotteryResp>(req);
         }
     }
 
