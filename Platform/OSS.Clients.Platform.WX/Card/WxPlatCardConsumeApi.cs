@@ -16,12 +16,12 @@ using System.Threading.Tasks;
 using OSS.Clients.Platform.WX.Card.Mos;
 using OSS.Tools.Http.Mos;
 
-
 namespace OSS.Clients.Platform.WX.Card
 {
     public partial class WXPlatCardApi
     {
-        #region  线下核销卡券
+        #region 线下核销卡券
+
         /// <summary>
         ///   查询cardcode 核销状态
         /// </summary>
@@ -41,15 +41,15 @@ namespace OSS.Clients.Platform.WX.Card
             return await RestCommonPlatAsync<WXGetCardCodeConsumeResp>(req);
         }
 
- 
+
 
         #endregion
 
-         /// <summary>
-         ///  解密链接中的code
-         /// </summary>
-         /// <param name="encryptCode"></param>
-         /// <returns></returns>
+        /// <summary>
+        ///  解密链接中的code
+        /// </summary>
+        /// <param name="encryptCode"></param>
+        /// <returns></returns>
         public async Task<WXCardCodeDecryptResp> DecryptCodeAsync(string encryptCode)
         {
             var req = new OssHttpRequest
@@ -58,11 +58,11 @@ namespace OSS.Clients.Platform.WX.Card
                 AddressUrl = string.Concat(m_ApiUrl, "/card/code/decrypt"),
                 CustomBody = $"{{\"encrypt_code\":\"{encryptCode}\"}}"
             };
-            
+
             return await RestCommonPlatAsync<WXCardCodeDecryptResp>(req);
         }
 
-       
+
         /// <summary>
         ///  核销卡券
         /// </summary>

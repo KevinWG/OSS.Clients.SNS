@@ -68,7 +68,7 @@ namespace OSS.Clients.Chat.WX
         /// <param name="sReplyMsg"></param>
         /// <param name="config"></param>
         /// <returns></returns>
-        internal static Resp<string> EncryptMsg(string sReplyMsg, WXChatConfig config)
+        internal static StrResp EncryptMsg(string sReplyMsg, WXChatConfig config)
         {
             string raw;
             try
@@ -77,7 +77,7 @@ namespace OSS.Clients.Chat.WX
             }
             catch (Exception)
             {
-                return new Resp<string>().WithResp(RespTypes.InnerError, "加密响应消息体出错！");
+                return new StrResp().WithResp(RespTypes.InnerError, "加密响应消息体出错！");
             }
             var date = DateTime.Now;
 
@@ -88,7 +88,7 @@ namespace OSS.Clients.Chat.WX
             var msgSigature = GenerateSignature(config.Token, sTimeStamp, sNonce, raw);
             if (string.IsNullOrEmpty(msgSigature))
             {
-                return new Resp<string>().WithResp(RespTypes.InnerError, "生成签名信息出错！");
+                return new StrResp().WithResp(RespTypes.InnerError, "生成签名信息出错！");
             }
 
             var sEncryptMsg = new StringBuilder();
@@ -108,7 +108,7 @@ namespace OSS.Clients.Chat.WX
             sEncryptMsg.Append(nonceLabelHead).Append(sNonce).Append(nonceLabelTail);
             sEncryptMsg.Append("</xml>");
 
-            return new Resp<string>(sEncryptMsg.ToString());
+            return new StrResp(sEncryptMsg.ToString());
         }
 
 

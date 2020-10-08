@@ -6,13 +6,25 @@
     <Description>微信公众号平台管理功能</Description>
     <PackageProjectUrl>https://github.com/KevinWG/OSS.Clients.SNS</PackageProjectUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
-    <PackageIconUrl>http://img1.osscore.cn/static/oss_net.png</PackageIconUrl>
-    <Version>1.1.1</Version>
+    <PackageIconUrl></PackageIconUrl>
+    <Version>1.1.2</Version>
     <PackageReleaseNotes>升级基础类库</PackageReleaseNotes>
+    <PackageIcon>logo.png</PackageIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>\OSS.Clients.Platform.WX.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WX\OSS.Clients.Platform.WX.Basic\OSS.Clients.Platform.WX.Basic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -45,11 +45,11 @@ namespace OSS.Clients.Chat.WX
         /// <param name="nonce"></param>
         /// <param name="echostr"></param>
         /// <returns></returns>
-        public Resp<string> CheckServerValid(string signature, string timestamp, string nonce, string echostr)
+        public StrResp CheckServerValid(string signature, string timestamp, string nonce, string echostr)
         {
             var checkSignRes = WXChatHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
 
-            var resultRes =new Resp<string>().WithResp(checkSignRes);// checkSignRes.ConvertToResult<string>();
+            var resultRes =new StrResp().WithResp(checkSignRes);// checkSignRes.ConvertToResult<string>();
             resultRes.data = resultRes.IsSuccess() ? echostr : string.Empty;
 
             return resultRes;
@@ -63,7 +63,7 @@ namespace OSS.Clients.Chat.WX
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public Resp<string> Process(Stream reqStream, string signature, string timestamp, string nonce,
+        public StrResp Process(Stream reqStream, string signature, string timestamp, string nonce,
             string echostr)
         {
             string contentXml;
@@ -83,7 +83,7 @@ namespace OSS.Clients.Chat.WX
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public Resp<string> Process(string contentXml, string signature, string timestamp, string nonce,
+        public StrResp Process(string contentXml, string signature, string timestamp, string nonce,
             string echostr)
         {
             // 一.  检查是否是服务器设置验证
@@ -95,11 +95,11 @@ namespace OSS.Clients.Chat.WX
             // 二.  正常消息处理
             var checkRes = Prepare(contentXml, signature, timestamp, nonce);
             if (!checkRes.IsSuccess())
-                return new Resp<string>().WithResp(checkRes); //checkRes.ConvertToResult<string>();
+                return new StrResp().WithResp(checkRes); //checkRes.ConvertToResult<string>();
 
             var contextRes = Processing(checkRes.data);
             if (!contextRes.IsSuccess())
-                return new Resp<string>().WithResp(contextRes);// contextRes.ConvertToResult<string>();
+                return new StrResp().WithResp(contextRes);// contextRes.ConvertToResult<string>();
 
             var resultString = contextRes.data.ReplyMsg.ToReplyXml();
             if (ApiConfig.SecurityType != WXSecurityType.None &&
@@ -107,7 +107,7 @@ namespace OSS.Clients.Chat.WX
             {
                 return WXChatHelper.EncryptMsg(resultString, ApiConfig);
             }
-            return new Resp<string>(resultString);
+            return new StrResp(resultString);
         }
 
 
@@ -151,28 +151,28 @@ namespace OSS.Clients.Chat.WX
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
         /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        private Resp<string> Prepare(string recXml, string signature,
+        private StrResp Prepare(string recXml, string signature,
             string timestamp, string nonce)
         {
             if (string.IsNullOrEmpty(recXml))
-                return new Resp<string>().WithResp(RespTypes.ObjectNull, "接收的消息体为空！");
+                return new StrResp().WithResp(RespTypes.ObjectNull, "接收的消息体为空！");
 
             var resCheck = WXChatHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
             if (!resCheck.IsSuccess())
-                return new Resp<string>().WithResp(resCheck);// resCheck.ConvertToResult<string>();
+                return new StrResp().WithResp(resCheck);// resCheck.ConvertToResult<string>();
 
             if (ApiConfig.SecurityType == WXSecurityType.None)
-                return new Resp<string>(recXml);
+                return new StrResp(recXml);
 
             var dirs = WXChatHelper.ChangXmlToDir(recXml, out XmlDocument xmlDoc);
 
             if (dirs == null || !dirs.TryGetValue("Encrypt", out var encryStr)
                 || string.IsNullOrEmpty(encryStr))
-                return new Resp<string>().WithResp(RespTypes.ObjectNull, "加密消息为空");
+                return new StrResp().WithResp(RespTypes.ObjectNull, "加密消息为空");
 
             var recMsgXml = Cryptography.WXAesDecrypt(encryStr, ApiConfig.EncodingAesKey);
 
-            return new Resp<string>(recMsgXml);
+            return new StrResp(recMsgXml);
         }
 
         /// <summary>

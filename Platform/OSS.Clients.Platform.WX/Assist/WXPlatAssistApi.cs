@@ -12,7 +12,6 @@
 #endregion
 
 using System;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using OSS.Clients.Platform.WX.Assist.Mos;
@@ -30,7 +29,6 @@ namespace OSS.Clients.Platform.WX.Assist
     /// </summary>
     public class WXPlatAssistApi : WXPlatBaseApi
     {
-
         /// <summary>
         ///   辅助类Api
         /// </summary>
@@ -38,7 +36,6 @@ namespace OSS.Clients.Platform.WX.Assist
         public WXPlatAssistApi(AppConfig config=null) : base(config)
         {
         }
-
 
         /// <summary>
         ///  获取jssdk签名信息

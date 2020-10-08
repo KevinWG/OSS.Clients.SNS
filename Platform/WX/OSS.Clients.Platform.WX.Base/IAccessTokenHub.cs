@@ -25,7 +25,7 @@ namespace OSS.Clients.Platform.WX.Base
         /// <summary>
         ///   获取AccessToken（从统一缓存或Token中心获取
         /// </summary>
-        Task<Resp<string>> GetAccessToken(AppConfig config);
+        Task<StrResp> GetAccessToken(AppConfig config);
     }
 
     /// <summary>
@@ -36,12 +36,12 @@ namespace OSS.Clients.Platform.WX.Base
         /// <summary>
         /// 当自身是第三方【代理平台】时，对应的 OperateMode = ByAgent 时，获取被代理的应用AccessToken
         /// </summary>
-        Task<Resp<string>> GetAccessTokenByAgentProxy(AppConfig config) ;
+        Task<StrResp> GetAccessTokenByAgentProxy(AppConfig config) ;
 
         /// <summary>
         /// 当自身是第三方【代理平台】时，获取第三方Agent的VerifyTicket（由微信通过消息接口推送给平台方）
         /// </summary>
-        Task<Resp<string>> GetAgentVerifyTicket(AppConfig config);
+        Task<StrResp> GetAgentVerifyTicket(AppConfig config);
     }
 
     /// <summary>
@@ -52,6 +52,6 @@ namespace OSS.Clients.Platform.WX.Base
         /// <summary>
         ///   JSTicket统一管理接口
         /// </summary>
-        Task<Resp<string>> GetJsTicket(AppConfig config, WXJsTicketType type);
+        Task<StrResp> GetJsTicket(AppConfig config, WXJsTicketType type);
     }
 }

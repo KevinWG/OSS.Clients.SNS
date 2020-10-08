@@ -1,16 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>微信公众号下的 accesstoken 接口实现</Description>
     <Authors>OSSCore</Authors>
+    <Company>OSSCore</Company>
+    <Description>代理平台的接口</Description>
     <PackageProjectUrl>https://github.com/KevinWG/OSS.Clients.SNS</PackageProjectUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>\OSS.Clients.Platform.WX.AccessToken.xml</DocumentationFile>
+    <DocumentationFile>\OSS.Clients.Platform.WX.Agent.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

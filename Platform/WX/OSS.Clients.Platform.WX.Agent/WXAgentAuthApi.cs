@@ -59,19 +59,19 @@ namespace OSS.Clients.Platform.WX.Agent
         /// </summary>
         /// <param name="redirectUrl">回调地址</param>
         /// <returns></returns>
-        public async Task<Resp<string>> GetPreAuthUrl(string redirectUrl)
+        public async Task<StrResp> GetPreAuthUrl(string redirectUrl)
         {
             var preAuthCodeRes = await GetPreAuthCode();
 
             if (!preAuthCodeRes.IsSuccess())
-                return new Resp<string>().WithResp(preAuthCodeRes);// preAuthCodeRes.ConvertToResult<string>();
+                return new StrResp().WithResp(preAuthCodeRes);// preAuthCodeRes.ConvertToResult<string>();
 
             if (redirectUrl.Contains("://"))
                 redirectUrl = redirectUrl.UrlEncode();
             
             var authUrl=
                 $"https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid={ApiConfig.AppId}&pre_auth_code={preAuthCodeRes.pre_auth_code}&redirect_uri={redirectUrl}";
-            return new Resp<string>(authUrl);
+            return new StrResp(authUrl);
         }
 
         /// <summary>

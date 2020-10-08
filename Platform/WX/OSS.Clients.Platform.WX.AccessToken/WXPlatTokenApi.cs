@@ -26,7 +26,7 @@ namespace OSS.Clients.Platform.WX.AccessToken
         {
         }
 
-        //        public async Task<Resp<string>> GetAccessToken(AppConfig config)
+        //        public async Task<StrResp> GetAccessToken(AppConfig config)
         //        {
 
         //            var m_OffcialAccessTokenKey = string.Format(WXCacheKeysHelper.OffcialAccessTokenKey, config.AppId);

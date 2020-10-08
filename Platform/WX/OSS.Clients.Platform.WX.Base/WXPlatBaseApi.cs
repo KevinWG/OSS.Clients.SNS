@@ -110,7 +110,7 @@ namespace OSS.Clients.Platform.WX.Base
             }
         }
 
-        private static Task<Resp<string>> GetAccessToken(AppConfig config)
+        private static Task<StrResp> GetAccessToken(AppConfig config)
         {
 
             if (config.OperateMode == AppOperateMode.ByAgent)

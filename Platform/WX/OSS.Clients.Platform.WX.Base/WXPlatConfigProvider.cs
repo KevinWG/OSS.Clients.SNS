@@ -14,11 +14,11 @@ namespace OSS.Clients.Platform.WX.Base
         /// </summary>
         public static AppConfig DefaultConfig { get; set; }
 
-        /// <summary>
-        ///   缓存模块名称
-        ///     可通过 OSS.Tools.Cache 类库 定义缓存处理
-        /// </summary>
-        public static string CacheSourceName { get; set; } = "default";
+        ///// <summary>
+        /////   缓存模块名称
+        /////     可通过 OSS.Tools.Cache 类库 定义缓存处理
+        ///// </summary>
+        //public static string CacheSourceName { get; set; } = "default";
 
         /// <summary>
         ///   http请求的HttpClient实例创建
