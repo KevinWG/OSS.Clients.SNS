@@ -16,23 +16,62 @@
 
 会话管理，接收用户的会话信息，以及对应的响应
 
-三. **公号高级功能**  (offcial)
+三. **公众号高级功能**  (offcial)
 
-    nuget下安装命令：**Install-Package OSS.Clients.Platform.WX.WX**
+ 1.***AccessToken***
 
- ```
-	这个模块主要是对公众号内部的功能，像关注用户，标签，素材，统计，小店等功能的对接
-	这里根据接口使用频率以及使用对象 分为两个组成部分
+    nuget下安装命令：**Install-Package OSS.Clients.Platform.WX.AccessToken**
 
-	1.通用功能部分   （offcial 下 Basic 文件夹）
-	 这一部分主要是正常运营，使用率高的功能。
-	 包括用户信息，标签，素材，菜单管理等
-
-	2.管理部分   （offcial 下 其他文件夹）
-	这一部分主要是运营管理，使用频率较低，需要技术支持的功能。
-	包括统计，卡券，门店，设备，客服等功能
 ```
-# OSS.SocialSDK.WX 使用
+    这里主要是获取AccessToken接口的封装
+
+    WXPlatTokenApi - 公众号的正常Token接口
+    WXAgentPlatTokenApi - 代理平台的Token的接口
+```
+2.***基础信息部分***
+
+    nuget下安装命令：**Install-Package OSS.Clients.Platform.WX.Basic**
+
+```
+    这里主要是基础信息相关接口
+
+    WXPlatUserApi - 微信公众号用户信息相关接口
+    WXPlatIpApi - 微信服务器信息接口
+    WXPlatKfApi - 微信客服接口
+    WXPlatMassApi - 微信群发消息相关接口
+    WXPlatMediaApi - 微信素材相关接口
+    WXPlatMenuApi - 微信菜单相关接口
+    WXPlatQrApi - 微信二维码相关接口
+
+```
+
+3.***其他接口***
+
+    nuget下安装命令：**Install-Package OSS.Clients.Platform.WX**
+
+```
+    这里主要是公众号其他相关接口
+
+    WXPlatAssistApi - 微信jssdk辅助接口
+    WXPlatCardApi - 微信卡信息相关接口
+    WXPlatShakeApi - 微信摇一摇相关接口
+    WXPlatAppApi - 微信小程序相关接口
+    WXPlatStatApi - 微信统计相关接口
+    WXPlatStoreApi - 微信门店管理相关接口
+
+```
+
+4.***代理平台接口***
+
+    nuget下安装命令：**Install-Package OSS.Clients.Platform.WX.Agent**
+
+```
+    这里主要是公众号代理服务平台的相关接口
+```
+
+
+
+#  使用
 
 ### 一. 调用示例
 
@@ -101,8 +140,10 @@ c. 调用时将当前请求的内容传入程序入口即可：
    return Content("success");
 ```  
 其中WXChatHandler 可以是自己继承WXChatHandler 实现的具体处理类，通过重写相关用户事件返回对应结果即可。  
-3.高级功能调用（Offcial文件夹下）  
+
+3.高级功能调用（Platform文件夹下）  
 微信公众号的其他高级功能接口都需要一个全局的accesstoken接口，像推送模块信息等，accesstoken自动获取已经被封装在sdk底层的请求处理中，默认会使用系统缓存保存，过期自动更新，如果需要保存到像redis中可以通过oscommon中的缓存模块注入，添加一个针对sns的缓存模块实现就可以了（后续给出一个示例），access和appid一一对应，不用担心多个公众号的冲突问题。  
+
 a.  声明配置信息：
 ```csharp
 //声明配置信息
@@ -121,10 +162,14 @@ c.  具体使用
 ```csharp
   m_OffcialApi.SendTemplateAsync("openid","templateId","url",new {})
 ```
-当前这部分接口框架逻辑部分已经处理完毕，公号主要功能已经完成，还差小店和设备管理（Offcial）等部分的接口完善，后续将很快更新，如果有需要的也可以自己实现或贡献过来，添加一个新接口只需要几行代码即可，详见贡献代码。
+当前这部分接口框架逻辑部分已经处理完毕，公号主要功能已经完成，还差小店和设备管理等部分的接口完善，后续将很快更新，如果有需要的也可以自己实现或贡献过来，添加一个新接口只需要几行代码即可，详见贡献代码。
+
+针对业务的实际使用场景，微信公众号接口做了简单拆解，AccessToken等为独立SDK。
+所有独立的SDK引用OSS.Clients.Platform.WX.Base类库，在此类库下提供WXPlatConfigProvider统一配置，主要是方便用户使用其他部分SDK时实现AccessToken的统一获取，如：
+使用OSS.Clients.Platform.WX.AccessToken实现的AccessToken统一缓存管理项目，在使用OSS.Clients.Platform.WX.Basic的项目中实现WXPlatConfigProvider下的配置AccessToken的获取方法
 
 ###  二.  贡献代码
-这个项目当前主要集中在微信sdk处理，微信部分主体框架部分已经完成，需要对接口进行补充，根据已经封装完毕的框架完成一个接口将非常简单（优雅？!）,以获取用户基本信息为例，简单分为以下两部步：
+这个项目当前主要集中在微信sdk处理，微信部分主体框架部分已经完成，需要对接口进行补充，根据已经封装完毕的框架完成一个接口将非常简单,以获取用户基本信息为例，简单分为以下两部步：
 
 1.声明对象实体
 ```csharp

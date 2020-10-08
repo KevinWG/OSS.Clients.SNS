@@ -26,17 +26,17 @@ namespace OSS.Clients.Platform.WX.Base
         public static Func<HttpClient> ClientFactory { get; set; }
 
         /// <summary>
-        ///  AccessToken的统一管理接口
+        ///  AccessToken的统一提供接口
         /// </summary>
         public static IAccessTokenHub AccessTokenHub { get; set; }
 
         /// <summary>
-        ///  JsTicket统一管理接口
+        ///  JsTicket统一提供接口
         /// </summary>
         public static IJsTicketHub JsTicketHub { get; set; }
 
         /// <summary>
-        ///   【代理平台】AccessToken统一管理接口
+        ///   【代理平台】AccessToken统一提供接口
         /// </summary>
         public static IAgentAccessTokenHub AgentAccessTokenHub { get; set; }
     }
