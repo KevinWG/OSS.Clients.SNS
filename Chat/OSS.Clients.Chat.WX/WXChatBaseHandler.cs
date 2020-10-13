@@ -138,8 +138,7 @@ namespace OSS.Clients.Chat.WX
             }
 
             var processor = GetInternalMsgProcessor(msgType, eventName)
-                ?? (GetCustomProcessor(msgType, eventName, recMsgDirs)
-                    ?? GetRegProcessor(msgType, eventName));
+                ?? GetCustomProcessor(msgType, eventName, recMsgDirs);
 
             var context = processor != null
                 ? ExecuteProcessor(xmlDoc, recMsgDirs, processor)
@@ -258,11 +257,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private static BaseWXChatProcessor GetRegProcessor(string msgType, string eventName)
-        {
-            var key = msgType == "event" ? string.Concat("event_", eventName ?? string.Empty) : msgType;
-            return WXChatConfigProvider.GetProcessor(key);
-        }
         #endregion
 
 

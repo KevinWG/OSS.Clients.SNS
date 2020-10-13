@@ -16,10 +16,9 @@ using OSS.Common.BasicImpls;
 
 namespace OSS.Clients.Chat.WX
 {
-    /// <inheritdoc />
-    /// <summary>
-    /// 消息处理类
-    ///  </summary>
+     /// <summary>
+     /// 消息处理的默认类
+     /// </summary>
     public class WXChatHandler: WXChatBaseHandler
     {
         /// <summary>
