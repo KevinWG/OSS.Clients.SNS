@@ -38,7 +38,6 @@ namespace OSS.Clients.Chat.WX
 
         #region 事件列表  普通消息
 
-        private InternalWXChatProcessor<WXTextRecMsg> textPro;
         /// <summary>
         /// 处理文本消息
         /// </summary>
@@ -47,8 +46,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-
-        private InternalWXChatProcessor<WXImageRecMsg> imagePro;
         /// <summary>
         /// 处理图像消息
         /// </summary>
@@ -57,7 +54,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private InternalWXChatProcessor<WXVoiceRecMsg> voicePro;
         /// <summary>
         /// 处理语音消息
         /// </summary>
@@ -66,7 +62,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private InternalWXChatProcessor<WXVideoRecMsg> videoPro;
         /// <summary>
         /// 处理视频消息
         /// </summary>
@@ -75,7 +70,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private InternalWXChatProcessor<WXVideoRecMsg> shortVideoPro;
         /// <summary>
         /// 处理小视频消息
         /// </summary>
@@ -84,7 +78,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private InternalWXChatProcessor<WXLocationRecMsg> locationPro;
         /// <summary>
         /// 处理地理位置消息
         /// </summary>
@@ -93,7 +86,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private InternalWXChatProcessor<WXLinkRecMsg> linkPro;
         /// <summary>
         /// 处理链接消息
         /// </summary>
@@ -107,7 +99,6 @@ namespace OSS.Clients.Chat.WX
 
         #region 事件列表  动作事件消息
 
-        private InternalWXChatProcessor<WXSubScanRecEventMsg> subEventPro;
         /// <summary>
         /// 处理关注事件
         /// </summary>
@@ -115,8 +106,7 @@ namespace OSS.Clients.Chat.WX
         {
             return null;
         }
-        
-        private InternalWXChatProcessor<WXSubScanRecEventMsg> unsubEventPro;
+
         /// <summary>
         /// 处理取消关注事件
         /// </summary>
@@ -125,7 +115,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private InternalWXChatProcessor<WXSubScanRecEventMsg> scanEventPro;
         /// <summary>
         /// 处理扫描带参数二维码事件
         /// </summary>
@@ -134,7 +123,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private InternalWXChatProcessor<WXLocationRecEventMsg> locationEventPro;
         /// <summary>
         /// 处理上报地理位置事件
         /// 不需要回复任何消息
@@ -144,7 +132,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private InternalWXChatProcessor<WXClickRecEventMsg> clickEventPro;
         /// <summary>
         /// 处理点击菜单拉取消息时的事件推送
         /// </summary>
@@ -153,7 +140,6 @@ namespace OSS.Clients.Chat.WX
             return null;
         }
 
-        private InternalWXChatProcessor<WXViewRecEventMsg> viewEventPro;
         /// <summary>
         /// 处理点击菜单跳转链接时的事件推送
         /// </summary>
@@ -173,19 +159,26 @@ namespace OSS.Clients.Chat.WX
                 case "event":
                     return GetBasicEventMsgProcessor(eventName);
                 case "text":
-                    return textPro?? (textPro = new InternalWXChatProcessor<WXTextRecMsg> { ProcessFunc = ProcessTextMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXTextRecMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXTextRecMsg> {ProcessFunc = ProcessTextMsg});
                 case "image":
-                    return imagePro??(imagePro = new InternalWXChatProcessor<WXImageRecMsg> {  ProcessFunc = ProcessImageMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXImageRecMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXImageRecMsg> { ProcessFunc = ProcessImageMsg });
                 case "voice":
-                    return voicePro??(voicePro = new InternalWXChatProcessor<WXVoiceRecMsg> {  ProcessFunc = ProcessVoiceMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXVoiceRecMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXVoiceRecMsg> { ProcessFunc = ProcessVoiceMsg });
                 case "video":
-                    return videoPro??(videoPro = new InternalWXChatProcessor<WXVideoRecMsg> { ProcessFunc = ProcessVideoMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXVideoRecMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXVideoRecMsg> { ProcessFunc = ProcessVideoMsg });
                 case "shortvideo":
-                    return shortVideoPro?? (shortVideoPro = new InternalWXChatProcessor<WXVideoRecMsg> {ProcessFunc = ProcessShortVideoMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXVideoRecMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXVideoRecMsg> { ProcessFunc = ProcessShortVideoMsg });
                 case "location":
-                    return locationPro??(locationPro = new InternalWXChatProcessor<WXLocationRecMsg> {  ProcessFunc = ProcessLocationMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXLocationRecMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXLocationRecMsg> { ProcessFunc = ProcessLocationMsg });
                 case "link":
-                    return linkPro??(linkPro = new InternalWXChatProcessor<WXLinkRecMsg> {ProcessFunc = ProcessLinkMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXLinkRecMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXLinkRecMsg> { ProcessFunc = ProcessLinkMsg });
             }
             return null;
         }
@@ -195,17 +188,23 @@ namespace OSS.Clients.Chat.WX
             switch (eventName.ToLower())
             {
                 case "subscribe":
-                    return subEventPro??(subEventPro = new InternalWXChatProcessor<WXSubScanRecEventMsg> {  ProcessFunc = ProcessSubscribeEventMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXSubScanRecEventMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXSubScanRecEventMsg> { ProcessFunc = ProcessSubscribeEventMsg });
                 case "unsubscribe":
-                    return unsubEventPro??(unsubEventPro = new InternalWXChatProcessor<WXSubScanRecEventMsg> {  ProcessFunc = ProcessUnsubscribeEventMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXSubScanRecEventMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXSubScanRecEventMsg> { ProcessFunc = ProcessUnsubscribeEventMsg });
                 case "scan":
-                    return scanEventPro??(scanEventPro = new InternalWXChatProcessor<WXSubScanRecEventMsg> {  ProcessFunc = ProcessScanEventMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXSubScanRecEventMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXSubScanRecEventMsg> { ProcessFunc = ProcessScanEventMsg });
                 case "location":
-                    return locationEventPro??(locationEventPro = new InternalWXChatProcessor<WXLocationRecEventMsg> {  ProcessFunc = ProcessLocationEventMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXLocationRecEventMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXLocationRecEventMsg> { ProcessFunc = ProcessLocationEventMsg });
                 case "click":
-                    return clickEventPro??(clickEventPro = new InternalWXChatProcessor<WXClickRecEventMsg> {  ProcessFunc = ProcessClickEventMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXClickRecEventMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXClickRecEventMsg> { ProcessFunc = ProcessClickEventMsg });
                 case "view":
-                    return viewEventPro??(viewEventPro = new InternalWXChatProcessor<WXViewRecEventMsg> {  ProcessFunc = ProcessViewEventMsg });
+                    return SingleInstance<InternalWXChatProcessor<WXViewRecEventMsg>>.GetInstance(() =>
+                        new InternalWXChatProcessor<WXViewRecEventMsg> { ProcessFunc = ProcessViewEventMsg });
             }
             return null;
         }
