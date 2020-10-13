@@ -26,15 +26,8 @@ namespace OSS.Clients.SNS.Samples.Controllers
         static WXChatController()
         {
             WXChatConfigProvider.DefaultConfig = config;
-
-            //  用户可以自定义消息处理委托，
-            //   也可以通过 RegisterEventMsgHandler 自定义事件处理委托
-            WXChatConfigProvider.RegisteProcessor<WXTextRecMsg>("test_msg", ProcessTestMsg);
         }
-        private static WXBaseReplyMsg ProcessTestMsg(WXTextRecMsg msg)
-        {
-            return new WXTextReplyMsg() { Content = " test_msg 类型消息返回 " };
-        }
+   
 
         #endregion
 

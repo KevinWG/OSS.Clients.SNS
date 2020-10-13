@@ -100,7 +100,7 @@ namespace OSS.Clients.Chat.WX
             if (!checkRes.IsSuccess())
                 return new StrResp().WithResp(checkRes); //checkRes.ConvertToResult<string>();
 
-            var contextRes = Processing(checkRes.data);
+            var contextRes =await Processing(checkRes.data);
             if (!contextRes.IsSuccess())
                 return new StrResp().WithResp(contextRes);// contextRes.ConvertToResult<string>();
 
@@ -124,11 +124,11 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         /// <param name="recMsgXml">传入消息的xml</param>
         /// <returns></returns>
-        protected virtual Resp<WXChatContext> Processing(string recMsgXml)
+        protected virtual async Task<Resp<WXChatContext>> Processing(string recMsgXml)
         {
             var recMsgDirs = WXChatHelper.ChangXmlToDir(recMsgXml, out XmlDocument xmlDoc);
 
-            recMsgDirs.TryGetValue("MsgType", out var msgType);// recMsgDirs["MsgType"].ToLower();
+            recMsgDirs.TryGetValue("MsgType", out var msgType); // recMsgDirs["MsgType"].ToLower();
             string eventName = null;
 
             if (msgType == "event")
@@ -140,11 +140,11 @@ namespace OSS.Clients.Chat.WX
             var processor = GetInternalMsgProcessor(msgType, eventName)
                 ?? GetCustomProcessor(msgType, eventName, recMsgDirs);
 
-            var context = processor != null
+            var context = await (processor != null
                 ? ExecuteProcessor(xmlDoc, recMsgDirs, processor)
-                : ExecuteProcessor(xmlDoc, recMsgDirs,new WXChatInternalProcessor<WXBaseRecMsg>());
+                : ExecuteProcessor(xmlDoc, recMsgDirs, SingleInstance<InternalWXChatProcessor>.Instance));
 
-            ExecuteEnd(context);
+            await ExecuteEnd(context);
 
             return new Resp<WXChatContext>(context);
         }
@@ -191,21 +191,17 @@ namespace OSS.Clients.Chat.WX
         ///  执行具体消息处理委托
         /// </summary>
         /// <returns></returns>
-        private WXChatContext ExecuteProcessor(XmlDocument recMsgXml,
-            IDictionary<string, string> recMsgDirs, BaseWXChatProcessor processor)
+        private async Task<WXChatContext> ExecuteProcessor(XmlDocument recMsgXml,
+            IDictionary<string, string> recMsgDirs, BaseBaseProcessor processor)
         {
             var recMsg = processor.CreateRecMsg();
             recMsg.LoadMsgDirs(recMsgDirs);
             recMsg.RecMsgXml = recMsgXml;
 
-            var msgContext = new WXChatContext
-            {
-                RecMsg = recMsg, 
-                ReplyMsg = processor?.InternalExecute(recMsg)
-            };
+            var msgContext = new WXChatContext {RecMsg = recMsg, ReplyMsg = await processor.InternalExecute(recMsg)};
 
             if (msgContext.ReplyMsg == null)
-                msgContext.ReplyMsg = ProcessUnknowMsg(recMsg) ?? WXNoneReplyMsg.None;
+                msgContext.ReplyMsg =(await ProcessUnknowMsg(recMsg)) ?? WXNoneReplyMsg.None;
 
             msgContext.ReplyMsg.ToUserName = recMsg.FromUserName;
             msgContext.ReplyMsg.FromUserName = recMsg.ToUserName;
@@ -223,17 +219,18 @@ namespace OSS.Clients.Chat.WX
         ///   执行处理未知消息
         /// </summary>
         /// <returns></returns>
-        protected virtual WXBaseReplyMsg ProcessUnknowMsg(WXBaseRecMsg msg)
+        protected virtual Task<WXBaseReplyMsg> ProcessUnknowMsg(WXBaseRecMsg msg)
         {
-            return null;
+            return Task.FromResult<WXBaseReplyMsg>(null);
         }
 
         /// <summary>
         ///  执行结束方法
         /// </summary>
         /// <param name="msgContext"></param>
-        protected virtual void ExecuteEnd(WXChatContext msgContext)
+        protected virtual Task ExecuteEnd(WXChatContext msgContext)
         {
+            return Task.CompletedTask;
         }
 
         #endregion
@@ -247,12 +244,12 @@ namespace OSS.Clients.Chat.WX
         /// <param name="eventName">事件名称</param>
         /// <param name="msgInfo">对应消息的键值对</param>
         /// <returns>WXChatProcessor&lt;TRecMsg&gt;或其子类，如果没有定义对应的消息类型，返回Null即可</returns>
-        protected virtual BaseWXChatProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
+        protected virtual BaseBaseProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
         {
             return null;
         }
 
-        internal virtual BaseWXChatProcessor GetInternalMsgProcessor(string msgType, string eventName)
+        internal virtual BaseBaseProcessor GetInternalMsgProcessor(string msgType, string eventName)
         {
             return null;
         }

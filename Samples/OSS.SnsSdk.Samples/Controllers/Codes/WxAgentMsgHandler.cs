@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using OSS.Clients.Chat.WX;
 using OSS.Clients.Chat.WX.Mos;
 using OSS.Common.BasicImpls;
@@ -14,7 +15,7 @@ namespace OSS.Clients.SNS.Samples.Controllers.Codes
         {
         }
     
-        protected override BaseWXChatProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
+        protected override BaseBaseProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
         {
             if (msgInfo.ContainsKey("ComponentVerifyTicket"))
             {
@@ -23,19 +24,21 @@ namespace OSS.Clients.SNS.Samples.Controllers.Codes
             return null;
         }
 
-        protected override void ExecuteEnd(WXChatContext msgContext)
+        protected override Task ExecuteEnd(WXChatContext msgContext)
         {
             LogHelper.Info(msgContext.RecMsg.RecMsgXml.InnerXml, "PlatformMsg");
+            return Task.CompletedTask;
         }
     }
 
-    public class WxAgentProcessor : WXChatProcessor<VerifComponentTicketRecMsg>
+    public class WxAgentProcessor : WXChatBaseProcessor<VerifComponentTicketRecMsg>
     {
-        protected override WXBaseReplyMsg Execute(VerifComponentTicketRecMsg msg)
+        protected override Task<WXBaseReplyMsg> Execute(VerifComponentTicketRecMsg msg)
         {
             DirConfigHelper.SetDirConfig($"component_verify_ticket",
                 new TicketMo { ticket = msg.ComponentVerifyTicket });
-            return WXNoneReplyMsg.None;
+
+            return Task.FromResult<WXBaseReplyMsg>(WXNoneReplyMsg.None);
         }
     }
 
