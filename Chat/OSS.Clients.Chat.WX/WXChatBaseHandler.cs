@@ -49,8 +49,8 @@ namespace OSS.Clients.Chat.WX
             if (!appConfigRes.IsSuccess())
                 return new StrResp().WithResp(appConfigRes);
 
-            var ApiConfig = appConfigRes.data;
-            var checkSignRes = WXChatHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
+            var appConfig = appConfigRes.data;
+            var checkSignRes = WXChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce);
 
             var resultRes =new StrResp().WithResp(checkSignRes);// checkSignRes.ConvertToResult<string>();
             resultRes.data = resultRes.IsSuccess() ? echostr : string.Empty;
@@ -169,12 +169,12 @@ namespace OSS.Clients.Chat.WX
             if (!appConfigRes.IsSuccess())
                 return new StrResp().WithResp(appConfigRes);
 
-            var ApiConfig = appConfigRes.data;
-            var resCheck = WXChatHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
+            var appConfig = appConfigRes.data;
+            var resCheck = WXChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce);
             if (!resCheck.IsSuccess())
                 return new StrResp().WithResp(resCheck);// resCheck.ConvertToResult<string>();
 
-            if (ApiConfig.SecurityType == WXSecurityType.None)
+            if (appConfig.SecurityType == WXSecurityType.None)
                 return new StrResp(recXml);
 
             var dirs = WXChatHelper.ChangXmlToDir(recXml, out XmlDocument xmlDoc);
@@ -183,7 +183,7 @@ namespace OSS.Clients.Chat.WX
                 || string.IsNullOrEmpty(encryStr))
                 return new StrResp().WithResp(RespTypes.ObjectNull, "加密消息为空");
 
-            var recMsgXml = Cryptography.WXAesDecrypt(encryStr, ApiConfig.EncodingAesKey);
+            var recMsgXml = Cryptography.WXAesDecrypt(encryStr, appConfig.EncodingAesKey);
 
             return new StrResp(recMsgXml);
         }

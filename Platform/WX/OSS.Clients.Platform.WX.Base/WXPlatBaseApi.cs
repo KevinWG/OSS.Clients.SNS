@@ -36,10 +36,7 @@ namespace OSS.Clients.Platform.WX.Base
 
         #region 构造函数
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="configProvider"></param>
+        /// <inheritdoc />
         public WXPlatBaseApi(IMetaProvider<AppConfig> configProvider) : base(configProvider)
         {
         }

@@ -27,9 +27,7 @@ namespace OSS.Clients.Platform.WX.Statistic
     /// </summary>
     public partial class WXPlatStatApi:WXPlatBaseApi
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
+        /// <inheritdoc />
         public WXPlatStatApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
        {
        }

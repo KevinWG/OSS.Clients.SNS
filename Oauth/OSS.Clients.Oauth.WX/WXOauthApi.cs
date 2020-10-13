@@ -29,10 +29,7 @@ namespace OSS.Clients.Oauth.WX
     /// </summary>
     public class WXOauthApi:WXOauthBaseApi
     {
-        /// <summary>
-        /// default constructor
-        /// </summary>
-        /// <param name="configProvider"></param>
+        /// <inheritdoc />
         public WXOauthApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }

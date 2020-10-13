@@ -26,6 +26,7 @@ namespace OSS.Clients.Oauth.WX
     /// </summary>
     public class WXAppOauthApi : WXOauthBaseApi
     {
+        /// <inheritdoc />
         public WXAppOauthApi(IMetaProvider<AppConfig> configProvider=null):base(configProvider)
         {
         }

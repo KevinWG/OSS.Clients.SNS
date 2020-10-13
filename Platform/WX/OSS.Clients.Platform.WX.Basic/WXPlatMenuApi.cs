@@ -34,9 +34,7 @@ namespace OSS.Clients.Platform.WX.Basic
 
         #region 正常菜单管理
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
+        /// <inheritdoc />
         public WXPlatMenuApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }

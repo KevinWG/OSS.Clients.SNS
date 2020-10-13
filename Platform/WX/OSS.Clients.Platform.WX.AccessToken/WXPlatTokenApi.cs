@@ -27,10 +27,7 @@ namespace OSS.Clients.Platform.WX.AccessToken
     /// </summary>
     public class WXPlatTokenApi : WXPlatBaseApi
     {
-        /// <summary>
-        ///  构造函数
-        /// </summary>
-        /// <param name="configProvider"></param>
+        /// <inheritdoc />
         public WXPlatTokenApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }

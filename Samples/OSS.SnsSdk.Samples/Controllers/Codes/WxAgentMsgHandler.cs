@@ -9,6 +9,7 @@ namespace OSS.Clients.SNS.Samples.Controllers.Codes
 {
     public class WXAgentHandler : WXChatBaseHandler
     {
+        /// <inheritdoc />
         public WXAgentHandler(IMetaProvider<WXChatConfig> configProvider = null) : base(configProvider)
         {
         }

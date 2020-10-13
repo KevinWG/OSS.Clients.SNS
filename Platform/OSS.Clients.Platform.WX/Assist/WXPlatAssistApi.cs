@@ -30,9 +30,7 @@ namespace OSS.Clients.Platform.WX.Assist
     /// </summary>
     public class WXPlatAssistApi : WXPlatBaseApi
     {
-        /// <summary>
-        ///   辅助类Api
-        /// </summary>
+        /// <inheritdoc />
         public WXPlatAssistApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }

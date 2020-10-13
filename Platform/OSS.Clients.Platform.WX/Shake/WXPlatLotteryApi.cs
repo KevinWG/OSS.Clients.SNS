@@ -28,9 +28,7 @@ namespace OSS.Clients.Platform.WX.Shake
     /// </summary>
     public partial class WXPlatShakeApi : WXPlatBaseApi
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc />
         public WXPlatShakeApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }

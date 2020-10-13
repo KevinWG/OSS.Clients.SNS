@@ -21,8 +21,12 @@ using OSS.Common.BasicImpls;
 
 namespace OSS.Clients.Platform.WX.Basic
 {
+    /// <summary>
+    /// 微信服务器Ip信息API
+    /// </summary>
     public class WXPlatIpApi : WXPlatBaseApi
     {
+        /// <inheritdoc />
         public WXPlatIpApi(IMetaProvider<AppConfig> configProvider=null):base(configProvider){ 
         }
 

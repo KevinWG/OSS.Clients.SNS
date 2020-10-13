@@ -31,9 +31,8 @@ namespace OSS.Clients.Oauth.WX
         /// </summary>
         protected const string m_ApiUrl = "https://api.weixin.qq.com";
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
+
+        /// <inheritdoc />
         public WXOauthBaseApi(IMetaProvider<AppConfig> configProvider):base(configProvider)
         {
         }

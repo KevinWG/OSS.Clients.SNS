@@ -30,11 +30,7 @@ namespace OSS.Clients.Platform.WX.Agent
     /// </summary>
     public class WXAgentAuthApi: WXPlatBaseApi
     {
-        /// <summary>
-        ///  构造函数
-        ///     注意配置信息是 第三方相关的配置信息
-        /// </summary>
-        /// <param name="configProvider"></param>
+        /// <inheritdoc />
         public WXAgentAuthApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }

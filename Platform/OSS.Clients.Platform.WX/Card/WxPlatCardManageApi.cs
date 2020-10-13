@@ -30,9 +30,7 @@ namespace OSS.Clients.Platform.WX.Card
     /// </summary>
     public partial class WXPlatCardApi : WXPlatBaseApi
     {
-        /// <summary>
-        ///  构造函数
-        /// </summary>
+        /// <inheritdoc />
         public WXPlatCardApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }
