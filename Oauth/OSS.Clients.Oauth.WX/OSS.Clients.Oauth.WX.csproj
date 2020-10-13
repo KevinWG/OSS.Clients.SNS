@@ -7,9 +7,10 @@
     <Company>OSSCore</Company>
     <PackageProjectUrl>https://github.com/KevinWG/OSS.Clients.SNS</PackageProjectUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
-    <PackageIconUrl>http://img1.osscore.cn/static/oss_net.png</PackageIconUrl>
-    <PackageReleaseNotes></PackageReleaseNotes>
-    <Version>1.1.2</Version>
+    <PackageIconUrl></PackageIconUrl>
+    <PackageReleaseNotes>优化底层配置方式获取</PackageReleaseNotes>
+    <Version>1.2</Version>
+    <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -20,6 +21,13 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="OSS.Common" Version="2.3.2.2" />
     <PackageReference Include="OSS.Tools.Http" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

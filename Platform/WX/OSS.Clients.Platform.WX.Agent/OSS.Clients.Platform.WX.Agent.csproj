@@ -8,6 +8,8 @@
     <PackageProjectUrl>https://github.com/KevinWG/OSS.Clients.SNS</PackageProjectUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
     <PackageIcon>logo.png</PackageIcon>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>优化底层配置信息获取</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

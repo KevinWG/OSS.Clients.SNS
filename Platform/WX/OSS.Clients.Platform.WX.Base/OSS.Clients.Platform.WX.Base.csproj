@@ -7,6 +7,8 @@
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
     <Authors>OSSCore</Authors>
     <Description>微信公众号接口底层类库</Description>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>底层配置处理方式修改</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

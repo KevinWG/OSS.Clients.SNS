@@ -7,6 +7,8 @@
     <PackageIcon>logo.png</PackageIcon>
     <Description>微信公众号基础接口部分（用户，素材，客服，菜单，二维码）</Description>
     <Authors>OSSCore</Authors>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>优化底层配置信息获取</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

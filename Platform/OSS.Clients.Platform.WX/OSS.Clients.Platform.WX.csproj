@@ -7,8 +7,8 @@
     <PackageProjectUrl>https://github.com/KevinWG/OSS.Clients.SNS</PackageProjectUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
     <PackageIconUrl></PackageIconUrl>
-    <Version>1.1.2</Version>
-    <PackageReleaseNotes>升级基础类库</PackageReleaseNotes>
+    <Version>1.2</Version>
+    <PackageReleaseNotes>优化底层配置信息获取</PackageReleaseNotes>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
