@@ -19,6 +19,7 @@ using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 using OSS.Clients.Platform.WX.Base;
 using OSS.Clients.Platform.WX.Base.Mos;
+using OSS.Common.BasicImpls;
 
 namespace OSS.Clients.Platform.WX.Basic
 {
@@ -27,11 +28,8 @@ namespace OSS.Clients.Platform.WX.Basic
     /// </summary>
     public  class WXPlatQrApi:WXPlatBaseApi
     {
-        /// <summary>
-        /// 配置信息，如果这里不传，需要在程序入口静态 WXBaseApi.DefaultConfig 属性赋值
-        /// </summary>
-        /// <param name="config"></param>
-        public WXPlatQrApi(AppConfig config=null):base(config)
+        /// <inheritdoc />
+        public WXPlatQrApi(IMetaProvider<AppConfig> configProvider=null) : base(configProvider)
         {
 
         }

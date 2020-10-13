@@ -18,8 +18,8 @@ using Newtonsoft.Json;
 using OSS.Clients.Platform.WX.Base;
 using OSS.Clients.Platform.WX.Base.Mos;
 using OSS.Clients.Platform.WX.Basic.Mos;
+using OSS.Common.BasicImpls;
 using OSS.Common.BasicMos;
-using OSS.Common.BasicMos.Resp;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Platform.WX.Basic
@@ -29,11 +29,8 @@ namespace OSS.Clients.Platform.WX.Basic
     /// </summary>
     public  class WXPlatMediaApi:WXPlatBaseApi
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WXBaseApi.DefaultConfig 属性赋值</param>
-        public WXPlatMediaApi(AppConfig config=null):base(config)
+        /// <inheritdoc />
+        public WXPlatMediaApi(IMetaProvider<AppConfig> configProvider=null) : base(configProvider)
         {
         }
 

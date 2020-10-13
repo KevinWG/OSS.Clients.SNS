@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using OSS.Clients.Platform.WX.Base;
 using OSS.Clients.Platform.WX.Base.Mos;
 using OSS.Clients.Platform.WX.Card.Mos;
+using OSS.Common.BasicImpls;
 using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 
@@ -32,8 +33,7 @@ namespace OSS.Clients.Platform.WX.Card
         /// <summary>
         ///  构造函数
         /// </summary>
-        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WXBaseApi.DefaultConfig 属性赋值</param>
-        public WXPlatCardApi(AppConfig config=null) : base(config)
+        public WXPlatCardApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }
 

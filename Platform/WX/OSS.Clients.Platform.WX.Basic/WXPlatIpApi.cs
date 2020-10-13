@@ -17,12 +17,13 @@ using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 using System.Net.Http;
 using System.Threading.Tasks;
+using OSS.Common.BasicImpls;
 
 namespace OSS.Clients.Platform.WX.Basic
 {
     public class WXPlatIpApi : WXPlatBaseApi
     {
-        public WXPlatIpApi(AppConfig config) : base(config) { 
+        public WXPlatIpApi(IMetaProvider<AppConfig> configProvider=null):base(configProvider){ 
         }
 
         /// <summary>

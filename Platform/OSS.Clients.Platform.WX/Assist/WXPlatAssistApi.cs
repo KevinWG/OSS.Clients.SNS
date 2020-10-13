@@ -21,6 +21,7 @@ using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Clients.Platform.WX.Base;
 using OSS.Clients.Platform.WX.Base.Mos;
+using OSS.Common.BasicImpls;
 
 namespace OSS.Clients.Platform.WX.Assist
 {
@@ -32,8 +33,7 @@ namespace OSS.Clients.Platform.WX.Assist
         /// <summary>
         ///   辅助类Api
         /// </summary>
-        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WXBaseApi.DefaultConfig 属性赋值</param>
-        public WXPlatAssistApi(AppConfig config=null) : base(config)
+        public WXPlatAssistApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }
 
@@ -46,8 +46,13 @@ namespace OSS.Clients.Platform.WX.Assist
         {
             if (WXPlatConfigProvider.JsTicketHub == null)
                 throw new NullReferenceException("WXPlatConfigProvider 下 JsTicketHub 属性不能为空，因微信访问频率限制，需要通过其设置jsticket统一缓存管理获取。");
-            
-            var ticketRes = await WXPlatConfigProvider.JsTicketHub.GetJsTicket(ApiConfig,WXJsTicketType.jsapi);
+
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXJsSdkSignatureResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
+            var ticketRes = await WXPlatConfigProvider.JsTicketHub.GetJsTicket(appConfig,WXJsTicketType.jsapi);
             if (!ticketRes.IsSuccess())
             {
                 return new WXJsSdkSignatureResp().WithResp(ticketRes);// ticketRes.ConvertToResultInherit<WXJsSdkSignatureResp>();
@@ -55,7 +60,7 @@ namespace OSS.Clients.Platform.WX.Assist
 
             var resp = new WXJsSdkSignatureResp
             {
-                app_id = ApiConfig.AppId,
+                app_id = appConfig.AppId,
                 noncestr = GenerateNonceStr(),
                 timestamp = DateTime.Now.ToLocalSeconds()
             };

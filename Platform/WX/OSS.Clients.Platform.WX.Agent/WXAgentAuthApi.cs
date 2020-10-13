@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using OSS.Clients.Platform.WX.Agent.Mos;
 using OSS.Clients.Platform.WX.Base;
 using OSS.Clients.Platform.WX.Base.Mos;
+using OSS.Common.BasicImpls;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extention;
@@ -33,22 +34,27 @@ namespace OSS.Clients.Platform.WX.Agent
         ///  构造函数
         ///     注意配置信息是 第三方相关的配置信息
         /// </summary>
-        /// <param name="config">第三方代理的配置信息（上下文也需要设置代理相关的配置信息）</param>
-        public WXAgentAuthApi(AppConfig config=null) : base(config)
+        /// <param name="configProvider"></param>
+        public WXAgentAuthApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }
-        
+
         /// <summary>
         ///  获取预授权码pre_auth_code
         /// </summary>
         /// <returns></returns>
         private async Task<WXGetPreAuthCodeResp> GetPreAuthCode()
         {
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXGetPreAuthCodeResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
             var req = new OssHttpRequest
             {
                 AddressUrl = $"{m_ApiUrl}/cgi-bin/component/api_create_preauthcode",
                 HttpMethod = HttpMethod.Post,
-                CustomBody = $"{{\"component_appid\":\"{ApiConfig.AppId}\"}}"
+                CustomBody = $"{{\"component_appid\":\"{appConfig.AppId}\"}}"
             };
 
             return await RestCommonPlatAsync<WXGetPreAuthCodeResp>(req);
@@ -66,11 +72,16 @@ namespace OSS.Clients.Platform.WX.Agent
             if (!preAuthCodeRes.IsSuccess())
                 return new StrResp().WithResp(preAuthCodeRes);// preAuthCodeRes.ConvertToResult<string>();
 
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new StrResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
             if (redirectUrl.Contains("://"))
                 redirectUrl = redirectUrl.UrlEncode();
-            
+
             var authUrl=
-                $"https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid={ApiConfig.AppId}&pre_auth_code={preAuthCodeRes.pre_auth_code}&redirect_uri={redirectUrl}";
+                $"https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid={appConfig.AppId}&pre_auth_code={preAuthCodeRes.pre_auth_code}&redirect_uri={redirectUrl}";
             return new StrResp(authUrl);
         }
 
@@ -81,8 +92,14 @@ namespace OSS.Clients.Platform.WX.Agent
         /// <returns></returns>
         public async Task<WXGetGrantedAccessTokenResp> GetGrantorAccessToken(string authorizationCode)
         {
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXGetGrantedAccessTokenResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
+
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(appConfig.AppId).Append("\",");
             strContent.Append("\"authorization_code\":\"").Append(authorizationCode).Append("\" }");
 
             var req = new OssHttpRequest
@@ -103,8 +120,13 @@ namespace OSS.Clients.Platform.WX.Agent
         /// <returns></returns>
         public async Task<WXRefreshGrantedAccessTokenResp> RefreshGrantorAccessToken(string grantorAppId,string grantorRefreshToken)
         {
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXRefreshGrantedAccessTokenResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(appConfig.AppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
             strContent.Append("\"authorizer_refresh_token\":\"").Append(grantorRefreshToken).Append("\" }");
 
@@ -126,8 +148,13 @@ namespace OSS.Clients.Platform.WX.Agent
         /// <returns></returns>
         public async Task<WXGetGrantorInfoResp> GetGrantorInfo(string grantorAppId)
         {
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXGetGrantorInfoResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(appConfig.AppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\"}");
 
             var req = new OssHttpRequest
@@ -152,8 +179,13 @@ namespace OSS.Clients.Platform.WX.Agent
         /// <returns></returns>
         public async Task<WXGetGrantorOptionResp> GetGrantorOption(string grantorAppId,string optionName)
         {
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXGetGrantorOptionResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(appConfig.AppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
             strContent.Append("\"option_name\":\"").Append(optionName).Append("\"}");
 
@@ -179,8 +211,13 @@ namespace OSS.Clients.Platform.WX.Agent
         /// <returns></returns>
         public async Task<WXBaseResp> SetGrantorOption(string grantorAppId, string optionName,string optionValue )
         {
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXBaseResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(appConfig.AppId).Append("\",");
             strContent.Append("\"authorizer_appid\":\"").Append(grantorAppId).Append("\",");
             strContent.Append("\"option_name\":\"").Append(optionName).Append("\",");
             strContent.Append("\"option_value\":\"").Append(optionValue).Append("\"}");
@@ -204,8 +241,13 @@ namespace OSS.Clients.Platform.WX.Agent
         /// <returns></returns>
         public async Task<WXGetGrantorListResp> GetGrantorList(string grantorAppId, int offset, int count)
         {
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXGetGrantorListResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(appConfig.AppId).Append("\",");
             strContent.Append("\"offset\":\"").Append(offset).Append("\",");
             strContent.Append("\"count\":\"").Append(count).Append("\"}");
 

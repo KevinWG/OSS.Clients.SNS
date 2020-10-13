@@ -17,12 +17,21 @@ using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 using System.Net.Http;
 using System.Threading.Tasks;
+using OSS.Common.BasicImpls;
+using OSS.Common.BasicMos.Resp;
 
 namespace OSS.Clients.Platform.WX.AccessToken
 {
+    /// <summary>
+    /// 微信公众号AccessToken接口实现
+    /// </summary>
     public class WXPlatTokenApi : WXPlatBaseApi
     {
-        public WXPlatTokenApi(AppConfig config) : base(config)
+        /// <summary>
+        ///  构造函数
+        /// </summary>
+        /// <param name="configProvider"></param>
+        public WXPlatTokenApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }
 
@@ -53,10 +62,15 @@ namespace OSS.Clients.Platform.WX.AccessToken
         /// <returns></returns>
         public async Task<WXPlatAccessTokenResp> GetAccessTokenFromWXAsync()
         {
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXPlatAccessTokenResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
             var req = new OssHttpRequest
             {
                 AddressUrl =
-                    $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}",
+                    $"{m_ApiUrl}/cgi-bin/token?grant_type=client_credential&appid={appConfig.AppId}&secret={appConfig.AppSecret}",
                 HttpMethod = HttpMethod.Get
             };
             return await RestCommonJson<WXPlatAccessTokenResp>(req);
@@ -72,7 +86,7 @@ namespace OSS.Clients.Platform.WX.AccessToken
         ///// <returns></returns>
         //public async Task<WXGetJsTicketResp> GetJsTicketFromCacheAsync(WXJsTicketType type)
         //{
-        //    var key = string.Format(WXCacheKeysHelper.OffcialJsTicketKey, ApiConfig.AppId, type);
+        //    var key = string.Format(WXCacheKeysHelper.OffcialJsTicketKey, appConfig.AppId, type);
 
         //    var ticket =await CacheHelper.GetAsync<WXGetJsTicketResp>(key, WXPlatConfigProvider.CacheSourceName);
         //    if (ticket != null && ticket.expires_time > DateTime.Now)

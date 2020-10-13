@@ -1,26 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using OSS.Clients.Oauth.WX;
 using OSS.Clients.Oauth.WX.Mos;
+using OSS.Common.BasicImpls;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 
 namespace OSS.Clients.SNS.Samples.Controllers
 {
-    public class wxOauthController : Controller
+    public class OauthConfigProvider : IMetaProvider<AppConfig>
     {
         private static AppConfig m_Config = new AppConfig()
         {
             AppId = "wxaa9e6cb3f03afa97",
             AppSecret = "0fc0c6f735a90fda1df5fc840e010144"
         };
+        public Task<Resp<AppConfig>> GetMeta()
+        {
+            return Task.FromResult(new Resp<AppConfig>(m_Config));
+        }
+    }
 
-        private static WXOauthApi m_AuthApi = new WXOauthApi(m_Config);
+    public class wxOauthController : Controller
+    {
+        private static WXOauthApi m_AuthApi = new WXOauthApi(new OauthConfigProvider());
         // GET: WXOauth
         public ActionResult auth( int type)
         {
             //记得更换成自己的项目域名
             var res = m_AuthApi.GetAuthorizeUrl("http://www.social.com/wxoauth/callback","1", (AuthClientType)type);
-            return Redirect(res);
+            res.Wait();
+
+            return Redirect(res.Result.data);
         }
 
         public ActionResult callback(string code, string state)

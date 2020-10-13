@@ -16,6 +16,8 @@ using OSS.Clients.Chat.WX.Mos;
 
 namespace OSS.Clients.Chat.WX
 {
+    //public 
+
     /// <summary>
     ///  消息处理基类
     /// </summary>

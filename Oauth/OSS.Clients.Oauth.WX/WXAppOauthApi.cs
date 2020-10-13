@@ -14,7 +14,9 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Clients.Oauth.WX.Mos;
+using OSS.Common.BasicImpls;
 using OSS.Common.BasicMos;
+using OSS.Common.BasicMos.Resp;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Oauth.WX
@@ -24,7 +26,7 @@ namespace OSS.Clients.Oauth.WX
     /// </summary>
     public class WXAppOauthApi : WXOauthBaseApi
     {
-        public WXAppOauthApi(AppConfig config) : base(config)
+        public WXAppOauthApi(IMetaProvider<AppConfig> configProvider=null):base(configProvider)
         {
         }
 
@@ -37,11 +39,16 @@ namespace OSS.Clients.Oauth.WX
         /// <returns></returns>
         public async Task<WXGetSessionCodeResp> GetSessionCodeAsync(string jsCode)
         {
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXGetSessionCodeResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
             var req = new OssHttpRequest
             {
                 HttpMethod = HttpMethod.Get,
                 AddressUrl = string.Concat(m_ApiUrl,
-                    $"/sns/jscode2session?appid={ApiConfig.AppId}&secret={ApiConfig.AppSecret}&js_code={jsCode}&grant_type=authorization_code")
+                    $"/sns/jscode2session?appid={appConfig.AppId}&secret={appConfig.AppSecret}&js_code={jsCode}&grant_type=authorization_code")
             };
             return await RestCommonJson<WXGetSessionCodeResp>(req);
         }

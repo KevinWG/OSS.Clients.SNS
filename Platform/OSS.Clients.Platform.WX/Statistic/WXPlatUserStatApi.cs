@@ -14,6 +14,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using OSS.Clients.Platform.WX.Base;
+using OSS.Common.BasicImpls;
 using OSS.Common.BasicMos;
 using OSS.SocialSDK.WX.Offcial.Statistic.Mos;
 using OSS.Tools.Http.Mos;
@@ -29,8 +30,7 @@ namespace OSS.Clients.Platform.WX.Statistic
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WXBaseApi.DefaultConfig 属性赋值</param>
-        public WXPlatStatApi(AppConfig config=null) : base(config)
+        public WXPlatStatApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
        {
        }
     }

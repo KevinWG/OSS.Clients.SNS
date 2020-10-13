@@ -27,7 +27,7 @@ namespace OSS.Clients.Platform.WX.Base
      /// <summary>
     /// 微信公号接口基类
     /// </summary>
-    public class WXPlatBaseApi : BaseApiConfigProvider<AppConfig>
+    public class WXPlatBaseApi : BaseMetaImpl<AppConfig>
     {
         /// <summary>
         /// 微信api接口地址
@@ -39,8 +39,8 @@ namespace OSS.Clients.Platform.WX.Base
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="config"></param>
-        public WXPlatBaseApi(AppConfig config) : base(config)
+        /// <param name="configProvider"></param>
+        public WXPlatBaseApi(IMetaProvider<AppConfig> configProvider) : base(configProvider)
         {
         }
 
@@ -58,7 +58,12 @@ namespace OSS.Clients.Platform.WX.Base
         protected async Task<T> RestCommonPlatAsync<T>(OssHttpRequest req)
             where T : WXBaseResp, new()
         {
-            var tokenRes = await GetAccessToken(ApiConfig);
+            var configRes =await GetMeta();
+            if (!configRes.IsSuccess())
+               return new T().WithResp(configRes);
+
+            var  appConfig = configRes.data;
+            var tokenRes = await GetAccessToken(appConfig);
             if (!tokenRes.IsSuccess())
                 return new T().WithResp(tokenRes); 
 
@@ -73,7 +78,7 @@ namespace OSS.Clients.Platform.WX.Base
 
             req.AddressUrl = string.Concat(req.AddressUrl,
                 (req.AddressUrl.IndexOf('?') > 0 ? "&" : "?"),
-                (ApiConfig.OperateMode == AppOperateMode.ByAgent ? "component_access_token=" : "access_token="),
+                (appConfig.OperateMode == AppOperateMode.ByAgent ? "component_access_token=" : "access_token="),
                 tokenRes.data);
 
             return await RestCommonJson<T>(req);
@@ -84,13 +89,18 @@ namespace OSS.Clients.Platform.WX.Base
         /// </summary>
         protected async Task<WXFileResp> DownLoadFileAsync(OssHttpRequest req)
         {
-            var tokenRes = await GetAccessToken(ApiConfig);
+            var configRes = await GetMeta();
+            if (!configRes.IsSuccess())
+                return new WXFileResp().WithResp(configRes);
+
+            var appConfig = configRes.data;
+            var tokenRes = await GetAccessToken(appConfig);
             if (!tokenRes.IsSuccess())
                 return new WXFileResp().WithResp(tokenRes);
 
             req.AddressUrl = string.Concat(req.AddressUrl,
                 (req.AddressUrl.IndexOf('?') > 0 ? "&" : "?"),
-                (ApiConfig.OperateMode == AppOperateMode.ByAgent ? "component_access_token=" : "access_token="),
+                (appConfig.OperateMode == AppOperateMode.ByAgent ? "component_access_token=" : "access_token="),
                 tokenRes.data);
 
             var resp = await req.RestSend(WXPlatConfigProvider.ClientFactory?.Invoke());
@@ -156,8 +166,9 @@ namespace OSS.Clients.Platform.WX.Base
             return t;
         }
 
+
         /// <inheritdoc />
-        protected override AppConfig GetDefaultConfig()
+        protected override AppConfig GetDefaultMeta()
         {
             return WXPlatConfigProvider.DefaultConfig;
         }

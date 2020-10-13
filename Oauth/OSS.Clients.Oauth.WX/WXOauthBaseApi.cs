@@ -24,7 +24,7 @@ namespace OSS.Clients.Oauth.WX
     /// <summary>
     /// 微信接口SDK基类
     /// </summary>
-    public class WXOauthBaseApi: BaseApiConfigProvider<AppConfig>
+    public class WXOauthBaseApi: BaseMetaImpl<AppConfig>
     {
         /// <summary>
         /// 微信api接口地址
@@ -34,8 +34,7 @@ namespace OSS.Clients.Oauth.WX
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="config"></param>
-        public WXOauthBaseApi(AppConfig config):base(config)
+        public WXOauthBaseApi(IMetaProvider<AppConfig> configProvider):base(configProvider)
         {
         }
 
@@ -63,7 +62,7 @@ namespace OSS.Clients.Oauth.WX
         }
 
         /// <inheritdoc />
-        protected override AppConfig GetDefaultConfig()
+        protected override AppConfig GetDefaultMeta()
         {
             return WXOauthConfigProvider.DefaultConfig;
         }

@@ -15,24 +15,22 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using OSS.Common.BasicMos;
-using OSS.Tools.Http.Mos;
 using OSS.Clients.Platform.WX.Base;
 using OSS.Clients.Platform.WX.Base.Mos;
+using OSS.Common.BasicImpls;
+using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
+using OSS.Tools.Http.Mos;
 
-namespace OSS.Clients.Platform.WX
+namespace OSS.Clients.Platform.WX.AccessToken
 {
     /// <summary>
     ///  微信开放平台相关接口基类
     /// </summary>
     public class WXAgentPlatTokenApi : WXPlatBaseApi
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="config"></param>
-        public WXAgentPlatTokenApi(AppConfig config) : base(config)
+        /// <inheritdoc />
+        public WXAgentPlatTokenApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }
 
@@ -43,7 +41,7 @@ namespace OSS.Clients.Platform.WX
         ///// <returns></returns>
         //public async Task<WXGetAgentAccessTokenResp> GetAgentAccessTokenFromCacheAsync()
         //{
-        //    var m_OffcialAccessTokenKey = string.Format(WXCacheKeysHelper.OffcialAgentAccessTokenKey, ApiConfig.AppId);
+        //    var m_OffcialAccessTokenKey = string.Format(WXCacheKeysHelper.OffcialAgentAccessTokenKey, appConfig.AppId);
         //    var tokenResp =await CacheHelper.GetAsync<WXGetAgentAccessTokenResp>(m_OffcialAccessTokenKey, WXPlatConfigProvider.CacheSourceName);
 
         //    if (tokenResp != null && tokenResp.expires_date >= DateTime.Now.ToUtcSeconds())
@@ -70,13 +68,18 @@ namespace OSS.Clients.Platform.WX
             if (WXPlatConfigProvider.AgentAccessTokenHub==null)
                 throw new NullReferenceException("WXPlatConfigProvider 下 AgentAccessTokenHub 接口属性不能为空，VerifyTicket由微信通过消息接口主动推送，需通过接口设置 获取VerifyTicket 实现。");
 
-            var verifyTicketRes =await WXPlatConfigProvider.AgentAccessTokenHub.GetAgentVerifyTicket(ApiConfig);
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new WXGetAgentAccessTokenResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
+            var verifyTicketRes =await WXPlatConfigProvider.AgentAccessTokenHub.GetAgentVerifyTicket(appConfig);
             if(!verifyTicketRes.IsSuccess())
                 return new WXGetAgentAccessTokenResp().WithResp(verifyTicketRes);
 
             var strContent = new StringBuilder();
-            strContent.Append("{\"component_appid\":\"").Append(ApiConfig.AppId).Append("\",");
-            strContent.Append("\"component_appsecret\":\"").Append(ApiConfig.AppSecret).Append("\",");
+            strContent.Append("{\"component_appid\":\"").Append(appConfig.AppId).Append("\",");
+            strContent.Append("\"component_appsecret\":\"").Append(appConfig.AppSecret).Append("\",");
             strContent.Append("\"component_verify_ticket\":\"").Append(verifyTicketRes.data).Append("\" }");
 
             var req = new OssHttpRequest

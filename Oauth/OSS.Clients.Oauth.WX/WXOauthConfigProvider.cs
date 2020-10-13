@@ -21,7 +21,7 @@ namespace OSS.Clients.Oauth.WX
         /// 当 OperateMode = ByAgent 时，
         ///   调用此委托 获取第三方代理平台的 AccessToken 
         ///   可以调用 Official下的 WXAgentAuthApi（WXAgentBaseApi） 中接口
-        /// 参数为当前ApiConfig
+        /// 参数为当前appConfig
         /// </summary>
         public static Func<AppConfig, string> AgentAccessTokenFunc { get; set; }
 

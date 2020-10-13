@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Clients.Chat.WX;
 using OSS.Clients.Chat.WX.Mos;
@@ -18,20 +19,14 @@ namespace OSS.Clients.SNS.Samples.Controllers
             EncodingAesKey = "b2kcgLAsxwMjWmi6tCixPTZQ1MbY76VLXgZKHgfLOSf",
         };
 
-        // 【一】 直接在初始化中指定配置信息
-        private static readonly WXCustomMsgHandler _msgService = new WXCustomMsgHandler(config);
-
-        // 【二】 在构造函数中动态设置配置信息
-        public WXChatController()
-        {
-            _msgService.SetContextConfig(config);
-           //WXChatConfigProvider.SetContextConfig(config);
-        }
+        private static readonly WXCustomMsgHandler _msgService = new WXCustomMsgHandler();
 
         #region  【A】 高级自定义方法实现
 
         static WXChatController()
         {
+            WXChatConfigProvider.DefaultConfig = config;
+
             //  用户可以自定义消息处理委托，
             //   也可以通过 RegisterEventMsgHandler 自定义事件处理委托
             WXChatConfigProvider.RegisteProcessor<WXTextRecMsg>("test_msg", ProcessTestMsg);
@@ -54,7 +49,7 @@ namespace OSS.Clients.SNS.Samples.Controllers
         /// <param name="nonce"></param>
         /// <param name="echostr"></param>
         /// <returns></returns>
-        public ContentResult Msg(string appid,string signature, string timestamp, string nonce, string echostr)
+        public async Task<ContentResult> Msg(string appid,string signature, string timestamp, string nonce, string echostr)
         {
             // 直接传入Stream也是可以的
             // 这里为了记录传入加密前的日志，所以先获取再传入
@@ -67,7 +62,7 @@ namespace OSS.Clients.SNS.Samples.Controllers
                 LogHelper.Info(contentXml);
             }
 
-            var res = _msgService.Process(contentXml, signature, timestamp, nonce, echostr);
+            var res =await _msgService.Process(contentXml, signature, timestamp, nonce, echostr);
             if (res.IsSuccess())
                 return Content(res.data);
 

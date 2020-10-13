@@ -12,6 +12,7 @@
 #endregion
 
 using OSS.Clients.Chat.WX.Mos;
+using OSS.Common.BasicImpls;
 
 namespace OSS.Clients.Chat.WX
 {
@@ -28,11 +29,8 @@ namespace OSS.Clients.Chat.WX
         {
         }
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="mConfig"></param>
-        public WXChatHandler(WXChatConfig mConfig):base(mConfig)
+        /// <inheritdoc />
+        public WXChatHandler(IMetaProvider<WXChatConfig> configProvider = null) : base(configProvider)
         {
         }
 

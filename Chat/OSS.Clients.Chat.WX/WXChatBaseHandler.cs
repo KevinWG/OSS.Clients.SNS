@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml;
 using OSS.Clients.Chat.WX.Mos;
 using OSS.Common.BasicImpls;
@@ -25,13 +26,10 @@ namespace OSS.Clients.Chat.WX
     /// <summary>
     ///   消息处理的基类
     /// </summary>
-    public class WXChatBaseHandler:BaseApiConfigProvider<WXChatConfig>
+    public class WXChatBaseHandler: BaseMetaImpl<WXChatConfig>
     {
-        /// <summary>
-        /// 消息处理基类
-        /// </summary>
-        /// <param name="config"></param>
-        protected WXChatBaseHandler(WXChatConfig config=null):base(config)
+        /// <inheritdoc />
+        protected WXChatBaseHandler(IMetaProvider<WXChatConfig> configProvider=null):base(configProvider)
         {
         }
         
@@ -45,8 +43,13 @@ namespace OSS.Clients.Chat.WX
         /// <param name="nonce"></param>
         /// <param name="echostr"></param>
         /// <returns></returns>
-        public StrResp CheckServerValid(string signature, string timestamp, string nonce, string echostr)
+        public async Task<StrResp> CheckServerValid(string signature, string timestamp, string nonce, string echostr)
         {
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new StrResp().WithResp(appConfigRes);
+
+            var ApiConfig = appConfigRes.data;
             var checkSignRes = WXChatHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
 
             var resultRes =new StrResp().WithResp(checkSignRes);// checkSignRes.ConvertToResult<string>();
@@ -63,7 +66,7 @@ namespace OSS.Clients.Chat.WX
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public StrResp Process(Stream reqStream, string signature, string timestamp, string nonce,
+        public Task<StrResp> Process(Stream reqStream, string signature, string timestamp, string nonce,
             string echostr)
         {
             string contentXml;
@@ -83,17 +86,17 @@ namespace OSS.Clients.Chat.WX
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public StrResp Process(string contentXml, string signature, string timestamp, string nonce,
+        public async Task<StrResp> Process(string contentXml, string signature, string timestamp, string nonce,
             string echostr)
         {
             // 一.  检查是否是服务器设置验证
             if (!string.IsNullOrEmpty(echostr))
             {
-                return CheckServerValid(signature, timestamp, nonce, echostr);
+                return await CheckServerValid(signature, timestamp, nonce, echostr);
             }
 
             // 二.  正常消息处理
-            var checkRes = Prepare(contentXml, signature, timestamp, nonce);
+            var checkRes =await Prepare(contentXml, signature, timestamp, nonce);
             if (!checkRes.IsSuccess())
                 return new StrResp().WithResp(checkRes); //checkRes.ConvertToResult<string>();
 
@@ -101,11 +104,16 @@ namespace OSS.Clients.Chat.WX
             if (!contextRes.IsSuccess())
                 return new StrResp().WithResp(contextRes);// contextRes.ConvertToResult<string>();
 
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new StrResp().WithResp(appConfigRes);
+
+            var appConfig = appConfigRes.data;
             var resultString = contextRes.data.ReplyMsg.ToReplyXml();
-            if (ApiConfig.SecurityType != WXSecurityType.None &&
+            if (appConfig.SecurityType != WXSecurityType.None &&
                 !string.IsNullOrEmpty(contextRes.data.ReplyMsg.MsgType))
             {
-                return WXChatHelper.EncryptMsg(resultString, ApiConfig);
+                return WXChatHelper.EncryptMsg(resultString, appConfig);
             }
             return new StrResp(resultString);
         }
@@ -151,12 +159,17 @@ namespace OSS.Clients.Chat.WX
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
         /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        private StrResp Prepare(string recXml, string signature,
+        private async Task<StrResp> Prepare(string recXml, string signature,
             string timestamp, string nonce)
         {
             if (string.IsNullOrEmpty(recXml))
                 return new StrResp().WithResp(RespTypes.ObjectNull, "接收的消息体为空！");
+           
+            var appConfigRes = await GetMeta();
+            if (!appConfigRes.IsSuccess())
+                return new StrResp().WithResp(appConfigRes);
 
+            var ApiConfig = appConfigRes.data;
             var resCheck = WXChatHelper.CheckSignature(ApiConfig.Token, signature, timestamp, nonce);
             if (!resCheck.IsSuccess())
                 return new StrResp().WithResp(resCheck);// resCheck.ConvertToResult<string>();
@@ -253,10 +266,8 @@ namespace OSS.Clients.Chat.WX
         #endregion
 
 
-
-
         /// <inheritdoc />
-        protected override WXChatConfig GetDefaultConfig()
+        protected override WXChatConfig GetDefaultMeta()
         {
             return WXChatConfigProvider.DefaultConfig;
         }

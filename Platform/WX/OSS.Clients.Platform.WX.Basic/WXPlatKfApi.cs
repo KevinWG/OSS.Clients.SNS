@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using OSS.Clients.Platform.WX.Base;
 using OSS.Clients.Platform.WX.Base.Mos;
 using OSS.Clients.Platform.WX.Basic.Mos;
+using OSS.Common.BasicImpls;
 using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 
@@ -45,11 +46,9 @@ namespace OSS.Clients.Platform.WX.Basic
         //}
 
         #region  客服账号管理部分
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="config">配置信息，如果这里不传，需要在程序入口静态 WXBaseApi.DefaultConfig 属性赋值</param>
-        public WXPlatKfApi(AppConfig config=null) : base(config)
+
+        /// <inheritdoc />
+        public WXPlatKfApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
         {
         }
 
