@@ -2,8 +2,9 @@
 
 一. 配置管理
 
-	1. 通过构造函数传入，适合单一的应用
-	2. 通过 SetContext方式 注入，适合多租户，平台的方式使用
+	1. 设置 WXChatConfigProvider.DefaultConfig 
+	2. 实现 IMetaProvider<WXChatConfig> 接口，并通过构造函数注入
+
 	示例详见：OSS.Clients.Samples项目下的WXChatController.cs
 
 二. 框架使用
@@ -81,33 +82,7 @@
     // 处理点击菜单跳转链接时的事件推送
     ProcessViewEventMsg(WXViewRecEventMsg msg)
 
-
-2. 进阶模式
-		对于不在基础实现类型的消息，系统提供注入消息处理委托的模式来处理消息，以一个 test_msg 消息类型注入示例
-	
-	a. 定义消息实体：
-	public class WXTestRecMsg : WXBaseRecMsg
-    {
-        public string Test { get; set; }
-		// 重写实体实体内部属性赋值
-        protected override void FormatPropertiesFromMsg()
-        {
-            Test = this["Test"];
-        }
-    }
-
-	b. 定义处理委托：
-    static WXTextReplyMsg ProcessTestMsg(WXTestRecMsg msg)
-    {
-       return new WXTextReplyMsg() { Content = " test_msg 类型消息返回 " };
-    }
-
-	c. 注入（内含：RegisteEventProcessor方法）：
-	WXChatProcessorProvider.RegisteProcessor<WXTextRecMsg>("test_msg", ProcessTestMsg);
-
-	恭喜，你已经完成了新的消息类型处理注入。
-
-	3.  高级模式
+2.  高级模式
 		自定义Processor，基础模式和进阶模式中都在内部实现了Processor的调度，这里依然使用上边示例：
 	
 	a. 定义实体（这里继续使用 WXTestRecMsg）
