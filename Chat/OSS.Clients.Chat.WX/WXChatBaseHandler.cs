@@ -42,23 +42,25 @@ namespace OSS.Clients.Chat.WX
         /// <returns></returns>
         public static StrResp CheckServerValid(WXChatConfig appConfig, string signature, string timestamp, string nonce, string echostr)
         {
-            var checkSignRes = WXChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce);
+            var checkSignRes = WXChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce,string.Empty);
 
             var resultRes =new StrResp().WithResp(checkSignRes);// checkSignRes.ConvertToResult<string>();
             resultRes.data = resultRes.IsSuccess() ? echostr : string.Empty;
 
             return resultRes;
         }
+
         /// <summary>
         ///    消息处理入口
         /// </summary>
         /// <param name="reqStream">内容的数据流</param>
         /// <param name="signature">签名信息</param>
+        /// <param name="msg_signature">消息体签名</param>
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public Task<StrResp> Process(Stream reqStream, string signature, string timestamp, string nonce,
+        public Task<StrResp> Process(Stream reqStream, string signature,string msg_signature, string timestamp, string nonce,
             string echostr)
         {
             string contentXml;
@@ -66,21 +68,26 @@ namespace OSS.Clients.Chat.WX
             {
                 contentXml = reader.ReadToEnd();
             }
-            return Process(contentXml, signature, timestamp, nonce, echostr);
+            return Process(contentXml, signature,msg_signature, timestamp, nonce, echostr);
         }
 
         /// <summary>
         /// 消息处理入口
         /// </summary>
         /// <param name="contentXml">内容信息</param>
-        /// <param name="signature">签名信息</param>
+        /// <param name="signature">签名信息，请注意不是[msg_signature]</param>
+        /// <param name="msg_signature">消息体签名</param>
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public async Task<StrResp> Process(string contentXml, string signature, string timestamp, string nonce,
+        public async Task<StrResp> Process(string contentXml, string signature, string msg_signature, string timestamp, string nonce,
             string echostr)
         {
+            if (string.IsNullOrEmpty(contentXml)|| string.IsNullOrEmpty(signature)
+                || string.IsNullOrEmpty(timestamp) || string.IsNullOrEmpty(nonce))
+                return new StrResp().WithResp(RespTypes.ParaError,"消息相关参数错误！");
+            
             var appConfigRes = await GetMeta();
             if (!appConfigRes.IsSuccess())
                 return new StrResp().WithResp(appConfigRes);
@@ -89,11 +96,9 @@ namespace OSS.Clients.Chat.WX
 
             // 一.  检查是否是微信服务端首次地址配置验证
             if (!string.IsNullOrEmpty(echostr))
-            {
                 return CheckServerValid(appConfig,signature, timestamp, nonce, echostr);
-            }
-
-            var checkRes = Prepare(appConfig, contentXml, signature, timestamp, nonce);
+            
+            var checkRes = Prepare(appConfig, contentXml, signature, msg_signature, timestamp, nonce);
             if (!checkRes.IsSuccess())
                 return new StrResp().WithResp(checkRes); 
 
@@ -119,8 +124,7 @@ namespace OSS.Clients.Chat.WX
         protected virtual async Task<Resp<WXChatContext>> Processing(string recMsgXml)
         {
             var recMsgDirs = WXChatHelper.ChangXmlToDir(recMsgXml, out var xmlDoc);
-
-            recMsgDirs.TryGetValue("MsgType", out var msgType); // recMsgDirs["MsgType"].ToLower();
+            recMsgDirs.TryGetValue("MsgType", out var msgType);
             string eventName = null;
 
             if (msgType == "event")
@@ -145,27 +149,30 @@ namespace OSS.Clients.Chat.WX
         /// 核心执行 过程的  验签和解密
         /// </summary>
         /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        private static StrResp Prepare(WXChatConfig appConfig, string recXml, string signature,
+        private static StrResp Prepare(WXChatConfig appConfig, string recXml, string signature, string msg_signature,
             string timestamp, string nonce)
         {
-            if (string.IsNullOrEmpty(recXml))
-                return new StrResp().WithResp(RespTypes.ObjectNull, "接收的消息体为空！");
+            var isEncryptMsg = appConfig.SecurityType == WXSecurityType.Safe;
+            if (!isEncryptMsg)
+            {
+                var resCheck = WXChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce, String.Empty);
+                return !resCheck.IsSuccess() ? new StrResp().WithResp(resCheck) : new StrResp(recXml);
+            }
 
-            var resCheck = WXChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce);
-            if (!resCheck.IsSuccess())
-                return new StrResp().WithResp(resCheck);// resCheck.ConvertToResult<string>();
+            if (string.IsNullOrEmpty(msg_signature))
+                return new StrResp().WithResp(RespTypes.ParaError, "msg_signature 消息体验证签名参数为空！");
 
-            if (appConfig.SecurityType == WXSecurityType.None)
-                return new StrResp(recXml);
+            var xmlDoc = WXChatHelper.GetXmlDocment(recXml);
+            var encryStr= xmlDoc?.FirstChild["Encrypt"]?.InnerText;
 
-            var dirs = WXChatHelper.ChangXmlToDir(recXml, out XmlDocument xmlDoc);
+            if ( string.IsNullOrEmpty(encryStr))
+                return new StrResp().WithResp(RespTypes.ObjectNull, "安全接口的加密字段为空！");
 
-            if (dirs == null || !dirs.TryGetValue("Encrypt", out var encryStr)
-                || string.IsNullOrEmpty(encryStr))
-                return new StrResp().WithResp(RespTypes.ObjectNull, "加密消息为空");
+            var cryptMsgCheck = WXChatHelper.CheckSignature(appConfig.Token, msg_signature, timestamp, nonce, encryStr);
+            if (!cryptMsgCheck.IsSuccess())
+               return new StrResp().WithResp(cryptMsgCheck);
 
             var recMsgXml = Cryptography.AESDecrypt(encryStr, appConfig.EncodingAesKey);
-
             return new StrResp(recMsgXml);
         }
 

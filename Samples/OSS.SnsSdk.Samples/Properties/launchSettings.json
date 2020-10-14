@@ -13,7 +13,7 @@
   },
   "profiles": {
     "IIS Express": {
-      "commandName": "IIS",
+      "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -29,7 +29,7 @@
     },
     "IIS": {
       "commandName": "IIS",
-      "launchBrowser": "true",
+      "launchBrowser": true,
       "launchUrl": "http://www.social.com",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

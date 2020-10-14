@@ -27,7 +27,7 @@ namespace OSS.Clients.SNS.Samples.Controllers
         {
             WXChatConfigProvider.DefaultConfig = config;
         }
-   
+
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace OSS.Clients.SNS.Samples.Controllers
         /// <param name="nonce"></param>
         /// <param name="echostr"></param>
         /// <returns></returns>
-        public async Task<ContentResult> Msg(string appid,string signature, string timestamp, string nonce, string echostr)
+        public async Task<ContentResult> Msg(string appid, string signature, string msg_signature, string timestamp, string nonce, string echostr)
         {
             // 直接传入Stream也是可以的
             // 这里为了记录传入加密前的日志，所以先获取再传入
@@ -52,21 +52,20 @@ namespace OSS.Clients.SNS.Samples.Controllers
             using (var reader = new StreamReader(Request.Body))
             {
                 contentXml = reader.ReadToEnd();
-                LogHelper.Info(contentXml);
             }
 
-            var res =await _msgService.Process(contentXml, signature, timestamp, nonce, echostr);
+            var res = await _msgService.Process(contentXml, signature, msg_signature, timestamp, nonce, echostr);
             if (res.IsSuccess())
                 return Content(res.data);
 
             LogHelper.Info($" 当前请求处理失败，原因：{res.msg}");
-            return Content( "success");
+            return Content("success");
         }
 
         #endregion
 
     }
 
-    
+
 
 }

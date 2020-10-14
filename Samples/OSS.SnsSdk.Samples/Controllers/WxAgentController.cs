@@ -34,9 +34,9 @@ namespace OSS.Clients.SNS.Samples.Controllers
         private static WXAgentHandler pHandler = new WXAgentHandler(new WxChatConfigProvider());
 
         // GET: /<controller>/
-        public async Task<IActionResult> pauth(string signature, string timestamp, string nonce, string echostr)
+        public async Task<IActionResult> pauth(string signature, string msg_signature, string timestamp, string nonce, string echostr)
         {
-            var res =await pHandler.Process(Request.Body, signature, timestamp, nonce, echostr);
+            var res =await pHandler.Process(Request.Body, signature, msg_signature, timestamp, nonce, echostr);
             return Content(res.IsSuccess() ? res.data : "success");
         }
     }
