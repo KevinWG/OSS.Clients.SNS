@@ -21,14 +21,6 @@ namespace OSS.Clients.Chat.WX
 {
     class Cryptography
     {
-        public static UInt32 HostToNetworkOrder(UInt32 inval)
-        {
-            UInt32 outval = 0;
-            for (int i = 0; i < 4; i++)
-                outval = (outval << 8) + ((inval >> (i * 8)) & 255);
-            return outval;
-        }
-
         public static Int32 HostToNetworkOrder(Int32 inval)
         {
             Int32 outval = 0;
@@ -45,12 +37,10 @@ namespace OSS.Clients.Chat.WX
         /// <returns></returns>
         public static string AESDecrypt(String Input, string EncodingAESKey)
         {
-            byte[] Key;
-
-            Key = Convert.FromBase64String(EncodingAESKey + "=");
-            byte[] Iv = new byte[16];
+            var Key = Convert.FromBase64String(EncodingAESKey + "=");
+            var Iv = new byte[16];
             Array.Copy(Key, Iv, 16);
-            byte[] btmpMsg = AES_decrypt(Input, Iv, Key);
+            var btmpMsg = AES_decrypt(Input, Iv, Key);
 
             int len = BitConverter.ToInt32(btmpMsg, 16);
             len = IPAddress.NetworkToHostOrder(len);
@@ -102,33 +92,7 @@ namespace OSS.Clients.Chat.WX
             return code;
         }
 
-        private static string AES_encrypt(string Input, byte[] Iv, byte[] Key)
-        {
-            var aes = new RijndaelManaged();
-            //秘钥的大小，以位为单位
-            aes.KeySize = 256;
-            //支持的块大小
-            aes.BlockSize = 128;
-            //填充模式
-            aes.Padding = PaddingMode.PKCS7;
-            aes.Mode = CipherMode.CBC;
-            aes.Key = Key;
-            aes.IV = Iv;
-            var encrypt = aes.CreateEncryptor(aes.Key, aes.IV);
-            byte[] xBuff = null;
-
-            using (var ms = new MemoryStream())
-            {
-                using (var cs = new CryptoStream(ms, encrypt, CryptoStreamMode.Write))
-                {
-                    var xXml = Encoding.UTF8.GetBytes(Input);
-                    cs.Write(xXml, 0, xXml.Length);
-                }
-                xBuff = ms.ToArray();
-            }
-            var Output = Convert.ToBase64String(xBuff);
-            return Output;
-        }
+      
 
         private static String AES_encrypt(byte[] Input, byte[] Iv, byte[] Key)
         {
