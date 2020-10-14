@@ -118,7 +118,7 @@ namespace OSS.Clients.Chat.WX
         /// <returns></returns>
         protected virtual async Task<Resp<WXChatContext>> Processing(string recMsgXml)
         {
-            var recMsgDirs = WXChatHelper.ChangXmlToDir(recMsgXml, out XmlDocument xmlDoc);
+            var recMsgDirs = WXChatHelper.ChangXmlToDir(recMsgXml, out var xmlDoc);
 
             recMsgDirs.TryGetValue("MsgType", out var msgType); // recMsgDirs["MsgType"].ToLower();
             string eventName = null;
@@ -164,7 +164,7 @@ namespace OSS.Clients.Chat.WX
                 || string.IsNullOrEmpty(encryStr))
                 return new StrResp().WithResp(RespTypes.ObjectNull, "加密消息为空");
 
-            var recMsgXml = Cryptography.WXAesDecrypt(encryStr, appConfig.EncodingAesKey);
+            var recMsgXml = Cryptography.AESDecrypt(encryStr, appConfig.EncodingAesKey);
 
             return new StrResp(recMsgXml);
         }

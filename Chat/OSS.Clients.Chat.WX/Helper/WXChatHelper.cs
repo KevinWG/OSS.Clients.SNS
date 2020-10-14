@@ -60,8 +60,6 @@ namespace OSS.Clients.Chat.WX.Helper
             return Sha1.Encrypt(waitEncryptStr, Encoding.ASCII);
         }
 
-
-
         /// <summary>
         ///  加密消息体
         /// </summary>
@@ -73,7 +71,7 @@ namespace OSS.Clients.Chat.WX.Helper
             string raw;
             try
             {
-                raw = Cryptography.AesEncrypt(sReplyMsg, config.EncodingAesKey, config.AppId);
+                raw = Cryptography.AESEncrypt(sReplyMsg, config.EncodingAesKey, config.AppId);
             }
             catch (Exception)
             {
