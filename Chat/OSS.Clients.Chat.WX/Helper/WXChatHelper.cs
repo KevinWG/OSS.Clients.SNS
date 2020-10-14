@@ -20,7 +20,7 @@ using OSS.Common.BasicMos.Resp;
 using OSS.Common.Encrypt;
 using OSS.Common.Extention;
 
-namespace OSS.Clients.Chat.WX
+namespace OSS.Clients.Chat.WX.Helper
 {
     internal static class WXChatHelper
     {
@@ -56,8 +56,8 @@ namespace OSS.Clients.Chat.WX
             var strList = new List<string>() { token, timestamp, nonce, strEncryptMsg };
             strList.Sort();
 
-            var waitEncropyStr = string.Join(string.Empty, strList);
-            return Sha1.Encrypt(waitEncropyStr, Encoding.ASCII);
+            var waitEncryptStr = string.Join(string.Empty, strList);
+            return Sha1.Encrypt(waitEncryptStr, Encoding.ASCII);
         }
 
 

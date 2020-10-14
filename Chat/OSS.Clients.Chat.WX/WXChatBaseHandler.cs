@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
+using OSS.Clients.Chat.WX.Helper;
 using OSS.Clients.Chat.WX.Mos;
 using OSS.Common.BasicImpls;
 using OSS.Common.BasicMos.Resp;
