@@ -38,18 +38,9 @@ namespace OSS.Clients.Chat.WX
         /// <summary>
         ///  服务器接入验证     
         /// </summary>
-        /// <param name="signature"></param>
-        /// <param name="timestamp"></param>
-        /// <param name="nonce"></param>
-        /// <param name="echostr"></param>
         /// <returns></returns>
-        public async Task<StrResp> CheckServerValid(string signature, string timestamp, string nonce, string echostr)
+        public static StrResp CheckServerValid(WXChatConfig appConfig, string signature, string timestamp, string nonce, string echostr)
         {
-            var appConfigRes = await GetMeta();
-            if (!appConfigRes.IsSuccess())
-                return new StrResp().WithResp(appConfigRes);
-
-            var appConfig = appConfigRes.data;
             var checkSignRes = WXChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce);
 
             var resultRes =new StrResp().WithResp(checkSignRes);// checkSignRes.ConvertToResult<string>();
@@ -89,26 +80,26 @@ namespace OSS.Clients.Chat.WX
         public async Task<StrResp> Process(string contentXml, string signature, string timestamp, string nonce,
             string echostr)
         {
-            // 一.  检查是否是服务器设置验证
-            if (!string.IsNullOrEmpty(echostr))
-            {
-                return await CheckServerValid(signature, timestamp, nonce, echostr);
-            }
-
-            // 二.  正常消息处理
-            var checkRes =await Prepare(contentXml, signature, timestamp, nonce);
-            if (!checkRes.IsSuccess())
-                return new StrResp().WithResp(checkRes); //checkRes.ConvertToResult<string>();
-
-            var contextRes =await Processing(checkRes.data);
-            if (!contextRes.IsSuccess())
-                return new StrResp().WithResp(contextRes);// contextRes.ConvertToResult<string>();
-
             var appConfigRes = await GetMeta();
             if (!appConfigRes.IsSuccess())
                 return new StrResp().WithResp(appConfigRes);
 
             var appConfig = appConfigRes.data;
+
+            // 一.  检查是否是微信服务端首次地址配置验证
+            if (!string.IsNullOrEmpty(echostr))
+            {
+                return CheckServerValid(appConfig,signature, timestamp, nonce, echostr);
+            }
+
+            var checkRes = Prepare(appConfig, contentXml, signature, timestamp, nonce);
+            if (!checkRes.IsSuccess())
+                return new StrResp().WithResp(checkRes); 
+
+            var contextRes =await Processing(checkRes.data);
+            if (!contextRes.IsSuccess())
+                return new StrResp().WithResp(contextRes);
+
             var resultString = contextRes.data.ReplyMsg.ToReplyXml();
             if (appConfig.SecurityType != WXSecurityType.None &&
                 !string.IsNullOrEmpty(contextRes.data.ReplyMsg.MsgType))
@@ -149,26 +140,16 @@ namespace OSS.Clients.Chat.WX
             return new Resp<WXChatContext>(context);
         }
 
-
         /// <summary>
         /// 核心执行 过程的  验签和解密
         /// </summary>
-        /// <param name="recXml">消息内容</param>
-        /// <param name="signature">微信加密签名</param>
-        /// <param name="timestamp">时间戳</param>
-        /// <param name="nonce">随机数</param>
         /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        private async Task<StrResp> Prepare(string recXml, string signature,
+        private static StrResp Prepare(WXChatConfig appConfig, string recXml, string signature,
             string timestamp, string nonce)
         {
             if (string.IsNullOrEmpty(recXml))
                 return new StrResp().WithResp(RespTypes.ObjectNull, "接收的消息体为空！");
-           
-            var appConfigRes = await GetMeta();
-            if (!appConfigRes.IsSuccess())
-                return new StrResp().WithResp(appConfigRes);
 
-            var appConfig = appConfigRes.data;
             var resCheck = WXChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce);
             if (!resCheck.IsSuccess())
                 return new StrResp().WithResp(resCheck);// resCheck.ConvertToResult<string>();
