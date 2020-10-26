@@ -256,11 +256,11 @@ namespace OSS.Clients.Platform.WX.Basic
         ///   包含：image-图片,voice-语音，mpnews-图文消息，wxcard-卡券
         /// </summary>
         /// <param name="openId"></param>
-        /// <param name="msgType">消息类型</param>
+        /// <param name="msgType">消息类型:image-图片,voice-语音，mpnews-图文消息，wxcard-卡券</param>
         /// <param name="mediaId">素材id，当是wxcard类型时，传入cardId，其他正常传入medaid</param>
         /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
         /// <returns></returns>
-        public async Task<WXBaseResp> SenKfMediaMsgAsync(string openId, string msgType, string mediaId = null, string kfAccount = null)
+        public async Task<WXBaseResp> SendKfMediaMsgAsync(string openId, string msgType, string mediaId = null, string kfAccount = null)
         {
             StringBuilder msgStr = new StringBuilder("{");
 
@@ -283,13 +283,12 @@ namespace OSS.Clients.Platform.WX.Basic
 
         /// <summary>
         ///  发送一般的客服消息
-        ///   包含：text-文本，image-图片,voice-语音，mpnews-图文消息，wxcard-卡券
         /// </summary>
         /// <param name="openId"></param>
-        /// <param name="content">素材id，如果是text填空，当是wxcard类型时，传入cardId，其他正常传入meidaid</param>
+        /// <param name="content">文本内容</param>
         /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
         /// <returns></returns>
-        public async Task<WXBaseResp> SenKfTextMsgAsync(string openId,  string content,string kfAccount=null)
+        public async Task<WXBaseResp> SendKfTextMsgAsync(string openId,  string content,string kfAccount=null)
         {
             StringBuilder msgStr = new StringBuilder("{");
 
@@ -320,9 +319,9 @@ namespace OSS.Clients.Platform.WX.Basic
         /// <param name="description"></param>
         /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
         /// <returns></returns>
-        public async Task<WXBaseResp> SenKfVideoMsgSync(string openId, string mediaId, string thumbMediaId, string title="", string description="", string kfAccount = "")
+        public async Task<WXBaseResp> SendKfVideoMsgSync(string openId, string mediaId, string thumbMediaId, string title="", string description="", string kfAccount = "")
         {
-            StringBuilder msgStr = new StringBuilder("{");
+            var msgStr = new StringBuilder("{");
 
             #region 拼接内容
 
@@ -359,7 +358,7 @@ namespace OSS.Clients.Platform.WX.Basic
         /// <param name="description"></param>
         /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
         /// <returns></returns>
-        public async Task<WXBaseResp> SenKfMusicMsgAsync(string openId, string musicurl, string hqmusicurl, string thumbMediaId,
+        public async Task<WXBaseResp> SendKfMusicMsgAsync(string openId, string musicurl, string hqmusicurl, string thumbMediaId,
             string title = "", string description = "", string kfAccount = "")
         {
             StringBuilder msgStr = new StringBuilder("{");
@@ -396,7 +395,7 @@ namespace OSS.Clients.Platform.WX.Basic
         /// <param name="articles">图文信息，不能超过8条</param>
         /// <param name="kfAccount">如果不为空，则以当前客服身份发送消息</param>
         /// <returns></returns>
-        public async Task<WXBaseResp> SenKfArticlesMsgAsync(string openId, List<WXArticleInfo> articles, string kfAccount = "")
+        public async Task<WXBaseResp> SendKfArticlesMsgAsync(string openId, List<WXArticleInfo> articles, string kfAccount = "")
         {
             string msgContent = JsonConvert.SerializeObject(new
             {
@@ -411,11 +410,11 @@ namespace OSS.Clients.Platform.WX.Basic
 
 
         /// <summary>
-        ///  发送客服最终走的方法
+        ///  发送客服原始方法
         /// </summary>
-        /// <param name="msgContent"></param>
+        /// <param name="msgContent">参见微信不同消息类型的消息格式</param>
         /// <returns></returns>
-        private async Task<WXBaseResp> SendKfMsgAsync(string msgContent)
+        public async Task<WXBaseResp> SendKfMsgAsync(string msgContent)
         { 
             var req = new OssHttpRequest();
 

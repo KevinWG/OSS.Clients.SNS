@@ -148,6 +148,7 @@ namespace OSS.Clients.Platform.WX.Basic.Mos
         /// </summary>
         public string openid { get; set; }
     }
+
     /// <summary>
     ///  获取客服对应的用户会话列表响应实体
     /// </summary>
