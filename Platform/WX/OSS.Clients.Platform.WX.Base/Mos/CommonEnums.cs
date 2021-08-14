@@ -11,8 +11,6 @@
 
 #endregion
 
-using OSS.Common.Extention;
-
 namespace OSS.Clients.Platform.WX.Base.Mos
 {
     /// <summary>
@@ -23,12 +21,12 @@ namespace OSS.Clients.Platform.WX.Base.Mos
         /// <summary>
         ///   男
         /// </summary>
-        [OSDescript("男")] MALE = 1,
+         MALE = 1,
 
         /// <summary>
         /// 女
         /// </summary>
-        [OSDescript("女")] FEMALE = 2
+         FEMALE = 2
     }
 
     /// <summary>
@@ -60,28 +58,28 @@ namespace OSS.Clients.Platform.WX.Base.Mos
         /// <summary>
         /// 临时二维码
         /// </summary>
-        [OSDescript("临时二维码")] QR_SCENE = 10,
+         QR_SCENE = 10,
 
         /// <summary>
         /// 永久二维码-值
         /// </summary>
 
-        [OSDescript("永久二维码-值")] QR_LIMIT_SCENE = 20,
+        QR_LIMIT_SCENE = 20,
 
         /// <summary>
         /// 永久二维码-字符
         /// </summary>
-        [OSDescript("永久二维码-字符")] QR_LIMIT_STR_SCENE = 21,
+         QR_LIMIT_STR_SCENE = 21,
 
         /// <summary>
         /// 卡券二维码
         /// </summary>
-        [OSDescript("卡券二维码")] QR_CARD = 30,
+         QR_CARD = 30,
 
         /// <summary>
         /// 卡券二维码（多）
         /// </summary>
-        [OSDescript("卡券二维码（多）")] QR_MULTIPLE_CARD = 31
+         QR_MULTIPLE_CARD = 31
 
     }
 
@@ -94,12 +92,12 @@ namespace OSS.Clients.Platform.WX.Base.Mos
         /// <summary>
         /// 卡券接口
         /// </summary>
-        [OSDescript("卡券接口")] wx_card = 10,
+       wx_card = 10,
 
         /// <summary>
         /// 正常js接口
         /// </summary>
-        [OSDescript("正常js接口")] jsapi = 20
+         jsapi = 20
     }
 
 }

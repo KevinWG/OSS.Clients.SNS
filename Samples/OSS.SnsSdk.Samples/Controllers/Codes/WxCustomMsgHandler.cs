@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using OSS.Clients.Chat.WX;
 using OSS.Clients.Chat.WX.Mos;
-using OSS.Common.BasicImpls;
 
 namespace OSS.Clients.SNS.Samples.Controllers.Codes
 {
     public class WXCustomMsgHandler: WXChatHandler
     {
-        public WXCustomMsgHandler(IMetaProvider<WXChatConfig> configProvider = null) : base(configProvider)
+        public WXCustomMsgHandler()
         {
         }
 

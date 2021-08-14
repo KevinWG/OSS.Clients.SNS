@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using OSS.Clients.Chat.WX;
 using OSS.Clients.Chat.WX.Mos;
-using OSS.Common.BasicImpls;
 using OSS.Tools.DirConfig;
 using OSS.Tools.Log;
 
@@ -11,7 +10,7 @@ namespace OSS.Clients.SNS.Samples.Controllers.Codes
     public class WXAgentHandler : WXChatBaseHandler
     {
         /// <inheritdoc />
-        public WXAgentHandler(IMetaProvider<WXChatConfig> configProvider = null) : base(configProvider)
+        public WXAgentHandler()
         {
         }
     

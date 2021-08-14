@@ -14,7 +14,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 using OSS.Common.BasicMos;
 using OSS.Tools.Http.Mos;
 using OSS.Clients.Platform.WX.Base;

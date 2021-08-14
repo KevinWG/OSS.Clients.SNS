@@ -11,7 +11,7 @@
 
 #endregion
 
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 
 namespace OSS.Clients.Platform.WX.Store.Mos
 {
@@ -23,25 +23,21 @@ namespace OSS.Clients.Platform.WX.Store.Mos
         /// <summary>
         ///  失败
         /// </summary>
-        [OSDescript("失败")]
         error = 1,
 
         /// <summary>
         ///  审核中
         /// </summary>
-        [OSDescript("审核中")]
         checking = 2,
 
         /// <summary>
         ///  通过
         /// </summary>
-        [OSDescript("通过")]
         pass = 3,
         
         /// <summary>
         ///  驳回
         /// </summary>
-        [OSDescript("驳回")]
         failed = 1
     }
 
@@ -53,13 +49,11 @@ namespace OSS.Clients.Platform.WX.Store.Mos
         /// <summary>
         ///  无
         /// </summary>
-        [OSDescript("可以更新")]
         done = 0,
 
         /// <summary>
         ///   正在更新
         /// </summary>
-        [OSDescript("更新中")]
         doing = 1
     }
     

@@ -46,7 +46,9 @@ namespace OSS.Clients.Oauth.WX
         public async Task<T> RestCommonJson<T>(OssHttpRequest request)
             where T : WXBaseResp, new()
         {
-            var response = await request.RestSend(WXOauthConfigProvider.ClientFactory?.Invoke());
+            var response = await(WXOauthConfigProvider.ClientFactory==null?
+                     request.RestSend()
+                     : WXOauthConfigProvider.ClientFactory().RestSend(request));
             using (response)
             {
                 if (!response.IsSuccessStatusCode)

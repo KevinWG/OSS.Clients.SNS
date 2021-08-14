@@ -20,7 +20,7 @@ using OSS.Clients.Platform.WX.Base.Mos;
 using OSS.Common.BasicImpls;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Platform.WX.Agent

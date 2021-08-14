@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OSS.Clients.Platform.WX.Assist.Mos;
 using OSS.Common.Encrypt;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Clients.Platform.WX.Base;

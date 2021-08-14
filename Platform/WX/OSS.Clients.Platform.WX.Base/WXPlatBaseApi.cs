@@ -100,7 +100,7 @@ namespace OSS.Clients.Platform.WX.Base
                 (appConfig.OperateMode == AppOperateMode.ByAgent ? "component_access_token=" : "access_token="),
                 tokenRes.data);
 
-            var resp = await req.RestSend(WXPlatConfigProvider.ClientFactory?.Invoke());
+            var resp = await (WXPlatConfigProvider.ClientFactory==null? req.RestSend(): WXPlatConfigProvider.ClientFactory().RestSend(req)) ;
             if (!resp.IsSuccessStatusCode)
                 return new WXFileResp() { ret = (int)RespTypes.ObjectStateError, msg = "当前请求失败！" };
 
@@ -146,7 +146,7 @@ namespace OSS.Clients.Platform.WX.Base
         protected static async Task<T> RestCommonJson<T>(OssHttpRequest request)
             where T : WXBaseResp, new()
         {
-            var resp = await request.RestSend(WXPlatConfigProvider.ClientFactory?.Invoke());
+            var resp = await (WXPlatConfigProvider.ClientFactory==null?request.RestSend(): WXPlatConfigProvider.ClientFactory().RestSend(request));
             if (!resp.IsSuccessStatusCode)
                 return new T()
                 {
