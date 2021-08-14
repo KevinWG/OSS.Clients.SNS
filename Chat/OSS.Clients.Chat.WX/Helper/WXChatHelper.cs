@@ -18,8 +18,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using OSS.Clients.Chat.WX.Mos;
+using OSS.Common;
 using OSS.Common.BasicMos.Resp;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 
 namespace OSS.Clients.Chat.WX.Helper
 {
@@ -44,10 +45,10 @@ namespace OSS.Clients.Chat.WX.Helper
         /// </summary>
         /// <returns></returns>
         internal static string GenerateSignature(string token,
-            string timestamp, string nonce,string strEncrptyMsg)
+            string timestamp, string nonce, string strEncrptyMsg)
         {
             var AL = new ArrayList {token, timestamp, nonce, strEncrptyMsg};
-            AL.Sort(new DictionarySort());
+            AL.Sort(SingleInstance<DictionarySort>.Instance);
 
             var raw = new StringBuilder();
             foreach (var t in AL)
@@ -55,14 +56,14 @@ namespace OSS.Clients.Chat.WX.Helper
                 raw.Append(t);
             }
 
-            SHA1 sha = new SHA1CryptoServiceProvider();
-            var  enc = new ASCIIEncoding();
+            using (SHA1 sha = new SHA1CryptoServiceProvider())
+            {
+                var dataToHash = Encoding.ASCII.GetBytes(raw.ToString());
+                var dataHashed = sha.ComputeHash(dataToHash);
 
-            var dataToHash = enc.GetBytes(raw.ToString());
-            var dataHashed = sha.ComputeHash(dataToHash);
-
-            return BitConverter.ToString(dataHashed).Replace("-", "").ToLower();
-        }
+                return BitConverter.ToString(dataHashed).Replace("-", "").ToLower();
+            }
+        } 
 
         /// <summary>
         ///  加密消息体

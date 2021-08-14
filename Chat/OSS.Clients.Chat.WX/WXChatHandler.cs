@@ -13,7 +13,7 @@
 
 using System.Threading.Tasks;
 using OSS.Clients.Chat.WX.Mos;
-using OSS.Common.BasicImpls;
+using OSS.Common;
 
 namespace OSS.Clients.Chat.WX
 {
@@ -25,12 +25,15 @@ namespace OSS.Clients.Chat.WX
         /// <summary>
         /// 构造函数
         /// </summary>
-        public WXChatHandler() : this(null)
+        public WXChatHandler() 
         {
         }
 
-        /// <inheritdoc />
-        public WXChatHandler(IMetaProvider<WXChatConfig> configProvider = null) : base(configProvider)
+        /// <summary>
+        ///   对话消息处理基类
+        /// </summary>
+        /// <param name="config"></param>
+        protected WXChatHandler(WXChatConfig config):base(config)
         {
         }
 

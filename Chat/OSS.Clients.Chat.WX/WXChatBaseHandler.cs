@@ -18,26 +18,35 @@ using System.Threading.Tasks;
 using System.Xml;
 using OSS.Clients.Chat.WX.Helper;
 using OSS.Clients.Chat.WX.Mos;
-using OSS.Common.BasicImpls;
+using OSS.Common;
 using OSS.Common.BasicMos.Resp;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 
 namespace OSS.Clients.Chat.WX
 {
     /// <summary>
     ///   消息处理的基类
     /// </summary>
-    public class WXChatBaseHandler: BaseMetaImpl<WXChatConfig>
+    public class WXChatBaseHandler//: BaseMetaImpl<WXChatConfig>
     {
-        /// <inheritdoc />
-        protected WXChatBaseHandler(IMetaProvider<WXChatConfig> configProvider=null):base(configProvider)
+        /// <summary>
+        /// 对话消息处理基类
+        /// </summary>
+        protected WXChatBaseHandler()
         {
         }
-        
+        /// <summary>
+        ///   对话消息处理基类
+        /// </summary>
+        /// <param name="config"></param>
+        protected WXChatBaseHandler(WXChatConfig config)
+        {
+            _config = config;
+        }
         #region 消息处理入口，出口（分为开始，处理，结束部分）
 
         /// <summary>
-        ///  服务器接入验证     
+        ///  服务器接入验证
         /// </summary>
         /// <returns></returns>
         public static StrResp CheckServerValid(WXChatConfig appConfig, string signature, string timestamp, string nonce, string echostr)
@@ -60,8 +69,7 @@ namespace OSS.Clients.Chat.WX
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public Task<StrResp> Process(Stream reqStream, string signature,string msg_signature, string timestamp, string nonce,
-            string echostr)
+        public Task<StrResp> Process(Stream reqStream, string signature,string msg_signature, string timestamp, string nonce, string echostr)
         {
             string contentXml;
             using (var reader = new StreamReader(reqStream))
@@ -87,12 +95,8 @@ namespace OSS.Clients.Chat.WX
             if (string.IsNullOrEmpty(contentXml)|| string.IsNullOrEmpty(signature)
                 || string.IsNullOrEmpty(timestamp) || string.IsNullOrEmpty(nonce))
                 return new StrResp().WithResp(RespTypes.ParaError,"消息相关参数错误！");
-            
-            var appConfigRes = await GetMeta();
-            if (!appConfigRes.IsSuccess())
-                return new StrResp().WithResp(appConfigRes);
-
-            var appConfig = appConfigRes.data;
+          
+            var appConfig = GetConfig();
 
             // 一.  检查是否是微信服务端首次地址配置验证
             if (!string.IsNullOrEmpty(echostr))
@@ -184,6 +188,7 @@ namespace OSS.Clients.Chat.WX
             IDictionary<string, string> recMsgDirs, BaseBaseProcessor processor)
         {
             var recMsg = processor.CreateRecMsg();
+            
             recMsg.LoadMsgDirs(recMsgDirs);
             recMsg.RecMsgXml = recMsgXml;
 
@@ -198,8 +203,7 @@ namespace OSS.Clients.Chat.WX
 
             return msgContext;
         }
-
-
+        
         #endregion
 
         #region  消息执行时生命周期的关键事件
@@ -246,10 +250,23 @@ namespace OSS.Clients.Chat.WX
         #endregion
 
 
+        private readonly WXChatConfig _config;
+
         /// <inheritdoc />
-        protected override WXChatConfig GetDefaultMeta()
+        protected virtual WXChatConfig GetConfig()
         {
-            return WXChatConfigProvider.DefaultConfig;
+            if (_config!=null)
+            {
+                return _config;
+            }
+
+            var config = WXChatConfigProvider.DefaultConfig;
+            if (config == null)
+            {
+                throw new ArgumentNullException($"配置信息为空，请通过 构造函数 或者 {nameof(WXChatConfigProvider.DefaultConfig)} 设置");
+            }
+
+            return config;
         }
     }
 }

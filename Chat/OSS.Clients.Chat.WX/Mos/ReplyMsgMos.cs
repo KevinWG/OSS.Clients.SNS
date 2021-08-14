@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using OSS.Common;
 
 namespace OSS.Clients.Chat.WX.Mos
 {
@@ -24,12 +25,13 @@ namespace OSS.Clients.Chat.WX.Mos
         /// <summary>
         ///  默认none对象
         /// </summary>
-        public static WXNoneReplyMsg None => new WXNoneReplyMsg();
+        public static WXNoneReplyMsg None => SingleInstance< WXNoneReplyMsg>.Instance;
 
         public WXNoneReplyMsg()
         {
             MsgType = string.Empty;
         }
+
         /// <summary>
         ///  缺省情况下直接回复 success
         /// </summary>

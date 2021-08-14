@@ -57,6 +57,7 @@ namespace OSS.Clients.Chat.WX
     {
         protected override Task<WXBaseReplyMsg> Execute(WXBaseRecMsg msg)
         {
+            // 统一交由后续拦截
             return Task.FromResult<WXBaseReplyMsg>(null);
         }
     }

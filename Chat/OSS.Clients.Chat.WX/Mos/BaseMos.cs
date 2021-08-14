@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 
 namespace OSS.Clients.Chat.WX.Mos
 {

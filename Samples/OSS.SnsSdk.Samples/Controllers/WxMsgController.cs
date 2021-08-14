@@ -21,15 +21,13 @@ namespace OSS.Clients.SNS.Samples.Controllers
 
         private static readonly WXCustomMsgHandler _msgService = new WXCustomMsgHandler();
 
-        #region  【A】 高级自定义方法实现
+
 
         static WXChatController()
         {
             WXChatConfigProvider.DefaultConfig = config;
         }
 
-
-        #endregion
 
         #region   微信消息接口模块
 

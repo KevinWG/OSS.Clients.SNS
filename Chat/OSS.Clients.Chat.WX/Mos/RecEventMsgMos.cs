@@ -11,7 +11,7 @@
 
 #endregion
 
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 
 namespace OSS.Clients.Chat.WX.Mos
 {
