@@ -13,6 +13,7 @@
 
 using System;
 using System.Threading.Tasks;
+using OSS.Clients.Chat.WX.Helper;
 using OSS.Clients.Chat.WX.Mos;
 
 namespace OSS.Clients.Chat.WX
@@ -58,7 +59,7 @@ namespace OSS.Clients.Chat.WX
         protected override Task<WXBaseReplyMsg> Execute(WXBaseRecMsg msg)
         {
             // 统一交由后续拦截
-            return Task.FromResult<WXBaseReplyMsg>(null);
+            return InterUtil.NullResult;
         }
     }
 
@@ -80,13 +81,13 @@ namespace OSS.Clients.Chat.WX
             return new TRecMsg();
         }
 
-        internal override async Task<WXBaseReplyMsg> InternalExecute(WXBaseRecMsg msg)
+        internal override Task<WXBaseReplyMsg> InternalExecute(WXBaseRecMsg msg)
         {
             if (ProcessFunc!=null)
             {
-                return await ProcessFunc.Invoke(msg as TRecMsg);
+                return ProcessFunc.Invoke(msg as TRecMsg);
             }
-            return null;
+            return InterUtil.NullResult;
         }
     }
 

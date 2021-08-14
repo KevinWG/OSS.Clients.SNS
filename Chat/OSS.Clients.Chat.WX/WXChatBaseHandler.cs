@@ -92,16 +92,18 @@ namespace OSS.Clients.Chat.WX
         public async Task<StrResp> Process(string contentXml, string signature, string msg_signature, string timestamp, string nonce,
             string echostr)
         {
-            if (string.IsNullOrEmpty(contentXml)|| string.IsNullOrEmpty(signature)
-                || string.IsNullOrEmpty(timestamp) || string.IsNullOrEmpty(nonce))
-                return new StrResp().WithResp(RespTypes.ParaError,"消息相关参数错误！");
-          
+            if ( string.IsNullOrEmpty(signature) || string.IsNullOrEmpty(timestamp) || string.IsNullOrEmpty(nonce))
+                return new StrResp().WithResp(RespTypes.ParaError, "消息相关参数错误！");
+
             var appConfig = GetConfig();
 
             // 一.  检查是否是微信服务端首次地址配置验证
             if (!string.IsNullOrEmpty(echostr))
-                return CheckServerValid(appConfig,signature, timestamp, nonce, echostr);
-            
+                return CheckServerValid(appConfig, signature, timestamp, nonce, echostr);
+
+            if (string.IsNullOrEmpty(contentXml))
+                return new StrResp().WithResp(RespTypes.ParaError,"消息相关参数错误！");
+          
             var checkRes = Prepare(appConfig, contentXml, signature, msg_signature, timestamp, nonce);
             if (!checkRes.IsSuccess())
                 return new StrResp().WithResp(checkRes); 
@@ -192,14 +194,17 @@ namespace OSS.Clients.Chat.WX
             recMsg.LoadMsgDirs(recMsgDirs);
             recMsg.RecMsgXml = recMsgXml;
 
-            var msgContext = new WXChatContext {RecMsg = recMsg, ReplyMsg = await processor.InternalExecute(recMsg)};
-
+            var msgContext = new WXChatContext {RecMsg = recMsg };
+            var pTask      = processor.InternalExecute(recMsg);
+            if (pTask !=null)
+                msgContext.ReplyMsg = await pTask;
+            
             if (msgContext.ReplyMsg == null)
                 msgContext.ReplyMsg =(await ProcessUnknowMsg(recMsg)) ?? WXNoneReplyMsg.None;
 
             msgContext.ReplyMsg.ToUserName = recMsg.FromUserName;
             msgContext.ReplyMsg.FromUserName = recMsg.ToUserName;
-            msgContext.ReplyMsg.CreateTime = DateTime.Now.ToLocalSeconds();
+            msgContext.ReplyMsg.CreateTime = DateTime.Now.ToUtcSeconds();
 
             return msgContext;
         }
@@ -214,7 +219,7 @@ namespace OSS.Clients.Chat.WX
         /// <returns></returns>
         protected virtual Task<WXBaseReplyMsg> ProcessUnknowMsg(WXBaseRecMsg msg)
         {
-            return Task.FromResult<WXBaseReplyMsg>(null);
+            return InterUtil.NullResult;
         }
 
         /// <summary>

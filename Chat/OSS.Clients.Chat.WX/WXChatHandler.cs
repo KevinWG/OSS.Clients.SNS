@@ -12,6 +12,7 @@
 #endregion
 
 using System.Threading.Tasks;
+using OSS.Clients.Chat.WX.Helper;
 using OSS.Clients.Chat.WX.Mos;
 using OSS.Common;
 
@@ -62,7 +63,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessVoiceMsg(WXVoiceRecMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessVideoMsg(WXVideoRecMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
         /// <summary>
@@ -78,7 +79,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessShortVideoMsg(WXVideoRecMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
         /// <summary>
@@ -86,7 +87,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessLocationMsg(WXLocationRecMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
         /// <summary>
@@ -94,7 +95,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessLinkMsg(WXLinkRecMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
 
@@ -107,7 +108,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessSubscribeEventMsg(WXSubScanRecEventMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
         /// <summary>
@@ -115,7 +116,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessUnsubscribeEventMsg(WXSubScanRecEventMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessScanEventMsg(WXSubScanRecEventMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
         /// <summary>
@@ -132,7 +133,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessLocationEventMsg(WXLocationRecEventMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
         /// <summary>
@@ -140,7 +141,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessClickEventMsg(WXClickRecEventMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
         /// <summary>
@@ -148,7 +149,7 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         protected virtual Task<WXBaseReplyMsg> ProcessViewEventMsg(WXViewRecEventMsg msg)
         {
-            return null;
+            return InterUtil.NullResult;
         }
 
         #endregion
