@@ -2,27 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageProjectUrl>https://github.com/KevinWG/OSS.Clients.SNS</PackageProjectUrl>
-    <PackageIcon>logo.png</PackageIcon>
-    <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
-    <Authors>OSSCore</Authors>
-    <Description>微信公众号接口底层类库</Description>
-    <Version>1.1</Version>
-    <PackageReleaseNotes>底层配置处理方式修改</PackageReleaseNotes>
+    <Version>2.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>\OSS.Clients.Platform.WX.Base.xml</DocumentationFile>
+    <DocumentationFile>.\bin\OSS.Clients.Platform.WX.Base.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="OSS.Common" Version="2.5.3.2" />
-    <PackageReference Include="OSS.Tools.Http" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="OSS.Common" Version="2.5.5.8" />
+    <PackageReference Include="OSS.Tools.Cache" Version="1.4.0" />
+    <PackageReference Include="OSS.Tools.Http" Version="2.3.4.1" />
   </ItemGroup>
-
   <ItemGroup>
-    <None Include="..\..\..\logo.png">
+    <None Include="..\..\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
