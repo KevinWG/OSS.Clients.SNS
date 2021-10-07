@@ -17,7 +17,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace OSS.Clients.Chat.WX.Helper
+namespace OSS.Clients.Msg.Wechat.Helper
 {
     class Cryptography
     {

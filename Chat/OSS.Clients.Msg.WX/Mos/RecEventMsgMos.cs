@@ -13,12 +13,12 @@
 
 using OSS.Common.Extension;
 
-namespace OSS.Clients.Chat.WX.Mos
+namespace OSS.Clients.Msg.Wechat
 {
     /// <summary>
     /// 关注/取消关注/扫描带参数二维码事件
     /// </summary>
-    public class WXSubScanRecEventMsg : WXBaseRecEventMsg
+    public class WechatSubScanRecEventMsg : WechatBaseRecEventMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -43,7 +43,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 上报地理位置事件
     /// </summary>
-    public class WXLocationRecEventMsg : WXBaseRecEventMsg
+    public class WechatLocationRecEventMsg : WechatBaseRecEventMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -76,7 +76,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 点击菜单拉取消息时的事件推送
     /// </summary>
-    public class WXClickRecEventMsg : WXBaseRecEventMsg
+    public class WechatClickRecEventMsg : WechatBaseRecEventMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -97,7 +97,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 点击菜单跳转链接时的事件推送 
     /// </summary>
-    public class WXViewRecEventMsg : WXBaseRecEventMsg
+    public class WechatViewRecEventMsg : WechatBaseRecEventMsg
     {
         /// <summary>
         /// 格式化自身属性部分

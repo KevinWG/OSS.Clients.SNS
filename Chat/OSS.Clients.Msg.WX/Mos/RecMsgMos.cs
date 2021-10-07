@@ -13,12 +13,12 @@
 
 using OSS.Common.Extension;
 
-namespace OSS.Clients.Chat.WX.Mos
+namespace OSS.Clients.Msg.Wechat
 {
     /// <summary>
     /// 文本消息
     /// </summary>
-    public class WXTextRecMsg : WXBaseRecMsg
+    public class WechatTextRecMsg : WechatBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -37,7 +37,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 图片消息
     /// </summary>
-    public class WXImageRecMsg : WXBaseRecMsg
+    public class WechatImageRecMsg : WechatBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -64,7 +64,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 语音消息
     /// </summary>
-    public class WXVoiceRecMsg : WXBaseRecMsg
+    public class WechatVoiceRecMsg : WechatBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -96,7 +96,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 视频/小视频消息
     /// </summary>
-    public class WXVideoRecMsg : WXBaseRecMsg
+    public class WechatVideoRecMsg : WechatBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -123,7 +123,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 地理位置消息
     /// </summary>
-    public class WXLocationRecMsg : WXBaseRecMsg
+    public class WechatLocationRecMsg : WechatBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分
@@ -162,7 +162,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 链接消息
     /// </summary>
-    public class WXLinkRecMsg : WXBaseRecMsg
+    public class WechatLinkRecMsg : WechatBaseRecMsg
     {
         /// <summary>
         /// 格式化自身属性部分

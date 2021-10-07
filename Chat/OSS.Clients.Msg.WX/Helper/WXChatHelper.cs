@@ -17,14 +17,13 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using OSS.Clients.Chat.WX.Mos;
 using OSS.Common;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extension;
 
-namespace OSS.Clients.Chat.WX.Helper
+namespace OSS.Clients.Msg.Wechat.Helper
 {
-    internal static class WXChatHelper
+    internal static class WechatChatHelper
     {
         #region   消息内容加解密辅助方法
 
@@ -71,7 +70,7 @@ namespace OSS.Clients.Chat.WX.Helper
         /// <param name="sReplyMsg"></param>
         /// <param name="config"></param>
         /// <returns></returns>
-        internal static StrResp EncryptMsg(string sReplyMsg, WXChatConfig config)
+        internal static StrResp EncryptMsg(string sReplyMsg, WechatMsgConfig config)
         {
             string encryptMsg;
             try

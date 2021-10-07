@@ -17,12 +17,12 @@ using System.Text;
 using System.Xml;
 using OSS.Common.Extension;
 
-namespace OSS.Clients.Chat.WX.Mos
+namespace OSS.Clients.Msg.Wechat
 {
     /// <summary>
     ///  基础消息实体
     /// </summary>
-    public abstract class WXBaseMsg
+    public abstract class WechatBaseMsg
     {
         /// <summary>
         /// 接收方帐号  
@@ -49,7 +49,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 基础接收消息实体
     /// </summary>
-    public class WXBaseRecMsg : WXBaseMsg
+    public class WechatBaseRecMsg : WechatBaseMsg
     {
         private IDictionary<string, string> m_PropertyDirs;
         
@@ -106,7 +106,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 基础事件接收消息实体
     /// </summary>
-    public class WXBaseRecEventMsg : WXBaseRecMsg
+    public class WechatBaseRecEventMsg : WechatBaseRecMsg
     {
         /// <summary>
         /// 事件类型
@@ -127,7 +127,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 被动回复
     /// </summary>
-    public class WXBaseReplyMsg : WXBaseMsg
+    public class WechatBaseReplyMsg : WechatBaseMsg
     {
         
         private IDictionary<string, object> _propertyList;
@@ -219,17 +219,17 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 当前请求的上下文
     /// </summary>
-    public class WXChatContext
+    public class WechatChatContext
     {
         /// <summary>
         /// 接收内容
         /// </summary>
-        public WXBaseRecMsg RecMsg { get; set; }
+        public WechatBaseRecMsg RecMsg { get; set; }
 
         /// <summary>
         /// 被动回复内容
         /// </summary>
-        public WXBaseReplyMsg ReplyMsg { get; internal set; }
+        public WechatBaseReplyMsg ReplyMsg { get; internal set; }
 
     }
 }

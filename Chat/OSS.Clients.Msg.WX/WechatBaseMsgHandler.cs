@@ -16,44 +16,47 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
-using OSS.Clients.Chat.WX.Helper;
-using OSS.Clients.Chat.WX.Mos;
+using OSS.Clients.Msg.Wechat.Helper;
 using OSS.Common;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extension;
 
-namespace OSS.Clients.Chat.WX
+namespace OSS.Clients.Msg.Wechat
 {
     /// <summary>
     ///   消息处理的基类
     /// </summary>
-    public class WXChatBaseHandler//: BaseMetaImpl<WXChatConfig>
+    public class WechatBaseMsgHandler //: BaseMetaImpl<WechatChatConfig>
     {
         /// <summary>
         /// 对话消息处理基类
         /// </summary>
-        protected WXChatBaseHandler()
+        protected WechatBaseMsgHandler()
         {
         }
+
         /// <summary>
         ///   对话消息处理基类
         /// </summary>
         /// <param name="config"></param>
-        protected WXChatBaseHandler(WXChatConfig config)
+        protected WechatBaseMsgHandler(WechatMsgConfig config)
         {
             _config = config;
         }
+
         #region 消息处理入口，出口（分为开始，处理，结束部分）
 
         /// <summary>
         ///  服务器接入验证
         /// </summary>
         /// <returns></returns>
-        public static StrResp CheckServerValid(WXChatConfig appConfig, string signature, string timestamp, string nonce, string echostr)
+        public static StrResp CheckServerValid(WechatMsgConfig appConfig, string signature, string timestamp,
+            string nonce, string echostr)
         {
-            var checkSignRes = WXChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce,string.Empty);
+            var checkSignRes =
+                WechatChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce, string.Empty);
 
-            var resultRes =new StrResp().WithResp(checkSignRes);// checkSignRes.ConvertToResult<string>();
+            var resultRes = new StrResp().WithResp(checkSignRes); // checkSignRes.ConvertToResult<string>();
             resultRes.data = resultRes.IsSuccess() ? echostr : string.Empty;
 
             return resultRes;
@@ -69,14 +72,16 @@ namespace OSS.Clients.Chat.WX
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public Task<StrResp> Process(Stream reqStream, string signature,string msg_signature, string timestamp, string nonce, string echostr)
+        public Task<StrResp> Process(Stream reqStream, string signature, string msg_signature, string timestamp,
+            string nonce, string echostr)
         {
             string contentXml;
             using (var reader = new StreamReader(reqStream))
             {
                 contentXml = reader.ReadToEnd();
             }
-            return Process(contentXml, signature,msg_signature, timestamp, nonce, echostr);
+
+            return Process(contentXml, signature, msg_signature, timestamp, nonce, echostr);
         }
 
         /// <summary>
@@ -89,10 +94,11 @@ namespace OSS.Clients.Chat.WX
         /// <param name="nonce">随机字符创</param>
         /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public async Task<StrResp> Process(string contentXml, string signature, string msg_signature, string timestamp, string nonce,
+        public async Task<StrResp> Process(string contentXml, string signature, string msg_signature, string timestamp,
+            string nonce,
             string echostr)
         {
-            if ( string.IsNullOrEmpty(signature) || string.IsNullOrEmpty(timestamp) || string.IsNullOrEmpty(nonce))
+            if (string.IsNullOrEmpty(signature) || string.IsNullOrEmpty(timestamp) || string.IsNullOrEmpty(nonce))
                 return new StrResp().WithResp(RespTypes.ParaError, "消息相关参数错误！");
 
             var appConfig = GetConfig();
@@ -102,22 +108,23 @@ namespace OSS.Clients.Chat.WX
                 return CheckServerValid(appConfig, signature, timestamp, nonce, echostr);
 
             if (string.IsNullOrEmpty(contentXml))
-                return new StrResp().WithResp(RespTypes.ParaError,"消息相关参数错误！");
-          
+                return new StrResp().WithResp(RespTypes.ParaError, "消息相关参数错误！");
+
             var checkRes = Prepare(appConfig, contentXml, signature, msg_signature, timestamp, nonce);
             if (!checkRes.IsSuccess())
-                return new StrResp().WithResp(checkRes); 
+                return new StrResp().WithResp(checkRes);
 
-            var contextRes =await Processing(checkRes.data);
+            var contextRes = await Processing(checkRes.data);
             if (!contextRes.IsSuccess())
                 return new StrResp().WithResp(contextRes);
 
             var resultString = contextRes.data.ReplyMsg.ToReplyXml();
-            if (appConfig.SecurityType != WXSecurityType.None &&
+            if (appConfig.SecurityType != WechatSecurityType.None &&
                 !string.IsNullOrEmpty(contextRes.data.ReplyMsg.MsgType))
             {
-                return WXChatHelper.EncryptMsg(resultString, appConfig);
+                return WechatChatHelper.EncryptMsg(resultString, appConfig);
             }
+
             return new StrResp(resultString);
         }
 
@@ -127,16 +134,16 @@ namespace OSS.Clients.Chat.WX
         /// </summary>
         /// <param name="recMsgXml">传入消息的xml</param>
         /// <returns></returns>
-        protected virtual async Task<Resp<WXChatContext>> Processing(string recMsgXml)
+        protected virtual async Task<Resp<WechatChatContext>> Processing(string recMsgXml)
         {
-            var recMsgDirs = WXChatHelper.ChangXmlToDir(recMsgXml, out var xmlDoc);
+            var recMsgDirs = WechatChatHelper.ChangXmlToDir(recMsgXml, out var xmlDoc);
             recMsgDirs.TryGetValue("MsgType", out var msgType);
             string eventName = null;
 
             if (msgType == "event")
             {
                 if (!recMsgDirs.TryGetValue("Event", out eventName))
-                    return new Resp<WXChatContext>().WithResp(RespTypes.ParaError, "事件消息数据中未发现 事件类型（Event）字段！");
+                    return new Resp<WechatChatContext>().WithResp(RespTypes.ParaError, "事件消息数据中未发现 事件类型（Event）字段！");
             }
 
             var processor = GetInternalMsgProcessor(msgType, eventName)
@@ -144,39 +151,41 @@ namespace OSS.Clients.Chat.WX
 
             var context = await (processor != null
                 ? ExecuteProcessor(xmlDoc, recMsgDirs, processor)
-                : ExecuteProcessor(xmlDoc, recMsgDirs, SingleInstance<InternalWXChatProcessor>.Instance));
+                : ExecuteProcessor(xmlDoc, recMsgDirs, SingleInstance<InternalWechatChatProcessor>.Instance));
 
             await ExecuteEnd(context);
 
-            return new Resp<WXChatContext>(context);
+            return new Resp<WechatChatContext>(context);
         }
 
         /// <summary>
         /// 核心执行 过程的  验签和解密
         /// </summary>
         /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        private static StrResp Prepare(WXChatConfig appConfig, string recXml, string signature, string msg_signature,
+        private static StrResp Prepare(WechatMsgConfig appConfig, string recXml, string signature, string msg_signature,
             string timestamp, string nonce)
         {
-            var isEncryptMsg = appConfig.SecurityType == WXSecurityType.Safe;
+            var isEncryptMsg = appConfig.SecurityType == WechatSecurityType.Safe;
             if (!isEncryptMsg)
             {
-                var resCheck = WXChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce, String.Empty);
+                var resCheck =
+                    WechatChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce, String.Empty);
                 return !resCheck.IsSuccess() ? new StrResp().WithResp(resCheck) : new StrResp(recXml);
             }
 
             if (string.IsNullOrEmpty(msg_signature))
                 return new StrResp().WithResp(RespTypes.ParaError, "msg_signature 消息体验证签名参数为空！");
 
-            var xmlDoc = WXChatHelper.GetXmlDocment(recXml);
-            var encryStr= xmlDoc?.FirstChild["Encrypt"]?.InnerText;
+            var xmlDoc   = WechatChatHelper.GetXmlDocment(recXml);
+            var encryStr = xmlDoc?.FirstChild["Encrypt"]?.InnerText;
 
-            if ( string.IsNullOrEmpty(encryStr))
+            if (string.IsNullOrEmpty(encryStr))
                 return new StrResp().WithResp(RespTypes.ObjectNull, "安全接口的加密字段为空！");
 
-            var cryptMsgCheck = WXChatHelper.CheckSignature(appConfig.Token, msg_signature, timestamp, nonce, encryStr);
+            var cryptMsgCheck =
+                WechatChatHelper.CheckSignature(appConfig.Token, msg_signature, timestamp, nonce, encryStr);
             if (!cryptMsgCheck.IsSuccess())
-               return new StrResp().WithResp(cryptMsgCheck);
+                return new StrResp().WithResp(cryptMsgCheck);
 
             var recMsgXml = Cryptography.AESDecrypt(encryStr, appConfig.EncodingAesKey);
             return new StrResp(recMsgXml);
@@ -186,38 +195,38 @@ namespace OSS.Clients.Chat.WX
         ///  执行具体消息处理委托
         /// </summary>
         /// <returns></returns>
-        private async Task<WXChatContext> ExecuteProcessor(XmlDocument recMsgXml,
+        private async Task<WechatChatContext> ExecuteProcessor(XmlDocument recMsgXml,
             IDictionary<string, string> recMsgDirs, BaseBaseProcessor processor)
         {
             var recMsg = processor.CreateRecMsg();
-            
+
             recMsg.LoadMsgDirs(recMsgDirs);
             recMsg.RecMsgXml = recMsgXml;
 
-            var msgContext = new WXChatContext {RecMsg = recMsg };
+            var msgContext = new WechatChatContext {RecMsg = recMsg};
             var pTask      = processor.InternalExecute(recMsg);
-            if (pTask !=null)
+            if (pTask != null)
                 msgContext.ReplyMsg = await pTask;
-            
-            if (msgContext.ReplyMsg == null)
-                msgContext.ReplyMsg =(await ProcessUnknowMsg(recMsg)) ?? WXNoneReplyMsg.None;
 
-            msgContext.ReplyMsg.ToUserName = recMsg.FromUserName;
+            if (msgContext.ReplyMsg == null)
+                msgContext.ReplyMsg = (await ProcessUnknowMsg(recMsg)) ?? WechatNoneReplyMsg.None;
+
+            msgContext.ReplyMsg.ToUserName   = recMsg.FromUserName;
             msgContext.ReplyMsg.FromUserName = recMsg.ToUserName;
-            msgContext.ReplyMsg.CreateTime = DateTime.Now.ToUtcSeconds();
+            msgContext.ReplyMsg.CreateTime   = DateTime.Now.ToUtcSeconds();
 
             return msgContext;
         }
-        
+
         #endregion
 
-        #region  消息执行时生命周期的关键事件
+        #region 消息执行时生命周期的关键事件
 
         /// <summary>
         ///   执行处理未知消息
         /// </summary>
         /// <returns></returns>
-        protected virtual Task<WXBaseReplyMsg> ProcessUnknowMsg(WXBaseRecMsg msg)
+        protected virtual Task<WechatBaseReplyMsg> ProcessUnknowMsg(WechatBaseRecMsg msg)
         {
             return InterUtil.NullResult;
         }
@@ -226,23 +235,25 @@ namespace OSS.Clients.Chat.WX
         ///  执行结束方法
         /// </summary>
         /// <param name="msgContext"></param>
-        protected virtual Task ExecuteEnd(WXChatContext msgContext)
+        protected virtual Task ExecuteEnd(WechatChatContext msgContext)
         {
             return Task.CompletedTask;
         }
 
         #endregion
 
-        #region  获取 Processor
+        #region 获取 Processor
+
         /// <summary>
         ///  获取消息处理Processor
-        ///   【返回对象需继承：WXChatProcessor&lt;TRecMsg&gt;】
+        ///   【返回对象需继承：WechatChatProcessor&lt;TRecMsg&gt;】
         /// </summary>
         /// <param name="msgType">消息类型</param>
         /// <param name="eventName">事件名称</param>
         /// <param name="msgInfo">对应消息的键值对</param>
-        /// <returns>WXChatProcessor&lt;TRecMsg&gt;或其子类，如果没有定义对应的消息类型，返回Null即可</returns>
-        protected virtual BaseBaseProcessor GetCustomProcessor(string msgType, string eventName, IDictionary<string, string> msgInfo)
+        /// <returns>WechatChatProcessor&lt;TRecMsg&gt;或其子类，如果没有定义对应的消息类型，返回Null即可</returns>
+        protected virtual BaseBaseProcessor GetCustomProcessor(string msgType, string eventName,
+            IDictionary<string, string> msgInfo)
         {
             return null;
         }
@@ -255,20 +266,20 @@ namespace OSS.Clients.Chat.WX
         #endregion
 
 
-        private readonly WXChatConfig _config;
+        private readonly WechatMsgConfig _config;
 
         /// <inheritdoc />
-        protected virtual WXChatConfig GetConfig()
+        protected virtual WechatMsgConfig GetConfig()
         {
-            if (_config!=null)
+            if (_config != null)
             {
                 return _config;
             }
 
-            var config = WXChatConfigProvider.DefaultConfig;
+            var config = WechatMsgHelper.DefaultConfig;
             if (config == null)
             {
-                throw new ArgumentNullException($"配置信息为空，请通过 构造函数 或者 {nameof(WXChatConfigProvider.DefaultConfig)} 设置");
+                throw new ArgumentNullException($"配置信息为空，请通过 构造函数 或者 {nameof(WechatMsgHelper.DefaultConfig)} 设置");
             }
 
             return config;

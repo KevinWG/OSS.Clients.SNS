@@ -13,50 +13,49 @@
 
 using System;
 using System.Threading.Tasks;
-using OSS.Clients.Chat.WX.Helper;
-using OSS.Clients.Chat.WX.Mos;
+using OSS.Clients.Msg.Wechat.Helper;
 
-namespace OSS.Clients.Chat.WX
+namespace OSS.Clients.Msg.Wechat
 {
     /// <summary>
     ///  消息处理最底层基类
     /// </summary>
     public abstract class BaseBaseProcessor
     {
-        internal abstract WXBaseRecMsg CreateRecMsg();
+        internal abstract WechatBaseRecMsg CreateRecMsg();
 
-        internal abstract Task<WXBaseReplyMsg> InternalExecute(WXBaseRecMsg msg);
+        internal abstract Task<WechatBaseReplyMsg> InternalExecute(WechatBaseRecMsg msg);
     }
 
     /// <summary>
     /// 消息处理基类
     /// </summary>
     /// <typeparam name="TRecMsg">接收消息类型</typeparam>
-    public abstract class WXChatBaseProcessor<TRecMsg> : BaseBaseProcessor
-        where TRecMsg : WXBaseRecMsg, new()
+    public abstract class WechatBaseMsgProcessor<TRecMsg> : BaseBaseProcessor
+        where TRecMsg : WechatBaseRecMsg, new()
     {
         /// <summary>
         ///  消息执行方法
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        protected abstract Task<WXBaseReplyMsg> Execute(TRecMsg msg);
+        protected abstract Task<WechatBaseReplyMsg> Execute(TRecMsg msg);
 
-        internal override WXBaseRecMsg CreateRecMsg()
+        internal override WechatBaseRecMsg CreateRecMsg()
         {
             return new TRecMsg();
         }
 
-        internal override async Task<WXBaseReplyMsg> InternalExecute(WXBaseRecMsg msg)
+        internal override async Task<WechatBaseReplyMsg> InternalExecute(WechatBaseRecMsg msg)
         {
             var  replyMsg= await Execute(msg as TRecMsg);
             return replyMsg;
         }
     }
 
-    internal class InternalWXChatProcessor : WXChatBaseProcessor<WXBaseRecMsg>
+    internal class InternalWechatChatProcessor : WechatBaseMsgProcessor<WechatBaseRecMsg>
     {
-        protected override Task<WXBaseReplyMsg> Execute(WXBaseRecMsg msg)
+        protected override Task<WechatBaseReplyMsg> Execute(WechatBaseRecMsg msg)
         {
             // 统一交由后续拦截
             return InterUtil.NullResult;
@@ -68,20 +67,20 @@ namespace OSS.Clients.Chat.WX
     ///   内部自定义消息类型处理Processor
     /// </summary>
     /// <typeparam name="TRecMsg"></typeparam>
-    internal class InternalWXChatProcessor<TRecMsg> : BaseBaseProcessor
-        where TRecMsg : WXBaseRecMsg, new()
+    internal class InternalWechatChatProcessor<TRecMsg> : BaseBaseProcessor
+        where TRecMsg : WechatBaseRecMsg, new()
     {
         /// <summary>
         /// 处理方法实现
         /// </summary>
-        internal Func<TRecMsg, Task<WXBaseReplyMsg>> ProcessFunc {private get; set; }
+        internal Func<TRecMsg, Task<WechatBaseReplyMsg>> ProcessFunc {private get; set; }
 
-        internal override WXBaseRecMsg CreateRecMsg()
+        internal override WechatBaseRecMsg CreateRecMsg()
         {
             return new TRecMsg();
         }
 
-        internal override Task<WXBaseReplyMsg> InternalExecute(WXBaseRecMsg msg)
+        internal override Task<WechatBaseReplyMsg> InternalExecute(WechatBaseRecMsg msg)
         {
             if (ProcessFunc!=null)
             {

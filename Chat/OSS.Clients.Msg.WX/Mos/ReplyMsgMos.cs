@@ -15,19 +15,19 @@ using System;
 using System.Collections.Generic;
 using OSS.Common;
 
-namespace OSS.Clients.Chat.WX.Mos
+namespace OSS.Clients.Msg.Wechat
 {
     /// <summary>
     /// 无回复信息
     /// </summary>
-    public class WXNoneReplyMsg : WXBaseReplyMsg
+    public class WechatNoneReplyMsg : WechatBaseReplyMsg
     {
         /// <summary>
         ///  默认none对象
         /// </summary>
-        public static WXNoneReplyMsg None => SingleInstance< WXNoneReplyMsg>.Instance;
+        public static WechatNoneReplyMsg None => SingleInstance< WechatNoneReplyMsg>.Instance;
 
-        public WXNoneReplyMsg()
+        public WechatNoneReplyMsg()
         {
             MsgType = string.Empty;
         }
@@ -41,9 +41,9 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 回复文本消息
     /// </summary>
-    public class WXTextReplyMsg : WXBaseReplyMsg
+    public class WechatTextReplyMsg : WechatBaseReplyMsg
     {
-        public WXTextReplyMsg()
+        public WechatTextReplyMsg()
         {
             MsgType = "text";
         }
@@ -62,10 +62,10 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 回复图片消息
     /// </summary>
-    public class WXImageReplyMsg : WXBaseReplyMsg
+    public class WechatImageReplyMsg : WechatBaseReplyMsg
     {
         /// <inheritdoc />
-        public WXImageReplyMsg()
+        public WechatImageReplyMsg()
         {
             MsgType = "image";
         }
@@ -87,9 +87,9 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 回复语音消息
     /// </summary>
-    public class WXVoiceReplyMsg : WXBaseReplyMsg
+    public class WechatVoiceReplyMsg : WechatBaseReplyMsg
     {
-        public WXVoiceReplyMsg()
+        public WechatVoiceReplyMsg()
         {
             MsgType = "voice";
         }
@@ -114,9 +114,9 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 回复视频消息
     /// </summary>
-    public class WXVideoReplyMsg : WXBaseReplyMsg
+    public class WechatVideoReplyMsg : WechatBaseReplyMsg
     {
-        public WXVideoReplyMsg()
+        public WechatVideoReplyMsg()
         {
             MsgType = "video";
         }
@@ -153,9 +153,9 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 回复音乐消息
     /// </summary>
-    public class WXMusicReplyMsg : WXBaseReplyMsg
+    public class WechatMusicReplyMsg : WechatBaseReplyMsg
     {
-        public WXMusicReplyMsg()
+        public WechatMusicReplyMsg()
         {
             MsgType = "music";
         }
@@ -204,10 +204,10 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 回复图文消息
     /// </summary>
-    public class WXNewsReplyMsg : WXBaseReplyMsg
+    public class WechatNewsReplyMsg : WechatBaseReplyMsg
     {
         /// <inheritdoc />
-        public WXNewsReplyMsg()
+        public WechatNewsReplyMsg()
         {
             MsgType = "news";
         }
@@ -215,7 +215,7 @@ namespace OSS.Clients.Chat.WX.Mos
         /// <summary>
         /// 图文列表
         /// </summary>
-        public List<WXArticleItem> Items { get; set; }
+        public List<WechatArticleItem> Items { get; set; }
 
         /// <inheritdoc />
         protected override void SetValueToXml()
@@ -251,7 +251,7 @@ namespace OSS.Clients.Chat.WX.Mos
     /// <summary>
     /// 文章内容
     /// </summary>
-    public class WXArticleItem
+    public class WechatArticleItem
     {
         /// <summary>
         /// 图文消息标题

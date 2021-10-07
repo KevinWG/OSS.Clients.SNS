@@ -12,18 +12,16 @@
 
 #endregion
 
-using OSS.Clients.Chat.WX.Mos;
-
-namespace OSS.Clients.Chat.WX
+namespace OSS.Clients.Msg.Wechat
 {
     /// <summary>
     ///  用户自定义消息处理句柄
     /// </summary>
-    public static class WXChatConfigProvider
+    public static class WechatMsgHelper
     {
         /// <summary>
         /// 默认的配置AppKey信息
         /// </summary>
-        public static WXChatConfig DefaultConfig { get; set; }
+        public static WechatMsgConfig DefaultConfig { get; set; }
     }
 }
