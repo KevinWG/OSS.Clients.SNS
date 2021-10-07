@@ -39,9 +39,8 @@ namespace OSS.Clients.Platform.WX
         /// 获取请求地址
         /// </summary>
         /// <returns></returns>
-        protected internal abstract string GetApiPath();
-
-    
+        public abstract string GetApiPath();
+        
 
         protected override void OnSending(HttpRequestMessage httpRequestMessage)
         {
@@ -66,10 +65,10 @@ namespace OSS.Clients.Platform.WX
     ///  附带AccessToken的请求
     /// </summary>
     /// <typeparam name="TRes"></typeparam>
-    public abstract class WechatAccessTokenReq<TRes> : WechatBaseReq<TRes>
+    public abstract class WechatBaseTokenReq<TRes> : WechatBaseReq<TRes>
         where TRes : WechatBaseResp, new()
     {
-        protected WechatAccessTokenReq(HttpMethod method) : base(method)
+        protected WechatBaseTokenReq(HttpMethod method) : base(method)
         {
         }
     }
@@ -78,10 +77,10 @@ namespace OSS.Clients.Platform.WX
     ///  附带AccessToken的请求
     /// </summary>
     /// <typeparam name="TRes"></typeparam>
-    public abstract class WechatComponentAccessTokenReq<TRes> : WechatBaseReq<TRes>
+    public abstract class WechatBaseComponentTokenReq<TRes> : WechatBaseReq<TRes>
         where TRes : WechatBaseResp, new()
     {
-        protected WechatComponentAccessTokenReq(HttpMethod method) : base(method)
+        protected WechatBaseComponentTokenReq(HttpMethod method) : base(method)
         {
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using OSS.Common.BasicMos;
 
-namespace OSS.Clients.Platform.WX.Base.Reqs
+namespace OSS.Clients.Platform.WX
 {
     public class WechatAccessTokenReq:WechatBaseReq<WechatAccessTokenResp>
     {

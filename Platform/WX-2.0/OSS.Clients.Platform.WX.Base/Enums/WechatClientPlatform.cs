@@ -3,7 +3,7 @@
     /// <summary>
     ///  系统类型
     /// </summary>
-    public enum WXClientPlatform
+    public enum WechatClientPlatform
     {
         /// <summary>
         /// 

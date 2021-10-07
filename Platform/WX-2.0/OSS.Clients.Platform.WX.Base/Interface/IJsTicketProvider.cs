@@ -12,6 +12,6 @@ namespace OSS.Clients.Platform.WX
         /// <summary>
         ///   JSTicket统一管理接口
         /// </summary>
-        Task<StrResp> GetJsTicket(IAppSecret config, WXJsTicketType type);
+        Task<StrResp> GetJsTicket(IAppSecret config, WechatJsTicketType type);
     }
 }

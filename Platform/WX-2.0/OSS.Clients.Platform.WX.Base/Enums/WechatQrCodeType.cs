@@ -3,7 +3,7 @@
     /// <summary>
     /// 二维码类型枚举
     /// </summary>
-    public enum WXQrCodeType
+    public enum WechatQrCodeType
     {
         /// <summary>
         /// 临时二维码

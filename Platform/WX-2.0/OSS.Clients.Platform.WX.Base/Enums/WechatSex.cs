@@ -3,7 +3,7 @@
     /// <summary>
     /// 微信性别枚举
     /// </summary>
-    public enum WXSex
+    public enum WechatSex
     {
         /// <summary>
         ///   男

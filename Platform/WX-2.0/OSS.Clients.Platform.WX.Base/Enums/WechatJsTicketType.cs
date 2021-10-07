@@ -16,7 +16,7 @@ namespace OSS.Clients.Platform.WX
     /// <summary>
     ///  jsticket 类型
     /// </summary>
-    public enum WXJsTicketType
+    public enum WechatJsTicketType
     {
         /// <summary>
         /// 卡券接口

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using OSS.Clients.Platform.WX.Base.Interface.Impls;
-using OSS.Common;
 using OSS.Common.BasicMos;
 
 namespace OSS.Clients.Platform.WX
@@ -26,24 +25,26 @@ namespace OSS.Clients.Platform.WX
 
 
 
+
+
         /// <summary>
         ///  自定义获取 access_token 接口实现
         ///     默认实现通过 OSS.Tools.Cache 缓存，并在过期前自动更新
         /// </summary>
         public static IAccessTokenProvider AccessTokenProvider { get; set; } = new InterAccessTokenProvider();
-        
+
 
         /// <summary>
         ///  自定义获取 js_ticket 接口实现
         ///  默认实现通过 OSS.Tools.Cache 缓存，并在过期前自动更新
         /// </summary>
-        public static IJsTicketProvider JsTicketProvider { get; set; }
+        public static IJsTicketProvider JsTicketProvider { get; set; } = new InterJsTicketProvider();
 
-        /// <summary>
-        ///   自定义获取 component_access_token 接口实现
-        ///  默认实现通过 OSS.Tools.Cache 缓存，并在过期前自动更新
-        /// </summary>
-        public static IComponentAccessTokenProvider ComponentAccessTokenProvider { get; set; }
+        ///// <summary>
+        /////   自定义获取 component_access_token 接口实现
+        /////  默认实现通过 OSS.Tools.Cache 缓存，并在过期前自动更新
+        ///// </summary>
+        //public static IComponentAccessTokenProvider ComponentAccessTokenProvider { get; set; }
 
     }
 
