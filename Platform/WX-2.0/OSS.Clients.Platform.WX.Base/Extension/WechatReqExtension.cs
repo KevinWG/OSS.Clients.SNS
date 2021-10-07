@@ -8,13 +8,16 @@ using Newtonsoft.Json;
 
 namespace OSS.Clients.Platform.WX
 {
+    /// <summary>
+    ///  请求扩展方法
+    /// </summary>
     public static class WechatReqExtension
     {
         /// <summary>
         ///  设置当前请求对应的秘钥配置信息
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="payConfig"></param>
+        /// <param name="appConfig"></param>
         /// <returns></returns>
         public static TReq SetContextConfig<TReq>(this TReq req, IAppSecret appConfig)
             where TReq : WechatBaseReq
@@ -59,7 +62,6 @@ namespace OSS.Clients.Platform.WX
         /// 发送接口请求
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="funcFormat"></param>
         /// <returns></returns>
         public static Task<TResp> SendAsync<TResp>(this WechatBaseTokenReq<TResp> req)
             where TResp : WechatBaseResp, new()
@@ -73,8 +75,7 @@ namespace OSS.Clients.Platform.WX
         /// <param name="req"></param>
         /// <param name="funcFormat"></param>
         /// <returns></returns>
-        public static async Task<TResp> SendAsync<TResp>(this WechatBaseTokenReq<TResp> req,
-            Func<HttpResponseMessage, Task<TResp>> funcFormat)
+        public static async Task<TResp> SendAsync<TResp>(this WechatBaseTokenReq<TResp> req, Func<HttpResponseMessage, Task<TResp>> funcFormat)
             where TResp : WechatBaseResp, new()
         {
             if (req.app_config == null)
@@ -106,22 +107,17 @@ namespace OSS.Clients.Platform.WX
         /// 发送接口请求
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="funcFormat"></param>
         /// <returns></returns>
         public static Task<TResp> SendAsync<TResp>(this WechatBaseReq<TResp> req)
             where TResp : WechatBaseResp, new()
         {
-            if (req.app_config == null)
-            {
-                throw new NotImplementedException("微信接口请求配置信息为空，请设置!");
-            }
-
-            req.address_url = string.Concat(WechatPlatformHelper.ApiHost, req.GetApiPath());
             return SendAsync(req, JsonFormat<TResp>);
         }
 
         #endregion
 
+        #region 辅助方法
+        
         /// <summary>
         /// 发送接口请求
         /// </summary>
@@ -134,6 +130,13 @@ namespace OSS.Clients.Platform.WX
         {
             if (funcFormat == null)
                 throw new ArgumentNullException(nameof(funcFormat), "接口响应格式化方法不能为空!");
+
+            if (req.app_config == null)
+            {
+                throw new NotImplementedException("微信接口请求配置信息为空，请设置!");
+            }
+
+            req.address_url = string.Concat(WechatPlatformHelper.ApiHost, req.GetApiPath());
 
             var client = WechatPlatformHelper.HttpClientProvider?.Invoke();
             var resp   = await (client == null ? ((OssHttpRequest) req).SendAsync() : client.SendAsync(req));
@@ -158,5 +161,7 @@ namespace OSS.Clients.Platform.WX
                 ? new T().WithResp(SysRespTypes.NetworkError, $"微信接口返回空信息({resp.ReasonPhrase})")
                 : JsonConvert.DeserializeObject<T>(content);
         }
+
+        #endregion
     }
 }
