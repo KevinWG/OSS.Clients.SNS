@@ -16,7 +16,6 @@ namespace OSS.Clients.Platform.WX
         /// 接口请求
         /// </summary>
         /// <param name="method">请求方法</param>
-        /// <param name="apiRoute">接口路由地址</param>
         protected WechatBaseReq(HttpMethod method)
         {
             http_method = method;

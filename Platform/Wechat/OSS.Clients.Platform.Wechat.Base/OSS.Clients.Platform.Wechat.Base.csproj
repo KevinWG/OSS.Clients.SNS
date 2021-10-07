@@ -15,11 +15,5 @@
     <PackageReference Include="OSS.Tools.Cache" Version="1.4.0" />
     <PackageReference Include="OSS.Tools.Http" Version="2.3.4.1" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\logo.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
 
 </Project>

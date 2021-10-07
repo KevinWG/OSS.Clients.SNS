@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Clients.Platform.Wehat", "Wechat\OSS.Clients.Platform.Wechat\OSS.Clients.Platform.Wehat.csproj", "{B7625CA0-7B60-441D-A930-477E65550951}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Clients.Platform.Wechat.Base", "Wechat\OSS.Clients.Platform.Wechat.Base\OSS.Clients.Platform.Wechat.Base.csproj", "{4ED15509-8376-4BED-AE09-CE382F792145}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7625CA0-7B60-441D-A930-477E65550951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7625CA0-7B60-441D-A930-477E65550951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7625CA0-7B60-441D-A930-477E65550951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7625CA0-7B60-441D-A930-477E65550951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ED15509-8376-4BED-AE09-CE382F792145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ED15509-8376-4BED-AE09-CE382F792145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ED15509-8376-4BED-AE09-CE382F792145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ED15509-8376-4BED-AE09-CE382F792145}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F74D9B5-6809-4D57-AA82-B2202E2CC620}
+	EndGlobalSection
+EndGlobal
