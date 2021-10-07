@@ -25,34 +25,34 @@ namespace OSS.Clients.Platform.WX
 
         #region 附带token请求
 
-        /// <summary>
-        /// 发送接口请求
-        /// </summary>
-        /// <param name="req"></param>
-        /// <param name="funcFormat"></param>
-        /// <returns></returns>
-        public static async Task<TResp> SendAsync<TResp>(this WechatBaseComponentTokenReq<TResp> req)
-            where TResp : WechatBaseResp, new()
-        {
-            if (req.app_config == null)
-                throw new NotImplementedException("微信接口请求配置信息为空，请设置!");
+        ///// <summary>
+        ///// 发送接口请求
+        ///// </summary>
+        ///// <param name="req"></param>
+        ///// <param name="funcFormat"></param>
+        ///// <returns></returns>
+        //public static async Task<TResp> SendAsync<TResp>(this WechatBaseComponentTokenReq<TResp> req)
+        //    where TResp : WechatBaseResp, new()
+        //{
+        //    if (req.app_config == null)
+        //        throw new NotImplementedException("微信接口请求配置信息为空，请设置!");
 
-            var apiPath = req.GetApiPath();
+        //    var apiPath = req.GetApiPath();
 
-            var accessTokenRes =
-                await WechatPlatformHelper.ComponentAccessTokenProvider.GetComponentAccessToken(req.app_config);
-            if (!accessTokenRes.IsSuccess())
-                return new TResp().WithResp(accessTokenRes);
+        //    var accessTokenRes =
+        //        await WechatPlatformHelper.ComponentAccessTokenProvider.GetComponentAccessToken(req.app_config);
+        //    if (!accessTokenRes.IsSuccess())
+        //        return new TResp().WithResp(accessTokenRes);
 
-            var accessToken = accessTokenRes.data;
-            if (string.IsNullOrEmpty(accessToken))
-                return new TResp().WithResp(RespTypes.OperateFailed, "未能获取有效ComponentAccessToken！");
+        //    var accessToken = accessTokenRes.data;
+        //    if (string.IsNullOrEmpty(accessToken))
+        //        return new TResp().WithResp(RespTypes.OperateFailed, "未能获取有效ComponentAccessToken！");
 
-            req.address_url = string.Concat(WechatPlatformHelper.ApiHost, apiPath,
-                (apiPath.IndexOf('?') > 0 ? "&" : "?"), "component_access_token=", accessToken);
+        //    req.address_url = string.Concat(WechatPlatformHelper.ApiHost, apiPath,
+        //        (apiPath.IndexOf('?') > 0 ? "&" : "?"), "component_access_token=", accessToken);
 
-            return await SendAsync(req, JsonFormat<TResp>);
-        }
+        //    return await SendAsync(req, JsonFormat<TResp>);
+        //}
 
 
         /// <summary>

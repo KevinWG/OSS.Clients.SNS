@@ -2,7 +2,6 @@
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using System.Threading.Tasks;
-using OSS.Clients.Platform.WX.Base.Reqs;
 using OSS.Tools.Cache;
 
 namespace OSS.Clients.Platform.WX.Base.Interface.Impls

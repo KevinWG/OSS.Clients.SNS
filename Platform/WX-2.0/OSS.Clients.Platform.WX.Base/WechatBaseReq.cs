@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
@@ -47,8 +48,11 @@ namespace OSS.Clients.Platform.WX
             httpRequestMessage.Headers.Add("Accept", "application/json");
             if (http_method != HttpMethod.Get && httpRequestMessage.Content != null)
             {
-                httpRequestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json")
-                    {CharSet = "UTF-8"};
+                if (file_paras==null||!file_paras.Any())
+                {
+                    httpRequestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json")
+                        { CharSet = "UTF-8" };
+                }
             }
         }
     }
@@ -73,17 +77,17 @@ namespace OSS.Clients.Platform.WX
         }
     }
 
-    /// <summary>
-    ///  附带AccessToken的请求
-    /// </summary>
-    /// <typeparam name="TRes"></typeparam>
-    public abstract class WechatBaseComponentTokenReq<TRes> : WechatBaseReq<TRes>
-        where TRes : WechatBaseResp, new()
-    {
-        protected WechatBaseComponentTokenReq(HttpMethod method) : base(method)
-        {
-        }
-    }
+    ///// <summary>
+    /////  附带 ComponentAccessToken 的请求
+    ///// </summary>
+    ///// <typeparam name="TRes"></typeparam>
+    //public abstract class WechatBaseComponentTokenReq<TRes> : WechatBaseReq<TRes>
+    //    where TRes : WechatBaseResp, new()
+    //{
+    //    protected WechatBaseComponentTokenReq(HttpMethod method) : base(method)
+    //    {
+    //    }
+    //}
 
 
 

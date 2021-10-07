@@ -11,7 +11,7 @@ namespace OSS.Clients.Platform.WX
             m_appConfig = appconfig;
         }
 
-        protected internal override string GetApiPath()
+        public override string GetApiPath()
         {
             return
                 $"/cgi-bin/token?grant_type=client_credential&appid={m_appConfig.app_id}&secret={m_appConfig.app_secret}";
