@@ -5,12 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="OSS.Common" Version="2.5.5.8" />
+    <PackageReference Include="OSS.Tools.Cache" Version="1.4.0" />
     <PackageReference Include="OSS.Tools.Http" Version="2.3.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interface\Impls\" />
   </ItemGroup>
 
 </Project>

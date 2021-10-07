@@ -12,6 +12,6 @@ namespace OSS.Clients.Platform.WX
         /// <summary>
         ///  自定义获取 component_access_token 实现方法
         /// </summary>
-        Task<StrResp> GetAccessTokenByAgentProxy(IAppSecret config);
+        Task<StrResp> GetComponentAccessToken(IAppSecret config);
     }
 }

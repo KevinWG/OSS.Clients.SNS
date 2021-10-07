@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Net.Http.Headers;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Tools.Http;
@@ -20,28 +21,71 @@ namespace OSS.Clients.Platform.WX
             http_method = method;
         }
 
-        #region 应用秘钥配置信息
+        #region 秘钥配置信息
 
+        private IAppSecret _appConfig;
         /// <summary>
-        ///  公众号/小程序 应用秘钥配置信息
+        ///  秘钥配置信息
         /// </summary>
-        public IAppSecret app_config { get; internal set; }
+        public IAppSecret app_config
+        {
+            get { return _appConfig ?? WechatPlatformHelper.DefaultAppSecret;}
+            internal set { _appConfig = value; }
+        }
 
         #endregion
 
+        /// <summary>
+        /// 获取请求地址
+        /// </summary>
+        /// <returns></returns>
+        protected internal abstract string GetApiPath();
 
-        protected abstract string GetApiUrl();
-
-        protected override void PrepareSend()
-        {
-            
-        }
+    
 
         protected override void OnSending(HttpRequestMessage httpRequestMessage)
         {
-            base.OnSending(httpRequestMessage);
+            httpRequestMessage.Headers.Add("Accept", "application/json");
+            if (http_method != HttpMethod.Get && httpRequestMessage.Content != null)
+            {
+                httpRequestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json")
+                    {CharSet = "UTF-8"};
+            }
         }
     }
+
+    public abstract class WechatBaseReq<TRes> : WechatBaseReq
+        where TRes : WechatBaseResp, new()
+    {
+        protected WechatBaseReq(HttpMethod method) : base(method)
+        {
+        }
+    }
+
+    /// <summary>
+    ///  附带AccessToken的请求
+    /// </summary>
+    /// <typeparam name="TRes"></typeparam>
+    public abstract class WechatAccessTokenReq<TRes> : WechatBaseReq<TRes>
+        where TRes : WechatBaseResp, new()
+    {
+        protected WechatAccessTokenReq(HttpMethod method) : base(method)
+        {
+        }
+    }
+
+    /// <summary>
+    ///  附带AccessToken的请求
+    /// </summary>
+    /// <typeparam name="TRes"></typeparam>
+    public abstract class WechatComponentAccessTokenReq<TRes> : WechatBaseReq<TRes>
+        where TRes : WechatBaseResp, new()
+    {
+        protected WechatComponentAccessTokenReq(HttpMethod method) : base(method)
+        {
+        }
+    }
+
 
 
     /// <summary>
@@ -72,7 +116,7 @@ namespace OSS.Clients.Platform.WX
         /// </summary>
         public string errmsg
         {
-            get { return msg;}
+            get { return msg; }
             set { msg = value; }
         }
     }
