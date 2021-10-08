@@ -13,10 +13,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
 using OSS.Clients.Msg.Wechat.Helper;
+using OSS.Clients.Msg.Wechat.Mos;
 using OSS.Common;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extension;
@@ -35,82 +35,44 @@ namespace OSS.Clients.Msg.Wechat
         {
         }
 
-        /// <summary>
-        ///   对话消息处理基类
-        /// </summary>
-        /// <param name="config"></param>
-        protected WechatBaseMsgHandler(WechatMsgConfig config)
-        {
-            _config = config;
-        }
-
         #region 消息处理入口，出口（分为开始，处理，结束部分）
 
         /// <summary>
         ///  服务器接入验证
         /// </summary>
         /// <returns></returns>
-        public static StrResp CheckServerValid(WechatMsgConfig appConfig, string signature, string timestamp,
-            string nonce, string echostr)
+        public static StrResp CheckServerValid(WechatMsgConfig appConfig, RequestPara reqBody)
         {
             var checkSignRes =
-                WechatChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce, string.Empty);
+                WechatChatHelper.CheckSignature(appConfig.Token, reqBody.signature, reqBody.timestamp, reqBody.nonce, string.Empty);
 
             var resultRes = new StrResp().WithResp(checkSignRes); // checkSignRes.ConvertToResult<string>();
-            resultRes.data = resultRes.IsSuccess() ? echostr : string.Empty;
+            resultRes.data = resultRes.IsSuccess() ? reqBody.echostr : string.Empty;
 
             return resultRes;
         }
 
-        /// <summary>
-        ///    消息处理入口
-        /// </summary>
-        /// <param name="reqStream">内容的数据流</param>
-        /// <param name="signature">签名信息</param>
-        /// <param name="msg_signature">消息体签名</param>
-        /// <param name="timestamp">时间戳</param>
-        /// <param name="nonce">随机字符创</param>
-        /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
-        /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public Task<StrResp> Process(Stream reqStream, string signature, string msg_signature, string timestamp,
-            string nonce, string echostr)
-        {
-            string contentXml;
-            using (var reader = new StreamReader(reqStream))
-            {
-                contentXml = reader.ReadToEnd();
-            }
-
-            return Process(contentXml, signature, msg_signature, timestamp, nonce, echostr);
-        }
 
         /// <summary>
         /// 消息处理入口
         /// </summary>
-        /// <param name="contentXml">内容信息</param>
-        /// <param name="signature">签名信息，请注意不是[msg_signature]</param>
-        /// <param name="msg_signature">消息体签名</param>
-        /// <param name="timestamp">时间戳</param>
-        /// <param name="nonce">随机字符创</param>
-        /// <param name="echostr">验证服务器参数，如果存在则只进行签名验证，并将在结果data中返回</param>
+        /// <param name="reqBody">请求参数信息</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public async Task<StrResp> Process(string contentXml, string signature, string msg_signature, string timestamp,
-            string nonce,
-            string echostr)
+        public async Task<StrResp> Process(RequestPara reqBody)
         {
-            if (string.IsNullOrEmpty(signature) || string.IsNullOrEmpty(timestamp) || string.IsNullOrEmpty(nonce))
+            if (string.IsNullOrEmpty(reqBody.signature) || string.IsNullOrEmpty(reqBody.timestamp) || string.IsNullOrEmpty(reqBody.nonce))
                 return new StrResp().WithResp(RespTypes.ParaError, "消息相关参数错误！");
 
-            var appConfig = GetConfig();
+            var appConfig = GetConfig(reqBody.app_id);
 
             // 一.  检查是否是微信服务端首次地址配置验证
-            if (!string.IsNullOrEmpty(echostr))
-                return CheckServerValid(appConfig, signature, timestamp, nonce, echostr);
+            if (!string.IsNullOrEmpty(reqBody.echostr))
+                return CheckServerValid(appConfig, reqBody);
 
-            if (string.IsNullOrEmpty(contentXml))
+            if (string.IsNullOrEmpty(reqBody.body))
                 return new StrResp().WithResp(RespTypes.ParaError, "消息相关参数错误！");
 
-            var checkRes = Prepare(appConfig, contentXml, signature, msg_signature, timestamp, nonce);
+            var checkRes = Prepare(appConfig, reqBody);
             if (!checkRes.IsSuccess())
                 return new StrResp().WithResp(checkRes);
 
@@ -153,7 +115,7 @@ namespace OSS.Clients.Msg.Wechat
                 ? ExecuteProcessor(xmlDoc, recMsgDirs, processor)
                 : ExecuteProcessor(xmlDoc, recMsgDirs, SingleInstance<InternalWechatChatProcessor>.Instance));
 
-            await ExecuteEnd(context);
+            await ProcessEnd(context);
 
             return new Resp<WechatChatContext>(context);
         }
@@ -162,28 +124,27 @@ namespace OSS.Clients.Msg.Wechat
         /// 核心执行 过程的  验签和解密
         /// </summary>
         /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        private static StrResp Prepare(WechatMsgConfig appConfig, string recXml, string signature, string msg_signature,
-            string timestamp, string nonce)
+        private static StrResp Prepare(WechatMsgConfig appConfig, RequestPara reqBody)
         {
             var isEncryptMsg = appConfig.SecurityType == WechatSecurityType.Safe;
             if (!isEncryptMsg)
             {
                 var resCheck =
-                    WechatChatHelper.CheckSignature(appConfig.Token, signature, timestamp, nonce, String.Empty);
-                return !resCheck.IsSuccess() ? new StrResp().WithResp(resCheck) : new StrResp(recXml);
+                    WechatChatHelper.CheckSignature(appConfig.Token, reqBody.signature, reqBody.timestamp, reqBody.nonce, string.Empty);
+                return !resCheck.IsSuccess() ? new StrResp().WithResp(resCheck) : new StrResp(reqBody.body);
             }
 
-            if (string.IsNullOrEmpty(msg_signature))
+            if (string.IsNullOrEmpty(reqBody.msg_signature))
                 return new StrResp().WithResp(RespTypes.ParaError, "msg_signature 消息体验证签名参数为空！");
 
-            var xmlDoc   = WechatChatHelper.GetXmlDocment(recXml);
+            var xmlDoc   = WechatChatHelper.GetXmlDocment(reqBody.body);
             var encryStr = xmlDoc?.FirstChild["Encrypt"]?.InnerText;
 
             if (string.IsNullOrEmpty(encryStr))
                 return new StrResp().WithResp(RespTypes.ObjectNull, "安全接口的加密字段为空！");
 
             var cryptMsgCheck =
-                WechatChatHelper.CheckSignature(appConfig.Token, msg_signature, timestamp, nonce, encryStr);
+                WechatChatHelper.CheckSignature(appConfig.Token, reqBody.msg_signature, reqBody.timestamp, reqBody.nonce, encryStr);
             if (!cryptMsgCheck.IsSuccess())
                 return new StrResp().WithResp(cryptMsgCheck);
 
@@ -235,7 +196,7 @@ namespace OSS.Clients.Msg.Wechat
         ///  执行结束方法
         /// </summary>
         /// <param name="msgContext"></param>
-        protected virtual Task ExecuteEnd(WechatChatContext msgContext)
+        protected virtual Task ProcessEnd(WechatChatContext msgContext)
         {
             return Task.CompletedTask;
         }
@@ -265,23 +226,14 @@ namespace OSS.Clients.Msg.Wechat
 
         #endregion
 
-
-        private readonly WechatMsgConfig _config;
-
         /// <inheritdoc />
-        protected virtual WechatMsgConfig GetConfig()
+        protected virtual WechatMsgConfig GetConfig(string appId)
         {
-            if (_config != null)
-            {
-                return _config;
-            }
-
             var config = WechatMsgHelper.DefaultConfig;
             if (config == null)
             {
-                throw new ArgumentNullException($"配置信息为空，请通过 构造函数 或者 {nameof(WechatMsgHelper.DefaultConfig)} 设置");
+                throw new ArgumentNullException($"配置信息为空，请通过 {nameof(WechatMsgHelper.DefaultConfig)} 设置");
             }
-
             return config;
         }
     }

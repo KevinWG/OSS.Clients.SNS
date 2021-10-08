@@ -29,13 +29,6 @@ namespace OSS.Clients.Msg.Wechat
         {
         }
 
-        /// <summary>
-        ///   对话消息处理基类
-        /// </summary>
-        /// <param name="config"></param>
-        protected WechatMsgHandler(WechatMsgConfig config):base(config)
-        {
-        }
 
         #region   基础消息的事件列表
 
