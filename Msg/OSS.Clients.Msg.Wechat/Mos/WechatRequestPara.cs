@@ -5,7 +5,7 @@ namespace OSS.Clients.Msg.Wechat.Mos
     /// <summary>
     ///  接口请求的消息体
     /// </summary>
-    public class RequestPara
+    public class WechatRequestPara
     {
         /// <summary>
         ///  消息主体

@@ -8,7 +8,7 @@
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
     <Authors>OSSCore</Authors>
     <Company>OSSCore</Company>
-    <Version>2.1</Version>
+    <Version>2.1.1</Version>
     <PackageReleaseNotes>优化参数入口</PackageReleaseNotes>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>

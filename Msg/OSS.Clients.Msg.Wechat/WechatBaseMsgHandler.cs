@@ -41,7 +41,7 @@ namespace OSS.Clients.Msg.Wechat
         ///  服务器接入验证
         /// </summary>
         /// <returns></returns>
-        public static StrResp CheckServerValid(WechatMsgConfig appConfig, RequestPara reqBody)
+        public static StrResp CheckServerValid(WechatMsgConfig appConfig, WechatRequestPara reqBody)
         {
             var checkSignRes =
                 WechatChatHelper.CheckSignature(appConfig.Token, reqBody.signature, reqBody.timestamp, reqBody.nonce, string.Empty);
@@ -58,7 +58,7 @@ namespace OSS.Clients.Msg.Wechat
         /// </summary>
         /// <param name="reqBody">请求参数信息</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public async Task<StrResp> Process(RequestPara reqBody)
+        public async Task<StrResp> Process(WechatRequestPara reqBody)
         {
             if (string.IsNullOrEmpty(reqBody.signature) || string.IsNullOrEmpty(reqBody.timestamp) || string.IsNullOrEmpty(reqBody.nonce))
                 return new StrResp().WithResp(RespTypes.ParaError, "消息相关参数错误！");
@@ -124,7 +124,7 @@ namespace OSS.Clients.Msg.Wechat
         /// 核心执行 过程的  验签和解密
         /// </summary>
         /// <returns>验证结果及相应的消息内容体 （如果加密模式，返回的是解密后的明文）</returns>
-        private static StrResp Prepare(WechatMsgConfig appConfig, RequestPara reqBody)
+        private static StrResp Prepare(WechatMsgConfig appConfig, WechatRequestPara reqBody)
         {
             var isEncryptMsg = appConfig.SecurityType == WechatSecurityType.Safe;
             if (!isEncryptMsg)
