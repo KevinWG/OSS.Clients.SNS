@@ -1,9 +1,22 @@
-﻿using System;
+﻿#region Copyright (C) 2017 Kevin (OSS开源实验室) 公众号：osscore
+
+/***************************************************************************
+*　　	文件功能描述：微信公众号接口
+*
+*　　	创建人： Kevin
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2017-2-5
+*       
+*****************************************************************************/
+
+#endregion
+
+using System;
 using System.Net.Http;
-using OSS.Clients.Platform.WX.Base.Interface.Impls;
+using OSS.Clients.Platform.Wechat.Base.Interface.Impls;
 using OSS.Common.BasicMos;
 
-namespace OSS.Clients.Platform.WX
+namespace OSS.Clients.Platform.Wechat
 {
     public static class WechatPlatformHelper
     {

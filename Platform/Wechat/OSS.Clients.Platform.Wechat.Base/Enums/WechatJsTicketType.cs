@@ -11,7 +11,7 @@
 
 #endregion
 
-namespace OSS.Clients.Platform.WX
+namespace OSS.Clients.Platform.Wechat
 {
     /// <summary>
     ///  jsticket 类型
