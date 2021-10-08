@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml;
 using OSS.Clients.Msg.Wechat.Helper;
-using OSS.Clients.Msg.Wechat.Mos;
 using OSS.Common;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extension;
