@@ -46,7 +46,7 @@ namespace OSS.Clients.MApp.Wechat
         /// <param name="req"></param>
         /// <param name="formator">HttpResponseMessage 响应格式化提供者</param>
         /// <returns></returns>
-        public static async Task<TResp> SendAsync<TResp>(this WechatMAppBaseReq<TResp> req,Func<HttpResponseMessage,Task<TResp>> formator)
+        private static async Task<TResp> SendAsync<TResp>(WechatMAppBaseReq<TResp> req,Func<HttpResponseMessage,Task<TResp>> formator)
             where TResp : WechatMAppBaseResp, new()
         {
             if (formator == null)
