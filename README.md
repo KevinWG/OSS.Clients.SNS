@@ -12,7 +12,7 @@
     
 二. **会话消息模块**   (msg)
 
-    nuget下安装命令：**Install-Package OSS.Clients.Chat.WX**
+    nuget下安装命令：**Install-Package OSS.Clients.Msg.Wechat**
 
 会话管理，接收用户的会话信息，以及对应的响应
 
