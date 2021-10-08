@@ -31,7 +31,7 @@ namespace OSS.Clients.Platform.Wechat.Base.Interface.Impls
             if (accessTokenRes != null)
                 return new StrResp(accessTokenRes.access_token);
 
-            accessTokenRes = await new WechatAccessTokenReq(config).SendAsync();
+            accessTokenRes = await new WechatAccessTokenReq(config).ExecuteAsync();
             if (!accessTokenRes.IsSuccess())
                 return new StrResp().WithResp(accessTokenRes);
 

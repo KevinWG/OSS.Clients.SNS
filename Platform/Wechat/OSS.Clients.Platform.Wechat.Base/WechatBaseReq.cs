@@ -53,8 +53,9 @@ namespace OSS.Clients.Platform.Wechat
         /// </summary>
         /// <returns></returns>
         public abstract string GetApiPath();
-        
 
+
+        /// <inheritdoc />
         protected override void OnSending(HttpRequestMessage httpRequestMessage)
         {
             httpRequestMessage.Headers.Add("Accept", "application/json");
@@ -69,9 +70,14 @@ namespace OSS.Clients.Platform.Wechat
         }
     }
 
+    /// <summary>
+    ///   微信请求基类
+    /// </summary>
+    /// <typeparam name="TRes"></typeparam>
     public abstract class WechatBaseReq<TRes> : WechatBaseReq
         where TRes : WechatBaseResp, new()
     {
+        /// <inheritdoc />
         protected WechatBaseReq(HttpMethod method) : base(method)
         {
         }
@@ -84,24 +90,11 @@ namespace OSS.Clients.Platform.Wechat
     public abstract class WechatBaseTokenReq<TRes> : WechatBaseReq<TRes>
         where TRes : WechatBaseResp, new()
     {
+        /// <inheritdoc />
         protected WechatBaseTokenReq(HttpMethod method) : base(method)
         {
         }
     }
-
-    ///// <summary>
-    /////  附带 ComponentAccessToken 的请求
-    ///// </summary>
-    ///// <typeparam name="TRes"></typeparam>
-    //public abstract class WechatBaseComponentTokenReq<TRes> : WechatBaseReq<TRes>
-    //    where TRes : WechatBaseResp, new()
-    //{
-    //    protected WechatBaseComponentTokenReq(HttpMethod method) : base(method)
-    //    {
-    //    }
-    //}
-
-
 
     /// <summary>
     /// 接口返回基础实例

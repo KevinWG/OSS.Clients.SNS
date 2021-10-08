@@ -35,11 +35,7 @@ namespace OSS.Clients.Platform.Wechat
         /// </summary>
         public static Func<HttpClient> HttpClientProvider { get; set; }
 
-
-
-
-
-
+        
         /// <summary>
         ///  自定义获取 access_token 接口实现
         ///     默认实现通过 OSS.Tools.Cache 缓存，并在过期前自动更新

@@ -76,10 +76,10 @@ namespace OSS.Clients.Platform.Wechat
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public static Task<TResp> SendAsync<TResp>(this WechatBaseTokenReq<TResp> req)
+        public static Task<TResp> ExecuteAsync<TResp>(this WechatBaseTokenReq<TResp> req)
             where TResp : WechatBaseResp, new()
         {
-            return SendAsync(req, JsonFormat<TResp>);
+            return ExecuteAsync(req, JsonFormat<TResp>);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace OSS.Clients.Platform.Wechat
         /// <param name="req"></param>
         /// <param name="funcFormat"></param>
         /// <returns></returns>
-        public static async Task<TResp> SendAsync<TResp>(this WechatBaseTokenReq<TResp> req, Func<HttpResponseMessage, Task<TResp>> funcFormat)
+        public static async Task<TResp> ExecuteAsync<TResp>(this WechatBaseTokenReq<TResp> req, Func<HttpResponseMessage, Task<TResp>> funcFormat)
             where TResp : WechatBaseResp, new()
         {
             if (req.app_config == null)
@@ -121,10 +121,10 @@ namespace OSS.Clients.Platform.Wechat
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public static Task<TResp> SendAsync<TResp>(this WechatBaseReq<TResp> req)
+        public static Task<TResp> ExecuteAsync<TResp>(this WechatBaseReq<TResp> req)
             where TResp : WechatBaseResp, new()
         {
-            return SendAsync(req, JsonFormat<TResp>);
+            return SendAsync(req, JsonFormat<TResp>); 
         }
 
         #endregion

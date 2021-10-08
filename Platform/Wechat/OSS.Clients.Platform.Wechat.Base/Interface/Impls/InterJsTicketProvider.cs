@@ -33,7 +33,7 @@ namespace OSS.Clients.Platform.Wechat.Base.Interface.Impls
 
             jsTicketRes = await new WechatJsTicketReq(type)
                 .SetContextConfig(config)
-                .SendAsync();
+                .ExecuteAsync();
 
             if (!jsTicketRes.IsSuccess())
                 return new StrResp().WithResp(jsTicketRes);
