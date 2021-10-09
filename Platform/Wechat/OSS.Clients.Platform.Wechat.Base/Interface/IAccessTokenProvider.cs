@@ -12,7 +12,6 @@
 #endregion
 using OSS.Common.BasicMos.Resp;
 using System.Threading.Tasks;
-using OSS.Common.BasicMos;
 
 namespace OSS.Clients.Platform.Wechat
 {
@@ -24,6 +23,6 @@ namespace OSS.Clients.Platform.Wechat
         /// <summary>
         ///   自定义获取 access_token 实现方法
         /// </summary>
-        Task<StrResp> GetAccessToken(IAppSecret config);
+        Task<StrResp> GetAccessToken(WechatBaseReq req);
     }
 }

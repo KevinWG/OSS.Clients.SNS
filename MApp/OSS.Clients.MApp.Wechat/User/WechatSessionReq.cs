@@ -1,8 +1,9 @@
 ﻿using System.Net.Http;
+using OSS.Clients.Platform.Wechat;
 
 namespace OSS.Clients.MApp.Wechat
 {
-    public class WechatSessionReq : WechatMAppBaseReq<WechatSessionResp>
+    public class WechatSessionReq : WechatBaseReq<WechatSessionResp>
     {
         public WechatSessionReq(string jsCode) : base(HttpMethod.Get)
         {
@@ -17,7 +18,7 @@ namespace OSS.Clients.MApp.Wechat
         }
     }
 
-    public class WechatSessionResp:WechatMAppBaseResp
+    public class WechatSessionResp:WechatBaseResp
     {
         /// <summary>
         ///string 用户唯一标识

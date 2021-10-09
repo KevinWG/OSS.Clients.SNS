@@ -73,10 +73,11 @@ namespace OSS.Clients.Platform.Wechat
 
         /// <summary>
         /// 发送接口请求
+        ///   注： 使用internal内部限定，减少外部引用时命名空间的引入
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public static Task<TResp> ExecuteAsync<TResp>(this WechatBaseTokenReq<TResp> req)
+        internal static Task<TResp> ExecuteAsync<TResp>(this WechatBaseTokenReq<TResp> req)
             where TResp : WechatBaseResp, new()
         {
             return ExecuteAsync(req, JsonFormat<TResp>);
@@ -84,18 +85,17 @@ namespace OSS.Clients.Platform.Wechat
 
         /// <summary>
         /// 发送接口请求
+        /// 注： 使用internal内部限定，减少外部引用时命名空间的引入
         /// </summary>
         /// <param name="req"></param>
         /// <param name="funcFormat"></param>
         /// <returns></returns>
-        public static async Task<TResp> ExecuteAsync<TResp>(this WechatBaseTokenReq<TResp> req, Func<HttpResponseMessage, Task<TResp>> funcFormat)
+        internal static async Task<TResp> ExecuteAsync<TResp>(this WechatBaseTokenReq<TResp> req, Func<HttpResponseMessage, Task<TResp>> funcFormat)
             where TResp : WechatBaseResp, new()
         {
             if (req.app_config == null)
-            {
                 throw new NotImplementedException("微信接口请求配置信息为空，请设置!");
-            }
-
+            
             var apiPath = req.GetApiPath();
 
             var accessTokenRes = await WechatPlatformHelper.AccessTokenProvider.GetAccessToken(req.app_config);
@@ -118,12 +118,14 @@ namespace OSS.Clients.Platform.Wechat
 
         /// <summary>
         /// 发送接口请求
+        /// 注： 使用internal内部限定，减少外部引用时命名空间的引入
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public static Task<TResp> ExecuteAsync<TResp>(this WechatBaseReq<TResp> req)
+        internal static Task<TResp> ExecuteAsync<TResp>(this WechatBaseReq<TResp> req)
             where TResp : WechatBaseResp, new()
         {
+            req.address_url = string.Concat(WechatPlatformHelper.ApiHost, req.GetApiPath());
             return SendAsync(req, JsonFormat<TResp>); 
         }
 
@@ -137,20 +139,15 @@ namespace OSS.Clients.Platform.Wechat
         /// <param name="req"></param>
         /// <param name="funcFormat"></param>
         /// <returns></returns>
-        private static async Task<TResp> SendAsync<TResp>(WechatBaseReq<TResp> req,
-            Func<HttpResponseMessage, Task<TResp>> funcFormat)
+        private static async Task<TResp> SendAsync<TResp>(WechatBaseReq<TResp> req, Func<HttpResponseMessage, Task<TResp>> funcFormat)
             where TResp : WechatBaseResp, new()
         {
             if (funcFormat == null)
                 throw new ArgumentNullException(nameof(funcFormat), "接口响应格式化方法不能为空!");
 
             if (req.app_config == null)
-            {
                 throw new NotImplementedException("微信接口请求配置信息为空，请设置!");
-            }
-
-            req.address_url = string.Concat(WechatPlatformHelper.ApiHost, req.GetApiPath());
-
+            
             var client = WechatPlatformHelper.HttpClientProvider?.Invoke();
             var resp   = await (client == null ? ((OssHttpRequest) req).SendAsync() : client.SendAsync(req));
 

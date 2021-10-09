@@ -26,4 +26,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Platform\Wechat\OSS.Clients.Platform.Wechat.Base\OSS.Clients.Platform.Wechat.Base.csproj" />
+  </ItemGroup>
+
 </Project>

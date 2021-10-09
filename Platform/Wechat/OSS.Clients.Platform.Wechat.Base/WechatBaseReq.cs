@@ -11,9 +11,11 @@
 
 #endregion
 
-using System.Linq;
+using System;
+using System.Linq; 
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Tools.Http;
@@ -42,7 +44,7 @@ namespace OSS.Clients.Platform.Wechat
         /// </summary>
         public IAppSecret app_config
         {
-            get { return _appConfig ?? WechatPlatformHelper.DefaultAppSecret;}
+            get { return _appConfig ?? WechatPlatformHelper.DefaultConfig;}
             internal set { _appConfig = value; }
         }
 
@@ -53,7 +55,6 @@ namespace OSS.Clients.Platform.Wechat
         /// </summary>
         /// <returns></returns>
         public abstract string GetApiPath();
-
 
         /// <inheritdoc />
         protected override void OnSending(HttpRequestMessage httpRequestMessage)
@@ -81,6 +82,16 @@ namespace OSS.Clients.Platform.Wechat
         protected WechatBaseReq(HttpMethod method) : base(method)
         {
         }
+
+
+        // 申明在这里，保证所有子类无需引用命名空间即可调用（如小程序
+        /// <summary>
+        /// 发送接口请求
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public Task<TRes> SendAsync() => this.ExecuteAsync();
+
     }
 
     /// <summary>
@@ -94,6 +105,23 @@ namespace OSS.Clients.Platform.Wechat
         protected WechatBaseTokenReq(HttpMethod method) : base(method)
         {
         }
+
+        // 申明在这里，保证所有子类无需引用命名空间即可调用（如小程序
+        /// <summary>
+        /// 发送接口请求
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public new Task<TRes> SendAsync() => this.ExecuteAsync();
+
+        // 申明在这里，保证所有子类无需引用命名空间即可调用（如小程序
+        /// <summary>
+        /// 发送接口请求，可定制返回的内容处理，方便文件下载特殊处理
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="funcFormat"></param>
+        /// <returns></returns>
+        public Task<TRes> SendAsync(Func<HttpResponseMessage, Task<TRes>> funcFormat) => this.ExecuteAsync(funcFormat);
     }
 
     /// <summary>

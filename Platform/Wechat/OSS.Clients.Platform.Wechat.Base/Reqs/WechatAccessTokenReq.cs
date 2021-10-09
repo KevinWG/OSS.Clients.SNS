@@ -29,6 +29,8 @@ namespace OSS.Clients.Platform.Wechat
             return
                 $"/cgi-bin/token?grant_type=client_credential&appid={m_appConfig.app_id}&secret={m_appConfig.app_secret}";
         }
+
+
     }
     
     /// <summary>
