@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Xml;
 using OSS.Clients.Msg.Wechat.Helper;
 using OSS.Common;
 using OSS.Common.BasicMos.Resp;
@@ -25,7 +24,7 @@ namespace OSS.Clients.Msg.Wechat
     /// <summary>
     ///   消息处理的基类
     /// </summary>
-    public class WechatBaseMsgHandler //: BaseMetaImpl<WechatChatConfig>
+    public class WechatBaseMsgHandler 
     {
         /// <summary>
         /// 对话消息处理基类
@@ -45,7 +44,7 @@ namespace OSS.Clients.Msg.Wechat
             var checkSignRes =
                 WechatChatHelper.CheckSignature(appConfig.Token, reqBody.signature, reqBody.timestamp, reqBody.nonce, string.Empty);
 
-            var resultRes = new StrResp().WithResp(checkSignRes); // checkSignRes.ConvertToResult<string>();
+            var resultRes = new StrResp().WithResp(checkSignRes); 
             resultRes.data = resultRes.IsSuccess() ? reqBody.echostr : string.Empty;
 
             return resultRes;
@@ -97,10 +96,10 @@ namespace OSS.Clients.Msg.Wechat
         /// <returns></returns>
         protected virtual async Task<Resp<WechatChatContext>> Processing(string recMsgXml)
         {
-            var recMsgDirs = WechatChatHelper.ChangXmlToDir(recMsgXml, out var xmlDoc);
+            var recMsgDirs = WechatChatHelper.ChangXmlToDir(recMsgXml);
             recMsgDirs.TryGetValue("MsgType", out var msgType);
-            string eventName = null;
 
+            string eventName = null;
             if (msgType == "event")
             {
                 if (!recMsgDirs.TryGetValue("Event", out eventName))
@@ -111,8 +110,8 @@ namespace OSS.Clients.Msg.Wechat
                 ?? GetCustomProcessor(msgType, eventName, recMsgDirs);
 
             var context = await (processor != null
-                ? ExecuteProcessor(xmlDoc, recMsgDirs, processor)
-                : ExecuteProcessor(xmlDoc, recMsgDirs, SingleInstance<InternalWechatChatProcessor>.Instance));
+                ? ExecuteProcessor(recMsgXml, recMsgDirs, processor)
+                : ExecuteProcessor(recMsgXml, recMsgDirs, SingleInstance<InternalWechatChatProcessor>.Instance));
 
             await ProcessEnd(context);
 
@@ -155,8 +154,7 @@ namespace OSS.Clients.Msg.Wechat
         ///  执行具体消息处理委托
         /// </summary>
         /// <returns></returns>
-        private async Task<WechatChatContext> ExecuteProcessor(XmlDocument recMsgXml,
-            IDictionary<string, string> recMsgDirs, BaseBaseProcessor processor)
+        private async Task<WechatChatContext> ExecuteProcessor(string recMsgXml, IDictionary<string, string> recMsgDirs, BaseBaseProcessor processor)
         {
             var recMsg = processor.CreateRecMsg();
 

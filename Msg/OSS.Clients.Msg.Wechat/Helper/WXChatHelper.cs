@@ -122,23 +122,25 @@ namespace OSS.Clients.Msg.Wechat.Helper
         #endregion
 
         #region  消息内容辅助类
-        
+
         /// <summary>
         /// 把xml文本转化成字典对象
         /// </summary>
         /// <returns></returns>
-        internal static Dictionary<string, string> ChangXmlToDir(string xml,out XmlDocument xmlDoc)
+        internal static Dictionary<string, string> ChangXmlToDir(string xml)
         {
-            xmlDoc = GetXmlDocment(xml);
+            var xmlDoc = GetXmlDocment(xml);
+
             var xmlNode = xmlDoc.FirstChild;
-            var nodes = xmlNode.ChildNodes;
+            var nodes   = xmlNode.ChildNodes;
 
             var dirs = new Dictionary<string, string>(nodes.Count);
             foreach (XmlNode xn in nodes)
             {
-                var xe = (XmlElement)xn;
+                var xe = (XmlElement) xn;
                 dirs[xe.Name] = xe.InnerText;
             }
+
             return dirs;
         }
 

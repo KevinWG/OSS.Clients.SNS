@@ -94,7 +94,7 @@ namespace OSS.Clients.Msg.Wechat
         /// <summary>
         /// 消息实体
         /// </summary>
-        public XmlDocument RecMsgXml { get; internal set; }
+        public string RecMsgXml { get; internal set; }
 
         /// <summary>
         ///   消息id
