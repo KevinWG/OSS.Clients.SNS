@@ -12,7 +12,6 @@
 #endregion
 
 using System;
-using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using System.Threading.Tasks;
 using OSS.Tools.Cache;
@@ -23,16 +22,16 @@ namespace OSS.Clients.Platform.Wechat.Base.Interface.Impls
     {
         private const string jsTicketCacheKey = "OSS_Wechat_JSTicket_";
 
-        public async Task<StrResp> GetJsTicket(IAppSecret config, WechatJsTicketType type)
+        public async Task<StrResp> GetJsTicket(WechatJsTicketType type, WechatBaseReq req)
         {
-            var key            = string.Concat(jsTicketCacheKey, config.app_id);
+            var key         = string.Concat(jsTicketCacheKey, req.app_config.app_id);
             var jsTicketRes = await CacheHelper.GetAsync<WechatJsTicketResp>(key);
 
             if (jsTicketRes != null)
                 return new StrResp(jsTicketRes.ticket);
 
             jsTicketRes = await new WechatJsTicketReq(type)
-                .SetContextConfig(config)
+                .SetContextConfig(req.app_config)
                 .ExecuteAsync();
 
             if (!jsTicketRes.IsSuccess())
@@ -42,7 +41,6 @@ namespace OSS.Clients.Platform.Wechat.Base.Interface.Impls
             await CacheHelper.SetAbsoluteAsync(key, jsTicketRes, TimeSpan.FromSeconds(jsTicketRes.expires_in - 60 * 5), "OSS.Clients.Platform.Wechat");
 
             return new StrResp(jsTicketRes.ticket);
-
         }
     }
 }

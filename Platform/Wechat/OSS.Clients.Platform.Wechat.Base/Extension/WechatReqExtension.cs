@@ -98,7 +98,7 @@ namespace OSS.Clients.Platform.Wechat
             
             var apiPath = req.GetApiPath();
 
-            var accessTokenRes = await WechatPlatformHelper.AccessTokenProvider.GetAccessToken(req.app_config);
+            var accessTokenRes = await WechatPlatformHelper.AccessTokenProvider.GetAccessToken(req);
             if (!accessTokenRes.IsSuccess())
                 return new TResp().WithResp(accessTokenRes);
 
