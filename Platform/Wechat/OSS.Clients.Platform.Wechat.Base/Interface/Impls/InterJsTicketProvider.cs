@@ -15,6 +15,7 @@ using System;
 using OSS.Common.BasicMos.Resp;
 using System.Threading.Tasks;
 using OSS.Tools.Cache;
+using OSS.Common.BasicMos;
 
 namespace OSS.Clients.Platform.Wechat.Base.Interface.Impls
 {
@@ -22,16 +23,16 @@ namespace OSS.Clients.Platform.Wechat.Base.Interface.Impls
     {
         private const string jsTicketCacheKey = "OSS_Wechat_JSTicket_";
 
-        public async Task<StrResp> GetJsTicket(WechatJsTicketType type, WechatBaseReq req)
+        public async Task<StrResp> GetJsTicket(WechatJsTicketType type, IAppSecret appConfig)
         {
-            var key         = string.Concat(jsTicketCacheKey, req.app_config.app_id);
+            var key         = string.Concat(jsTicketCacheKey, appConfig.app_id);
             var jsTicketRes = await CacheHelper.GetAsync<WechatJsTicketResp>(key);
 
             if (jsTicketRes != null)
                 return new StrResp(jsTicketRes.ticket);
 
             jsTicketRes = await new WechatJsTicketReq(type)
-                .SetContextConfig(req.app_config)
+                .SetContextConfig(appConfig)
                 .ExecuteAsync();
 
             if (!jsTicketRes.IsSuccess())
