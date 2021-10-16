@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
 using OSS.Common.Extension;
 
 namespace OSS.Clients.Msg.Wechat
