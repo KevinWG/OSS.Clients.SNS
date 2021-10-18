@@ -168,7 +168,7 @@ namespace OSS.Clients.Platform.Wechat
                 };
 
             return string.IsNullOrEmpty(content)
-                ? new T().WithResp(SysRespTypes.NetworkError, $"微信接口返回空信息({resp.ReasonPhrase})")
+                ? new T().WithResp(SysRespTypes.NetError, $"微信接口返回空信息({resp.ReasonPhrase})")
                 : JsonConvert.DeserializeObject<T>(content);
         }
 

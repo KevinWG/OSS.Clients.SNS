@@ -139,7 +139,7 @@ namespace OSS.Clients.Msg.Wechat
             var encryStr = xmlDoc?.FirstChild["Encrypt"]?.InnerText;
 
             if (string.IsNullOrEmpty(encryStr))
-                return new StrResp().WithResp(RespTypes.ObjectNull, "安全接口的加密字段为空！");
+                return new StrResp().WithResp(RespTypes.OperateObjectNull, "安全接口的加密字段为空！");
 
             var cryptMsgCheck =
                 WechatChatHelper.CheckSignature(appConfig.Token, reqBody.msg_signature, reqBody.timestamp, reqBody.nonce, encryStr);

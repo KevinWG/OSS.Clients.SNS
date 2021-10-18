@@ -36,7 +36,7 @@ namespace OSS.Clients.Msg.Wechat.Helper
         {
             return msgSignature == GenerateSignature(token, timestamp, nonce, strEncryptMsg)
                 ? new Resp() 
-                : new Resp(RespTypes.SignError, "微信签名验证失败！");
+                : new Resp(RespTypes.ParaSignError, "微信签名验证失败！");
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace OSS.Clients.Msg.Wechat.Helper
             }
             catch (Exception)
             {
-                return new StrResp().WithResp(RespTypes.InnerError, "加密响应消息体出错！");
+                return new StrResp().WithResp(SysRespTypes.AppError, "加密响应消息体出错！");
             }
 
             var date = DateTime.Now;
@@ -90,7 +90,7 @@ namespace OSS.Clients.Msg.Wechat.Helper
             var msgSigature = GenerateSignature(config.Token, sTimeStamp, sNonce, encryptMsg);
             if (string.IsNullOrEmpty(msgSigature))
             {
-                return new StrResp().WithResp(RespTypes.InnerError, "生成签名信息出错！");
+                return new StrResp().WithResp(SysRespTypes.AppError, "生成签名信息出错！");
             }
 
             var sEncryptMsg = new StringBuilder();
