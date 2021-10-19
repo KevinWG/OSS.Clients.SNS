@@ -18,16 +18,16 @@ namespace OSS.Clients.Platform.Wechat
 {
     public class WechatAccessTokenReq:WechatBaseReq<WechatAccessTokenResp>
     {
-        private IAppSecret m_appConfig;
+        //private IAppSecret m_appConfig;
         public WechatAccessTokenReq(IAppSecret appconfig) : base(HttpMethod.Get)
         {
-            m_appConfig = appconfig;
+            this.app_config = appconfig;
         }
 
         public override string GetApiPath()
         {
             return
-                $"/cgi-bin/token?grant_type=client_credential&appid={m_appConfig.app_id}&secret={m_appConfig.app_secret}";
+                $"/cgi-bin/token?grant_type=client_credential&appid={app_config.app_id}&secret={app_config.app_secret}";
         }
 
 
