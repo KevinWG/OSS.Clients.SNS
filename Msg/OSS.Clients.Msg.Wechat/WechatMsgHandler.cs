@@ -148,7 +148,7 @@ namespace OSS.Clients.Msg.Wechat
 
         #endregion
         
-        internal override BaseBaseProcessor GetInternalMsgProcessor(string msgType, string eventName)
+        internal override InternalBaseProcessor GetInternalMsgProcessor(string msgType, string eventName)
         {
             switch (msgType.ToLower())
             {
@@ -179,7 +179,7 @@ namespace OSS.Clients.Msg.Wechat
             return null;
         }
 
-        private BaseBaseProcessor GetBasicEventMsgProcessor(string eventName)
+        private InternalBaseProcessor GetBasicEventMsgProcessor(string eventName)
         {
             switch (eventName.ToLower())
             {

@@ -20,7 +20,7 @@ namespace OSS.Clients.Msg.Wechat
     /// <summary>
     ///  消息处理最底层基类
     /// </summary>
-    public abstract class BaseBaseProcessor
+    public abstract class InternalBaseProcessor
     {
         internal abstract WechatBaseRecMsg CreateRecMsg();
 
@@ -31,7 +31,7 @@ namespace OSS.Clients.Msg.Wechat
     /// 消息处理基类
     /// </summary>
     /// <typeparam name="TRecMsg">接收消息类型</typeparam>
-    public abstract class WechatBaseMsgProcessor<TRecMsg> : BaseBaseProcessor
+    public abstract class WechatBaseMsgProcessor<TRecMsg> : InternalBaseProcessor
         where TRecMsg : WechatBaseRecMsg, new()
     {
         /// <summary>
@@ -67,7 +67,7 @@ namespace OSS.Clients.Msg.Wechat
     ///   内部自定义消息类型处理Processor
     /// </summary>
     /// <typeparam name="TRecMsg"></typeparam>
-    internal class InternalWechatChatProcessor<TRecMsg> : BaseBaseProcessor
+    internal class InternalWechatChatProcessor<TRecMsg> : InternalBaseProcessor
         where TRecMsg : WechatBaseRecMsg, new()
     {
         /// <summary>

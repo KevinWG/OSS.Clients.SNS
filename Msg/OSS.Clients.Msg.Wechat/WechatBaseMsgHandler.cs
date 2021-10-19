@@ -54,16 +54,16 @@ namespace OSS.Clients.Msg.Wechat
         /// <summary>
         /// 消息处理入口
         /// </summary>
+        /// <param name="appConfig"></param>
         /// <param name="reqBody">请求参数信息</param>
         /// <returns>消息结果，Data为响应微信数据，如果出错Message为错误信息</returns>
-        public async Task<StrResp> Process(WechatRequestPara reqBody)
+        public async Task<StrResp> Process(WechatMsgConfig appConfig,WechatRequestPara reqBody)
         {
-            if (string.IsNullOrEmpty(reqBody.signature) || string.IsNullOrEmpty(reqBody.timestamp) || string.IsNullOrEmpty(reqBody.nonce))
+            if (string.IsNullOrEmpty(reqBody.signature) || string.IsNullOrEmpty(reqBody.timestamp) ||
+                string.IsNullOrEmpty(reqBody.nonce)|| appConfig==null)
                 return new StrResp().WithResp(RespTypes.ParaError, "消息相关参数错误！");
 
-            var appConfig = GetConfig(reqBody.app_id);
-
-            // 一.  检查是否是微信服务端首次地址配置验证
+            // 一.  检查是否是微信服务端首次地址Get请求验证
             if (!string.IsNullOrEmpty(reqBody.echostr))
                 return CheckServerValid(appConfig, reqBody);
 
@@ -74,16 +74,15 @@ namespace OSS.Clients.Msg.Wechat
             if (!checkRes.IsSuccess())
                 return new StrResp().WithResp(checkRes);
 
-            var contextRes = await Processing(checkRes.data);
+            var contextRes = await Processing(appConfig.AppId,checkRes.data);
             if (!contextRes.IsSuccess())
                 return new StrResp().WithResp(contextRes);
 
             var resultString = contextRes.data.ReplyMsg.ToReplyXml();
+
             if (appConfig.SecurityType != WechatSecurityType.None &&
                 !string.IsNullOrEmpty(contextRes.data.ReplyMsg.MsgType))
-            {
                 return WechatChatHelper.EncryptMsg(resultString, appConfig);
-            }
 
             return new StrResp(resultString);
         }
@@ -92,9 +91,10 @@ namespace OSS.Clients.Msg.Wechat
         /// <summary>
         /// 核心执行方法
         /// </summary>
+        /// <param name="appId"></param>
         /// <param name="recMsgXml">传入消息的xml</param>
         /// <returns></returns>
-        protected virtual async Task<Resp<WechatChatContext>> Processing(string recMsgXml)
+        protected virtual async Task<Resp<WechatChatContext>> Processing(string appId, string recMsgXml)
         {
             var recMsgDirs = WechatChatHelper.ChangXmlToDir(recMsgXml);
             recMsgDirs.TryGetValue("MsgType", out var msgType);
@@ -107,14 +107,12 @@ namespace OSS.Clients.Msg.Wechat
             }
 
             var processor = GetInternalMsgProcessor(msgType, eventName)
-                ?? GetCustomProcessor(msgType, eventName, recMsgDirs);
+                            ?? GetCustomProcessor(msgType, eventName, recMsgDirs)
+                            ?? SingleInstance<InternalWechatChatProcessor>.Instance;
 
-            var context = await (processor != null
-                ? ExecuteProcessor(recMsgXml, recMsgDirs, processor)
-                : ExecuteProcessor(recMsgXml, recMsgDirs, SingleInstance<InternalWechatChatProcessor>.Instance));
+            var context = await ExecuteProcessor(appId, recMsgXml, recMsgDirs, processor);
 
             await ProcessEnd(context);
-
             return new Resp<WechatChatContext>(context);
         }
 
@@ -154,12 +152,14 @@ namespace OSS.Clients.Msg.Wechat
         ///  执行具体消息处理委托
         /// </summary>
         /// <returns></returns>
-        private async Task<WechatChatContext> ExecuteProcessor(string recMsgXml, IDictionary<string, string> recMsgDirs, BaseBaseProcessor processor)
+        private async Task<WechatChatContext> ExecuteProcessor(string appId, string recMsgXml, IDictionary<string, string> recMsgDirs, InternalBaseProcessor processor)
         {
             var recMsg = processor.CreateRecMsg();
 
             recMsg.LoadMsgDirs(recMsgDirs);
+
             recMsg.RecMsgXml = recMsgXml;
+            recMsg.AppId     = appId;
 
             var msgContext = new WechatChatContext {RecMsg = recMsg};
             var pTask      = processor.InternalExecute(recMsg);
@@ -210,28 +210,17 @@ namespace OSS.Clients.Msg.Wechat
         /// <param name="eventName">事件名称</param>
         /// <param name="msgInfo">对应消息的键值对</param>
         /// <returns>WechatChatProcessor&lt;TRecMsg&gt;或其子类，如果没有定义对应的消息类型，返回Null即可</returns>
-        protected virtual BaseBaseProcessor GetCustomProcessor(string msgType, string eventName,
+        protected virtual InternalBaseProcessor GetCustomProcessor(string msgType, string eventName,
             IDictionary<string, string> msgInfo)
         {
             return null;
         }
 
-        internal virtual BaseBaseProcessor GetInternalMsgProcessor(string msgType, string eventName)
+        internal virtual InternalBaseProcessor GetInternalMsgProcessor(string msgType, string eventName)
         {
             return null;
         }
 
         #endregion
-
-        /// <inheritdoc />
-        protected virtual WechatMsgConfig GetConfig(string appId)
-        {
-            var config = WechatMsgHelper.DefaultConfig;
-            if (config == null)
-            {
-                throw new ArgumentNullException($"配置信息为空，请通过 {nameof(WechatMsgHelper.DefaultConfig)} 设置");
-            }
-            return config;
-        }
     }
 }

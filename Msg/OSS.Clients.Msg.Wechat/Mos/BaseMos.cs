@@ -63,6 +63,7 @@ namespace OSS.Clients.Msg.Wechat
             MsgType = this["MsgType"];
             ToUserName = this["ToUserName"];
             FromUserName = this["FromUserName"];
+
             CreateTime = this["CreateTime"].ToInt64();
             MsgId = this["MsgId"].ToInt64();
 
@@ -94,6 +95,11 @@ namespace OSS.Clients.Msg.Wechat
         /// 消息实体
         /// </summary>
         public string RecMsgXml { get; internal set; }
+
+        /// <summary>
+        ///  应用id
+        /// </summary>
+        public string AppId { get; internal set; }
 
         /// <summary>
         ///   消息id
