@@ -77,7 +77,7 @@ namespace OSS.Clients.Platform.Wechat.QR
         /// 场景值id
         /// 场景值ID，临时二维码时为32位非0整型，永久二维码时最大值为100000（目前参数只支持1--100000）
         /// </summary>
-        public int scene_id { get; set; }
+        public int? scene_id { get; set; }
 
         /// <summary>
         /// 场景值ID（字符串形式的ID），字符串类型，长度限制为1到64，仅永久二维码支持此字段   

@@ -24,6 +24,11 @@ namespace OSS.Clients.Platform.Wechat
         QR_SCENE = 10,
 
         /// <summary>
+        ///  临时字符串二维码
+        /// </summary>
+        QR_STR_SCENE = 12,
+
+        /// <summary>
         /// 永久二维码-值
         /// </summary>
 
