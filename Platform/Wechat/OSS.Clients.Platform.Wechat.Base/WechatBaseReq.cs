@@ -17,7 +17,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using OSS.Common.BasicMos;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Tools.Http;
 
 namespace OSS.Clients.Platform.Wechat

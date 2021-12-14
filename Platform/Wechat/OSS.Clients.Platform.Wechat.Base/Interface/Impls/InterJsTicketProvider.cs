@@ -12,7 +12,7 @@
 #endregion
 
 using System;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using System.Threading.Tasks;
 using OSS.Tools.Cache;
 using OSS.Common.BasicMos;

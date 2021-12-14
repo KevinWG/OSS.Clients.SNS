@@ -8,7 +8,7 @@
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
     <Authors>OSSCore</Authors>
     <Company>OSSCore</Company>
-    <Version>2.3.1</Version>
+    <Version>2.5</Version>
     <PackageReleaseNotes>优化基础属性</PackageReleaseNotes>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Common" Version="2.6.3" />
+    <PackageReference Include="OSS.Common" Version="4.0.0" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
   </ItemGroup>
 

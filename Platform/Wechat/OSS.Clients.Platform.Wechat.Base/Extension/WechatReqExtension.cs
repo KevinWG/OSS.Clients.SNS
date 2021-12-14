@@ -11,13 +11,13 @@
 
 #endregion
 
-using OSS.Common.BasicMos;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Tools.Http;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using OSS.Common.BasicMos;
 
 namespace OSS.Clients.Platform.Wechat
 {

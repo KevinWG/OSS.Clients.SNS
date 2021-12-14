@@ -18,7 +18,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using OSS.Common;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Common.Extension;
 
 namespace OSS.Clients.Msg.Wechat.Helper

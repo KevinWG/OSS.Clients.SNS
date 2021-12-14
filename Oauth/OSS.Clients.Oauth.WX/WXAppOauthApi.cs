@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using OSS.Clients.Oauth.WX.Mos;
 using OSS.Common.BasicImpls;
 using OSS.Common.BasicMos;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Oauth.WX

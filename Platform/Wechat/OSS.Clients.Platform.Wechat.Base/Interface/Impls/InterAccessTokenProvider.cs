@@ -12,10 +12,10 @@
 #endregion
 
 using System;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using System.Threading.Tasks;
-using OSS.Common.BasicMos;
 using OSS.Tools.Cache;
+using OSS.Common.BasicMos;
 
 namespace OSS.Clients.Platform.Wechat.Base.Interface.Impls
 {

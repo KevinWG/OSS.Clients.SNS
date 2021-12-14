@@ -13,7 +13,7 @@
 
 using System.Threading.Tasks;
 using OSS.Common.BasicMos;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 
 namespace OSS.Clients.Platform.Wechat
 {
