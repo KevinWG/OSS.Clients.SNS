@@ -11,13 +11,11 @@
 
 #endregion
 
+using OSS.Clients.Oauth.WX.Mos;
+using OSS.Common.Resp;
+using OSS.Tools.Http;
 using System.Net.Http;
 using System.Threading.Tasks;
-using OSS.Clients.Oauth.WX.Mos;
-using OSS.Common.BasicImpls;
-using OSS.Common.BasicMos;
-using OSS.Common.Resp;
-using OSS.Tools.Http.Mos;
 
 namespace OSS.Clients.Oauth.WX
 {
@@ -26,10 +24,7 @@ namespace OSS.Clients.Oauth.WX
     /// </summary>
     public class WXAppOauthApi : WXOauthBaseApi
     {
-        /// <inheritdoc />
-        public WXAppOauthApi(IMetaProvider<AppConfig> configProvider=null):base(configProvider)
-        {
-        }
+
 
         #region  登录接口
 
@@ -40,16 +35,13 @@ namespace OSS.Clients.Oauth.WX
         /// <returns></returns>
         public async Task<WXGetSessionCodeResp> GetSessionCodeAsync(string jsCode)
         {
-            var appConfigRes = await GetMeta();
-            if (!appConfigRes.IsSuccess())
-                return new WXGetSessionCodeResp().WithResp(appConfigRes);
-
-            var appConfig = appConfigRes.data;
+            var accessConfig = await GetAccessConfig();
+       
             var req = new OssHttpRequest
             {
-                HttpMethod = HttpMethod.Get,
-                AddressUrl = string.Concat(m_ApiUrl,
-                    $"/sns/jscode2session?appid={appConfig.AppId}&secret={appConfig.AppSecret}&js_code={jsCode}&grant_type=authorization_code")
+                http_method = HttpMethod.Get,
+                address_url = string.Concat(m_ApiUrl,
+                    $"/sns/jscode2session?appid={accessConfig.access_key}&secret={accessConfig.access_secret}&js_code={jsCode}&grant_type=authorization_code")
             };
             return await RestCommonJson<WXGetSessionCodeResp>(req);
         }

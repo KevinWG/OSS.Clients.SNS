@@ -12,22 +12,29 @@
 #endregion
 
 using System.Net.Http;
-using OSS.Common.BasicMos;
+using OSS.Common;
 
 namespace OSS.Clients.Platform.Wechat
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class WechatAccessTokenReq:WechatBaseReq<WechatAccessTokenResp>
     {
-        //private IAppSecret m_appConfig;
-        public WechatAccessTokenReq(IAppSecret appconfig) : base(HttpMethod.Get)
+        /// <summary>
+        ///  获取访问Token请求
+        /// </summary>
+        /// <param name="accessConfig"></param>
+        public WechatAccessTokenReq(IAccessSecret accessConfig) : base(HttpMethod.Get)
         {
-            this.app_config = appconfig;
+            this.access_config = accessConfig;
         }
 
+        /// <inheritdoc />
         public override string GetApiPath()
         {
             return
-                $"/cgi-bin/token?grant_type=client_credential&appid={app_config.app_id}&secret={app_config.app_secret}";
+                $"/cgi-bin/token?grant_type=client_credential&appid={access_config.access_key}&secret={access_config.access_secret}";
         }
 
 

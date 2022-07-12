@@ -13,7 +13,7 @@
 
 using OSS.Common.Resp;
 using System.Threading.Tasks;
-using OSS.Common.BasicMos;
+using OSS.Common;
 
 namespace OSS.Clients.Platform.Wechat
 {
@@ -25,6 +25,6 @@ namespace OSS.Clients.Platform.Wechat
         /// <summary>
         ///   自定义获取 access_token 实现方法
         /// </summary>
-        Task<StrResp> GetAccessToken(IAppSecret appConfig);
+        Task<StrResp> GetAccessToken(IAccessSecret accessSecret);
     }
 }

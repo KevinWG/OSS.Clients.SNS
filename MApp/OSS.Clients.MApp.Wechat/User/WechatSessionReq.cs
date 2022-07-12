@@ -3,18 +3,26 @@ using OSS.Clients.Platform.Wechat;
 
 namespace OSS.Clients.MApp.Wechat
 {
+    /// <summary>
+    ///  建立回话请求
+    /// </summary>
     public class WechatSessionReq : WechatBaseReq<WechatSessionResp>
     {
+        /// <summary>
+        ///  建立回话请求
+        /// </summary>
         public WechatSessionReq(string jsCode) : base(HttpMethod.Get)
         {
             _code = jsCode;
         }
+        private readonly string _code;
 
-        private string _code = null;
+
+        /// <inheritdoc />
         public override string GetApiPath()
         {
             return
-                $"/sns/jscode2session?appid={app_config.app_id}&secret={app_config.app_secret}&js_code={_code}&grant_type=authorization_code";
+                $"/sns/jscode2session?appid={access_config.access_key}&secret={access_config.access_secret}&js_code={_code}&grant_type=authorization_code";
         }
     }
 

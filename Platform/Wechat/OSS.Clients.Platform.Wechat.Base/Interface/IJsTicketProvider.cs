@@ -12,7 +12,7 @@
 #endregion
 
 using System.Threading.Tasks;
-using OSS.Common.BasicMos;
+using OSS.Common;
 using OSS.Common.Resp;
 
 namespace OSS.Clients.Platform.Wechat
@@ -25,6 +25,6 @@ namespace OSS.Clients.Platform.Wechat
         /// <summary>
         ///   JSTicket统一管理接口
         /// </summary>
-        Task<StrResp> GetJsTicket( WechatJsTicketType type, IAppSecret appConfig);
+        Task<StrResp> GetJsTicket(WechatJsTicketType type, IAccessSecret appConfig);
     }
 }

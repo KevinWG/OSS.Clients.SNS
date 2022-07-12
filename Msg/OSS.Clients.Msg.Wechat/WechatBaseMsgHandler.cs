@@ -61,14 +61,14 @@ namespace OSS.Clients.Msg.Wechat
         {
             if (string.IsNullOrEmpty(reqBody.signature) || string.IsNullOrEmpty(reqBody.timestamp) ||
                 string.IsNullOrEmpty(reqBody.nonce)|| appConfig==null)
-                return new StrResp().WithResp(RespTypes.ParaError, "消息相关参数错误！");
+                return new StrResp().WithResp(RespCodes.ParaError, "消息相关参数错误！");
 
             // 一.  检查是否是微信服务端首次地址Get请求验证
             if (!string.IsNullOrEmpty(reqBody.echostr))
                 return CheckServerValid(appConfig, reqBody);
 
             if (string.IsNullOrEmpty(reqBody.body))
-                return new StrResp().WithResp(RespTypes.ParaError, "消息相关参数错误！");
+                return new StrResp().WithResp(RespCodes.ParaError, "消息相关参数错误！");
 
             var checkRes = Prepare(appConfig, reqBody);
             if (!checkRes.IsSuccess())
@@ -103,7 +103,7 @@ namespace OSS.Clients.Msg.Wechat
             if (msgType == "event")
             {
                 if (!recMsgDirs.TryGetValue("Event", out eventName))
-                    return new Resp<WechatChatContext>().WithResp(RespTypes.ParaError, "事件消息数据中未发现 事件类型（Event）字段！");
+                    return new Resp<WechatChatContext>().WithResp(RespCodes.ParaError, "事件消息数据中未发现 事件类型（Event）字段！");
             }
 
             var processor = GetInternalMsgProcessor(msgType, eventName)
@@ -131,13 +131,13 @@ namespace OSS.Clients.Msg.Wechat
             }
 
             if (string.IsNullOrEmpty(reqBody.msg_signature))
-                return new StrResp().WithResp(RespTypes.ParaError, "msg_signature 消息体验证签名参数为空！");
+                return new StrResp().WithResp(RespCodes.ParaError, "msg_signature 消息体验证签名参数为空！");
 
             var xmlDoc   = WechatChatHelper.GetXmlDocment(reqBody.body);
             var encryStr = xmlDoc?.FirstChild["Encrypt"]?.InnerText;
 
             if (string.IsNullOrEmpty(encryStr))
-                return new StrResp().WithResp(RespTypes.OperateObjectNull, "安全接口的加密字段为空！");
+                return new StrResp().WithResp(RespCodes.OperateObjectNull, "安全接口的加密字段为空！");
 
             var cryptMsgCheck =
                 WechatChatHelper.CheckSignature(appConfig.Token, reqBody.msg_signature, reqBody.timestamp, reqBody.nonce, encryStr);

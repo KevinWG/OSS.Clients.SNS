@@ -14,7 +14,7 @@
 using System;
 using System.Net.Http;
 using OSS.Clients.Platform.Wechat.Base.Interface.Impls;
-using OSS.Common.BasicMos;
+using OSS.Common;
 
 namespace OSS.Clients.Platform.Wechat
 {
@@ -28,7 +28,7 @@ namespace OSS.Clients.Platform.Wechat
         /// <summary>
         ///  默认应用配置信息
         /// </summary>
-        public static IAppSecret DefaultConfig { get; set; }
+        public static IAccessSecret DefaultConfig { get; set; }
 
         /// <summary>
         ///   http请求的HttpClient实例创建

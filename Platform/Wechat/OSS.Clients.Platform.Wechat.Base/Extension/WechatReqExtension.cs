@@ -17,7 +17,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OSS.Common.BasicMos;
+using OSS.Common;
 
 namespace OSS.Clients.Platform.Wechat
 {
@@ -32,10 +32,10 @@ namespace OSS.Clients.Platform.Wechat
         /// <param name="req"></param>
         /// <param name="appConfig"></param>
         /// <returns></returns>
-        public static TReq SetContextConfig<TReq>(this TReq req, IAppSecret appConfig)
+        public static TReq SetContextConfig<TReq>(this TReq req, IAccessSecret appConfig)
             where TReq : WechatBaseReq
         {
-            req.app_config = appConfig;
+            req.access_config = appConfig;
             return req;
         }
 
@@ -93,18 +93,18 @@ namespace OSS.Clients.Platform.Wechat
         internal static async Task<TResp> ExecuteAsync<TResp>(this WechatBaseTokenReq<TResp> req, Func<HttpResponseMessage, Task<TResp>> funcFormat)
             where TResp : WechatBaseResp, new()
         {
-            if (req.app_config == null)
+            if (req.access_config == null)
                 throw new NotImplementedException("微信接口请求配置信息为空，请设置!");
             
             var apiPath = req.GetApiPath();
 
-            var accessTokenRes = await WechatPlatformHelper.AccessTokenProvider.GetAccessToken(req.app_config);
+            var accessTokenRes = await WechatPlatformHelper.AccessTokenProvider.GetAccessToken(req.access_config);
             if (!accessTokenRes.IsSuccess())
                 return new TResp().WithResp(accessTokenRes);
 
             var accessToken = accessTokenRes.data;
             if (string.IsNullOrEmpty(accessToken))
-                return new TResp().WithResp(RespTypes.OperateFailed, "未能获取有效AccessToken！");
+                return new TResp().WithResp(RespCodes.OperateFailed, "未能获取有效AccessToken！");
 
             req.address_url = string.Concat(WechatPlatformHelper.ApiHost, apiPath,
                 (apiPath.IndexOf('?') > 0 ? "&" : "?"), "access_token=", accessToken);
@@ -145,7 +145,7 @@ namespace OSS.Clients.Platform.Wechat
             if (funcFormat == null)
                 throw new ArgumentNullException(nameof(funcFormat), "接口响应格式化方法不能为空!");
 
-            if (req.app_config == null)
+            if (req.access_config == null)
                 throw new NotImplementedException("微信接口请求配置信息为空，请设置!");
             
             var client = WechatPlatformHelper.HttpClientProvider?.Invoke();
@@ -168,7 +168,7 @@ namespace OSS.Clients.Platform.Wechat
                 };
 
             return string.IsNullOrEmpty(content)
-                ? new T().WithResp(SysRespTypes.NetError, $"微信接口返回空信息({resp.ReasonPhrase})")
+                ? new T().WithResp(SysRespCodes.NetError, $"微信接口返回空信息({resp.ReasonPhrase})")
                 : JsonConvert.DeserializeObject<T>(content);
         }
 

@@ -16,7 +16,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using OSS.Common.BasicMos;
+using OSS.Common;
 using OSS.Common.Resp;
 using OSS.Tools.Http;
 
@@ -38,14 +38,14 @@ namespace OSS.Clients.Platform.Wechat
 
         #region 秘钥配置信息
 
-        private IAppSecret _appConfig;
+        private IAccessSecret _accessConfig;
         /// <summary>
         ///  秘钥配置信息
         /// </summary>
-        public IAppSecret app_config
+        public IAccessSecret access_config
         {
-            get { return _appConfig ?? WechatPlatformHelper.DefaultConfig;}
-            internal set { _appConfig = value; }
+            get => _accessConfig ?? WechatPlatformHelper.DefaultConfig;
+            internal set => _accessConfig = value;
         }
 
         #endregion
@@ -88,7 +88,6 @@ namespace OSS.Clients.Platform.Wechat
         /// <summary>
         /// 发送接口请求
         /// </summary>
-        /// <param name="req"></param>
         /// <returns></returns>
         public Task<TRes> SendAsync() => this.ExecuteAsync();
 
@@ -152,8 +151,8 @@ namespace OSS.Clients.Platform.Wechat
         /// </summary>
         public string errmsg
         {
-            get { return msg; }
-            set { msg = value; }
+            get => msg;
+            set => msg = value;
         }
     }
 }

@@ -1,20 +1,27 @@
 ﻿using System;
 using System.Net.Http;
-using OSS.Common.BasicMos;
+using OSS.Common;
 
 namespace OSS.Clients.Oauth.WX
 {
-
     /// <summary>
     ///  Oauth相关配置信息
     /// </summary>
-    public static class WXOauthConfigProvider
+    public static class WXOauthHelper
     {
+        /// <summary>
+        /// 访问配置信息提供者
+        /// </summary>
+        public static IAccessSecretProvider ConfigProvider { get; set; }
+        
         /// <summary>
         /// 默认的配置AppKey信息
         /// </summary>
-        public static AppConfig DefaultConfig { get; set; }
+        public static IAccessSecret DefaultConfig { get; set; }
 
+        /// <summary>
+        ///    http 请求客户端 配置
+        /// </summary>
         public static Func<HttpClient> ClientFactory { get; set; }
 
         /// <summary>
@@ -23,17 +30,7 @@ namespace OSS.Clients.Oauth.WX
         ///   可以调用 Official下的 WXAgentAuthApi（WXAgentBaseApi） 中接口
         /// 参数为当前appConfig
         /// </summary>
-        public static Func<AppConfig, string> AgentAccessTokenFunc { get; set; }
-
-        ///// <summary>
-        /////  设置上下文配置信息
-        ///// </summary>
-        ///// <param name="config"></param>
-        //public static void SetContextConfig(AppConfig config)
-        //{
-        //    WXOauthBaseApi.SetContextConfig(config);
-        //}
-
+        public static Func<IAccessSecret, string> AgentAccessTokenFunc { get; set; }
     }
 
 

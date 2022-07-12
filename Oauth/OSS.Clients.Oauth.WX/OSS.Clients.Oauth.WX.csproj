@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>主要社交网站Oauth授权接口</Description>
+    <Description>微信Oauth授权接口</Description>
     <Authors>OSSCore</Authors>
     <Company>OSSCore</Company>
     <PackageProjectUrl>https://github.com/KevinWG/OSS.Clients.SNS</PackageProjectUrl>
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS</RepositoryUrl>
     <PackageIconUrl></PackageIconUrl>
-    <PackageReleaseNotes>优化底层配置方式获取</PackageReleaseNotes>
-    <Version>1.4</Version>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <Version>2.0</Version>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
@@ -19,8 +19,8 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="OSS.Common" Version="4.0.1" />
-    <PackageReference Include="OSS.Tools.Http" Version="2.3.5" />
+    <PackageReference Include="OSS.Common" Version="6.0.0" />
+    <PackageReference Include="OSS.Tools.Http" Version="2.6.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,8 +14,8 @@
 using System;
 using OSS.Common.Resp;
 using System.Threading.Tasks;
+using OSS.Common;
 using OSS.Tools.Cache;
-using OSS.Common.BasicMos;
 
 namespace OSS.Clients.Platform.Wechat.Base.Interface.Impls
 {
@@ -24,7 +24,7 @@ namespace OSS.Clients.Platform.Wechat.Base.Interface.Impls
         private const string _AccessCacheKey = "OSS_Wechat_AccessToken_";
 
 
-        public async Task<StrResp> GetAccessToken(IAppSecret appConfig)
+        public async Task<StrResp> GetAccessToken(IAccessSecret appConfig)
         {
             var key            = string.Concat(_AccessCacheKey, appConfig);
             var accessTokenRes = await CacheHelper.GetAsync<WechatAccessTokenResp>(key);

@@ -11,16 +11,14 @@
 
 #endregion
 
+using OSS.Clients.Oauth.WX.Mos;
+using OSS.Common.Resp;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using OSS.Clients.Oauth.WX.Mos;
-using OSS.Common.BasicImpls;
-using OSS.Common.BasicMos;
-using OSS.Common.Resp;
 using OSS.Common.Extension;
-using OSS.Tools.Http.Mos;
+using OSS.Tools.Http;
 
 namespace OSS.Clients.Oauth.WX
 {
@@ -29,33 +27,30 @@ namespace OSS.Clients.Oauth.WX
     /// </summary>
     public class WXOauthApi:WXOauthBaseApi
     {
-        /// <inheritdoc />
-        public WXOauthApi(IMetaProvider<AppConfig> configProvider = null) : base(configProvider)
-        {
-        }
-
         /// <summary>
         /// 获取授权地址
         /// </summary>
         /// <param name="redirectUri">授权后重定向的回调链接地址</param>
         /// <param name="state"> 需要回传的值 </param>
         /// <param name="type">授权客户端类型，如果是pc，则生成的是微信页面二维码授权页</param>
-        /// <returns>授权的地址【如果 appConfig.OperateMode==AppOperateMode.ByAgent 回调除了 code 和 state 参数，还会有appid 】</returns>
-        public async Task<StrResp> GetAuthorizeUrl(string redirectUri,string state, AuthClientType type)
+        /// <param name="proxiedSubAppId">服务商模式下 被代理的子应用Id</param>
+        /// <returns>授权的地址【服务商模式下 回调除了 code 和 state 参数，还会有appid 】</returns>
+        public async Task<StrResp> GetAuthorizeUrl(string redirectUri,string state, AuthClientType type, string proxiedSubAppId = "")
         {
             if (redirectUri.Contains("://"))
-                redirectUri = redirectUri.UrlEncode();
+                redirectUri = redirectUri.SafeEscapeUriDataString();
 
             var authUrl=new StringBuilder("https://open.weixin.qq.com/connect/");
 
-            var appConfigRes = await GetMeta();
-            if (!appConfigRes.IsSuccess())
-                return new StrResp().WithResp(appConfigRes);
+            var isAgentMode = !string.IsNullOrEmpty(proxiedSubAppId);
 
-            var appConfig = appConfigRes.data;
+            var appConfig   = await GetAccessConfig();
+            var appId       = isAgentMode ? proxiedSubAppId: appConfig.access_key  ;
+      
+
             if (type == AuthClientType.Web)
             {
-                authUrl.Append("qrconnect?appid=").Append(appConfig.AppId)
+                authUrl.Append("qrconnect?appid=").Append(appId)
                     .Append("&redirect_uri=").Append(redirectUri)
                     .Append("&response_type=code&scope=snsapi_login");
             }
@@ -63,15 +58,15 @@ namespace OSS.Clients.Oauth.WX
             {
                 var scope = type == AuthClientType.InnerSilence ? "snsapi_base" : "snsapi_userinfo";
 
-                authUrl.Append("oauth2/authorize?appid=").Append(appConfig.AppId)
+                authUrl.Append("oauth2/authorize?appid=").Append(appId)
                     .Append("&redirect_uri=").Append(redirectUri)
                     .Append("&response_type=code&scope=").Append(scope);
             }
             authUrl.Append("&state=").Append(state);
 
-            if (appConfig.OperateMode==AppOperateMode.ByAgent)
+            if (isAgentMode)
             {
-                authUrl.Append("&component_appid=").Append(appConfig.ByAppId);
+                authUrl.Append("&component_appid=").Append(appConfig.access_key);
             }
 
             authUrl.Append("#wechat_redirect");
@@ -82,40 +77,38 @@ namespace OSS.Clients.Oauth.WX
         /// 获取授权access_token   (每个用户都是单独唯一)
         /// </summary>
         /// <param name="code">填写第一步获取的code参数</param>
+        /// <param name="proxiedSubAppId">服务商模式下 被代理的子应用Id</param>
         /// <returns></returns>
-        public async Task<WXGetOauthAccessTokenResp> GetOauthAccessTokenAsync(string code)
+        public async Task<WXGetOauthAccessTokenResp> GetOauthAccessTokenAsync(string code, string proxiedSubAppId = "")
         {
-            var appConfigRes = await GetMeta();
-            if (!appConfigRes.IsSuccess())
-                return new WXGetOauthAccessTokenResp().WithResp(appConfigRes);
-
-            var appConfig = appConfigRes.data;
+            var appConfig = await GetAccessConfig();
             var reqUrl=new StringBuilder(m_ApiUrl);
-            if (appConfig.OperateMode == AppOperateMode.ByAgent)
+
+            if (!string.IsNullOrEmpty(proxiedSubAppId))
             {
-                var comAccessToken = WXOauthConfigProvider.AgentAccessTokenFunc?.Invoke(appConfig);
+                var comAccessToken = WXOauthHelper.AgentAccessTokenFunc?.Invoke(appConfig);
                 if (string.IsNullOrEmpty(comAccessToken))
                 {
                     throw new ArgumentNullException("AgentAccessToken", "AgentAccessToken未发现，请检查 WXOauthConfigProvider 下 AgentAccessTokenFunc 委托是否为空或者返回值不正确！");
                 }
-                reqUrl.Append("/sns/oauth2/component/access_token?appid=").Append(appConfig.AppId)
+                reqUrl.Append("/sns/oauth2/component/access_token?appid=").Append(proxiedSubAppId)
                     .Append("&code=").Append(code)
                     .Append("&grant_type=authorization_code")
-                    .Append("&component_appid=").Append(appConfig.ByAppId)
+                    .Append("&component_appid=").Append(appConfig.access_key)
                     .Append("&component_access_token=").Append(comAccessToken);
             }
             else
             {
-                reqUrl.Append("/sns/oauth2/access_token?appid=").Append(appConfig.AppId)
-                    .Append("&secret=").Append(appConfig.AppSecret)
+                reqUrl.Append("/sns/oauth2/access_token?appid=").Append(appConfig.access_key)
+                    .Append("&secret=").Append(appConfig.access_secret)
                     .Append("&code=").Append(code)
                     .Append("&grant_type=authorization_code");
             }
 
             var req = new OssHttpRequest
             {
-                AddressUrl = reqUrl.ToString(),
-                HttpMethod = HttpMethod.Get
+                address_url = reqUrl.ToString(),
+                http_method = HttpMethod.Get
             };
             
             return await RestCommonJson<WXGetOauthAccessTokenResp>(req);
@@ -125,31 +118,28 @@ namespace OSS.Clients.Oauth.WX
         ///   刷新当前用户授权Token
         /// </summary>
         /// <param name="refreshToken">授权接口刷新调用凭证</param>
+        /// <param name="proxiedSubAppId">服务商模式下 被代理的子应用Id</param>
         /// <returns></returns>
-        public async Task<WXGetOauthAccessTokenResp> RefreshOauthAccessTokenAsync(string refreshToken)
+        public async Task<WXGetOauthAccessTokenResp> RefreshOauthAccessTokenAsync(string refreshToken,string proxiedSubAppId = "")
         {
-            var appConfigRes = await GetMeta();
-            if (!appConfigRes.IsSuccess())
-                return new WXGetOauthAccessTokenResp().WithResp(appConfigRes);
-
-            var appConfig = appConfigRes.data;
+            var appConfig = await GetAccessConfig();
 
             var reqUrl = new StringBuilder(m_ApiUrl);
-            if (appConfig.OperateMode == AppOperateMode.ByAgent)
+            if (!string.IsNullOrEmpty(proxiedSubAppId))
             {
-                var comAccessToken = WXOauthConfigProvider.AgentAccessTokenFunc?.Invoke(appConfig);
+                var comAccessToken = WXOauthHelper.AgentAccessTokenFunc?.Invoke(appConfig);
                 if (string.IsNullOrEmpty(comAccessToken))
                 {
                     throw new ArgumentNullException("AgentAccessToken", "AgentAccessToken未发现，请检查 WXOauthConfigProvider 下 AgentAccessTokenFunc 委托是否为空或者返回值不正确！");
                 }
-                reqUrl.Append("/sns/oauth2/component/refresh_token?appid=").Append(appConfig.AppId)
+                reqUrl.Append("/sns/oauth2/component/refresh_token?appid=").Append(proxiedSubAppId)
                     .Append("&grant_type=refresh_token")
-                    .Append("&component_appid=").Append(appConfig.ByAppId) 
+                    .Append("&component_appid=").Append(appConfig.access_key) 
                     .Append("&component_access_token=").Append(comAccessToken);
             }
             else
             {
-                reqUrl.Append("/sns/oauth2/refresh_token?appid=").Append(appConfig.AppId)
+                reqUrl.Append("/sns/oauth2/refresh_token?appid=").Append(appConfig.access_key)
                           .Append("&grant_type=refresh_token");
             }
             reqUrl.Append("&refresh_token=").Append(refreshToken);
@@ -157,8 +147,8 @@ namespace OSS.Clients.Oauth.WX
 
             var request = new OssHttpRequest
             {
-                AddressUrl = reqUrl.ToString(),
-                HttpMethod = HttpMethod.Get
+                address_url =  reqUrl.ToString(),
+                http_method = HttpMethod.Get
             };
             
             return await RestCommonJson<WXGetOauthAccessTokenResp>(request);
@@ -174,8 +164,8 @@ namespace OSS.Clients.Oauth.WX
         {
             var request = new OssHttpRequest
             {
-                AddressUrl = $"{m_ApiUrl}/sns/userinfo?access_token={accessToken}&openid={openId}",
-                HttpMethod = HttpMethod.Get
+                address_url = $"{m_ApiUrl}/sns/userinfo?access_token={accessToken}&openid={openId}",
+                http_method = HttpMethod.Get
             };
 
             return await RestCommonJson<WXGetOauthUserResp>(request);
@@ -195,8 +185,8 @@ namespace OSS.Clients.Oauth.WX
 
             var request = new OssHttpRequest
             {
-                AddressUrl = url,
-                HttpMethod = HttpMethod.Get
+                address_url = url,
+                http_method = HttpMethod.Get
             };
 
             return await RestCommonJson<WXBaseResp>(request);
