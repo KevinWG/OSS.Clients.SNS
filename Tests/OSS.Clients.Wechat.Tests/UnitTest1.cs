@@ -12,7 +12,7 @@ namespace OSS.Clients.Wechat.Tests
         static UnitTest1()
         {
             WechatPlatformHelper.DefaultConfig =
-                new AccessSecret("wxe3bed9120e76d54e", "4bc96be7cccfd7ef275d4c7541db5dec");
+                new AccessSecret("", "");
         }
 
 
