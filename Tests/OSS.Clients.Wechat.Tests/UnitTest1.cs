@@ -9,11 +9,12 @@ namespace OSS.Clients.Wechat.Tests
     public class UnitTest1
     {
 
-        static UnitTest1()
-        {
-            WechatPlatformHelper.DefaultConfig =
-                new AccessSecret("", "");
-        }
+        //static UnitTest1()
+        //{
+        //    WechatPlatformHelper.DefaultConfig =
+        //        new AccessSecret("", "");
+        //}
+
 
 
         [TestMethod]
