@@ -7,7 +7,7 @@
 
         public string unionId { get; set; }
 
-        public int gender   { get; set; }
+        public int    gender   { get; set; }
         public string language { get; set; }
         public string city     { get; set; }
         public string province { get; set; }

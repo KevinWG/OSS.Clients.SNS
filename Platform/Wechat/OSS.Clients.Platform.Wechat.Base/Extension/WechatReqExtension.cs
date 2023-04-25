@@ -106,8 +106,8 @@ namespace OSS.Clients.Platform.Wechat
             if (string.IsNullOrEmpty(accessToken))
                 return new TResp().WithResp(RespCodes.OperateFailed, "未能获取有效AccessToken！");
 
-            req.address_url = string.Concat(WechatPlatformHelper.ApiHost, apiPath,
-                (apiPath.IndexOf('?') > 0 ? "&" : "?"), "access_token=", accessToken);
+            req.address_url = string.Concat(WechatPlatformHelper.ApiHost
+                , apiPath, apiPath.IndexOf('?') > 0 ? "&" : "?", "access_token=", accessToken);
 
             return await SendAsync(req, funcFormat);
         }

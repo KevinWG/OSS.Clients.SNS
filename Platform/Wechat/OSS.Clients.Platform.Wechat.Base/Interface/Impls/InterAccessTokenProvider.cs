@@ -26,7 +26,7 @@ namespace OSS.Clients.Platform.Wechat.Base.Interface.Impls
 
         public async Task<StrResp> GetAccessToken(IAccessSecret appConfig)
         {
-            var key            = string.Concat(_AccessCacheKey, appConfig);
+            var key            = string.Concat(_AccessCacheKey, appConfig.access_key);
             var accessTokenRes = await CacheHelper.GetAsync<WechatAccessTokenResp>(key);
 
             if (accessTokenRes != null)
