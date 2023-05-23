@@ -11,13 +11,10 @@
 
 #endregion
 
-using OSS.Common.Resp;
-using OSS.Tools.Http;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common;
+using OSS.Common.Resp;
+using OSS.Tools.Http;
 
 namespace OSS.Clients.Platform.Wechat
 {
@@ -163,13 +160,13 @@ namespace OSS.Clients.Platform.Wechat
             if (!resp.IsSuccessStatusCode)
                 return new T()
                 {
-                    ret = -(int) resp.StatusCode,
+                    code = -(int) resp.StatusCode,
                     msg = string.Concat(resp.ReasonPhrase, "(", content, ")")
                 };
 
-            return string.IsNullOrEmpty(content)
+            return (string.IsNullOrEmpty(content)
                 ? new T().WithResp(SysRespCodes.NetError, $"微信接口返回空信息({resp.ReasonPhrase})")
-                : JsonConvert.DeserializeObject<T>(content);
+                : JsonConvert.DeserializeObject<T>(content))!;
         }
 
         #endregion

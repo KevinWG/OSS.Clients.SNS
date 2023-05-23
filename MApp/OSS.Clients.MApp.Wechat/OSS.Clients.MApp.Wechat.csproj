@@ -1,33 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	  <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.7.2</Version>
-    <Description>小程序接口实现</Description>
-    <PackageIcon>logo.png</PackageIcon>
-    <PackageIconUrl />
-    <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS/tree/master/</RepositoryUrl>
-    <Authors>OSSCore</Authors>
-    <Product>OSS.Clients.MApp.Wechat</Product>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageIconUrl>http://img1.osscore.cn/static/oss_net.png</PackageIconUrl>
+		<Version>1.8</Version>
+		<Description>小程序接口实现</Description>
+		<PackageIconUrl />
+		<RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS/tree/master/</RepositoryUrl>
+		<Authors>OSSCore</Authors>
+		<Product>OSS.Clients.MApp.Wechat</Product>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>.\bin\OSS.Clients.MApp.Wechat.xml</DocumentationFile>
-  </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\logo.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Platform\Wechat\OSS.Clients.Platform.Wechat.Base\OSS.Clients.Platform.Wechat.Base.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Platform\Wechat\OSS.Clients.Platform.Wechat.Base\OSS.Clients.Platform.Wechat.Base.csproj" />
+	</ItemGroup>
 
 </Project>

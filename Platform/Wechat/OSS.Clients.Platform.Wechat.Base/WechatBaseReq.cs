@@ -141,7 +141,7 @@ namespace OSS.Clients.Platform.Wechat
                 m_errcode = value;
                 if (m_errcode != 0)
                 {
-                    ret = -m_errcode;
+                    code = -m_errcode;
                 }
             }
         }
@@ -149,7 +149,7 @@ namespace OSS.Clients.Platform.Wechat
         /// <summary>
         ///   错误信息
         /// </summary>
-        public string errmsg
+        public string? errmsg
         {
             get => msg;
             set => msg = value;

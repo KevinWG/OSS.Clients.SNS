@@ -22,7 +22,7 @@ namespace OSS.Clients.Oauth.WX.Mos
     /// </summary>
     public class WXBaseResp : Resp
     {
-        private int m_errcode = 0;
+        private int m_errcode;
         /// <summary>
         ///  错误代码
         /// </summary>
@@ -34,7 +34,7 @@ namespace OSS.Clients.Oauth.WX.Mos
                 m_errcode = value;
                 if (m_errcode != 0)
                 {
-                    ret = m_errcode;
+                    code = -m_errcode;
                 }
             }
         }
@@ -42,7 +42,11 @@ namespace OSS.Clients.Oauth.WX.Mos
         /// <summary>
         ///   错误信息
         /// </summary>
-        public string errmsg { get; set; }
+        public string? errmsg
+        {
+            get => msg;
+            set => msg = value;
+        }
     }
 
 

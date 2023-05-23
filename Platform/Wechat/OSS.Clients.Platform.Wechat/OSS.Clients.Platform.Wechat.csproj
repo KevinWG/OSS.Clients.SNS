@@ -1,25 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.7</Version>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+
+	  <PackageIconUrl>http://img1.osscore.cn/static/oss_net.png</PackageIconUrl>
+    <Version>1.8</Version>
     <Description>微信公众号具体功能接口封装（用户，二维码等）</Description>
     <Authors>OSS.Core</Authors>
-    <PackageIcon>logo.png</PackageIcon>
-    <PackageIconUrl />
     <RepositoryUrl>https://github.com/KevinWG/OSS.Clients.SNS/tree/master/Platform</RepositoryUrl>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>.\bin\OSS.Clients.Platform.Wechat.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\logo.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OSS.Clients.Platform.Wechat.Base\OSS.Clients.Platform.Wechat.Base.csproj" />
